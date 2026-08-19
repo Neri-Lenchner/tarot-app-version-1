@@ -229,7 +229,7 @@ export const cardsDeck: TarotCard[] = [
     },
     {
         id: 33,
-        src: "Tarot-deck-images/page-of-cups.jpg",
+        src: "Tarot-deck-images/Page-of-cups.jpg",
         alt: "Page of Cups",
         name: "Page of Cups",
         className: "small-card"
@@ -329,7 +329,7 @@ export const cardsDeck: TarotCard[] = [
     },
     {
         id: 47,
-        src: "Tarot-deck-images/page-of-swords.jpg",
+        src: "Tarot-deck-images/Page-of-swords.jpg",
         alt: "Page of Swords",
         name: "Page of Swords",
         className: "small-card"
@@ -429,7 +429,7 @@ export const cardsDeck: TarotCard[] = [
     },
     {
         id: 61,
-        src: "Tarot-deck-images/page-of-wands.jpg",
+        src: "Tarot-deck-images/Page-of-wands.jpg",
         alt: "Page of Wands",
         name: "Page of Wands",
         className: "small-card"
@@ -529,7 +529,7 @@ export const cardsDeck: TarotCard[] = [
     },
     {
         id: 75,
-        src: "Tarot-deck-images/page-of-pentacles.jpg",
+        src: "Tarot-deck-images/Page-of-pentacles.jpg",
         alt: "Page of Pentacles",
         name: "Page of Pentacles",
         className: "small-card"
