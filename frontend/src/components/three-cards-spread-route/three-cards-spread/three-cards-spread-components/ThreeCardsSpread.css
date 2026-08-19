@@ -1,0 +1,85 @@
+h2 {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    text-align: center;
+    color: white;
+    margin-bottom: 20px;
+}
+
+ .card-container {
+     display: flex;
+     flex-direction: column;
+     justify-content: flex-start;
+     align-items: center;
+ }
+
+.three-cards-spread-container {
+    position: relative;
+    background: linear-gradient(50deg, midnightblue, #05051c);
+    height: 100vh;
+    width: 100%;
+    min-width: 700px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.card-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.card-modal {
+    background: linear-gradient(160deg, #05051c, #0d0d3b);
+    border: 1px solid rgba(150, 150, 255, 0.3);
+    border-radius: 12px;
+    padding: 32px;
+    max-width: 480px;
+    width: 90%;
+    color: white;
+    position: relative;
+    box-shadow: 0 0 30px rgba(70, 70, 200, 0.4);
+}
+
+.card-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: lightblue;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.card-modal-name {
+    margin: 0 0 4px;
+    color: lightblue;
+    font-size: 22px;
+    text-shadow: 0 0 8px rgba(173, 216, 230, 0.6);
+}
+
+.card-modal-position {
+    margin: 0 0 20px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-modal-meaning {
+    margin: 0 0 16px;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.card-modal-desc {
+    margin: 0;
+    line-height: 1.6;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.75);
+}
+

@@ -1,0 +1,25 @@
+.spread-header-container {
+    background: linear-gradient(300deg, rgb(9, 53, 9), midnightblue);
+    text-align: center;
+
+}
+
+.spread-header-container button {
+    font-weight: bold;
+    border: none;
+    background-color: midnightblue;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    margin: 5px;
+    transition-duration: 0.2s;
+}
+
+.spread-header-container button:hover {
+    background-color: blue;
+}
+
+.spread-header-container button:active {
+    background-color: greenyellow;
+    color: black;
+}

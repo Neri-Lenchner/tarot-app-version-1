@@ -1,0 +1,28 @@
+.SideBar > .links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    justify-content: start;
+    height: 100%;
+}
+
+.SideBar {
+    height: 100%;
+    background: url('../../../assets/images/tarot-app-background-img.jpg') center bottom / cover no-repeat;
+}
+
+a {
+    margin-top: 20px;
+    border: 1px solid white;
+    border-radius: 5px;
+    background-color: midnightblue;
+    width: 200px;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
