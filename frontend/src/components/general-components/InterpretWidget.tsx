@@ -33,17 +33,19 @@ export function InterpretWidget({ cards, apiCards, positions, spreadType, theme 
         return unsubscribe;
     }, []);
 
-    const current = stored[lang];
-    const hasBoth = stored.en !== null && stored.he !== null;
+    const spreadData = stored[spreadType];
+    const current = spreadData[lang];
+    const hasBoth = spreadData.en !== null && spreadData.he !== null;
 
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
             const result = await interpretService.interpretBoth(spreadType, cards, apiCards, positions);
-            interpretStore.dispatch({ type: InterpretActionType.SetBoth, payload: result });
+            interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({
                 type: InterpretActionType.SetBoth,
+                spreadType,
                 payload: { en: 'Failed to get interpretation. Please try again.', he: 'אירעה שגיאה. אנא נסה שוב.' },
             });
         } finally {

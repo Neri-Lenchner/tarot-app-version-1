@@ -44,14 +44,14 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         const [chosen, bool] = deckService.spreadThem(3);
         setSelected3Cards(chosen);
         setIsSpread3(bool);
-        interpretStore.dispatch({ type: InterpretActionType.Clear });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
     const clearSpread3: () => void = (): void => {
         const bool: boolean = deckService.clearSpread("isSpread3", "selected3Cards");
         setIsSpread3(bool);
         setSelected3Cards([]);
-        interpretStore.dispatch({ type: InterpretActionType.Clear });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
     return (

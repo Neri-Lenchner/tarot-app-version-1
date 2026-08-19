@@ -44,14 +44,14 @@ export function CelticSpreadGlobal(): JSX.Element {
         const [chosen, bool] = deckService.spreadThem();
         setSelectedCards(chosen);
         setIsSpread(bool);
-        interpretStore.dispatch({ type: InterpretActionType.Clear });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
     const clearSpread: () => void = (): void => {
         const bool: boolean = deckService.clearSpread("isSpread", "selectedCards");
         setIsSpread(bool);
         setSelectedCards([]);
-        interpretStore.dispatch({ type: InterpretActionType.Clear });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
     return (
