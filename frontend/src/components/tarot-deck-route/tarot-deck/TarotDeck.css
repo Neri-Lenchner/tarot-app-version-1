@@ -26,9 +26,16 @@
     padding: 32px;
     max-width: 480px;
     width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: none;
     color: white;
     position: relative;
     box-shadow: 0 0 30px rgba(200, 50, 50, 0.4);
+}
+
+.card-modal::-webkit-scrollbar {
+    display: none;
 }
 
 .card-modal-close {

@@ -34,12 +34,9 @@ class DeckService {
         return shuffledDeck;
     };
 
-    spreadThem(): [TarotCard[], boolean] {
+    spreadThem(count: number = 10): [TarotCard[], boolean] {
         const shuffled: TarotCard[] = this.spreadThemShuffle();
-        const chosen: TarotCard[] = shuffled.slice(0, 10);
-
-        console.log("Dealt 10 cards:", chosen.map((card: TarotCard): string => card.name));
-
+        const chosen: TarotCard[] = shuffled.slice(0, count);
         return [chosen, true];
     };
 

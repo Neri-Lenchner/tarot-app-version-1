@@ -1,0 +1,160 @@
+.interpret-widget {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+/* ── Theme variables ── */
+.interpret-widget.theme-green {
+    --accent: lightgreen;
+    --accent-rgb: 144, 238, 144;
+    --glow-color: rgba(0, 128, 0, 0.45);
+    --bg: rgba(4, 18, 4, 0.72);
+    --border: rgba(144, 238, 144, 0.25);
+    --header-bg: rgba(0, 0, 0, 0.55);
+}
+
+.interpret-widget.theme-blue {
+    --accent: lightblue;
+    --accent-rgb: 173, 216, 230;
+    --glow-color: rgba(70, 70, 200, 0.45);
+    --bg: rgba(4, 4, 22, 0.72);
+    --border: rgba(150, 150, 255, 0.25);
+    --header-bg: rgba(0, 0, 0, 0.55);
+}
+
+/* ── Toggle button ── */
+.iw-toggle-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: black;
+    color: var(--accent);
+    border: 3px solid var(--accent);
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 0 14px var(--glow-color);
+    transition: box-shadow 0.2s;
+}
+
+.iw-toggle-btn:hover {
+    box-shadow: 0 0 24px var(--glow-color), 0 0 40px rgba(var(--accent-rgb), 0.3);
+}
+
+/* ── Panel ── */
+.iw-panel {
+    width: 320px;
+    height: 460px;
+    background: var(--bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 0 30px var(--glow-color), 0 8px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* ── Header ── */
+.iw-header {
+    background: var(--header-bg);
+    color: var(--accent);
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 14px;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--border);
+    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.5);
+    flex-shrink: 0;
+}
+
+.iw-lang-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.iw-lang-btn:hover {
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--glow-color);
+}
+
+/* ── Scrollable body ── */
+.iw-body {
+    flex: 1;
+    overflow-y: auto;
+    scrollbar-width: none;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.iw-body::-webkit-scrollbar {
+    display: none;
+}
+
+/* ── Interpret button ── */
+.iw-btn {
+    width: 100%;
+    padding: 10px;
+    background: none;
+    color: var(--accent);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: box-shadow 0.2s, border-color 0.2s;
+    flex-shrink: 0;
+}
+
+.iw-btn:hover:not(:disabled) {
+    border-color: var(--accent);
+    box-shadow: 0 0 14px var(--glow-color);
+}
+
+.iw-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ── Result text ── */
+.iw-result {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.iw-card-title {
+    margin: 10px 0 4px;
+    color: var(--accent);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 3px;
+    text-shadow: 0 0 6px rgba(var(--accent-rgb), 0.4);
+}
+
+.iw-card-text {
+    margin: 0 0 4px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 12px;
+    line-height: 1.65;
+}
