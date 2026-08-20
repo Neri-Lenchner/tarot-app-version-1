@@ -75,6 +75,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     placeholder="What is your question for the cards?"
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
+                    onFocus={() => setWidgetOpen(false)}
                 />
             </div>
             {submittedQuestion && (
