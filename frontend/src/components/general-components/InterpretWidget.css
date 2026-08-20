@@ -48,7 +48,7 @@
 
 /* ── Panel ── */
 .iw-panel {
-    width: 420px;
+    width: 520px;
     height: 580px;
     background: var(--bg);
     backdrop-filter: blur(10px);
