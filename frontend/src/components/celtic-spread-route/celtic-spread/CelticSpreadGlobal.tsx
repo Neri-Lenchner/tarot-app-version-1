@@ -25,12 +25,7 @@ export function CelticSpreadGlobal(): JSX.Element {
 
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
-
-    const submitQuestion = (): void => {
-        if (!question.trim()) return;
-        setSubmittedQuestion(question.trim());
-        setQuestion('');
-    };
+    const [widgetOpen, setWidgetOpen] = useState(false);
 
     const [isSpread, setIsSpread] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread");
@@ -50,9 +45,14 @@ export function CelticSpreadGlobal(): JSX.Element {
     }, [isSpread, selectedCards]);
 
     const spreadThem: () => void = (): void => {
+        if (question.trim()) {
+            setSubmittedQuestion(question.trim());
+            setQuestion('');
+        }
         const [chosen, bool] = deckService.spreadThem();
         setSelectedCards(chosen);
         setIsSpread(bool);
+        setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
@@ -61,6 +61,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         setIsSpread(bool);
         setSelectedCards([]);
         setSubmittedQuestion('');
+        setWidgetOpen(false);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
@@ -74,9 +75,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     placeholder="What is your question for the cards?"
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && submitQuestion()}
                 />
-                <button className="spread-question-btn" onClick={submitQuestion}>Ask</button>
             </div>
             {submittedQuestion && (
                 <div className="spread-question-display">
@@ -92,6 +91,8 @@ export function CelticSpreadGlobal(): JSX.Element {
                     positions={POSITIONS}
                     theme="green"
                     question={submittedQuestion}
+                    isOpen={widgetOpen}
+                    onToggle={() => setWidgetOpen(o => !o)}
                 />
             )}
         </div>

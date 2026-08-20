@@ -22,12 +22,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
 
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
-
-    const submitQuestion = (): void => {
-        if (!question.trim()) return;
-        setSubmittedQuestion(question.trim());
-        setQuestion('');
-    };
+    const [widgetOpen, setWidgetOpen] = useState(false);
 
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
@@ -50,9 +45,14 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     }, [isSpread3, selected3Cards]);
 
     const spreadThem3: () => void = (): void => {
+        if (question.trim()) {
+            setSubmittedQuestion(question.trim());
+            setQuestion('');
+        }
         const [chosen, bool] = deckService.spreadThem(3);
         setSelected3Cards(chosen);
         setIsSpread3(bool);
+        setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
@@ -61,6 +61,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setIsSpread3(bool);
         setSelected3Cards([]);
         setSubmittedQuestion('');
+        setWidgetOpen(false);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
@@ -74,9 +75,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     placeholder="What is your question for the cards?"
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && submitQuestion()}
                 />
-                <button className="spread-question-btn" onClick={submitQuestion}>Ask</button>
             </div>
             {submittedQuestion && (
                 <div className="spread-question-display">
@@ -92,6 +91,8 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     positions={POSITIONS}
                     theme="blue"
                     question={submittedQuestion}
+                    isOpen={widgetOpen}
+                    onToggle={() => setWidgetOpen(o => !o)}
                 />
             )}
         </div>

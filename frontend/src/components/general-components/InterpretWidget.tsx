@@ -9,19 +9,29 @@ interface InterpretWidgetProps {
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
     question?: string;
+    isOpen: boolean;
+    onToggle: () => void;
 }
 
-function renderInterpretation(text: string): JSX.Element[] {
+function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
     return text.split('\n').filter(line => line.trim() !== '').map((line, i) => {
         if (line.trim().startsWith('**')) {
             return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
+        }
+        const matchedCard = cards.find(c => line.toLowerCase().includes(c.name.toLowerCase()));
+        if (matchedCard) {
+            return (
+                <div key={i} className="iw-card-row">
+                    <img src={matchedCard.src} alt={matchedCard.name} className="iw-card-img" />
+                    <p className="iw-card-text">{line}</p>
+                </div>
+            );
         }
         return <p key={i} className="iw-card-text">{line}</p>;
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question }: InterpretWidgetProps): JSX.Element {
-    const [isOpen, setIsOpen] = useState(false);
+export function InterpretWidget({ cards, positions, spreadType, theme, question, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -40,7 +50,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question 
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, positions, question.trim() || undefined);
+            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({
@@ -52,6 +62,13 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question 
             setIsInterpreting(false);
         }
     };
+
+    useEffect(() => {
+        if (isOpen && cards.length > 0 && !spreadData.en && !isInterpreting) {
+            interpret();
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isOpen]);
 
     return (
         <div className={`interpret-widget theme-${theme}`}>
@@ -77,13 +94,13 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question 
                         </button>
                         {current && (
                             <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                {renderInterpretation(current)}
+                                {renderInterpretation(current, cards)}
                             </div>
                         )}
                     </div>
                 </div>
             )}
-            <button className="iw-toggle-btn" onClick={() => setIsOpen(!isOpen)}>
+            <button className="iw-toggle-btn" onClick={onToggle}>
                 {isOpen ? '✕' : '✦'}
             </button>
         </div>
