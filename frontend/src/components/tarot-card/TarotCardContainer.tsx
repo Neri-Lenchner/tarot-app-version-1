@@ -1,5 +1,6 @@
 import React, {JSX} from "react";
 import { TarotCard } from "../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import './TarotCardContainer.css';
 
 interface TarotCardContainerProps {
     tarotCard: TarotCard;

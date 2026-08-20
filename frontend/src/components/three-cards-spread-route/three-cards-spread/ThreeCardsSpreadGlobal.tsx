@@ -4,9 +4,11 @@ import {ThreeCardsSpread} from "./three-cards-spread-components/ThreeCardsSpread
 import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {SpreadHeader} from "../../general-components/SpreadHeader";
 import {InterpretWidget} from "../../general-components/InterpretWidget";
+import {CombinationsModal} from "../../general-components/CombinationsModal";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
+import {combinationsService, ICombinationMatch} from "../../../services/CombinationsService";
 
 const POSITIONS = ["Past", "Present", "Future"];
 
@@ -23,6 +25,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
     const [widgetOpen, setWidgetOpen] = useState(false);
+    const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
 
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
@@ -54,6 +57,9 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setIsSpread3(bool);
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        combinationsService.checkCombinations(chosen.map(c => c.name)).then(matches => {
+            setComboMatches(matches);
+        }).catch(() => {});
     };
 
     const clearSpread3: () => void = (): void => {
@@ -62,6 +68,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setSelected3Cards([]);
         setSubmittedQuestion('');
         setWidgetOpen(false);
+        setComboMatches([]);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
@@ -75,6 +82,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     placeholder="What is your question for the cards?"
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => setWidgetOpen(false)}
                 />
             </div>
@@ -85,6 +93,9 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 </div>
             )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
+            {comboMatches.length > 0 && (
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+            )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <InterpretWidget
                     spreadType="three-cards"

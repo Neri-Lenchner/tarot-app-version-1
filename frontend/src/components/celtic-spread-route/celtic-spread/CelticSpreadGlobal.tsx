@@ -2,11 +2,13 @@ import {useState, useEffect, JSX} from "react";
 import {SpreadHeader} from "../../general-components/SpreadHeader";
 import {CelticSpread} from "./celtic-spread-components/CelticSpread";
 import {InterpretWidget} from "../../general-components/InterpretWidget";
+import {CombinationsModal} from "../../general-components/CombinationsModal";
 import './CelticSpreadGlobal.css';
 import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
+import {combinationsService, ICombinationMatch} from "../../../services/CombinationsService";
 
 const POSITIONS = [
     "Positive Energy", "Negative Energy", "Past", "Present",
@@ -26,6 +28,7 @@ export function CelticSpreadGlobal(): JSX.Element {
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
     const [widgetOpen, setWidgetOpen] = useState(false);
+    const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
 
     const [isSpread, setIsSpread] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread");
@@ -54,6 +57,9 @@ export function CelticSpreadGlobal(): JSX.Element {
         setIsSpread(bool);
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
+        combinationsService.checkCombinations(chosen.map(c => c.name)).then(matches => {
+            setComboMatches(matches);
+        }).catch(() => {});
     };
 
     const clearSpread: () => void = (): void => {
@@ -62,6 +68,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         setSelectedCards([]);
         setSubmittedQuestion('');
         setWidgetOpen(false);
+        setComboMatches([]);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
@@ -75,6 +82,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     placeholder="What is your question for the cards?"
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => setWidgetOpen(false)}
                 />
             </div>
@@ -85,6 +93,9 @@ export function CelticSpreadGlobal(): JSX.Element {
                 </div>
             )}
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
+            {comboMatches.length > 0 && (
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+            )}
             {isSpread && selectedCards.length > 0 && (
                 <InterpretWidget
                     spreadType="celtic"

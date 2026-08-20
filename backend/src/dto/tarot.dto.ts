@@ -9,3 +9,10 @@ export interface IInterpretRequest {
     question?: string;
     cards: ISpreadCard[];
 }
+
+export interface ICombinationMatch {
+    cards: string[];
+    meaning: string;
+    source: "general" | "health";
+    category: string;
+}

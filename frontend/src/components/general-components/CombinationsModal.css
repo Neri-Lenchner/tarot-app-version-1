@@ -1,0 +1,142 @@
+.combo-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 28px;
+    z-index: 1000;
+}
+
+.combo-modal {
+    background: var(--purple-bg);
+    border: 1px solid var(--purple-border);
+    border-radius: 14px;
+    padding: 22px 24px;
+    width: 340px;
+    max-height: 85vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    color: var(--text-primary);
+    box-shadow:
+        0 0 40px rgba(107, 63, 160, 0.35),
+        0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.combo-modal::-webkit-scrollbar {
+    display: none;
+}
+
+.combo-modal-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--purple);
+    margin: 0 0 18px 0;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 0 10px rgba(201, 160, 232, 0.4);
+}
+
+.combo-item {
+    background: var(--purple-surface);
+    border: 1px solid var(--purple-border);
+    border-radius: var(--radius);
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.combo-item:last-of-type {
+    margin-bottom: 0;
+}
+
+/* ── Card images row ── */
+.combo-card-images {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.combo-card-image-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.combo-card-img {
+    width: 62px;
+    border-radius: 5px;
+    border: 1px solid var(--purple-border);
+    box-shadow: 0 0 10px rgba(107, 63, 160, 0.4);
+}
+
+.combo-card-name {
+    font-size: 9px;
+    color: var(--text-faint);
+    text-align: center;
+    max-width: 66px;
+    line-height: 1.3;
+    letter-spacing: 0.02em;
+}
+
+/* ── Meaning & badge ── */
+.combo-meaning {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.55;
+    margin-bottom: 10px;
+}
+
+.combo-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.combo-badge.general {
+    background: rgba(0, 80, 0, 0.3);
+    color: var(--green);
+    border: 1px solid var(--green-border);
+}
+
+.combo-badge.health {
+    background: rgba(120, 20, 20, 0.35);
+    color: var(--red);
+    border: 1px solid var(--red-border);
+}
+
+.combo-badge.mental_health {
+    background: rgba(20, 40, 120, 0.35);
+    color: var(--blue);
+    border: 1px solid var(--blue-border);
+}
+
+/* ── Close button ── */
+.combo-modal-close {
+    display: block;
+    width: 100%;
+    margin-top: 18px;
+    padding: 9px;
+    background: rgba(107, 63, 160, 0.4);
+    border: 1px solid var(--purple-border);
+    color: var(--purple);
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+.combo-modal-close:hover {
+    background: rgba(107, 63, 160, 0.7);
+    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5);
+}

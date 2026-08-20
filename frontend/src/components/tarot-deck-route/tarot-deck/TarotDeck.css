@@ -1,18 +1,25 @@
 .tarot-deck-container {
-    background: linear-gradient(180deg, #2f0106, #fb1601);
+    background: radial-gradient(ellipse at 50% 30%, #2a0408 0%, var(--red-grad-a) 55%, #020101 100%);
     overflow-y: auto;
     width: 100%;
     height: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
 }
 
 .space {
     height: 20px;
 }
 
+/* ── Card modal ─────────────────────────────────── */
 .card-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.8);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,8 +27,8 @@
 }
 
 .card-modal {
-    background: linear-gradient(160deg, #2f0106, #5a0a0a);
-    border: 1px solid rgba(255, 100, 100, 0.3);
+    background: linear-gradient(160deg, #1a0203, #30060a);
+    border: 1px solid var(--red-border);
     border-radius: 12px;
     padding: 32px;
     max-width: 480px;
@@ -29,9 +36,9 @@
     max-height: 80vh;
     overflow-y: auto;
     scrollbar-width: none;
-    color: white;
+    color: var(--text-primary);
     position: relative;
-    box-shadow: 0 0 30px rgba(200, 50, 50, 0.4);
+    box-shadow: 0 0 40px var(--red-glow), 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
 .card-modal::-webkit-scrollbar {
@@ -44,28 +51,34 @@
     right: 16px;
     background: none;
     border: none;
-    color: #ff9999;
+    color: var(--red);
     font-size: 18px;
     cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition);
+}
+
+.card-modal-close:hover {
+    opacity: 1;
 }
 
 .card-modal-name {
     margin: 0 0 20px;
-    color: #ff9999;
+    color: var(--red);
     font-size: 22px;
-    text-shadow: 0 0 8px rgba(255, 100, 100, 0.6);
+    text-shadow: 0 0 10px rgba(var(--red-rgb), 0.6);
 }
 
 .card-modal-meaning {
     margin: 0 0 16px;
-    line-height: 1.6;
+    line-height: 1.7;
     font-size: 15px;
+    color: var(--text-primary);
 }
 
 .card-modal-desc {
     margin: 0;
-    line-height: 1.6;
+    line-height: 1.7;
     font-size: 14px;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-muted);
 }
-

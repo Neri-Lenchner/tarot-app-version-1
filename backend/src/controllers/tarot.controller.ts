@@ -8,6 +8,20 @@ class TarotController {
 
     constructor() {
         this.router.post("/api/tarot/interpret", this.interpret);
+        this.router.post("/api/tarot/check-combinations", this.checkCombinations);
+    }
+
+    public checkCombinations(request: Request, response: Response, next: NextFunction): void {
+        try {
+            const { cardNames }: { cardNames: string[] } = request.body;
+            if (!Array.isArray(cardNames) || cardNames.length === 0) {
+                throw new ValidationError("cardNames array is required");
+            }
+            const matches = tarotService.checkCombinations(cardNames);
+            response.json(matches);
+        } catch (error) {
+            next(error);
+        }
     }
 
     public async interpret(request: Request, response: Response, next: NextFunction): Promise<void> {

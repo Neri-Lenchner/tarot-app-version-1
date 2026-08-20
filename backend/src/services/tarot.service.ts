@@ -4,6 +4,7 @@ import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
 import { healthIndicators } from "../data/health";
+import { healthCombinations } from "../data/health-combinations";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
@@ -47,6 +48,36 @@ function findHealthIndicators(cards: ISpreadCard[]): string[] {
     return matches;
 }
 
+const MAJOR_ARCANA = new Set([
+    'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
+    'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',
+    'wheel of fortune', 'justice', 'the hanged man', 'death', 'temperance',
+    'the devil', 'the tower', 'the star', 'the moon', 'the sun', 'judgement', 'the world'
+]);
+
+function getMajorArcanaSection(cards: ISpreadCard[]): string {
+    const majorCards = cards.filter(c => MAJOR_ARCANA.has(c.name.toLowerCase()));
+    const count = majorCards.length;
+    const total = cards.length;
+    if (count === 0) return "";
+
+    const names = majorCards.map(c => c.name).join(", ");
+    const ratio = count / total;
+
+    // Profound: ≥65% of cards are major arcana (e.g. 7/10 or 3/3)
+    if (ratio >= 0.65) {
+        return `=== PROFOUND FATE READING — OPEN WITH THIS ===\n${count} of ${total} cards are Major Arcana: ${names}.\nThis is an extraordinary, destiny-laden reading. You MUST open your interpretation with a dedicated paragraph explicitly telling the querent: (1) their spread is dominated by Major Arcana, (2) this signals they stand at a genuine karmic crossroads — a life-defining moment, not a passing concern, (3) the forces at play are larger than everyday circumstances — fate and soul-level forces are shaping their path. Use powerful, direct language: "destiny", "karmic turning point", "the universe is speaking unmistakably". Each Major Arcana card in this spread must receive deeper and more emphatic interpretation than any Minor Arcana.\n===\n\n`;
+    }
+
+    // Significant: ≥40% of cards, or 2+ in a 3-card spread
+    if (ratio >= 0.40 || (total <= 3 && count >= 2)) {
+        return `=== DESTINY MARK DETECTED ===\n${count} of ${total} cards are Major Arcana: ${names}.\nEarly in your interpretation — in the opening or the first card paragraph — include a clear statement to the querent that the significant presence of Major Arcana shows this question carries real depth and karmic weight. This is not a trivial matter; forces larger than day-to-day life are involved. Each Major Arcana card must receive noticeably deeper and more emphatic treatment than any Minor Arcana card.\n===\n\n`;
+    }
+
+    // Minor: low ratio — just instruct the AI to weight them more, no user notification needed
+    return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
+}
+
 const CELTIC_POSITION_GUIDE = `
 Position guide for the Celtic Cross spread:
 1. Positive Energy — The support, people, or forces actively helping the querent in this situation.
@@ -83,6 +114,8 @@ class TarotService {
             ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health. The cards in this spread indicate the following health conditions:\n\n${healthMatches.join("\n")}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific, compassionate, and direct about what the cards are showing regarding the querent's physical or mental wellbeing.\n===\n\n`
             : "";
 
+        const majorArcanaSection = getMajorArcanaSection(cards);
+
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
             ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
@@ -107,7 +140,7 @@ class TarotService {
             ? "\n\nIMPORTANT: Positions 1 (Positive Energy) and 2 (Negative Energy) are NOT events — they are active forces or energies currently surrounding the querent. Do NOT use time-frame language for these two positions. Instead describe them as forces, influences, or currents that are present and at work right now (e.g. \"The energy supporting you is...\", \"The force working against you is...\"). All other positions should still include clear time-frame language."
             : "";
 
-        const userMessage = `${questionLine}${healthSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
@@ -131,6 +164,27 @@ class TarotService {
         );
 
         return response.data.choices[0].message.content as string;
+    }
+
+    public checkCombinations(cardNames: string[]): import("../dto/tarot.dto").ICombinationMatch[] {
+        const nameSet = new Set(cardNames.map(n => n.toLowerCase()));
+        const matches: import("../dto/tarot.dto").ICombinationMatch[] = [];
+
+        for (const category of tarotCombinations) {
+            for (const combo of category.combinations) {
+                if (combo.cards.every(c => nameSet.has(c.toLowerCase()))) {
+                    matches.push({ cards: combo.cards, meaning: combo.meaning, source: "general", category: category.category });
+                }
+            }
+        }
+
+        for (const combo of healthCombinations) {
+            if (combo.cards.every(c => nameSet.has(c.replace(/ Rx$/i, "").toLowerCase()))) {
+                matches.push({ cards: combo.cards, meaning: combo.meaning, source: "health", category: combo.category });
+            }
+        }
+
+        return matches;
     }
 }
 

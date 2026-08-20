@@ -1,5 +1,19 @@
 .TarotCard {
-    height: 50px;
-    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
 }
 
+.small-card {
+    border-radius: var(--radius-sm);
+    width: 80px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 6px var(--red-glow);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.small-card:hover {
+    transform: scale(1.12);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8), 0 0 18px var(--red-glow);
+    z-index: 10;
+}

@@ -1,49 +1,37 @@
-* {
-    box-sizing: border-box;
-}
-
-html {
-    overflow-y: hidden;
-    scroll-behavior: smooth;
-    scrollbar-width: none;
-}
-
 .App {
     overflow: hidden;
+    height: 100vh;
 }
 
 .App-header {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 15vh;
+    height: var(--header-height);
     width: 100%;
-    border: 1px solid black;
-    background: url('assets/images/tarot-app-background-img.jpg') center bottom / cover no-repeat;
-    min-height: 20vh;       /* responsive option */
+    /* Background image with a heavy dark veil so the title pops */
+    background:
+        linear-gradient(rgba(5, 3, 18, 0.72), rgba(5, 3, 18, 0.72)),
+        url('assets/images/tarot-app-background-img.jpg') center / cover no-repeat;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 2px 20px rgba(100, 40, 180, 0.3);
 }
 
 section {
     display: flex;
-    height: 85vh;
-    border: 1px solid black;
+    height: calc(100vh - var(--header-height));
     min-width: 1400px;
 }
 
 .side-bar {
-    width: 15%;
+    width: var(--sidebar-width);
     height: 100%;
-    border: 1px solid black;
 }
 
 main {
-    width: 85%;
+    width: calc(100% - var(--sidebar-width));
     height: 100%;
-    border: 1px solid black;
     display: flex;
     flex-direction: row;
 }
-
-
-
-
