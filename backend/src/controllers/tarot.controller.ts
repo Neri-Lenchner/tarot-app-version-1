@@ -12,11 +12,11 @@ class TarotController {
 
     public async interpret(request: Request, response: Response, next: NextFunction): Promise<void> {
         try {
-            const { spreadType, cards, language }: IInterpretRequest = request.body;
+            const { spreadType, cards, language, question }: IInterpretRequest = request.body;
             if (!spreadType || !cards || cards.length === 0) {
                 throw new ValidationError("spreadType and cards are required");
             }
-            const interpretation: string = await tarotService.interpretSpread(spreadType, cards, language);
+            const interpretation: string = await tarotService.interpretSpread(spreadType, cards, language, question);
             response.json({ interpretation });
         } catch (error) {
             next(error);

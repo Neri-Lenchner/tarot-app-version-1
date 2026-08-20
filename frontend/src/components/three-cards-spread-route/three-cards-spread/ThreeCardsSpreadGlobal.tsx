@@ -20,6 +20,15 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         return unsubscribe;
     }, []);
 
+    const [question, setQuestion] = useState('');
+    const [submittedQuestion, setSubmittedQuestion] = useState('');
+
+    const submitQuestion = (): void => {
+        if (!question.trim()) return;
+        setSubmittedQuestion(question.trim());
+        setQuestion('');
+    };
+
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
         if (saved === null) return false;
@@ -51,12 +60,30 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         const bool: boolean = deckService.clearSpread("isSpread3", "selected3Cards");
         setIsSpread3(bool);
         setSelected3Cards([]);
+        setSubmittedQuestion('');
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
     return (
         <div className="three-cards-global-container">
             <SpreadHeader spreadThem={spreadThem3} clearSpread={clearSpread3} />
+            <div className="spread-question-container">
+                <input
+                    className="spread-question-input"
+                    type="text"
+                    placeholder="What is your question for the cards?"
+                    value={question}
+                    onChange={e => setQuestion(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && submitQuestion()}
+                />
+                <button className="spread-question-btn" onClick={submitQuestion}>Ask</button>
+            </div>
+            {submittedQuestion && (
+                <div className="spread-question-display">
+                    <span className="spread-question-label">Your question:</span>
+                    <span className="spread-question-text">{submittedQuestion}</span>
+                </div>
+            )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
             {isSpread3 && selected3Cards.length > 0 && (
                 <InterpretWidget
@@ -65,6 +92,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     apiCards={apiCards}
                     positions={POSITIONS}
                     theme="blue"
+                    question={submittedQuestion}
                 />
             )}
         </div>

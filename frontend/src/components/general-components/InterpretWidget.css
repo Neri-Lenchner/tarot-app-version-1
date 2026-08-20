@@ -109,6 +109,34 @@
     display: none;
 }
 
+
+/* ── Question display in widget ── */
+.iw-question-display {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    background: rgba(255, 255, 255, 0.04);
+    flex-shrink: 0;
+}
+
+.iw-question-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+}
+
+.iw-question-text {
+    margin: 0;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    line-height: 1.5;
+}
+
 /* ── Interpret button ── */
 .iw-btn {
     width: 100%;

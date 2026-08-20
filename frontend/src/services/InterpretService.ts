@@ -8,11 +8,13 @@ class InterpretService {
         cards: any[],
         apiCards: any[],
         positions: string[],
-        lang: "en" | "he"
+        lang: "en" | "he",
+        question?: string
     ): Promise<string> {
         const payload = {
             spreadType,
             language: lang,
+            question: question || undefined,
             cards: cards.slice(0, positions.length).map((card, i) => {
                 const apiCard = apiCards.find((c: any) => c.name === card.name);
                 return {
@@ -31,11 +33,12 @@ class InterpretService {
         spreadType: "celtic" | "three-cards",
         cards: any[],
         apiCards: any[],
-        positions: string[]
+        positions: string[],
+        question?: string
     ): Promise<{ en: string; he: string }> {
         const [en, he] = await Promise.all([
-            this.interpretSpread(spreadType, cards, apiCards, positions, "en"),
-            this.interpretSpread(spreadType, cards, apiCards, positions, "he"),
+            this.interpretSpread(spreadType, cards, apiCards, positions, "en", question),
+            this.interpretSpread(spreadType, cards, apiCards, positions, "he", question),
         ]);
         return { en, he };
     }

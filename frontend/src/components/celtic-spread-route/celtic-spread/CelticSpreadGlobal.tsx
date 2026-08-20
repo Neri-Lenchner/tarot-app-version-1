@@ -23,6 +23,15 @@ export function CelticSpreadGlobal(): JSX.Element {
         return unsubscribe;
     }, []);
 
+    const [question, setQuestion] = useState('');
+    const [submittedQuestion, setSubmittedQuestion] = useState('');
+
+    const submitQuestion = (): void => {
+        if (!question.trim()) return;
+        setSubmittedQuestion(question.trim());
+        setQuestion('');
+    };
+
     const [isSpread, setIsSpread] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread");
         if (saved === null) return false;
@@ -51,12 +60,30 @@ export function CelticSpreadGlobal(): JSX.Element {
         const bool: boolean = deckService.clearSpread("isSpread", "selectedCards");
         setIsSpread(bool);
         setSelectedCards([]);
+        setSubmittedQuestion('');
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
     return (
         <div className="celtic-spread-container">
             <SpreadHeader spreadThem={spreadThem} clearSpread={clearSpread} />
+            <div className="spread-question-container">
+                <input
+                    className="spread-question-input"
+                    type="text"
+                    placeholder="What is your question for the cards?"
+                    value={question}
+                    onChange={e => setQuestion(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && submitQuestion()}
+                />
+                <button className="spread-question-btn" onClick={submitQuestion}>Ask</button>
+            </div>
+            {submittedQuestion && (
+                <div className="spread-question-display">
+                    <span className="spread-question-label">Your question:</span>
+                    <span className="spread-question-text">{submittedQuestion}</span>
+                </div>
+            )}
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
             {isSpread && selectedCards.length > 0 && (
                 <InterpretWidget
@@ -65,6 +92,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     apiCards={apiCards}
                     positions={POSITIONS}
                     theme="green"
+                    question={submittedQuestion}
                 />
             )}
         </div>

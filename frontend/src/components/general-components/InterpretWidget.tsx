@@ -9,6 +9,7 @@ interface InterpretWidgetProps {
     positions: string[];
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
+    question?: string;
 }
 
 function renderInterpretation(text: string): JSX.Element[] {
@@ -20,7 +21,7 @@ function renderInterpretation(text: string): JSX.Element[] {
     });
 }
 
-export function InterpretWidget({ cards, apiCards, positions, spreadType, theme }: InterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, apiCards, positions, spreadType, theme, question }: InterpretWidgetProps): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<'en' | 'he'>('en');
@@ -40,7 +41,7 @@ export function InterpretWidget({ cards, apiCards, positions, spreadType, theme 
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, apiCards, positions);
+            const result = await interpretService.interpretBoth(spreadType, cards, apiCards, positions, question.trim() || undefined);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({
@@ -66,6 +67,12 @@ export function InterpretWidget({ cards, apiCards, positions, spreadType, theme 
                         )}
                     </div>
                     <div className="iw-body">
+                        {question && (
+                            <div className="iw-question-display">
+                                <span className="iw-question-label">Question</span>
+                                <p className="iw-question-text">{question}</p>
+                            </div>
+                        )}
                         <button className="iw-btn" onClick={interpret} disabled={isInterpreting}>
                             {isInterpreting ? 'Reading the cards...' : hasBoth ? 'Re-interpret' : 'Interpret Reading'}
                         </button>
