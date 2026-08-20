@@ -48,7 +48,7 @@ class TarotService {
 
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
-            ? `!!! HIGHEST PRIORITY — ESTABLISHED CARD COMBINATIONS DETECTED !!!\nThe following well-known tarot combination meanings appear in this spread. These carry the GREATEST interpretive weight in the entire reading — you MUST explicitly name and explain each one in your narrative, and they must form the core of your interpretation:\n\n${matchedCombos.join("\n")}\n\nDo NOT treat these as coincidences. Build the story of this reading around these combinations first, then use individual card meanings to add depth.\n\n`
+            ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
             : "";
 
         const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : "";
@@ -57,11 +57,16 @@ class TarotService {
             ? "Translate each position name into Hebrew (e.g. Past→עבר, Present→הווה, Future→עתיד, Positive Energy→אנרגיה חיובית, Negative Energy→אנרגיה שלילית, Near Future→עתיד קרוב, Distant Future→עתיד רחוק, Inner World→עולם פנימי, Outer World→עולם חיצוני, Fears→פחדים, Potential→פוטנציאל). Do NOT write 'Position 1', 'Position 2', etc. When writing 'In the X position' use the word 'מיקום' (NOT 'מצב') — e.g. 'במיקום האנרגיה החיובית'."
             : "Use the position name exactly as provided in the list above.";
 
-        const combinationsReminder = matchedCombos.length > 0
-            ? `\n\nREMINDER: The card combinations listed above (${matchedCombos.map(m => m.split("→")[1]?.split("[")[0].trim()).join(", ")}) MUST be woven into the Conclusion as real events.`
-            : "";
+        const combinationsCenterpiece = matchedCombos.length > 0
+            ? `\n\n2. A dedicated CENTERPIECE paragraph about the card combination(s). Start it with something like: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Then explain in 2-3 vivid sentences what this means concretely in the querent's real life. This paragraph is the most important in the entire reading — give it full weight and detail.\n\n3.`
+            : "\n\n2.";
 
-        const userMessage = `${questionLine}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.\n\n2. For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences describing what this position reveals — real events or energies in the querent's life, grounded in concrete situations. State clearly if it refers to the past, the present, the near future, or the distant future].\"\n\n${positionInstruction}${combinationsReminder}\n\n3. End with:\n**Conclusion**\n[2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals. Give direct, personal, actionable guidance${matchedCombos.length > 0 ? ", weaving in the key card combinations detected" : ""}.]`;
+        const conclusionStep = matchedCombos.length > 0 ? "4." : "3.";
+        const conclusionInstruction = matchedCombos.length > 0
+            ? "2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals, explicitly tying back to the card combination(s) as the central message."
+            : "2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals. Give direct, personal, actionable guidance.";
+
+        const userMessage = `${questionLine}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
