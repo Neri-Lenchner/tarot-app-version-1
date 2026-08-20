@@ -82,7 +82,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question 
                         </button>
                         {current && (
                             <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                <h5 className="iw-card-title">Conclusion</h5>
+                                <h5 className="iw-card-title">{lang === 'he' ? 'סיכום' : 'Conclusion'}</h5>
                                 {renderConclusion(current)}
                             </div>
                         )}
