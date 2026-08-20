@@ -48,8 +48,8 @@
 
 /* ── Panel ── */
 .iw-panel {
-    width: 320px;
-    height: 460px;
+    width: 420px;
+    height: 580px;
     background: var(--bg);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
@@ -131,7 +131,7 @@
 
 .iw-question-text {
     margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: rgba(255, 255, 255, 0.8);
     font-style: italic;
     line-height: 1.5;
@@ -172,7 +172,7 @@
 .iw-card-title {
     margin: 10px 0 4px;
     color: var(--accent);
-    font-size: 12px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.5px;
     border-bottom: 1px solid var(--border);
@@ -181,8 +181,8 @@
 }
 
 .iw-card-text {
-    margin: 0 0 4px;
+    margin: 0 0 6px;
     color: rgba(255, 255, 255, 0.82);
-    font-size: 12px;
-    line-height: 1.65;
+    font-size: 14px;
+    line-height: 1.7;
 }
