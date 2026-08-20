@@ -28,6 +28,13 @@
     --header-bg: rgba(0, 0, 0, 0.6);
 }
 
+/* ── Click-outside backdrop ── */
+.iw-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+}
+
 /* ── Toggle button ── */
 .iw-toggle-btn {
     width: 54px;
@@ -40,6 +47,8 @@
     cursor: pointer;
     box-shadow: 0 0 14px var(--glow-color), 0 0 30px rgba(var(--accent-rgb), 0.12);
     transition: box-shadow var(--transition);
+    position: relative;
+    z-index: 1001;
 }
 
 .iw-toggle-btn:hover {
@@ -48,6 +57,8 @@
 
 /* ── Panel ── */
 .iw-panel {
+    position: relative;
+    z-index: 1001;
     width: 520px;
     height: 580px;
     background: var(--bg);

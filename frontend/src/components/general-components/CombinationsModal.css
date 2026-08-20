@@ -28,15 +28,50 @@
     display: none;
 }
 
+.combo-modal--collapsed {
+    padding: 14px 18px;
+}
+
+.combo-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.combo-modal--collapsed .combo-modal-header {
+    margin-bottom: 0;
+}
+
 .combo-modal-title {
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 700;
     color: var(--purple);
-    margin: 0 0 18px 0;
-    text-align: center;
+    margin: 0;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-shadow: 0 0 10px rgba(201, 160, 232, 0.4);
+}
+
+.combo-collapse-btn {
+    background: none;
+    border: 1px solid var(--purple-border);
+    color: var(--purple);
+    font-size: 11px;
+    width: 26px;
+    height: 26px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+.combo-collapse-btn:hover {
+    background: rgba(107, 63, 160, 0.35);
+    box-shadow: 0 0 8px rgba(107, 63, 160, 0.4);
 }
 
 .combo-item {
