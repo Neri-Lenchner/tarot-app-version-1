@@ -3,6 +3,7 @@ import { appConfig } from "../utils/app-config";
 import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
+import { healthIndicators } from "../data/health";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
@@ -12,6 +13,35 @@ function findMatchingCombinations(cards: ISpreadCard[]): string[] {
             if (combo.cards.every(name => nameSet.has(name.toLowerCase()))) {
                 matches.push(`• ${combo.cards.join(" + ")} → ${combo.meaning} [${category.category}]`);
             }
+        }
+    }
+    return matches;
+}
+
+const HEALTH_KEYWORDS = [
+    'health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital',
+    'pain', 'body', 'physical', 'heal', 'recover', 'diagnosis', 'symptom',
+    'condition', 'wellbeing', 'well-being', 'surgery', 'treatment', 'medication',
+    'injury', 'accident', 'depression', 'anxiety', 'mental', 'diet', 'exercise',
+    'weight', 'energy', 'fatigue', 'tired', 'chronic', 'בריאות', 'מחלה', 'כאב',
+    'רופא', 'טיפול', 'ניתוח', 'עייפות', 'גוף', 'תרופה',
+];
+
+function isHealthQuestion(question: string): boolean {
+    const q = question.toLowerCase();
+    return HEALTH_KEYWORDS.some(kw => q.includes(kw));
+}
+
+function findHealthIndicators(cards: ISpreadCard[]): string[] {
+    const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
+    const matches: string[] = [];
+    for (const indicator of healthIndicators) {
+        const matchCount = indicator.cards.filter(c =>
+            nameSet.has(c.replace(/ Rx$/i, '').toLowerCase())
+        ).length;
+        const threshold = indicator.cards.length === 1 ? 1 : 2;
+        if (matchCount >= threshold) {
+            matches.push(`• ${indicator.health}`);
         }
     }
     return matches;
@@ -46,6 +76,13 @@ class TarotService {
             ? `The querent's question is: "${question.trim()}"\n\n`
             : "";
 
+        const healthMatches = question?.trim() && isHealthQuestion(question.trim())
+            ? findHealthIndicators(cards)
+            : [];
+        const healthSection = healthMatches.length > 0
+            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health. The cards in this spread indicate the following health conditions:\n\n${healthMatches.join("\n")}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific, compassionate, and direct about what the cards are showing regarding the querent's physical or mental wellbeing.\n===\n\n`
+            : "";
+
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
             ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
@@ -70,7 +107,7 @@ class TarotService {
             ? "\n\nIMPORTANT: Positions 1 (Positive Energy) and 2 (Negative Energy) are NOT events — they are active forces or energies currently surrounding the querent. Do NOT use time-frame language for these two positions. Instead describe them as forces, influences, or currents that are present and at work right now (e.g. \"The energy supporting you is...\", \"The force working against you is...\"). All other positions should still include clear time-frame language."
             : "";
 
-        const userMessage = `${questionLine}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${healthSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
