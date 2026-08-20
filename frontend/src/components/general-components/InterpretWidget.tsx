@@ -11,13 +11,18 @@ interface InterpretWidgetProps {
     question?: string;
 }
 
-function renderInterpretation(text: string): JSX.Element[] {
-    return text.split('\n').filter(line => line.trim() !== '').map((line, i) => {
-        if (line.trim().startsWith('**')) {
-            return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
-        }
-        return <p key={i} className="iw-card-text">{line}</p>;
-    });
+function extractConclusion(text: string): string {
+    // Split by any **Heading** and take the last piece (the conclusion body)
+    const sections = text.split(/\*\*[^*\n]+\*\*/);
+    return sections[sections.length - 1].trim();
+}
+
+function renderConclusion(text: string): JSX.Element[] {
+    const conclusion = extractConclusion(text);
+    return conclusion
+        .split('\n')
+        .filter(line => line.trim() !== '')
+        .map((line, i) => <p key={i} className="iw-card-text">{line}</p>);
 }
 
 export function InterpretWidget({ cards, positions, spreadType, theme, question }: InterpretWidgetProps): JSX.Element {
@@ -77,7 +82,8 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question 
                         </button>
                         {current && (
                             <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                {renderInterpretation(current)}
+                                <h5 className="iw-card-title">Conclusion</h5>
+                                {renderConclusion(current)}
                             </div>
                         )}
                     </div>
