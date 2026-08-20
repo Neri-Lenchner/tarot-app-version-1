@@ -2,23 +2,16 @@
     overflow-y: auto;
 }
 
-.three-cards-global-container .spread-question-container {
-    display: flex;
-    justify-content: center;
-    padding: 10px 20px;
-    background: rgba(7, 4, 20, 0.9);
-    border-bottom: 1px solid var(--blue-border);
-}
-
+/* Input lives inside .spread-header-container now */
 .three-cards-global-container .spread-question-input {
-    width: 100%;
-    max-width: 520px;
+    flex: 1;
+    min-width: 0;
     background: rgba(0, 0, 0, 0.4);
     border: 1px solid var(--blue-border);
     border-radius: var(--radius);
     color: var(--text-primary);
     font-size: 14px;
-    padding: 9px 16px;
+    padding: 7px 14px;
     outline: none;
     transition: border-color var(--transition), box-shadow var(--transition);
 }
@@ -29,12 +22,12 @@
 
 .three-cards-global-container .spread-question-input:focus {
     border-color: var(--blue);
-    box-shadow: 0 0 12px var(--blue-glow);
+    box-shadow: 0 0 10px var(--blue-glow);
 }
 
 .three-cards-global-container .spread-question-display {
     background: rgba(7, 4, 20, 0.85);
-    padding: 8px 20px;
+    padding: 6px 16px;
     display: flex;
     align-items: center;
     gap: 10px;

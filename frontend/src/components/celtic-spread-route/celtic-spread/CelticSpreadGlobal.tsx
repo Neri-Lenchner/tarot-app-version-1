@@ -74,8 +74,7 @@ export function CelticSpreadGlobal(): JSX.Element {
 
     return (
         <div className="celtic-spread-container">
-            <SpreadHeader spreadThem={spreadThem} clearSpread={clearSpread} />
-            <div className="spread-question-container">
+            <SpreadHeader spreadThem={spreadThem} clearSpread={clearSpread}>
                 <input
                     className="spread-question-input"
                     type="text"
@@ -85,7 +84,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => setWidgetOpen(false)}
                 />
-            </div>
+            </SpreadHeader>
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>

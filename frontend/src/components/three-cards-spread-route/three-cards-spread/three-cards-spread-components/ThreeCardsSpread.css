@@ -1,7 +1,7 @@
 .three-cards-spread-container {
     position: relative;
     /* Fill available space without pushing past the viewport */
-    height: calc(100vh - var(--header-height) - 115px);
+    height: calc(100vh - var(--header-height) - 60px);
     min-height: 460px;
     width: 100%;
     min-width: 700px;

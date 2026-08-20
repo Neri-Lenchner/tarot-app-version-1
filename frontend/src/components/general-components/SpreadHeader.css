@@ -1,8 +1,10 @@
 .spread-header-container {
     background: rgba(7, 4, 20, 0.85);
     border-bottom: 1px solid rgba(212, 175, 55, 0.12);
-    text-align: center;
-    padding: 6px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 16px;
 }
 
 .spread-header-container button {
@@ -15,8 +17,9 @@
     color: var(--text-muted);
     padding: 7px 16px;
     border-radius: var(--radius);
-    margin: 4px;
     cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
     transition:
         background var(--transition),
         border-color var(--transition),

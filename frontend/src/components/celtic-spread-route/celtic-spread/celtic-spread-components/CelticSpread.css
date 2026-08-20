@@ -1,7 +1,7 @@
 .spread-container {
     position: relative;
     display: flex;
-    min-height: calc(100vh - var(--header-height) - 115px);
+    min-height: calc(100vh - var(--header-height) - 60px);
     width: 100%;
     margin: 0 auto;
     /* Deep forest-dark mystic gradient */
@@ -99,8 +99,8 @@
 .card-container-10 {
     position: absolute;
     right: 10%;
-    top: 8%;
-    transform: translate(-50%, -50%);
+    top: 56px;
+    transform: translateX(-50%);
 }
 
 /* ── Card modal ─────────────────────────────────── */

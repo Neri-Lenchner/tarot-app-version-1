@@ -48,6 +48,28 @@ function findHealthIndicators(cards: ISpreadCard[]): string[] {
     return matches;
 }
 
+const THIRD_PERSON_PRONOUNS = ['he ', 'she ', 'him ', 'her ', 'his ', 'they ', 'them ', 'their '];
+const THIRD_PERSON_RELATIONSHIPS = [
+    'my friend', 'my partner', 'my mother', 'my father', 'my brother', 'my sister',
+    'my boyfriend', 'my girlfriend', 'my husband', 'my wife', 'my ex', 'my boss',
+    'my colleague', 'my coworker', 'my manager', 'my employee', 'my neighbor',
+    'my son', 'my daughter', 'my child', 'my aunt', 'my uncle',
+    'my grandmother', 'my grandfather', 'my grandma', 'my grandpa', 'my teacher',
+    'about him', 'about her', 'about them',
+    // Hebrew
+    'החבר שלי', 'החברה שלי', 'האמא שלי', 'האבא שלי', 'האח שלי', 'האחות שלי',
+    'הבוס שלי', 'הבן זוג שלי', 'הבת זוג שלי', 'הבעל שלי', 'האישה שלי',
+    'הילד שלי', 'הבן שלי', 'הבת שלי', 'הסבתא שלי', 'הסבא שלי',
+    'הקולגה שלי', 'השכן שלי', 'הגיס שלי', 'הגיסה שלי',
+];
+
+function isThirdPersonQuestion(question: string): boolean {
+    const q = question.toLowerCase();
+    if (THIRD_PERSON_PRONOUNS.some(p => q.includes(p) || q.startsWith(p.trim()))) return true;
+    if (THIRD_PERSON_RELATIONSHIPS.some(r => q.includes(r.toLowerCase()))) return true;
+    return false;
+}
+
 const MAJOR_ARCANA = new Set([
     'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
     'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',
@@ -107,6 +129,11 @@ class TarotService {
             ? `The querent's question is: "${question.trim()}"\n\n`
             : "";
 
+        const isThirdPerson = question?.trim() ? isThirdPersonQuestion(question.trim()) : false;
+        const thirdPersonSection = isThirdPerson
+            ? `=== THIRD-PERSON READING ===\nThe querent is asking about ANOTHER PERSON, not about themselves. Adjust your ENTIRE interpretation accordingly:\n- The spread reflects that OTHER PERSON's life, situation, emotions, and trajectory — not the querent's own.\n- Speak to the querent as the observer. Refer to the subject as "the person you asked about", "they", or by the relationship if it was mentioned (e.g. "your friend", "your partner", "your mother").\n- Every card, position, and event describes what is happening in THAT PERSON's life. Never say "you are facing" — say "the person you asked about is facing".\n- Example phrasing: "In the Past position, the person you asked about has gone through...", "Right now, they are dealing with...", "In the near future, your partner will likely..."\n===\n\n`
+            : "";
+
         const healthMatches = question?.trim() && isHealthQuestion(question.trim())
             ? findHealthIndicators(cards)
             : [];
@@ -127,9 +154,10 @@ class TarotService {
             ? "Translate each position name into Hebrew (e.g. Past→עבר, Present→הווה, Future→עתיד, Positive Energy→אנרגיה חיובית, Negative Energy→אנרגיה שלילית, Near Future→עתיד קרוב, Distant Future→עתיד רחוק, Inner World→עולם פנימי, Outer World→עולם חיצוני, Fears→פחדים, Potential→פוטנציאל). Do NOT write 'Position 1', 'Position 2', etc. When writing 'In the X position' use the word 'מיקום' (NOT 'מצב') — e.g. 'במיקום האנרגיה החיובית'. IMPORTANT: Always write card names in English (do NOT translate them) — e.g. 'יש לך את הקלף The Fool'."
             : "Use the position name exactly as provided in the list above.";
 
-        const combinationsCenterpiece = matchedCombos.length > 0
-            ? `\n\n2. A dedicated CENTERPIECE paragraph about the card combination(s). Start it with something like: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Then explain in 2-3 vivid sentences what this means concretely in the querent's real life. This paragraph is the most important in the entire reading — give it full weight and detail.\n\n3.`
-            : "\n\n2.";
+        const openingContext = question?.trim() ? " in relation to the querent's question" : "";
+        const formatOpening = matchedCombos.length > 0
+            ? `1. A dedicated CENTERPIECE paragraph about the card combination(s) — this is the FIRST and most important thing the querent reads. Start with: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Explain in 2-3 vivid sentences what this means concretely in the querent's real life.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
+            : `1. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n2.`;
 
         const conclusionStep = matchedCombos.length > 0 ? "4." : "3.";
         const conclusionInstruction = matchedCombos.length > 0
@@ -140,7 +168,7 @@ class TarotService {
             ? "\n\nIMPORTANT: Positions 1 (Positive Energy) and 2 (Negative Energy) are NOT events — they are active forces or energies currently surrounding the querent. Do NOT use time-frame language for these two positions. Instead describe them as forces, influences, or currents that are present and at work right now (e.g. \"The energy supporting you is...\", \"The force working against you is...\"). All other positions should still include clear time-frame language."
             : "";
 
-        const userMessage = `${questionLine}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n1. One opening sentence giving an overall impression of what this reading is about${question?.trim() ? " in relation to the querent's question" : ""}.${combinationsCenterpiece} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",

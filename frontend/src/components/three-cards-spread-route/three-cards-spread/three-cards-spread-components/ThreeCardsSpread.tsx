@@ -4,8 +4,9 @@ import {interpretStore} from "../../../../state/interpret-state";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const match = text.match(new RegExp(`\\*\\*[^*]+ — ${escaped}\\*\\*\\n([\\s\\S]+?)(?=\\n\\*\\*|$)`, 'i'));
-    return match ? match[1].trim() : null;
+    const cardRegex = new RegExp(escaped, 'i');
+    const paragraph = text.split(/\n\n+/).find(p => cardRegex.test(p) && !/^\*\*Conclusion/i.test(p.trim()));
+    return paragraph ? paragraph.trim() : null;
 }
 
 const POSITIONS = ["Past", "Present", "Future"];

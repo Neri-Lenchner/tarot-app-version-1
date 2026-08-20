@@ -74,8 +74,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
 
     return (
         <div className="three-cards-global-container">
-            <SpreadHeader spreadThem={spreadThem3} clearSpread={clearSpread3} />
-            <div className="spread-question-container">
+            <SpreadHeader spreadThem={spreadThem3} clearSpread={clearSpread3}>
                 <input
                     className="spread-question-input"
                     type="text"
@@ -85,7 +84,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => setWidgetOpen(false)}
                 />
-            </div>
+            </SpreadHeader>
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>

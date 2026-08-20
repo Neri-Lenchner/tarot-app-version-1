@@ -135,7 +135,7 @@
 .iw-question-text {
     margin: 0;
     font-size: 13px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.9);
     font-style: italic;
     line-height: 1.5;
 }
@@ -204,7 +204,7 @@
 
 .iw-card-text {
     margin: 0 0 6px;
-    color: var(--text-muted);
+    color: rgba(255, 255, 255, 0.9);
     font-size: 14px;
     line-height: 1.75;
 }
