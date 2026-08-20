@@ -30,6 +30,16 @@ class DeckService {
         return [chosen, true];
     };
 
+    spreadMajorArcana(count: number = 3): [TarotCard[], boolean] {
+        const majorArcana: TarotCard[] = cardsDeck.slice(0, 22);
+        const shuffled: TarotCard[] = [...majorArcana];
+        for (let i = shuffled.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[j], shuffled[i]] = [shuffled[i], shuffled[j]];
+        }
+        return [shuffled.slice(0, count), true];
+    };
+
     clearSpread(bool: string, arr: string): boolean{
         console.log("Clearing spread");
         localStorage.removeItem(bool);

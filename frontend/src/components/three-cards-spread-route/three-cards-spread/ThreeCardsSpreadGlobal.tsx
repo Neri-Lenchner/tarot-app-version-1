@@ -52,7 +52,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             setSubmittedQuestion(question.trim());
             setQuestion('');
         }
-        const [chosen, bool] = deckService.spreadThem(3);
+        const [chosen, bool] = deckService.spreadMajorArcana(3);
         setSelected3Cards(chosen);
         setIsSpread3(bool);
         setWidgetOpen(true);

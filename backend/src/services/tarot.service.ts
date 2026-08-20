@@ -116,7 +116,7 @@ Position guide for the Celtic Cross spread:
 
 class TarotService {
     public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string): Promise<string> {
-        const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Three Cards";
+        const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
         const cardList = cards
             .map((card, i) => {
@@ -141,7 +141,7 @@ class TarotService {
             ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health. The cards in this spread indicate the following health conditions:\n\n${healthMatches.join("\n")}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific, compassionate, and direct about what the cards are showing regarding the querent's physical or mental wellbeing.\n===\n\n`
             : "";
 
-        const majorArcanaSection = getMajorArcanaSection(cards);
+        const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
 
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
