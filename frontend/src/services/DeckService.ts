@@ -1,27 +1,17 @@
 import {TarotCard} from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {cardsDeck} from "../arrays-&-models/tarot-deck-array/tarotDeck";
-import axios from "axios";
+import {riderWaiteCards} from "../data/riderWaite";
 import {DeckActionType, deckStore} from "../state/deck-state";
 class DeckService {
 
     constructor(
-        public tarotCardsDetails: [] = []
+        public tarotCardsDetails: any[] = riderWaiteCards
     ) {}
 
 
     async getTarotDetails(): Promise<any> {
-        const url = "https://tarotapi.dev/api/v1/cards";
-        try {
-            const response = await axios.get(url);
-            deckStore.dispatch({type: DeckActionType.GetCardsDeck, payload: response.data});
-            this.tarotCardsDetails = response.data.cards;
-            console.log("success");
-        } catch (error) {
-            console.error("The error:", error);
-        }
-        console.log(deckStore.getState().tarotDeckList);
+        deckStore.dispatch({type: DeckActionType.GetCardsDeck, payload: riderWaiteCards});
         return deckStore.getState().tarotDeckList;
-
     }
 
 

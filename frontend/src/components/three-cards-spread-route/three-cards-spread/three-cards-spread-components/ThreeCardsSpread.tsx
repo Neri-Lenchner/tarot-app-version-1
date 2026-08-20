@@ -1,10 +1,27 @@
-import {JSX, useState} from "react";
+import {JSX, useState, useEffect} from "react";
 import './ThreeCardsSpread.css';
+import {interpretStore} from "../../../../state/interpret-state";
+
+function extractCardSection(text: string, cardName: string): string | null {
+    const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const match = text.match(new RegExp(`\\*\\*[^*]+ — ${escaped}\\*\\*\\n([\\s\\S]+?)(?=\\n\\*\\*|$)`, 'i'));
+    return match ? match[1].trim() : null;
+}
 
 const POSITIONS = ["Past", "Present", "Future"];
 
 export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: boolean, cards: any[], apiCards: any[] }): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [interpretation, setInterpretation] = useState<string | null>(
+        () => interpretStore.getState()['three-cards'].en
+    );
+
+    useEffect(() => {
+        const unsubscribe = interpretStore.subscribe(() => {
+            setInterpretation(interpretStore.getState()['three-cards'].en);
+        });
+        return unsubscribe;
+    }, []);
 
     const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
     const selectedApiCard = selectedCard
@@ -35,7 +52,9 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: bo
                         <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
                         <h3 className="card-modal-name">{selectedCard?.name}</h3>
                         <p className="card-modal-position">{POSITIONS[selectedIndex]}</p>
-                        {selectedApiCard ? (
+                        {selectedCard && interpretation && extractCardSection(interpretation, selectedCard.name) ? (
+                            <p className="card-modal-desc">{extractCardSection(interpretation, selectedCard.name)}</p>
+                        ) : selectedApiCard ? (
                             <>
                                 <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>
                                 <p className="card-modal-desc">{selectedApiCard.desc}</p>
