@@ -89,7 +89,6 @@ export function CelticSpreadGlobal(): JSX.Element {
                 <InterpretWidget
                     spreadType="celtic"
                     cards={selectedCards}
-                    apiCards={apiCards}
                     positions={POSITIONS}
                     theme="green"
                     question={submittedQuestion}

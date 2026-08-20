@@ -6,7 +6,6 @@ class InterpretService {
     async interpretSpread(
         spreadType: "celtic" | "three-cards",
         cards: any[],
-        apiCards: any[],
         positions: string[],
         lang: "en" | "he",
         question?: string
@@ -15,15 +14,10 @@ class InterpretService {
             spreadType,
             language: lang,
             question: question || undefined,
-            cards: cards.slice(0, positions.length).map((card, i) => {
-                const apiCard = apiCards.find((c: any) => c.name === card.name);
-                return {
-                    name: card.name,
-                    position: positions[i],
-                    meaning_up: apiCard?.meaning_up || "",
-                    desc: apiCard?.desc || "",
-                };
-            }),
+            cards: cards.slice(0, positions.length).map((card, i) => ({
+                name: card.name,
+                position: positions[i],
+            })),
         };
         const response = await axios.post(`${BASE_URL}/api/tarot/interpret`, payload);
         return response.data.interpretation;
@@ -32,13 +26,12 @@ class InterpretService {
     async interpretBoth(
         spreadType: "celtic" | "three-cards",
         cards: any[],
-        apiCards: any[],
         positions: string[],
         question?: string
     ): Promise<{ en: string; he: string }> {
         const [en, he] = await Promise.all([
-            this.interpretSpread(spreadType, cards, apiCards, positions, "en", question),
-            this.interpretSpread(spreadType, cards, apiCards, positions, "he", question),
+            this.interpretSpread(spreadType, cards, positions, "en", question),
+            this.interpretSpread(spreadType, cards, positions, "he", question),
         ]);
         return { en, he };
     }

@@ -5,7 +5,6 @@ import './InterpretWidget.css';
 
 interface InterpretWidgetProps {
     cards: any[];
-    apiCards: any[];
     positions: string[];
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
@@ -21,7 +20,7 @@ function renderInterpretation(text: string): JSX.Element[] {
     });
 }
 
-export function InterpretWidget({ cards, apiCards, positions, spreadType, theme, question }: InterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question }: InterpretWidgetProps): JSX.Element {
     const [isOpen, setIsOpen] = useState(false);
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<'en' | 'he'>('en');
@@ -41,7 +40,7 @@ export function InterpretWidget({ cards, apiCards, positions, spreadType, theme,
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, apiCards, positions, question.trim() || undefined);
+            const result = await interpretService.interpretBoth(spreadType, cards, positions, question.trim() || undefined);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({

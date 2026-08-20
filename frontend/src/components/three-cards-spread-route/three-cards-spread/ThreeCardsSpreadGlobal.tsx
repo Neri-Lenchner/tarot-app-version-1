@@ -89,7 +89,6 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 <InterpretWidget
                     spreadType="three-cards"
                     cards={selected3Cards}
-                    apiCards={apiCards}
                     positions={POSITIONS}
                     theme="blue"
                     question={submittedQuestion}
