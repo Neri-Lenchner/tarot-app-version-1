@@ -5,6 +5,7 @@ import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
 import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
+import { cardBodyMap } from "../data/card-body-map";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
@@ -46,6 +47,15 @@ function findHealthIndicators(cards: ISpreadCard[]): string[] {
         }
     }
     return matches;
+}
+
+function getCardBodyLines(cards: ISpreadCard[]): string[] {
+    return cards.map(card => {
+        const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
+        const entry = cardBodyMap.find(e => e.card.toLowerCase() === baseName);
+        if (!entry) return null;
+        return `• ${card.name} (${card.position}) → body systems: ${entry.body.join(", ")} [astrology: ${entry.astrology}]`;
+    }).filter(Boolean) as string[];
 }
 
 const THIRD_PERSON_PRONOUNS = ['he ', 'she ', 'him ', 'her ', 'his ', 'they ', 'them ', 'their '];
@@ -139,11 +149,15 @@ class TarotService {
             ? `=== THIRD-PERSON READING — THIS OVERRIDES ALL OTHER FRAMING ===\nThe querent is asking about ANOTHER PERSON. This spread has been laid for that other person, not for the querent. Treat this exactly as if the OTHER PERSON sat down and asked their own question — every card, every position, every sentence describes THEIR life, THEIR emotions, THEIR past, THEIR future, THEIR fears.\n\nMANDATORY RULES — violating any of these is an error:\n1. NEVER say "you are", "you feel", "you have", "your situation" — these phrases must NEVER appear. The querent is the observer, not the subject.\n2. ALWAYS refer to the subject as "they", "them", "their", or by the specific relationship mentioned (e.g. "your partner", "your mother", "your friend"). If no relationship was named, use "the person you asked about".\n3. Every card position describes what is happening in the OTHER PERSON's life. "Past" = their past. "Fears" = their fears. "Inner World" = their inner world. "Potential" = their potential outcome.\n4. The querent appears in the reading ONLY as context — e.g. "their relationship with you", "how they feel about you". They are never the main subject.\n5. Do NOT slip. Read through your response before finishing — if you wrote "you" referring to the querent as the main subject anywhere, replace it.\n\nExample correct phrasing: "In the Past position, your partner has gone through...", "Right now, they are dealing with...", "Their deepest fear is...", "The potential outcome for the person you asked about is..."\n===\n\n`
             : "";
 
-        const healthMatches = question?.trim() && isHealthQuestion(question.trim())
-            ? findHealthIndicators(cards)
-            : [];
-        const healthSection = healthMatches.length > 0
-            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health. The cards in this spread indicate the following health conditions:\n\n${healthMatches.join("\n")}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific, compassionate, and direct about what the cards are showing regarding the querent's physical or mental wellbeing.\n===\n\n`
+        const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
+        const healthMatches = isHealth ? findHealthIndicators(cards) : [];
+        const bodyLines = isHealth ? getCardBodyLines(cards) : [];
+        const healthSection = isHealth
+            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.\n${healthMatches.length > 0 ? `\nThe cards in this spread indicate the following health conditions:\n${healthMatches.join("\n")}\n` : ""}
+Each card in this spread carries astrological body-system associations — use these to make the health interpretation concrete and specific per card:
+${bodyLines.join("\n")}
+
+These health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. For each card, explicitly mention which body systems it governs and what the card's energy (upright or reversed) suggests about that area of health. Be specific, compassionate, and direct. Do NOT give medical advice or diagnoses — frame everything as the cards' energetic guidance.\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
