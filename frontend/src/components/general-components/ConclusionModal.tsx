@@ -1,5 +1,6 @@
 import { JSX, useState, useEffect } from 'react';
 import { interpretStore, InterpretState } from '../../state/interpret-state';
+import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import './ConclusionModal.css';
 
 interface ConclusionModalProps {
@@ -18,7 +19,7 @@ function extractConclusion(text: string): string {
 
 export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JSX.Element | null {
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [visible, setVisible] = useState(true);
     const [collapsed, setCollapsed] = useState(false);
 
@@ -30,11 +31,18 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
         return unsubscribe;
     }, []);
 
+    useEffect(() => {
+        const unsubscribe = langStore.subscribe(() => {
+            setLang(langStore.getState().lang);
+        });
+        return unsubscribe;
+    }, []);
+
     const spreadData = stored[spreadType];
     const en = spreadData.en ? extractConclusion(spreadData.en) : null;
     const he = spreadData.he ? extractConclusion(spreadData.he) : null;
-    const hasBoth = !!en && !!he;
-    const current = lang === 'en' ? en : he;
+    const hasBoth = spreadData.en !== null && spreadData.he !== null;
+    const current = lang === 'en' ? (en || he) : (he || en);
 
     if (!current) return null;
 
@@ -50,7 +58,7 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
                 <span className="conclusion-title">✦ Conclusion</span>
                 <div className="conclusion-header-actions">
                     {hasBoth && (
-                        <button className="conclusion-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                        <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
                             {lang === 'en' ? 'HE' : 'EN'}
                         </button>
                     )}

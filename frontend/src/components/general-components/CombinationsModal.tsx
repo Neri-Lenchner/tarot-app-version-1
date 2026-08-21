@@ -1,6 +1,7 @@
-import { JSX, useState } from 'react';
+import { JSX, useState, useEffect } from 'react';
 import { ICombinationMatch } from '../../services/CombinationsService';
 import { cardsDeck } from '../../arrays-&-models/tarot-deck-array/tarotDeck';
+import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import './CombinationsModal.css';
 
 interface CombinationsModalProps {
@@ -11,7 +12,14 @@ interface CombinationsModalProps {
 export function CombinationsModal({ matches, onClose }: CombinationsModalProps): JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
+
+    useEffect(() => {
+        const unsubscribe = langStore.subscribe(() => {
+            setLang(langStore.getState().lang);
+        });
+        return unsubscribe;
+    }, []);
 
     if (!visible) {
         return (
@@ -25,7 +33,7 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">✦ Card Combinations Detected</span>
                     <div className="combo-header-actions">
-                        <button className="combo-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                        <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
                             {lang === 'en' ? 'HE' : 'EN'}
                         </button>
                         <button className="combo-collapse-btn" onClick={() => setCollapsed(c => !c)}>

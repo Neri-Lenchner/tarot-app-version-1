@@ -2,6 +2,7 @@ import { JSX, useEffect, useState } from 'react';
 import { interpretService } from '../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState } from '../../state/interpret-state';
 import { authStore } from '../../state/auth-state';
+import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import { readingService } from '../../services/ReadingService';
 import './InterpretWidget.css';
 
@@ -38,7 +39,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
 
 export function InterpretWidget({ cards, positions, spreadType, theme, question, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [saved, setSaved] = useState(false);
     const [loggedIn, setLoggedIn] = useState(!!authStore.getState().user);
@@ -47,6 +48,13 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         const unsubscribe = interpretStore.subscribe(() => {
             setStored(interpretStore.getState());
             setSaved(false);
+        });
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = langStore.subscribe(() => {
+            setLang(langStore.getState().lang);
         });
         return unsubscribe;
     }, []);
@@ -103,7 +111,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                     <div className="iw-header">
                         <span>Reading Interpretation</span>
                         {hasBoth && (
-                            <button className="iw-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                            <button className="iw-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
                                 {lang === 'en' ? 'HE' : 'EN'}
                             </button>
                         )}
