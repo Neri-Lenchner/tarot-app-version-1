@@ -55,12 +55,17 @@ const THIRD_PERSON_RELATIONSHIPS = [
     'my colleague', 'my coworker', 'my manager', 'my employee', 'my neighbor',
     'my son', 'my daughter', 'my child', 'my aunt', 'my uncle',
     'my grandmother', 'my grandfather', 'my grandma', 'my grandpa', 'my teacher',
-    'about him', 'about her', 'about them',
+    'my family', 'my ex-husband', 'my ex-wife', 'my ex-boyfriend', 'my ex-girlfriend',
+    'my roommate', 'my classmate', 'my mentor', 'my therapist', 'my client',
+    'my crush', 'my date', 'my lover', 'my superior', 'my subordinate',
+    'about him', 'about her', 'about them', 'affect him', 'affect her', 'affect them',
+    'affects him', 'affects her', 'affects them', 'affecting him', 'affecting her',
     // Hebrew
     'החבר שלי', 'החברה שלי', 'האמא שלי', 'האבא שלי', 'האח שלי', 'האחות שלי',
     'הבוס שלי', 'הבן זוג שלי', 'הבת זוג שלי', 'הבעל שלי', 'האישה שלי',
     'הילד שלי', 'הבן שלי', 'הבת שלי', 'הסבתא שלי', 'הסבא שלי',
     'הקולגה שלי', 'השכן שלי', 'הגיס שלי', 'הגיסה שלי',
+    'המשפחה שלי', 'הגרוש שלי', 'הגרושה שלי', 'השותף שלי', 'הרום שלי',
 ];
 
 function isThirdPersonQuestion(question: string): boolean {
@@ -131,7 +136,7 @@ class TarotService {
 
         const isThirdPerson = question?.trim() ? isThirdPersonQuestion(question.trim()) : false;
         const thirdPersonSection = isThirdPerson
-            ? `=== THIRD-PERSON READING ===\nThe querent is asking about ANOTHER PERSON, not about themselves. Adjust your ENTIRE interpretation accordingly:\n- The spread reflects that OTHER PERSON's life, situation, emotions, and trajectory — not the querent's own.\n- Speak to the querent as the observer. Refer to the subject as "the person you asked about", "they", or by the relationship if it was mentioned (e.g. "your friend", "your partner", "your mother").\n- Every card, position, and event describes what is happening in THAT PERSON's life. Never say "you are facing" — say "the person you asked about is facing".\n- Example phrasing: "In the Past position, the person you asked about has gone through...", "Right now, they are dealing with...", "In the near future, your partner will likely..."\n===\n\n`
+            ? `=== THIRD-PERSON READING — THIS OVERRIDES ALL OTHER FRAMING ===\nThe querent is asking about ANOTHER PERSON. This spread has been laid for that other person, not for the querent. Treat this exactly as if the OTHER PERSON sat down and asked their own question — every card, every position, every sentence describes THEIR life, THEIR emotions, THEIR past, THEIR future, THEIR fears.\n\nMANDATORY RULES — violating any of these is an error:\n1. NEVER say "you are", "you feel", "you have", "your situation" — these phrases must NEVER appear. The querent is the observer, not the subject.\n2. ALWAYS refer to the subject as "they", "them", "their", or by the specific relationship mentioned (e.g. "your partner", "your mother", "your friend"). If no relationship was named, use "the person you asked about".\n3. Every card position describes what is happening in the OTHER PERSON's life. "Past" = their past. "Fears" = their fears. "Inner World" = their inner world. "Potential" = their potential outcome.\n4. The querent appears in the reading ONLY as context — e.g. "their relationship with you", "how they feel about you". They are never the main subject.\n5. Do NOT slip. Read through your response before finishing — if you wrote "you" referring to the querent as the main subject anywhere, replace it.\n\nExample correct phrasing: "In the Past position, your partner has gone through...", "Right now, they are dealing with...", "Their deepest fear is...", "The potential outcome for the person you asked about is..."\n===\n\n`
             : "";
 
         const healthMatches = question?.trim() && isHealthQuestion(question.trim())
