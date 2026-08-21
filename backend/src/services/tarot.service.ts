@@ -34,54 +34,40 @@ function isHealthQuestion(question: string): boolean {
     return HEALTH_KEYWORDS.some(kw => q.includes(kw));
 }
 
-function findHealthIndicators(cards: ISpreadCard[]): string[] {
-    const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
-    const matches: string[] = [];
-    for (const indicator of healthIndicators) {
-        const matchCount = indicator.cards.filter(c =>
-            nameSet.has(c.replace(/ Rx$/i, '').toLowerCase())
-        ).length;
-        const threshold = indicator.cards.length === 1 ? 1 : 2;
-        if (matchCount >= threshold) {
-            matches.push(`• ${indicator.health}`);
-        }
-    }
-    return matches;
+function getBodyPartsForCardName(cardName: string): string[] {
+    const baseName = cardName.replace(/ Rx$/i, '').toLowerCase();
+    const entry = cardBodyMap.find(e => e.card.toLowerCase() === baseName);
+    return entry?.body ?? [];
 }
 
-function getHealthFlaggedCardNames(cards: ISpreadCard[]): Set<string> {
-    const spreadNameSet = new Set(cards.map(c => c.name.replace(/ Rx$/i, '').toLowerCase()));
-    const flagged = new Set<string>();
+interface HealthSignal {
+    condition: string;
+    bodyParts: string[];
+}
+
+function findHealthSignals(cards: ISpreadCard[]): HealthSignal[] {
+    const spreadBaseNames = new Set(cards.map(c => c.name.replace(/ Rx$/i, '').toLowerCase()));
+    const signals: HealthSignal[] = [];
 
     for (const indicator of healthIndicators) {
         const matchingCards = indicator.cards.filter(c =>
-            spreadNameSet.has(c.replace(/ Rx$/i, '').toLowerCase())
+            spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase())
         );
         const threshold = indicator.cards.length === 1 ? 1 : 2;
         if (matchingCards.length >= threshold) {
-            for (const c of matchingCards) flagged.add(c.replace(/ Rx$/i, '').toLowerCase());
+            const bodyParts = [...new Set(matchingCards.flatMap(getBodyPartsForCardName))];
+            signals.push({ condition: indicator.health, bodyParts });
         }
     }
 
     for (const combo of healthCombinations) {
-        if (combo.cards.every(c => spreadNameSet.has(c.replace(/ Rx$/i, '').toLowerCase()))) {
-            for (const c of combo.cards) flagged.add(c.replace(/ Rx$/i, '').toLowerCase());
+        if (combo.cards.every(c => spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase()))) {
+            const bodyParts = [...new Set(combo.cards.flatMap(getBodyPartsForCardName))];
+            signals.push({ condition: combo.meaning, bodyParts });
         }
     }
 
-    return flagged;
-}
-
-function getCardBodyLines(cards: ISpreadCard[], flaggedNames: Set<string>): string[] {
-    return cards
-        .filter(card => flaggedNames.has(card.name.replace(/ Rx$/i, '').toLowerCase()))
-        .map(card => {
-            const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
-            const entry = cardBodyMap.find(e => e.card.toLowerCase() === baseName);
-            if (!entry) return null;
-            return `• ${card.name} (${card.position}) → body systems: ${entry.body.join(", ")}`;
-        })
-        .filter(Boolean) as string[];
+    return signals;
 }
 
 const THIRD_PERSON_PRONOUNS = ['he ', 'she ', 'him ', 'her ', 'his ', 'they ', 'them ', 'their '];
@@ -176,11 +162,15 @@ class TarotService {
             : "";
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
-        const healthMatches = isHealth ? findHealthIndicators(cards) : [];
-        const flaggedCardNames = isHealth ? getHealthFlaggedCardNames(cards) : new Set<string>();
-        const bodyLines = isHealth && flaggedCardNames.size > 0 ? getCardBodyLines(cards, flaggedCardNames) : [];
+        const healthSignals = isHealth ? findHealthSignals(cards) : [];
+        const healthSignalLines = healthSignals.map(s => {
+            const bodyNote = s.bodyParts.length > 0
+                ? ` — body areas to check: ${s.bodyParts.join(", ")}`
+                : "";
+            return `• ${s.condition}${bodyNote}`;
+        });
         const healthSection = isHealth
-            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.\n${healthMatches.length > 0 ? `\nThe cards in this spread indicate the following health conditions:\n${healthMatches.join("\n")}\n` : ""}${bodyLines.length > 0 ? `\nThe following specific cards in this spread are health-significant and govern particular body systems. For EACH of these cards you MUST explicitly name the body organs listed and note that the querent may want to pay attention to or check on those areas:\n${bodyLines.join("\n")}\nUse phrasing like: "The [card name] governs the [body parts] — it may be worth having these checked" or "The energy of this card points to the [body parts], suggesting these organs may need attention." Do NOT apply this to other cards in the spread — only to the flagged ones above.` : ""}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific and compassionate. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness or a check-up.${language === "he" ? " IMPORTANT: The body part names above are in English for reference only — translate them into Hebrew in your response. Write the entire health interpretation in Hebrew." : ""}\n===\n\n`
+            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.${healthSignalLines.length > 0 ? `\n\nThe cards in this spread indicate the following health signals. For each one, you MUST explicitly mention the listed body organs and note that the querent may want to pay attention to or get those areas checked:\n\n${healthSignalLines.join("\n")}\n\nUse phrasing like: "The cards point to [condition] — the body areas that may need attention are [body parts], it may be worth having these checked." Do NOT apply body-organ notes to cards that are not listed here.` : ""}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific and compassionate. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness or a check-up.${language === "he" ? " IMPORTANT: All body part names above are in English for reference — translate them into Hebrew in your response." : ""}\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
