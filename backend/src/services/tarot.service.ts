@@ -108,62 +108,75 @@ class TarotService {
             combosBlock = `${combosHeader}\n\n${lines.join('\n')}`;
         }
 
-        // ── 2. Card readings block (programmatic, RW data) ────────────────────
-        const cardReadings = cards.map(card => {
-            const baseName = card.name.replace(/ Rx$/i, '');
-            const rwData = riderWaiteCards.find(c => c.name.toLowerCase() === baseName.toLowerCase());
-
-            const sentences = (rwData?.desc ?? '').match(/[^.!?]+[.!?]+/g) ?? [];
-            const descShort = sentences.slice(0, 2).join(' ').trim();
-
-            const positionDisplay = language === 'he'
-                ? (HEBREW_POSITIONS[card.position.toLowerCase()] ?? card.position)
-                : card.position;
-
-            return [
-                `**${positionDisplay} — ${card.name}**`,
-                rwData?.meaning_up ? `*${rwData.meaning_up}*` : '',
-                descShort,
-            ].filter(Boolean).join('\n');
-        }).join('\n\n');
-
-        const readingsHeader = language === 'he' ? '**פרשנות הקלפים**' : '**Card Readings**';
-        const cardReadingsBlock = `${readingsHeader}\n\n${cardReadings}`;
-
-        // ── 3. AI conclusion (short) ───────────────────────────────────────────
-        const cardSummary = cards.map((c, i) => `${i + 1}. ${c.position} — ${c.name}`).join('\n');
+        // ── 2 & 3. Card readings + conclusion ─────────────────────────────────
         const questionLine = question?.trim() ? `Question: "${question.trim()}"\n` : '';
         const subjectNote = isThirdPerson
             ? isGroup
-                ? 'This is a reading about a family/group. Positions 7–10 describe the querent; use "you/your" for those. Use "they/them/their" for the group in positions 1–6.'
+                ? 'Positions 1–6 describe the family/group (use "they/them/their"). Positions 7–10 describe the querent (use "you/your").'
                 : 'This is a third-person reading — describe the other person, not the querent. Use "they/them/their".'
             : '';
 
-        const conclusionPrompt = `${questionLine}${spreadName} spread:\n${cardSummary}${subjectNote ? '\n\n' + subjectNote : ''}\n\nWrite a conclusion of 2–3 sentences that ties these cards into a direct, personal message. No hedging, no clichés. Respond in ${language === 'he' ? 'Hebrew' : 'English'}.`;
+        let cardReadingsBlock: string;
+        let conclusionBlock: string;
 
-        const response = await axios.post(
-            "https://api.openai.com/v1/chat/completions",
-            {
-                model: "gpt-4o",
-                messages: [
-                    {
-                        role: "system",
-                        content: `You are an expert Rider-Waite tarot reader. Write only a brief conclusion — 2 to 3 sentences — that synthesizes the key message of this spread into a direct, personal statement for the querent. No filler. Respond in ${language === "he" ? "Hebrew" : "English"}.`,
-                    },
+        if (language === 'en') {
+            // English: programmatic RW data
+            const cardReadings = cards.map(card => {
+                const baseName = card.name.replace(/ Rx$/i, '');
+                const rwData = riderWaiteCards.find(c => c.name.toLowerCase() === baseName.toLowerCase());
+                const sentences = (rwData?.desc ?? '').match(/[^.!?]+[.!?]+/g) ?? [];
+                const descShort = sentences.slice(0, 2).join(' ').trim();
+                return [
+                    `**${card.position} — ${card.name}**`,
+                    rwData?.meaning_up ? `*${rwData.meaning_up}*` : '',
+                    descShort,
+                ].filter(Boolean).join('\n');
+            }).join('\n\n');
+            cardReadingsBlock = `**Card Readings**\n\n${cardReadings}`;
+
+            // English AI conclusion only
+            const cardSummary = cards.map((c, i) => `${i + 1}. ${c.position} — ${c.name}`).join('\n');
+            const conclusionPrompt = `${questionLine}${spreadName} spread:\n${cardSummary}${subjectNote ? '\n\n' + subjectNote : ''}\n\nWrite a conclusion of 2–3 sentences that ties these cards into a direct, personal message. No hedging.`;
+            const response = await axios.post(
+                "https://api.openai.com/v1/chat/completions",
+                { model: "gpt-4o", messages: [
+                    { role: "system", content: "You are an expert Rider-Waite tarot reader. Write a brief 2–3 sentence conclusion synthesizing the key message. Be direct and personal." },
                     { role: "user", content: conclusionPrompt },
-                ],
-            },
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${appConfig.openAiApiKey}`,
-                },
-            }
-        );
+                ]},
+                { headers: { "Content-Type": "application/json", Authorization: `Bearer ${appConfig.openAiApiKey}` } }
+            );
+            conclusionBlock = `**Conclusion**\n\n${response.data.choices[0].message.content as string}`;
 
-        const aiConclusion = response.data.choices[0].message.content as string;
-        const conclusionHeader = language === 'he' ? '**מסקנה**' : '**Conclusion**';
-        const conclusionBlock = `${conclusionHeader}\n\n${aiConclusion}`;
+        } else {
+            // Hebrew: AI writes both card readings (1 sentence each) + conclusion
+            const cardDataForAI = cards.map(card => {
+                const baseName = card.name.replace(/ Rx$/i, '');
+                const rwData = riderWaiteCards.find(c => c.name.toLowerCase() === baseName.toLowerCase());
+                const posHe = HEBREW_POSITIONS[card.position.toLowerCase()] ?? card.position;
+                return `${posHe} — ${card.name}: ${rwData?.meaning_up ?? ''}`;
+            }).join('\n');
+
+            const hePrompt = `${questionLine}${subjectNote ? subjectNote + '\n\n' : ''}For each card write EXACTLY ONE sentence in Hebrew summarizing its meaning for the querent. Then write a **מסקנה** section with 2–3 Hebrew sentences tying the reading together.\n\nFormat each card exactly as:\n**[Hebrew position] — [Card name in English]**\n[Hebrew sentence]\n\nCards:\n${cardDataForAI}`;
+
+            const response = await axios.post(
+                "https://api.openai.com/v1/chat/completions",
+                { model: "gpt-4o", messages: [
+                    { role: "system", content: "אתה קורא קלפי טארוט מומחה. כתוב בעברית. שם הקלף תמיד באנגלית, הטקסט בעברית. היה ישיר ואישי." },
+                    { role: "user", content: hePrompt },
+                ]},
+                { headers: { "Content-Type": "application/json", Authorization: `Bearer ${appConfig.openAiApiKey}` } }
+            );
+            const aiText = response.data.choices[0].message.content as string;
+            // Split AI output into card readings and conclusion
+            const conclusionMarker = aiText.indexOf('**מסקנה**');
+            if (conclusionMarker !== -1) {
+                cardReadingsBlock = `**פרשנות הקלפים**\n\n${aiText.slice(0, conclusionMarker).trim()}`;
+                conclusionBlock = aiText.slice(conclusionMarker).trim();
+            } else {
+                cardReadingsBlock = `**פרשנות הקלפים**\n\n${aiText}`;
+                conclusionBlock = '';
+            }
+        }
 
         return [combosBlock, cardReadingsBlock, conclusionBlock].filter(Boolean).join('\n\n---\n\n');
     }

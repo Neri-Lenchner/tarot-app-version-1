@@ -241,6 +241,34 @@
     cursor: default;
 }
 
+/* ── Card header with image ── */
+.iw-card-header-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+    margin-bottom: 4px;
+}
+
+.iw-card-header-row .iw-card-img {
+    width: 48px;
+    flex-shrink: 0;
+}
+
+.iw-card-header-row .iw-card-title {
+    margin: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.iw-card-meaning {
+    margin: 0 0 4px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+    font-style: italic;
+    line-height: 1.6;
+}
+
 /* ── Card image row ── */
 .iw-card-row {
     display: flex;
