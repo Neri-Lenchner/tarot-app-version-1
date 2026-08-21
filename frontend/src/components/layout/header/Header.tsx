@@ -3,12 +3,10 @@ import './Header.css';
 import {NavLink, useNavigate} from "react-router-dom";
 import {authStore, Logout, AuthUser} from "../../../state/auth-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
-import {useLanguage} from "../../../context/language-context";
 
 function Header(): JSX.Element {
     const [user, setUser] = useState<AuthUser | null>(authStore.getState().user);
     const navigate = useNavigate();
-    const { language, toggleLanguage } = useLanguage();
 
     useEffect(() => {
         const unsubscribe = authStore.subscribe(() => {
@@ -31,9 +29,6 @@ function Header(): JSX.Element {
     return (
         <div className="Header">
             <h1>TAROT Cards Spreads</h1>
-            <button className="header-lang-btn" onClick={toggleLanguage}>
-                {language === 'en' ? 'עב' : 'EN'}
-            </button>
             <div className="header-auth">
                 {user ? (
                     <>
