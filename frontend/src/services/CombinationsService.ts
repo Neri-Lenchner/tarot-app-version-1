@@ -24,6 +24,13 @@ const CELTIC_ADJACENCY: Record<number, number[]> = {
     9: [8, 5],            // pos 10 — connects to pos 9 and 6 (idx 5)
 };
 
+// Three Cards adjacency: simple linear chain 1↔2↔3
+const THREE_CARDS_ADJACENCY: Record<number, number[]> = {
+    0: [1],
+    1: [0, 2],
+    2: [1],
+};
+
 
 function isConnected(indices: number[], adjacency: Record<number, number[]>): boolean {
     if (indices.length <= 1) return true;
@@ -49,15 +56,19 @@ class CombinationsService {
         return response.data;
     }
 
-    filterByProximity(matches: ICombinationMatch[], spreadCards: string[]): ICombinationMatch[] {
+    filterByProximity(matches: ICombinationMatch[], spreadCards: string[], adjacency: Record<number, number[]> = CELTIC_ADJACENCY): ICombinationMatch[] {
         const cardIndexMap = new Map(spreadCards.map((name, i) => [name.toLowerCase(), i]));
         return matches.filter(match => {
             const indices = match.cards
                 .map(name => cardIndexMap.get(name.replace(/ Rx$/i, '').toLowerCase()))
                 .filter((i): i is number => i !== undefined);
             if (indices.length !== match.cards.length) return false;
-            return isConnected(indices, CELTIC_ADJACENCY);
+            return isConnected(indices, adjacency);
         });
+    }
+
+    get threeCardsAdjacency(): Record<number, number[]> {
+        return THREE_CARDS_ADJACENCY;
     }
 }
 
