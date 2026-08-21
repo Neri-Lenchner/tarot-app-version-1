@@ -5,7 +5,6 @@ import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
 import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
-import { cardBodyMap } from "../data/card-body-map";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
@@ -34,36 +33,23 @@ function isHealthQuestion(question: string): boolean {
     return HEALTH_KEYWORDS.some(kw => q.includes(kw));
 }
 
-function getBodyPartsForCardName(cardName: string): string[] {
-    const baseName = cardName.replace(/ Rx$/i, '').toLowerCase();
-    const entry = cardBodyMap.find(e => e.card.toLowerCase() === baseName);
-    return entry?.body ?? [];
-}
-
-interface HealthSignal {
-    condition: string;
-    bodyParts: string[];
-}
-
-function findHealthSignals(cards: ISpreadCard[]): HealthSignal[] {
+function findHealthSignals(cards: ISpreadCard[]): string[] {
     const spreadBaseNames = new Set(cards.map(c => c.name.replace(/ Rx$/i, '').toLowerCase()));
-    const signals: HealthSignal[] = [];
+    const signals: string[] = [];
 
     for (const indicator of healthIndicators) {
-        const matchingCards = indicator.cards.filter(c =>
+        const matchCount = indicator.cards.filter(c =>
             spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase())
-        );
+        ).length;
         const threshold = indicator.cards.length === 1 ? 1 : 2;
-        if (matchingCards.length >= threshold) {
-            const bodyParts = [...new Set(matchingCards.flatMap(getBodyPartsForCardName))];
-            signals.push({ condition: indicator.health, bodyParts });
+        if (matchCount >= threshold) {
+            signals.push(`• ${indicator.health}`);
         }
     }
 
     for (const combo of healthCombinations) {
         if (combo.cards.every(c => spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase()))) {
-            const bodyParts = [...new Set(combo.cards.flatMap(getBodyPartsForCardName))];
-            signals.push({ condition: combo.meaning, bodyParts });
+            signals.push(`• ${combo.meaning}`);
         }
     }
 
@@ -163,14 +149,8 @@ class TarotService {
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
-        const healthSignalLines = healthSignals.map(s => {
-            const bodyNote = s.bodyParts.length > 0
-                ? ` — body areas to check: ${s.bodyParts.join(", ")}`
-                : "";
-            return `• ${s.condition}${bodyNote}`;
-        });
         const healthSection = isHealth
-            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.${healthSignalLines.length > 0 ? `\n\nThe cards in this spread indicate the following health signals. For each one, you MUST explicitly mention the listed body organs and note that the querent may want to pay attention to or get those areas checked:\n\n${healthSignalLines.join("\n")}\n\nUse phrasing like: "The cards point to [condition] — the body areas that may need attention are [body parts], it may be worth having these checked." Do NOT apply body-organ notes to cards that are not listed here.` : ""}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific and compassionate. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness or a check-up.${language === "he" ? " IMPORTANT: All body part names above are in English for reference — translate them into Hebrew in your response." : ""}\n===\n\n`
+            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.${healthSignals.length > 0 ? `\n\nThe cards in this spread indicate the following health signals:\n\n${healthSignals.join("\n")}\n\nFor each signal, explicitly name the body area listed and note that the querent may want to pay attention to or get that area checked. Use phrasing like: "The cards point to [condition] — it may be worth having this area checked." Be specific and compassionate.` : ""}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness or a check-up.${language === "he" ? " Write the entire health interpretation in Hebrew." : ""}\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
