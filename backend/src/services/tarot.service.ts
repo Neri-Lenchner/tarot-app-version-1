@@ -37,19 +37,21 @@ function findHealthSignals(cards: ISpreadCard[]): string[] {
     const spreadBaseNames = new Set(cards.map(c => c.name.replace(/ Rx$/i, '').toLowerCase()));
     const signals: string[] = [];
 
-    for (const indicator of healthIndicators) {
-        const matchCount = indicator.cards.filter(c =>
-            spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase())
-        ).length;
-        const threshold = indicator.cards.length === 1 ? 1 : 2;
-        if (matchCount >= threshold) {
-            signals.push(`• ${indicator.health}`);
+    // Per-card: each card individually maps to a sign/body area
+    for (const card of cards) {
+        const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
+        const match = healthIndicators.find(ind =>
+            ind.cards.some(c => c.replace(/ Rx$/i, '').toLowerCase() === baseName)
+        );
+        if (match) {
+            signals.push(`• ${card.name} (${card.position}) → ${match.health} — note this body area may be worth checking`);
         }
     }
 
+    // Combinations: all cards must appear together
     for (const combo of healthCombinations) {
         if (combo.cards.every(c => spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase()))) {
-            signals.push(`• ${combo.meaning}`);
+            signals.push(`• Combination detected — ${combo.meaning}`);
         }
     }
 
