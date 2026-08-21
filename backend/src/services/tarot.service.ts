@@ -234,14 +234,14 @@ class TarotService {
                 : `For each card: one paragraph synthesizing that card's Rider-Waite meaning and description into what is concretely happening in the subject's life. Use "they/them/their". State clearly whether it is their past, present, near future, or distant future.`
             : `For each card: one paragraph synthesizing that card's Rider-Waite meaning and description into what is concretely happening in the querent's life. State clearly the time frame (past / present / near future / distant future). Keep it personal and direct.`;
 
-        const rwGroundingInstruction = `The Rider-Waite meaning and description above are the source material for each card. Summarize and synthesize those meanings into a personal, cohesive reading — do not introduce interpretations from outside this material.\n\n`;
+        const rwGroundingInstruction = `The Rider-Waite meaning and description provided for each card are your only source. For each card, pick one specific image or phrase from its description — a figure, an action, an object — and use it as the anchor of your interpretation. Connect that image directly to the querent's real situation. Do not revert to generic tarot clichés.\n\n`;
 
         const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\n${rwGroundingInstruction}Write the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} ${cardFormatInstruction}\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
             {
-                model: "gpt-4o-mini",
+                model: "gpt-4o",
                 messages: [
                     {
                         role: "system",
