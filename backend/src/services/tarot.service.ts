@@ -3,6 +3,7 @@ import { appConfig } from "../utils/app-config";
 import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
+import { cardBodyMap } from "../data/card-body-map";
 import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
 
@@ -163,10 +164,27 @@ class TarotService {
 
         const cardList = cards
             .map((card, i) => {
-                const data = riderWaiteCards.find(c => c.name.toLowerCase() === card.name.toLowerCase());
-                return `${i + 1}. ${card.position} — ${card.name}: ${data?.meaning_up ?? ""}`;
+                const baseName = card.name.replace(/ Rx$/i, '');
+                const isReversed = / Rx$/i.test(card.name);
+                const rwData = riderWaiteCards.find(c => c.name.toLowerCase() === baseName.toLowerCase());
+                const bodyData = cardBodyMap.find(c => c.card.toLowerCase() === baseName.toLowerCase());
+
+                // First sentence of desc captures core visual symbolism without excess tokens
+                const descFull = rwData?.desc ?? "";
+                const descSnippet = descFull.split(/\.(?=\s+[A-Z])/)[0]?.trim() + (descFull.includes('.') ? '.' : '');
+
+                const astrology = bodyData?.astrology ? `Astrology: ${bodyData.astrology}` : "";
+                const bodyAreas = bodyData?.body?.length ? `Body areas: ${bodyData.body.join(", ")}` : "";
+                const extras = [astrology, bodyAreas].filter(Boolean).join(" | ");
+
+                return [
+                    `${i + 1}. ${card.position} — ${card.name}${isReversed ? " (Reversed)" : ""}`,
+                    `   RW Keywords: ${rwData?.meaning_up ?? ""}`,
+                    `   RW Imagery: ${descSnippet}`,
+                    extras ? `   ${extras}` : null,
+                ].filter(Boolean).join("\n");
             })
-            .join("\n");
+            .join("\n\n");
 
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
         const healthSection = isHealth
@@ -220,7 +238,9 @@ class TarotService {
                 : `For each card, one paragraph using this exact phrasing:\n"In the [position name] position, the person you asked about has the '[card name]' card, which means [2-3 sentences: describe what is actually happening in THEIR life — use 'they', 'them', 'their' throughout. Clearly state whether this is from their past, their present, their near future, or their distant future. Do NOT use 'you' to refer to the subject at any point in this paragraph]."`
             : `For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."`;
 
-        const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} ${cardFormatInstruction}\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const rwGroundingInstruction = `IMPORTANT: For every card you interpret, explicitly draw from its Rider-Waite Keywords and Imagery listed above. Reference the specific symbols, figures, or energy from that card's tradition — translate them into what is actually happening in this person's life right now. The Rider-Waite meaning is the foundation; build the real-life reading on top of it.\n\n`;
+
+        const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\n${rwGroundingInstruction}Write the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} ${cardFormatInstruction}\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
@@ -230,8 +250,8 @@ class TarotService {
                     {
                         role: "system",
                         content: isThirdPerson
-                            ? `You are a wise tarot reader giving a third-person reading — every card describes the other person's life, not the querent's. Use "they/them/their" for the subject. Speak concretely about their real situations, relationships, and turning points. Anchor each card to a time frame in their life. Be direct and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`
-                            : `You are a wise tarot reader who speaks in vivid, concrete terms — not symbols or abstractions. Describe what is actually happening in the person's life: real situations, relationships, decisions, turning points. Anchor each card to a clear time frame ("In your past...", "Right now...", "Soon...", "Further ahead..."). Be direct, warm, and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`,
+                            ? `You are an expert Rider-Waite tarot reader. For each card you receive: its position, Rider-Waite keyword meanings, a description of its imagery from Arthur Edward Waite's tradition, and its astrological/body correspondences. Your interpretations must be grounded in these specifics — derive every reading directly from the Rider-Waite meaning and imagery provided. Do NOT give generic fortune-telling. This is a third-person reading: every card describes the other person's life, not the querent's. Use "they/them/their" for the subject. Speak concretely about their real situations, relationships, and turning points. Be direct and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`
+                            : `You are an expert Rider-Waite tarot reader. For each card you receive: its position, Rider-Waite keyword meanings, a description of its imagery from Arthur Edward Waite's tradition, and its astrological/body correspondences. Your interpretations must be grounded in these specifics — derive every card's reading directly from the Rider-Waite meaning and imagery provided. Weave the symbolic details (the figures, objects, colours, posture described) into concrete predictions about the person's real life: situations, relationships, decisions, turning points. Do NOT give generic fortune-telling. Anchor each card to a clear time frame ("In your past...", "Right now...", "Soon...", "Further ahead..."). Be direct, warm, and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`,
                     },
                     { role: "user", content: userMessage },
                 ],
