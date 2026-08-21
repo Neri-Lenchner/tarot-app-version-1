@@ -58,7 +58,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
         combinationsService.checkCombinations(chosen.map(c => c.name)).then(matches => {
-            setComboMatches(combinationsService.filterByProximity(matches, chosen.map(c => c.name)));
+            setComboMatches(matches);
         }).catch(() => {});
     };
 
@@ -93,7 +93,7 @@ export function CelticSpreadGlobal(): JSX.Element {
             )}
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} spreadCards={selectedCards.map(c => c.name)} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
             )}
             {isSpread && selectedCards.length > 0 && (
                 <InterpretWidget

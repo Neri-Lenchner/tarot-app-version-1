@@ -58,7 +58,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
         combinationsService.checkCombinations(chosen.map(c => c.name)).then(matches => {
-            setComboMatches(combinationsService.filterByProximity(matches, chosen.map(c => c.name), combinationsService.threeCardsAdjacency));
+            setComboMatches(matches);
         }).catch(() => {});
     };
 
@@ -93,7 +93,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} spreadCards={selected3Cards.map(c => c.name)} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
             )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <InterpretWidget

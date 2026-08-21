@@ -16,26 +16,19 @@ interface InterpretWidgetProps {
 }
 
 function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
-    return text.split('\n').filter(line => line.trim() !== '' && line.trim() !== '---').map((line, i) => {
-        const stripped = line.replace(/\*\*/g, '').trim();
-
+    return text.split('\n').filter(line => line.trim() !== '').map((line, i) => {
         if (line.trim().startsWith('**')) {
-            const matchedCard = cards.find(c => stripped.toLowerCase().includes(c.name.toLowerCase()));
-            if (matchedCard) {
-                return (
-                    <div key={i} className="iw-card-header-row">
-                        <img src={matchedCard.src} alt={matchedCard.name} className="iw-card-img" />
-                        <h5 className="iw-card-title">{stripped}</h5>
-                    </div>
-                );
-            }
-            return <h5 key={i} className="iw-card-title">{stripped}</h5>;
+            return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
         }
-
-        if (line.trim().startsWith('*') && line.trim().endsWith('*')) {
-            return <p key={i} className="iw-card-meaning">{line.replace(/\*/g, '').trim()}</p>;
+        const matchedCard = cards.find(c => line.toLowerCase().includes(c.name.toLowerCase()));
+        if (matchedCard) {
+            return (
+                <div key={i} className="iw-card-row">
+                    <img src={matchedCard.src} alt={matchedCard.name} className="iw-card-img" />
+                    <p className="iw-card-text">{line}</p>
+                </div>
+            );
         }
-
         return <p key={i} className="iw-card-text">{line}</p>;
     });
 }
