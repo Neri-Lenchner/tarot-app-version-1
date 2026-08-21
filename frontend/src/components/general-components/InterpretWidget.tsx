@@ -115,6 +115,12 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                         <button className="iw-btn" onClick={interpret} disabled={isInterpreting}>
                             {isInterpreting ? 'Reading the cards...' : hasBoth ? 'Re-interpret' : 'Interpret Reading'}
                         </button>
+                        {isInterpreting && (
+                            <div className="iw-spinner-wrap">
+                                <div className="iw-spinner" />
+                                <span className="iw-spinner-text">The cards are speaking...</span>
+                            </div>
+                        )}
                         {hasBoth && loggedIn && (
                             <button className="iw-save-btn" onClick={saveReading} disabled={saved}>
                                 {saved ? 'Saved ✓' : 'Save Reading'}

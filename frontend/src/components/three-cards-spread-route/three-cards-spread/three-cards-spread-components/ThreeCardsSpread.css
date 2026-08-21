@@ -7,8 +7,7 @@
     min-width: 700px;
     display: flex;
     justify-content: space-around;
-    /* Deep indigo mystic gradient */
-    background: radial-gradient(ellipse at 50% 60%, #0d0a28 0%, var(--blue-grad-a) 60%, #030310 100%);
+    background: linear-gradient(rgba(3, 3, 18, 0.45), rgba(3, 3, 18, 0.45)), url('/mystic-image-3.png') center/cover no-repeat;
 }
 
 .three-cards-spread-container h2 {
