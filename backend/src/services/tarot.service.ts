@@ -157,7 +157,7 @@ class TarotService {
 Each card in this spread carries astrological body-system associations — use these to make the health interpretation concrete and specific per card:
 ${bodyLines.join("\n")}
 
-These health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. For each card, explicitly mention which body systems it governs and what the card's energy (upright or reversed) suggests about that area of health. Be specific, compassionate, and direct. Do NOT give medical advice or diagnoses — frame everything as the cards' energetic guidance.\n===\n\n`
+These health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. For each card, you MUST explicitly name the body systems listed above for that card and note that there may be a need to pay attention to or check on those specific organs/systems. Use phrasing like: "The [card name] governs the [body parts] — it may be worth checking on these areas" or "The energy of this card points to the [body parts], suggesting these organs may need attention." Be specific and compassionate. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness or a check-up.\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
