@@ -85,21 +85,21 @@
 .card-container-8 {
     position: absolute;
     right: 10%;
-    top: 51%;
+    top: calc(51% - 10px);
     transform: translateX(-50%);
 }
 
 .card-container-9 {
     position: absolute;
     right: 10%;
-    top: 28%;
+    top: calc(28% - 20px);
     transform: translateX(-50%);
 }
 
 .card-container-10 {
     position: absolute;
     right: 10%;
-    top: 5%;
+    top: calc(5% - 25px);
     transform: translateX(-50%);
 }
 
@@ -131,6 +131,31 @@
 
 .card-modal::-webkit-scrollbar {
     display: none;
+}
+
+.card-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.card-modal-lang-btn {
+    background: none;
+    border: 1px solid var(--green-border);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.card-modal-lang-btn:hover {
+    border-color: var(--green);
+    box-shadow: 0 0 8px var(--green-glow);
 }
 
 .card-modal-close {

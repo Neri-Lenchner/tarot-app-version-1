@@ -13,16 +13,18 @@ const POSITIONS = ["Past", "Present", "Future"];
 
 export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: boolean, cards: any[], apiCards: any[] }): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-    const [interpretation, setInterpretation] = useState<string | null>(
-        () => interpretStore.getState()['three-cards'].en
-    );
+    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [spreadData, setSpreadData] = useState(() => interpretStore.getState()['three-cards']);
 
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
-            setInterpretation(interpretStore.getState()['three-cards'].en);
+            setSpreadData(interpretStore.getState()['three-cards']);
         });
         return unsubscribe;
     }, []);
+
+    const interpretation = spreadData[lang];
+    const hasBoth = spreadData.en !== null && spreadData.he !== null;
 
     const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
     const selectedApiCard = selectedCard
@@ -50,19 +52,28 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: bo
             {selectedIndex !== null && (
                 <div className="card-modal-overlay" onClick={() => setSelectedIndex(null)}>
                     <div className="card-modal" onClick={(e) => e.stopPropagation()}>
-                        <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
+                        <div className="card-modal-header">
+                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
+                            {hasBoth && (
+                                <button className="card-modal-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                                    {lang === 'en' ? 'HE' : 'EN'}
+                                </button>
+                            )}
+                        </div>
                         <h3 className="card-modal-name">{selectedCard?.name}</h3>
                         <p className="card-modal-position">{POSITIONS[selectedIndex]}</p>
-                        {selectedCard && interpretation && extractCardSection(interpretation, selectedCard.name) ? (
-                            <p className="card-modal-desc">{extractCardSection(interpretation, selectedCard.name)}</p>
-                        ) : selectedApiCard ? (
-                            <>
-                                <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>
-                                <p className="card-modal-desc">{selectedApiCard.desc}</p>
-                            </>
-                        ) : (
-                            <p className="card-modal-meaning">No details available.</p>
-                        )}
+                        <div dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            {selectedCard && interpretation && extractCardSection(interpretation, selectedCard.name) ? (
+                                <p className="card-modal-desc">{extractCardSection(interpretation, selectedCard.name)}</p>
+                            ) : selectedApiCard ? (
+                                <>
+                                    <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>
+                                    <p className="card-modal-desc">{selectedApiCard.desc}</p>
+                                </>
+                            ) : (
+                                <p className="card-modal-meaning">No details available.</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
