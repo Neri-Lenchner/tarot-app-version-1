@@ -165,7 +165,7 @@ class TarotService {
 
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
         const healthSection = isHealth
-            ? `=== HEALTH READING ===\nThe querent is asking about health. In the card list below, court cards and major arcana are tagged with [body area: X]. In each such card's paragraph, write that body area value. If the value is 0, write "0" for body area. Do not diagnose — frame as areas the cards are pointing to.${healthSignals.length > 0 ? `\n${healthSignals.join("\n")}` : ""}${language === "he" ? " Write in Hebrew. Translate body area names to Hebrew." : ""}\n===\n\n`
+            ? `=== HEALTH READING — TEST MODE ===\nIGNORE ALL OTHER FORMATTING INSTRUCTIONS. Do not write any interpretation. For each card in the list, output ONE line only in this exact format:\n[position name]: [body area value from the tag]\nIf a card has no [body area] tag, write:\n[position name]: 0\nNothing else. No paragraphs. No conclusion. No opening sentence. Just these lines.\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
