@@ -154,18 +154,13 @@ class TarotService {
         const cardList = cards
             .map((card, i) => {
                 const data = riderWaiteCards.find(c => c.name.toLowerCase() === card.name.toLowerCase());
-                const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
-                const bodyArea = healthCardBodyMap.get(baseName);
-                const healthNote = bodyArea !== undefined
-                    ? ` [body area: ${bodyArea}]`
-                    : '';
-                return `${i + 1}. ${card.position} — ${card.name}${healthNote}: ${data?.meaning_up ?? ""}`;
+                return `${i + 1}. ${card.position} — ${card.name}: ${data?.meaning_up ?? ""}`;
             })
             .join("\n");
 
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
         const healthSection = isHealth
-            ? `=== HEALTH READING — TEST MODE ===\nIGNORE ALL OTHER FORMATTING INSTRUCTIONS. Do not write any interpretation. For each card in the list, output ONE line only in this exact format:\n[position name]: [body area value from the tag]\nIf a card has no [body area] tag, write:\n[position name]: 0\nNothing else. No paragraphs. No conclusion. No opening sentence. Just these lines.\n===\n\n`
+            ? `=== HEALTH READING ===\nThe querent is asking about health. Lead your interpretation with the health dimension. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness.${healthSignals.length > 0 ? `\n${healthSignals.join("\n")}` : ""}${language === "he" ? " Write in Hebrew." : ""}\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
@@ -229,7 +224,25 @@ class TarotService {
             }
         );
 
-        return response.data.choices[0].message.content as string;
+        const aiText = response.data.choices[0].message.content as string;
+
+        if (isHealth && healthCardBodyMap.size > 0) {
+            const bodyAreaLines = cards
+                .map(card => {
+                    const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
+                    const bodyArea = healthCardBodyMap.get(baseName);
+                    if (!bodyArea) return null;
+                    return `${card.name} (${card.position}) — ${language === "he" ? "בדרך כלל קשור ל" : "usually related to"}: ${bodyArea}`;
+                })
+                .filter(Boolean) as string[];
+
+            if (bodyAreaLines.length > 0) {
+                const header = language === "he" ? "**אזורי גוף הקשורים לפריסה זו:**" : "**Health body areas in this spread:**";
+                return `${header}\n${bodyAreaLines.join("\n")}\n\n---\n\n${aiText}`;
+            }
+        }
+
+        return aiText;
     }
 
     public checkCombinations(cardNames: string[]): import("../dto/tarot.dto").ICombinationMatch[] {
