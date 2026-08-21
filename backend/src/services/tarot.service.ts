@@ -132,15 +132,22 @@ class TarotService {
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
 
-        // Build per-card health body area lookup
+        // Build per-card health body area lookup (court cards + major arcana only)
+        const COURT_PREFIXES = ['King of', 'Queen of', 'Knight of', 'Page of'];
+        function isCourtOrMajor(name: string): boolean {
+            const base = name.replace(/ Rx$/i, '');
+            return COURT_PREFIXES.some(p => base.startsWith(p)) || MAJOR_ARCANA.has(base.toLowerCase());
+        }
+
         const healthCardBodyMap = new Map<string, string>();
         if (isHealth) {
             for (const card of cards) {
+                if (!isCourtOrMajor(card.name)) continue;
                 const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
                 const match = healthIndicators.find(ind =>
                     ind.cards.some(c => c.replace(/ Rx$/i, '').toLowerCase() === baseName)
                 );
-                if (match) healthCardBodyMap.set(baseName, match.health);
+                healthCardBodyMap.set(baseName, match ? match.health : '0');
             }
         }
 
@@ -149,16 +156,16 @@ class TarotService {
                 const data = riderWaiteCards.find(c => c.name.toLowerCase() === card.name.toLowerCase());
                 const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
                 const bodyArea = healthCardBodyMap.get(baseName);
-                const healthNote = bodyArea
-                    ? `\n   [HEALTH — MANDATORY: In this card's paragraph you MUST include this exact sentence: "${card.name} is connected to ${bodyArea} — this body area may deserve attention and it may be worth getting it checked."]`
+                const healthNote = bodyArea !== undefined
+                    ? ` [body area: ${bodyArea}]`
                     : '';
-                return `${i + 1}. ${card.position} — ${card.name}: ${data?.meaning_up ?? ""}${healthNote}`;
+                return `${i + 1}. ${card.position} — ${card.name}${healthNote}: ${data?.meaning_up ?? ""}`;
             })
             .join("\n");
 
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
         const healthSection = isHealth
-            ? `=== HEALTH QUESTION DETECTED ===\nThe querent is asking about health. Lead your interpretation with the health dimension.${healthSignals.some(s => s.startsWith('• Combination')) ? `\n\n${healthSignals.filter(s => s.startsWith('• Combination')).join("\n")}` : ""}\nDo NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness.${language === "he" ? " Write the entire interpretation in Hebrew. Translate all body part and organ names into Hebrew." : ""}\n===\n\n`
+            ? `=== HEALTH READING ===\nThe querent is asking about health. In the card list below, court cards and major arcana are tagged with [body area: X]. In each such card's paragraph, write that body area value. If the value is 0, write "0" for body area. Do not diagnose — frame as areas the cards are pointing to.${healthSignals.length > 0 ? `\n${healthSignals.join("\n")}` : ""}${language === "he" ? " Write in Hebrew. Translate body area names to Hebrew." : ""}\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
