@@ -155,13 +155,16 @@ class TarotService {
             : "Use the position name exactly as provided in the list above.";
 
         const openingContext = question?.trim() ? " in relation to the querent's question" : "";
-        const formatOpening = matchedCombos.length > 0
-            ? `1. A dedicated CENTERPIECE paragraph about the card combination(s) — this is the FIRST and most important thing the querent reads. Start with: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Explain in 2-3 vivid sentences what this means concretely in the querent's real life.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
+        const combosCount = matchedCombos.length;
+        const formatOpening = combosCount > 0
+            ? combosCount === 1
+                ? `1. A dedicated CENTERPIECE paragraph about the card combination — this is the FIRST and most important thing the querent reads. Start with: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Explain in 2-3 vivid sentences what this means concretely in the querent's real life.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
+                : `1. A dedicated CENTERPIECE section with EXACTLY ${combosCount} separate paragraphs — ONE PARAGRAPH PER COMBINATION, in the order listed above. This section is the FIRST and most important thing the querent reads. Each paragraph must:\n   - Begin: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]."\n   - Then explain in 2-3 vivid sentences what this specific combination means concretely in the querent's real life.\n   CRITICAL: Every single combination listed above MUST get its own paragraph. Do NOT merge any of them. Do NOT skip any.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
             : `1. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n2.`;
 
-        const conclusionStep = matchedCombos.length > 0 ? "4." : "3.";
-        const conclusionInstruction = matchedCombos.length > 0
-            ? "2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals, explicitly tying back to the card combination(s) as the central message."
+        const conclusionStep = combosCount > 0 ? "4." : "3.";
+        const conclusionInstruction = combosCount > 0
+            ? `2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals, explicitly tying back to ${combosCount > 1 ? `all ${combosCount} of the card combinations` : "the card combination"} as the central message.`
             : "2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals. Give direct, personal, actionable guidance.";
 
         const energyNote = spreadType === "celtic"

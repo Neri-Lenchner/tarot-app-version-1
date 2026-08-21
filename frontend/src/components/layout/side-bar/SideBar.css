@@ -50,3 +50,37 @@
     color: var(--gold);
     box-shadow: 0 0 16px var(--gold-glow), 0 0 32px rgba(var(--gold-rgb), 0.12);
 }
+
+.sidebar-user {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-align: center;
+    padding: 8px 14px;
+    border-top: 1px solid rgba(212, 175, 55, 0.1);
+    margin-top: 8px;
+    width: 180px;
+}
+
+.sidebar-logout {
+    border: 1px solid rgba(255, 100, 100, 0.25);
+    border-radius: var(--radius-sm);
+    background: rgba(60, 10, 10, 0.5);
+    width: 180px;
+    text-align: center;
+    padding: 10px 14px;
+    color: #ff9999;
+    font-family: var(--font);
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+.sidebar-logout:hover {
+    background: rgba(100, 10, 10, 0.6);
+    box-shadow: 0 0 10px rgba(200, 50, 50, 0.3);
+}

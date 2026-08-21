@@ -1,0 +1,108 @@
+.auth-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - var(--header-height));
+    background: radial-gradient(ellipse at 50% 30%, #1c0a35 0%, #0a0716 50%, var(--bg-dark) 100%);
+}
+
+.auth-card {
+    background: rgba(17, 10, 35, 0.92);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: 14px;
+    padding: 40px 48px;
+    width: 380px;
+    box-shadow: 0 0 40px rgba(100, 50, 180, 0.2), 0 0 80px rgba(0, 0, 0, 0.6);
+}
+
+.auth-title {
+    text-align: center;
+    color: var(--gold);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin: 0 0 28px;
+    text-shadow: 0 0 18px var(--gold-glow);
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth-form label {
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-top: 10px;
+}
+
+.auth-form label:first-of-type {
+    margin-top: 0;
+}
+
+.auth-form input {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(212, 175, 55, 0.18);
+    border-radius: var(--radius-sm);
+    color: var(--text-primary);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    padding: 10px 14px;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.auth-form input:focus {
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+}
+
+.auth-error {
+    color: #ff7070;
+    font-size: 0.75rem;
+    margin-top: 2px;
+}
+
+.auth-btn {
+    margin-top: 22px;
+    padding: 12px;
+    background: rgba(212, 175, 55, 0.12);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: var(--radius-sm);
+    color: var(--gold);
+    font-family: var(--font);
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--transition), box-shadow var(--transition);
+}
+
+.auth-btn:hover {
+    background: rgba(212, 175, 55, 0.22);
+    box-shadow: 0 0 16px var(--gold-glow);
+}
+
+.auth-link-text {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.82rem;
+    margin: 18px 0 0;
+}
+
+.auth-link-text a {
+    color: var(--gold);
+    text-decoration: none;
+    font-weight: 600;
+    transition: text-shadow var(--transition);
+}
+
+.auth-link-text a:hover {
+    text-shadow: 0 0 10px var(--gold-glow);
+}

@@ -5,6 +5,7 @@ import { loggerMiddleware } from "./middleware/logger.middleware";
 import { errorMiddleware } from "./middleware/error.middleware";
 import { appConfig } from "./utils/app-config";
 import { tarotController } from "./controllers/tarot.controller";
+import { authController } from "./controllers/auth.controller";
 
 class App {
     public async start(): Promise<void> {
@@ -13,6 +14,7 @@ class App {
         server.use(cors());
         server.use(express.json());
         server.use(loggerMiddleware.consoleLog);
+        server.use(authController.router);
         server.use(tarotController.router);
         server.use(errorMiddleware.serverError);
         server.use(errorMiddleware.catchAll);

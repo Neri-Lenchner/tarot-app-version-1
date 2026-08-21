@@ -8,6 +8,8 @@ import {CelticSpreadRoute} from "../components/celtic-spread-route/CelticSpreadR
 import {
     ThreeCardsSpreadRoute
 } from "../components/three-cards-spread-route/ThreeCardsSpreadRoute";
+import Register from "../components/auth/Register";
+import Login from "../components/auth/Login";
 
 function Routing(): JSX.Element {
     return (
@@ -16,6 +18,8 @@ function Routing(): JSX.Element {
                 <Route path="/tarot-deck" element={<TarotDeckRoute />}/>
                 <Route path="/celtic-spread-global" element={<CelticSpreadRoute />}/>
                 <Route path="/three-cards-spread" element={<ThreeCardsSpreadRoute />}/>
+                <Route path="/register" element={<Register />}/>
+                <Route path="/login" element={<Login />}/>
                 <Route path="*" element={<Main />}/>
                 <Route path="/" element={<Main />}/>
             </Routes>

@@ -13,3 +13,7 @@ export class ValidationError extends ClientError {
 export class NotFoundError extends ClientError {
     public constructor(message: string) { super(404, message); }
 }
+
+export class AuthorizationError extends ClientError {
+    public constructor(message: string) { super(401, message); }
+}
