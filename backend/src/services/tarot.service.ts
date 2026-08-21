@@ -73,6 +73,21 @@ function isThirdPersonQuestion(question: string): boolean {
     return false;
 }
 
+const GROUP_KEYWORDS = [
+    'my family', 'my parents', 'my children', 'my kids', 'my siblings',
+    'my brothers', 'my sisters', 'my relatives', 'my in-laws', 'my grandparents',
+    'my friends', 'my colleagues', 'my coworkers', 'my team', 'my classmates',
+    'both of them', 'all of them', 'the whole family', 'the family',
+    // Hebrew
+    'המשפחה שלי', 'ההורים שלי', 'הילדים שלי', 'האחים שלי', 'הקרובים שלי',
+    'החברים שלי', 'הקולגות שלי', 'הצוות שלי', 'כולם', 'שניהם',
+];
+
+function isGroupQuestion(question: string): boolean {
+    const q = question.toLowerCase();
+    return GROUP_KEYWORDS.some(kw => q.includes(kw.toLowerCase()));
+}
+
 const MAJOR_ARCANA = new Set([
     'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
     'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',
@@ -126,8 +141,14 @@ class TarotService {
             : "";
 
         const isThirdPerson = question?.trim() ? isThirdPersonQuestion(question.trim()) : false;
+        const isGroup = isThirdPerson && spreadType === "celtic" && (question?.trim() ? isGroupQuestion(question.trim()) : false);
+
+        const groupStaffException = isGroup
+            ? `\n\nGROUP/FAMILY EXCEPTION — POSITIONS 7, 8, 9, 10 ONLY: Since the question is about multiple people (family/group), positions 7 (Inner World), 8 (Outer World), 9 (Fears), and 10 (Potential) describe THE QUERENT — the person sitting here asking — NOT the family or group. For these four positions ONLY, switch back to "you" language: "In the Inner World position, you feel...", "Your fears are...", "Your potential is...". Positions 1–6 remain about the family/group using they/them/their.`
+            : "";
+
         const thirdPersonSection = isThirdPerson
-            ? `=== THIRD-PERSON READING — THIS OVERRIDES ALL OTHER FRAMING ===\nThe querent is asking about ANOTHER PERSON. This spread has been laid for that other person, not for the querent. Treat this exactly as if the OTHER PERSON sat down and asked their own question — every card, every position, every sentence describes THEIR life, THEIR emotions, THEIR past, THEIR future, THEIR fears.\n\nMANDATORY RULES — violating any of these is an error:\n1. NEVER say "you are", "you feel", "you have", "your situation" — these phrases must NEVER appear. The querent is the observer, not the subject.\n2. ALWAYS refer to the subject as "they", "them", "their", or by the specific relationship mentioned (e.g. "your partner", "your mother", "your friend"). If no relationship was named, use "the person you asked about".\n3. Every card position describes what is happening in the OTHER PERSON's life. "Past" = their past. "Fears" = their fears. "Inner World" = their inner world. "Potential" = their potential outcome.\n4. The querent appears in the reading ONLY as context — e.g. "their relationship with you", "how they feel about you". They are never the main subject.\n5. Do NOT slip. Read through your response before finishing — if you wrote "you" referring to the querent as the main subject anywhere, replace it.\n\nExample correct phrasing: "In the Past position, your partner has gone through...", "Right now, they are dealing with...", "Their deepest fear is...", "The potential outcome for the person you asked about is..."\n===\n\n`
+            ? `=== THIRD-PERSON READING — THIS OVERRIDES ALL OTHER FRAMING ===\nThe querent is asking about ANOTHER PERSON${isGroup ? " / GROUP OF PEOPLE" : ""}. This spread has been laid for that other person${isGroup ? "/group" : ""}, not for the querent. Treat this exactly as if the OTHER PERSON${isGroup ? "/GROUP" : ""} sat down and asked their own question — every card, every position, every sentence describes THEIR life, THEIR emotions, THEIR past, THEIR future, THEIR fears.\n\nMANDATORY RULES — violating any of these is an error:\n1. NEVER say "you are", "you feel", "you have", "your situation" — these phrases must NEVER appear. The querent is the observer, not the subject.\n2. ALWAYS refer to the subject as "they", "them", "their", or by the specific relationship mentioned (e.g. "your partner", "your mother", "your friend"). If no relationship was named, use "the person you asked about".\n3. Every card position describes what is happening in the OTHER PERSON's${isGroup ? "/GROUP's" : ""} life. "Past" = their past. "Fears" = their fears. "Inner World" = their inner world. "Potential" = their potential outcome.\n4. The querent appears in the reading ONLY as context — e.g. "their relationship with you", "how they feel about you". They are never the main subject.\n5. Do NOT slip. Read through your response before finishing — if you wrote "you" referring to the querent as the main subject anywhere, replace it.${groupStaffException}\n\nExample correct phrasing: "In the Past position, your partner has gone through...", "Right now, they are dealing with...", "Their deepest fear is...", "The potential outcome for the person you asked about is..."\n===\n\n`
             : "";
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
@@ -208,7 +229,9 @@ class TarotService {
             : "";
 
         const cardFormatInstruction = isThirdPerson
-            ? `For each card, one paragraph using this exact phrasing:\n"In the [position name] position, the person you asked about has the '[card name]' card, which means [2-3 sentences: describe what is actually happening in THEIR life — use 'they', 'them', 'their' throughout. Clearly state whether this is from their past, their present, their near future, or their distant future. Do NOT use 'you' to refer to the subject at any point in this paragraph]."`
+            ? isGroup
+                ? `For cards in positions 1–6: one paragraph using this phrasing:\n"In the [position name] position, the family/group has the '[card name]' card, which means [2-3 sentences using they/them/their]."\nFor cards in positions 7–10 (Inner World, Outer World, Fears, Potential): one paragraph using this phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences using you/your — these positions describe the querent]."`
+                : `For each card, one paragraph using this exact phrasing:\n"In the [position name] position, the person you asked about has the '[card name]' card, which means [2-3 sentences: describe what is actually happening in THEIR life — use 'they', 'them', 'their' throughout. Clearly state whether this is from their past, their present, their near future, or their distant future. Do NOT use 'you' to refer to the subject at any point in this paragraph]."`
             : `For each card, one paragraph using this exact phrasing:\n"In the [position name] position you have the '[card name]' card, which means [2-3 sentences: real event or energy this position reveals, clearly stating whether it is from the past, the present, the near future, or the distant future]."`;
 
         const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} ${cardFormatInstruction}\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with:\n**Conclusion**\n[${conclusionInstruction}]`;
