@@ -47,3 +47,16 @@
   language state changes
       ↓
   InterpretWidget re-renders, picks up new language value
+
+
+Cross cluster (fully connected — any two cross cards are adjacent):
+    0 (Positive Energy) ↔ 1, 2, 3, 4, 5
+    1 (Negative Energy) ↔ 0, 2, 3, 4, 5
+    2 (Past)            ↔ 0, 1, 3, 6, 7, 8
+    3 (Present)         ↔ 0, 1, 2, 4
+    4 (Near Future)     ↔ 0, 1, 3, 5
+    5 (Far Future)      ↔ 0, 1, 2, 4, 9 ← bridges to staff
+    6 (inside)            7, 2
+    7 (outside)           2, 6, 8
+    8 (fears)             2, 7, 9
+    9 (potential)         8, 5
