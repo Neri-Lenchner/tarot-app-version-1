@@ -37,18 +37,6 @@ function findHealthSignals(cards: ISpreadCard[]): string[] {
     const spreadBaseNames = new Set(cards.map(c => c.name.replace(/ Rx$/i, '').toLowerCase()));
     const signals: string[] = [];
 
-    // Per-card: each card individually maps to a sign/body area
-    for (const card of cards) {
-        const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
-        const match = healthIndicators.find(ind =>
-            ind.cards.some(c => c.replace(/ Rx$/i, '').toLowerCase() === baseName)
-        );
-        if (match) {
-            signals.push(`• ${card.name} (${card.position}) → ${match.health} — note this body area may be worth checking`);
-        }
-    }
-
-    // Combinations: all cards must appear together
     for (const combo of healthCombinations) {
         if (combo.cards.every(c => spreadBaseNames.has(c.replace(/ Rx$/i, '').toLowerCase()))) {
             signals.push(`• Combination detected — ${combo.meaning}`);
@@ -133,13 +121,6 @@ class TarotService {
     public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string): Promise<string> {
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
-        const cardList = cards
-            .map((card, i) => {
-                const data = riderWaiteCards.find(c => c.name.toLowerCase() === card.name.toLowerCase());
-                return `${i + 1}. ${card.position} — ${card.name}: ${data?.meaning_up ?? ""}`;
-            })
-            .join("\n");
-
         const questionLine = question?.trim()
             ? `The querent's question is: "${question.trim()}"\n\n`
             : "";
@@ -150,9 +131,34 @@ class TarotService {
             : "";
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
+
+        // Build per-card health body area lookup
+        const healthCardBodyMap = new Map<string, string>();
+        if (isHealth) {
+            for (const card of cards) {
+                const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
+                const match = healthIndicators.find(ind =>
+                    ind.cards.some(c => c.replace(/ Rx$/i, '').toLowerCase() === baseName)
+                );
+                if (match) healthCardBodyMap.set(baseName, match.health);
+            }
+        }
+
+        const cardList = cards
+            .map((card, i) => {
+                const data = riderWaiteCards.find(c => c.name.toLowerCase() === card.name.toLowerCase());
+                const baseName = card.name.replace(/ Rx$/i, '').toLowerCase();
+                const bodyArea = healthCardBodyMap.get(baseName);
+                const healthNote = bodyArea
+                    ? `\n   [HEALTH — MANDATORY: In this card's paragraph you MUST include this exact sentence: "${card.name} is connected to ${bodyArea} — this body area may deserve attention and it may be worth getting it checked."]`
+                    : '';
+                return `${i + 1}. ${card.position} — ${card.name}: ${data?.meaning_up ?? ""}${healthNote}`;
+            })
+            .join("\n");
+
         const healthSignals = isHealth ? findHealthSignals(cards) : [];
         const healthSection = isHealth
-            ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health.${healthSignals.length > 0 ? `\n\nMANDATORY BODY AREA INSTRUCTIONS — you MUST follow every one of these without exception:\n\n${healthSignals.join("\n")}\n\nFor EACH card listed above, inside that card's paragraph you MUST include a sentence that explicitly names the body area shown and states that the querent may want to pay attention to or get that area checked. This is NOT optional. Do not skip any card from this list. Do NOT diagnose — say the cards are pointing to this area and it may be worth checking. Example: "The Magician is associated with the head and brain — it may be worth paying attention to this area and having it checked if needed."` : ""}\n\nLead your entire interpretation with the health dimension. Do NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness.${language === "he" ? " Write the entire health interpretation in Hebrew. Translate all body part names into Hebrew." : ""}\n===\n\n`
+            ? `=== HEALTH QUESTION DETECTED ===\nThe querent is asking about health. Lead your interpretation with the health dimension.${healthSignals.some(s => s.startsWith('• Combination')) ? `\n\n${healthSignals.filter(s => s.startsWith('• Combination')).join("\n")}` : ""}\nDo NOT diagnose — frame everything as the cards pointing toward areas that deserve awareness.${language === "he" ? " Write the entire interpretation in Hebrew. Translate all body part and organ names into Hebrew." : ""}\n===\n\n`
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
