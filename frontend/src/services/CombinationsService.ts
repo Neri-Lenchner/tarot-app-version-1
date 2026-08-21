@@ -10,8 +10,8 @@ export interface ICombinationMatch {
 const BASE_URL = "http://localhost:4000";
 
 class CombinationsService {
-    async checkCombinations(cardNames: string[]): Promise<ICombinationMatch[]> {
-        const response = await axios.post(`${BASE_URL}/api/tarot/check-combinations`, { cardNames });
+    async checkCombinations(cardNames: string[], question?: string): Promise<ICombinationMatch[]> {
+        const response = await axios.post(`${BASE_URL}/api/tarot/check-combinations`, { cardNames, question });
         return response.data;
     }
 }

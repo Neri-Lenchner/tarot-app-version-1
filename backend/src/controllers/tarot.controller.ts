@@ -13,11 +13,11 @@ class TarotController {
 
     public checkCombinations(request: Request, response: Response, next: NextFunction): void {
         try {
-            const { cardNames }: { cardNames: string[] } = request.body;
+            const { cardNames, question }: { cardNames: string[]; question?: string } = request.body;
             if (!Array.isArray(cardNames) || cardNames.length === 0) {
                 throw new ValidationError("cardNames array is required");
             }
-            const matches = tarotService.checkCombinations(cardNames);
+            const matches = tarotService.checkCombinations(cardNames, question);
             response.json(matches);
         } catch (error) {
             next(error);

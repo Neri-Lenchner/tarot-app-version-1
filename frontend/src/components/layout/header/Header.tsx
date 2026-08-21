@@ -2,6 +2,7 @@ import React, {JSX, useState, useEffect} from 'react';
 import './Header.css';
 import {NavLink, useNavigate} from "react-router-dom";
 import {authStore, Logout, AuthUser} from "../../../state/auth-state";
+import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
 
 function Header(): JSX.Element {
     const [user, setUser] = useState<AuthUser | null>(authStore.getState().user);
@@ -15,6 +16,12 @@ function Header(): JSX.Element {
     }, []);
 
     function handleLogout(): void {
+        localStorage.removeItem("isSpread");
+        localStorage.removeItem("selectedCards");
+        localStorage.removeItem("isSpread3");
+        localStorage.removeItem("selected3Cards");
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
         authStore.dispatch(Logout());
         navigate("/");
     }

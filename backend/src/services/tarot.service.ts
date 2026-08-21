@@ -77,6 +77,31 @@ const MAJOR_ARCANA = new Set([
     'the devil', 'the tower', 'the star', 'the moon', 'the sun', 'judgement', 'the world'
 ]);
 
+const CATEGORY_KEYWORDS: Record<string, string[]> = {
+    "PREGNANCY / CHILDREN": ['pregnancy', 'pregnant', 'baby', 'child', 'children', 'birth', 'fertility', 'conceive', 'ivf', 'maternal', 'הריון', 'ילד', 'ילדה', 'לידה', 'תינוק', 'פוריות'],
+    "MARRIAGE / WEDDING": ['marriage', 'wedding', 'marry', 'engaged', 'engagement', 'husband', 'wife', 'spouse', 'honeymoon', 'bride', 'groom', 'חתונה', 'נישואים', 'ארוסים', 'בעל', 'אישה', 'חתן', 'כלה'],
+    "DIVORCE / SEPARATION": ['divorce', 'separation', 'breakup', 'break up', 'split', 'separate', 'leaving', 'end relationship', 'גירושין', 'פרידה', 'פרוד', 'התפרדות'],
+    "CAREER / EMPLOYMENT": ['job', 'career', 'work', 'employment', 'promotion', 'fired', 'hired', 'interview', 'boss', 'office', 'profession', 'salary', 'עבודה', 'קריירה', 'מקצוע', 'פיטורים', 'קידום', 'משרה'],
+    "MONEY / FINANCE / BUSINESS": ['money', 'finance', 'financial', 'business', 'debt', 'loan', 'income', 'invest', 'profit', 'bankruptcy', 'savings', 'funds', 'כסף', 'כלכלה', 'עסק', 'חוב', 'הכנסה', 'השקעה'],
+    "LEGAL / COURT": ['legal', 'law', 'court', 'lawsuit', 'lawyer', 'judge', 'contract', 'dispute', 'inheritance', 'חוק', 'משפט', 'עורך דין', 'תביעה', 'ירושה'],
+    "TRAVEL / MOVEMENT": ['travel', 'trip', 'journey', 'move', 'relocation', 'abroad', 'flight', 'vacation', 'נסיעה', 'טיול', 'מעבר', 'חופשה', 'שינוי מגורים'],
+    "HOME / PROPERTY": ['home', 'house', 'property', 'real estate', 'apartment', 'rent', 'buy', 'בית', 'דירה', 'נכס', 'רכישה', 'שכירות'],
+    "PEOPLE / OCCUPATIONS": ['person', 'who is', 'about him', 'about her', 'occupation', 'profession', 'אדם', 'מקצוע', 'מי הוא', 'מי היא'],
+    "HEALTH": ['health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital', 'pain', 'body', 'heal', 'recover', 'diagnosis', 'injury', 'depression', 'anxiety', 'mental', 'בריאות', 'מחלה', 'כאב', 'רופא', 'טיפול'],
+    "SPIRITUAL / PSYCHIC": ['spiritual', 'psychic', 'spirit', 'intuition', 'meditation', 'occult', 'divine', 'angel', 'soul', 'רוחניות', 'פסיכי', 'נשמה', 'מדיטציה'],
+    "health": ['health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital', 'pain', 'body', 'heal', 'recover', 'diagnosis', 'injury', 'בריאות', 'מחלה', 'כאב', 'רופא', 'טיפול'],
+    "mental_health": ['mental', 'anxiety', 'depression', 'stress', 'psychology', 'psychiatry', 'נפש', 'חרדה', 'דיכאון', 'לחץ'],
+};
+
+function isAllMajorArcana(cards: string[]): boolean {
+    return cards.every(c => MAJOR_ARCANA.has(c.replace(/ Rx$/i, '').toLowerCase()));
+}
+
+function isCategoryRelevant(category: string, question: string): boolean {
+    const q = question.toLowerCase();
+    return (CATEGORY_KEYWORDS[category] ?? []).some(kw => q.includes(kw.toLowerCase()));
+}
+
 function getMajorArcanaSection(cards: ISpreadCard[]): string {
     const majorCards = cards.filter(c => MAJOR_ARCANA.has(c.name.toLowerCase()));
     const count = majorCards.length;
@@ -199,21 +224,26 @@ class TarotService {
         return response.data.choices[0].message.content as string;
     }
 
-    public checkCombinations(cardNames: string[]): import("../dto/tarot.dto").ICombinationMatch[] {
+    public checkCombinations(cardNames: string[], question?: string): import("../dto/tarot.dto").ICombinationMatch[] {
         const nameSet = new Set(cardNames.map(n => n.toLowerCase()));
         const matches: import("../dto/tarot.dto").ICombinationMatch[] = [];
+        const q = question?.trim() ?? '';
 
         for (const category of tarotCombinations) {
             for (const combo of category.combinations) {
                 if (combo.cards.every(c => nameSet.has(c.toLowerCase()))) {
-                    matches.push({ cards: combo.cards, meaning: combo.meaning, source: "general", category: category.category });
+                    if (isAllMajorArcana(combo.cards) || (q && isCategoryRelevant(category.category, q))) {
+                        matches.push({ cards: combo.cards, meaning: combo.meaning, source: "general", category: category.category });
+                    }
                 }
             }
         }
 
         for (const combo of healthCombinations) {
             if (combo.cards.every(c => nameSet.has(c.replace(/ Rx$/i, "").toLowerCase()))) {
-                matches.push({ cards: combo.cards, meaning: combo.meaning, source: "health", category: combo.category });
+                if (isAllMajorArcana(combo.cards) || (q && isCategoryRelevant(combo.category, q))) {
+                    matches.push({ cards: combo.cards, meaning: combo.meaning, source: "health", category: combo.category });
+                }
             }
         }
 

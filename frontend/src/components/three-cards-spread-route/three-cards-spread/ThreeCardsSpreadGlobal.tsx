@@ -57,7 +57,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setIsSpread3(bool);
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
-        combinationsService.checkCombinations(chosen.map(c => c.name)).then(matches => {
+        combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
             setComboMatches(matches);
         }).catch(() => {});
     };
