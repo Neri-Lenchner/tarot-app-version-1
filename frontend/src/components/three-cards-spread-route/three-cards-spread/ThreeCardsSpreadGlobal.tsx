@@ -93,7 +93,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} spreadCards={selected3Cards.map(c => c.name)} />
             )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <InterpretWidget

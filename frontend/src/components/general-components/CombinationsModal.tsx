@@ -6,9 +6,11 @@ import './CombinationsModal.css';
 interface CombinationsModalProps {
     matches: ICombinationMatch[];
     onClose: () => void;
+    spreadCards: string[];
 }
 
-export function CombinationsModal({ matches, onClose }: CombinationsModalProps): JSX.Element {
+export function CombinationsModal({ matches, onClose, spreadCards }: CombinationsModalProps): JSX.Element {
+    const spreadOrder = spreadCards.map(n => n.toLowerCase());
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
 
@@ -29,10 +31,16 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                 </div>
                 {!collapsed && (
                     <>
-                        {matches.map((match, i) => (
+                        {matches.map((match, i) => {
+                            const sortedCards = [...match.cards].sort((a, b) => {
+                                const ia = spreadOrder.indexOf(a.replace(/ Rx$/i, '').toLowerCase());
+                                const ib = spreadOrder.indexOf(b.replace(/ Rx$/i, '').toLowerCase());
+                                return (ia === -1 ? 999 : ia) - (ib === -1 ? 999 : ib);
+                            });
+                            return (
                             <div key={i} className="combo-item">
                                 <div className="combo-card-images">
-                                    {match.cards.map(cardName => {
+                                    {sortedCards.map(cardName => {
                                         const baseName = cardName.replace(/ Rx$/i, '');
                                         const card = cardsDeck.find(c => c.name.toLowerCase() === baseName.toLowerCase());
                                         return (
@@ -46,7 +54,8 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                                 <div className="combo-meaning">{match.meaning}</div>
                                 <span className={`combo-badge ${match.category}`}>{match.category.replace('_', ' ')}</span>
                             </div>
-                        ))}
+                            );
+                        })}
                         <button className="combo-modal-close" onClick={() => setVisible(false)}>Got it</button>
                     </>
                 )}
