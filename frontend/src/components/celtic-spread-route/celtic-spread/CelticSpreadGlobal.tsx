@@ -8,7 +8,7 @@ import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.int
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
-import {combinationsService, ICombinationMatch} from "../../../services/CombinationsService";
+import {combinationsService, ICombinationMatch, filterByProximity, CELTIC_ADJACENCY} from "../../../services/CombinationsService";
 
 const POSITIONS = [
     "Positive Energy", "Negative Energy", "Past", "Present",
@@ -58,7 +58,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
         combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
-            setComboMatches(matches);
+            setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
         }).catch(() => {});
     };
 

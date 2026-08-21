@@ -1,0 +1,49 @@
+● This file sets up a global language state using React Context, so any component in the app can read/change the language without prop drilling.
+
+  ---
+  1. The type
+  type Language = 'en' | 'he';
+  Only two valid values — English or Hebrew.
+
+  ---
+  2. The context
+  const LanguageContext = createContext<LanguageContextValue>({
+      language: 'en',
+      toggleLanguage: () => {},
+  });
+  Creates the context with default values (English, no-op toggle). These defaults only apply if a component uses useLanguage() outside of a LanguageProvider — which shouldn't
+  happen in normal use.
+
+  ---
+  3. The provider
+  export function LanguageProvider({ children }: { children: ReactNode }): JSX.Element {
+      const [language, setLanguage] = useState<Language>('en');
+      const toggleLanguage = () => setLanguage(l => (l === 'en' ? 'he' : 'en'));
+      return (
+          <LanguageContext.Provider value={{ language, toggleLanguage }}>
+              {children}
+          </LanguageContext.Provider>
+      );
+  }
+  - Holds the actual state (useState)
+  - toggleLanguage flips between 'en' and 'he'
+  - Wraps children so everything inside can access the context
+  - This is placed high in the component tree (likely in App.tsx)
+
+  ---
+  4. The hook
+  export function useLanguage(): LanguageContextValue {
+      return useContext(LanguageContext);
+  }
+  A thin wrapper around useContext — just a convenience so components don't need to import both useContext and LanguageContext. Any component calls const { language, toggleLanguage
+   } = useLanguage() and gets the shared state.
+
+  ---
+  Summary flow:
+  App wraps with <LanguageProvider>
+      ↓
+  Header uses toggleLanguage() → user clicks EN/HE button
+      ↓
+  language state changes
+      ↓
+  InterpretWidget re-renders, picks up new language value

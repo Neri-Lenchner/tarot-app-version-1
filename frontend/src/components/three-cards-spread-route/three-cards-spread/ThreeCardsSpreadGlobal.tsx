@@ -8,7 +8,7 @@ import {CombinationsModal} from "../../general-components/CombinationsModal";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
-import {combinationsService, ICombinationMatch} from "../../../services/CombinationsService";
+import {combinationsService, ICombinationMatch, filterByProximity, THREE_CARDS_ADJACENCY} from "../../../services/CombinationsService";
 
 const POSITIONS = ["Past", "Present", "Future"];
 
@@ -58,7 +58,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
         combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
-            setComboMatches(matches);
+            setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
         }).catch(() => {});
     };
 
