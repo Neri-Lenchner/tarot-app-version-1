@@ -36,7 +36,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
 
 export function InterpretWidget({ cards, positions, spreadType, theme, question, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
-    const { language: lang } = useLanguage();
+    const { language: lang, toggleLanguage } = useLanguage();
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [saved, setSaved] = useState(false);
     const [loggedIn, setLoggedIn] = useState(!!authStore.getState().user);
@@ -100,6 +100,9 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 <div className="iw-panel">
                     <div className="iw-header">
                         <span>Reading Interpretation</span>
+                        <button className="iw-lang-btn" onClick={toggleLanguage}>
+                            {lang === 'en' ? 'עב' : 'EN'}
+                        </button>
                     </div>
                     <div className="iw-body">
                         {question && (

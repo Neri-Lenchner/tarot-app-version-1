@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode, JSX } from 'react';
+import { createContext, useContext, useState, useMemo, useCallback, ReactNode, JSX } from 'react';
 
 type Language = 'en' | 'he';
 
@@ -14,9 +14,10 @@ const LanguageContext = createContext<LanguageContextValue>({
 
 export function LanguageProvider({ children }: { children: ReactNode }): JSX.Element {
     const [language, setLanguage] = useState<Language>('en');
-    const toggleLanguage = () => setLanguage(l => (l === 'en' ? 'he' : 'en'));
+    const toggleLanguage = useCallback(() => setLanguage(l => (l === 'en' ? 'he' : 'en')), []);
+    const value = useMemo(() => ({ language, toggleLanguage }), [language, toggleLanguage]);
     return (
-        <LanguageContext.Provider value={{ language, toggleLanguage }}>
+        <LanguageContext.Provider value={value}>
             {children}
         </LanguageContext.Provider>
     );
