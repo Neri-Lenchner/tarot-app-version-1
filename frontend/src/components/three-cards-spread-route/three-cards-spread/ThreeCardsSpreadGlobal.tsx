@@ -5,6 +5,7 @@ import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.int
 import {SpreadHeader} from "../../general-components/SpreadHeader";
 import {InterpretWidget} from "../../general-components/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal";
+import {ConclusionModal} from "../../general-components/ConclusionModal";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
@@ -95,6 +96,9 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+            )}
+            {isSpread3 && selected3Cards.length > 0 && (
+                <ConclusionModal spreadType="three-cards" theme="blue" />
             )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <InterpretWidget

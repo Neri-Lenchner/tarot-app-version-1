@@ -53,6 +53,30 @@
     text-shadow: 0 0 10px rgba(201, 160, 232, 0.4);
 }
 
+.combo-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.combo-lang-btn {
+    background: none;
+    border: 1px solid var(--purple-border);
+    color: var(--purple);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 7px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: box-shadow var(--transition), border-color var(--transition);
+}
+
+.combo-lang-btn:hover {
+    border-color: var(--purple);
+    box-shadow: 0 0 8px rgba(107, 63, 160, 0.5);
+}
+
 .combo-collapse-btn {
     background: none;
     border: 1px solid var(--purple-border);
@@ -109,7 +133,7 @@
 }
 
 .combo-card-name {
-    font-size: 9px;
+    font-size: 11px;
     color: var(--text-faint);
     text-align: center;
     max-width: 66px;
@@ -119,7 +143,7 @@
 
 /* ── Meaning & badge ── */
 .combo-meaning {
-    font-size: 13px;
+    font-size: 15px;
     color: var(--text-primary);
     line-height: 1.55;
     margin-bottom: 10px;

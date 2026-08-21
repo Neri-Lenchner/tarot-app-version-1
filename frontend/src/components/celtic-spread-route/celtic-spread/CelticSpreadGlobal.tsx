@@ -3,6 +3,7 @@ import {SpreadHeader} from "../../general-components/SpreadHeader";
 import {CelticSpread} from "./celtic-spread-components/CelticSpread";
 import {InterpretWidget} from "../../general-components/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal";
+import {ConclusionModal} from "../../general-components/ConclusionModal";
 import './CelticSpreadGlobal.css';
 import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {deckService} from "../../../services/DeckService";
@@ -95,6 +96,9 @@ export function CelticSpreadGlobal(): JSX.Element {
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+            )}
+            {isSpread && selectedCards.length > 0 && (
+                <ConclusionModal spreadType="celtic" theme="green" />
             )}
             {isSpread && selectedCards.length > 0 && (
                 <InterpretWidget

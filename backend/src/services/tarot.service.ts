@@ -229,11 +229,13 @@ class TarotService {
         const matches: import("../dto/tarot.dto").ICombinationMatch[] = [];
         const q = question?.trim() ?? '';
 
+        const HEALTH_CATEGORY_HE: Record<string, string> = { health: "בריאות", mental_health: "בריאות נפשית" };
+
         for (const category of tarotCombinations) {
             for (const combo of category.combinations) {
                 if (combo.cards.every(c => nameSet.has(c.toLowerCase()))) {
                     if (isAllMajorArcana(combo.cards) || (q && isCategoryRelevant(category.category, q))) {
-                        matches.push({ cards: combo.cards, meaning: combo.meaning, source: "general", category: category.category });
+                        matches.push({ cards: combo.cards, meaning: combo.meaning, meaning_he: combo.meaning_he, source: "general", category: category.category, category_he: category.category_he });
                     }
                 }
             }
@@ -242,7 +244,7 @@ class TarotService {
         for (const combo of healthCombinations) {
             if (combo.cards.every(c => nameSet.has(c.replace(/ Rx$/i, "").toLowerCase()))) {
                 if (isAllMajorArcana(combo.cards) || (q && isCategoryRelevant(combo.category, q))) {
-                    matches.push({ cards: combo.cards, meaning: combo.meaning, source: "health", category: combo.category });
+                    matches.push({ cards: combo.cards, meaning: combo.meaning, meaning_he: combo.meaning_he, source: "health", category: combo.category, category_he: HEALTH_CATEGORY_HE[combo.category] ?? combo.category });
                 }
             }
         }

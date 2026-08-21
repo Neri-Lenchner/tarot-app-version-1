@@ -11,6 +11,7 @@ interface CombinationsModalProps {
 export function CombinationsModal({ matches, onClose }: CombinationsModalProps): JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [lang, setLang] = useState<'en' | 'he'>('en');
 
     if (!visible) {
         return (
@@ -23,14 +24,19 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
             <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">✦ Card Combinations Detected</span>
-                    <button className="combo-collapse-btn" onClick={() => setCollapsed(c => !c)}>
-                        {collapsed ? '▲' : '▼'}
-                    </button>
+                    <div className="combo-header-actions">
+                        <button className="combo-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                            {lang === 'en' ? 'HE' : 'EN'}
+                        </button>
+                        <button className="combo-collapse-btn" onClick={() => setCollapsed(c => !c)}>
+                            {collapsed ? '▲' : '▼'}
+                        </button>
+                    </div>
                 </div>
                 {!collapsed && (
                     <>
                         {matches.map((match, i) => (
-                            <div key={i} className="combo-item">
+                            <div key={i} className="combo-item" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                                 <div className="combo-card-images">
                                     {match.cards.map(cardName => {
                                         const baseName = cardName.replace(/ Rx$/i, '');
@@ -43,8 +49,12 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                                         );
                                     })}
                                 </div>
-                                <div className="combo-meaning">{match.meaning}</div>
-                                <span className={`combo-badge ${match.category}`}>{match.category.replace('_', ' ')}</span>
+                                <div className="combo-meaning">
+                                    {lang === 'he' ? match.meaning_he : match.meaning}
+                                </div>
+                                <span className={`combo-badge ${match.category}`}>
+                                    {lang === 'he' ? match.category_he : match.category.replace('_', ' ')}
+                                </span>
                             </div>
                         ))}
                         <button className="combo-modal-close" onClick={() => setVisible(false)}>Got it</button>
