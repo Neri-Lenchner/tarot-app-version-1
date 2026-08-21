@@ -4,8 +4,7 @@
     min-height: calc(100vh - var(--header-height) - 60px);
     width: 100%;
     margin: 0 auto;
-    /* Deep forest-dark mystic gradient */
-    background: radial-gradient(ellipse at 50% 50%, #0b200b 0%, var(--green-grad-a) 55%, #030d03 100%);
+    background: linear-gradient(rgba(3, 12, 3, 0.45), rgba(3, 12, 3, 0.45)), url('/mystic-image-2.png') center/cover no-repeat;
 }
 
 .spread-container h5 {
@@ -37,7 +36,7 @@
     position: absolute;
     right: 50%;
     top: 45%;
-    transform: translate(-50%, -50%);
+    transform: translate(calc(-50% + 20px), -50%);
     transition: all 0.5s;
 }
 
@@ -45,6 +44,7 @@
     position: absolute;
     right: 50%;
     top: 40%;
+    transform: translateX(20px);
 }
 
 .card-container-3 {
@@ -78,28 +78,28 @@
 .card-container-7 {
     position: absolute;
     right: 10%;
-    top: 83%;
-    transform: translate(-50%, -50%);
+    top: 74%;
+    transform: translateX(-50%);
 }
 
 .card-container-8 {
     position: absolute;
     right: 10%;
-    top: 58%;
-    transform: translate(-50%, -50%);
+    top: 51%;
+    transform: translateX(-50%);
 }
 
 .card-container-9 {
     position: absolute;
     right: 10%;
-    top: 33%;
-    transform: translate(-50%, -50%);
+    top: 28%;
+    transform: translateX(-50%);
 }
 
 .card-container-10 {
     position: absolute;
     right: 10%;
-    top: 56px;
+    top: 5%;
     transform: translateX(-50%);
 }
 

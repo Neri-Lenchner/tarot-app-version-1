@@ -10,9 +10,16 @@ interface CombinationsModalProps {
 
 export function CombinationsModal({ matches, onClose }: CombinationsModalProps): JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) {
+        return (
+            <button className="combo-reopen-btn" onClick={() => setVisible(true)}>✦</button>
+        );
+    }
 
     return (
-        <div className="combo-modal-overlay" onClick={collapsed ? undefined : onClose}>
+        <div className="combo-modal-overlay" onClick={collapsed ? undefined : () => setVisible(false)}>
             <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">✦ Card Combinations Detected</span>
@@ -40,7 +47,7 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                                 <span className={`combo-badge ${match.category}`}>{match.category.replace('_', ' ')}</span>
                             </div>
                         ))}
-                        <button className="combo-modal-close" onClick={onClose}>Got it</button>
+                        <button className="combo-modal-close" onClick={() => setVisible(false)}>Got it</button>
                     </>
                 )}
             </div>

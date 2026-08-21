@@ -82,7 +82,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
-                    onFocus={() => setWidgetOpen(false)}
+                    onFocus={() => { if (isSpread3) clearSpread3(); }}
                 />
             </SpreadHeader>
             {submittedQuestion && (

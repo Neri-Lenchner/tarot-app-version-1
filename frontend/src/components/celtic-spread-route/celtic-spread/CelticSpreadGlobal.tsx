@@ -82,7 +82,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     value={question}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
-                    onFocus={() => setWidgetOpen(false)}
+                    onFocus={() => { if (isSpread) clearSpread(); }}
                 />
             </SpreadHeader>
             {submittedQuestion && (
