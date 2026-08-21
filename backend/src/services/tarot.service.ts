@@ -178,11 +178,22 @@ class TarotService {
 
         const openingContext = question?.trim() ? " in relation to the querent's question" : "";
         const combosCount = matchedCombos.length;
+
+        const comboStartPhrase = language === "he"
+            ? `חשוב לציין, השילוב של [cards] המופיעים יחד בפריסה שלך הוא סימן חזק ל[meaning].`
+            : `Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning].`;
+        const comboExplainPhrase = language === "he"
+            ? `הסבר ב-2-3 משפטים חיים מה משמעות הדבר בחיים האמיתיים של המגלה.`
+            : `Explain in 2-3 vivid sentences what this means concretely in the querent's real life.`;
+        const openingSentencePhrase = language === "he"
+            ? `משפט פתיחה אחד הנותן רושם כללי על מה שהפריסה מגלה${openingContext}.`
+            : `One opening sentence giving an overall impression of what this reading is about${openingContext}.`;
+
         const formatOpening = combosCount > 0
             ? combosCount === 1
-                ? `1. A dedicated CENTERPIECE paragraph about the card combination — this is the FIRST and most important thing the querent reads. Start with: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]." Explain in 2-3 vivid sentences what this means concretely in the querent's real life.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
-                : `1. A dedicated CENTERPIECE section with EXACTLY ${combosCount} separate paragraphs — ONE PARAGRAPH PER COMBINATION, in the order listed above. This section is the FIRST and most important thing the querent reads. Each paragraph must:\n   - Begin: "Importantly, the combination of [cards] appearing together in your spread is a powerful sign of [meaning]."\n   - Then explain in 2-3 vivid sentences what this specific combination means concretely in the querent's real life.\n   CRITICAL: Every single combination listed above MUST get its own paragraph. Do NOT merge any of them. Do NOT skip any.\n\n2. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n3.`
-            : `1. One opening sentence giving an overall impression of what this reading is about${openingContext}.\n\n2.`;
+                ? `1. A dedicated CENTERPIECE paragraph about the card combination — this is the FIRST and most important thing the querent reads. Start with: "${comboStartPhrase}" ${comboExplainPhrase}\n\n2. ${openingSentencePhrase}\n\n3.`
+                : `1. A dedicated CENTERPIECE section with EXACTLY ${combosCount} separate paragraphs — ONE PARAGRAPH PER COMBINATION, in the order listed above. This section is the FIRST and most important thing the querent reads. Each paragraph must:\n   - Begin: "${comboStartPhrase}"\n   - Then ${comboExplainPhrase}\n   CRITICAL: Every single combination listed above MUST get its own paragraph. Do NOT merge any of them. Do NOT skip any.\n\n2. ${openingSentencePhrase}\n\n3.`
+            : `1. ${openingSentencePhrase}\n\n2.`;
 
         const conclusionStep = combosCount > 0 ? "4." : "3.";
         const conclusionInstruction = combosCount > 0
