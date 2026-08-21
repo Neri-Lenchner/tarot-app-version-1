@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS readings (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL DEFAULT 0,
     spread_type VARCHAR(20) NOT NULL,
     question TEXT,
     cards JSON NOT NULL,

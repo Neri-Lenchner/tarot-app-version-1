@@ -1,6 +1,8 @@
 import { JSX, useEffect, useState } from 'react';
 import { interpretService } from '../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState } from '../../state/interpret-state';
+import { authStore } from '../../state/auth-state';
+import { readingService } from '../../services/ReadingService';
 import './InterpretWidget.css';
 
 interface InterpretWidgetProps {
@@ -35,10 +37,20 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
+    const [saved, setSaved] = useState(false);
+    const [loggedIn, setLoggedIn] = useState(!!authStore.getState().user);
 
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
             setStored(interpretStore.getState());
+            setSaved(false);
+        });
+        return unsubscribe;
+    }, []);
+
+    useEffect(() => {
+        const unsubscribe = authStore.subscribe(() => {
+            setLoggedIn(!!authStore.getState().user);
         });
         return unsubscribe;
     }, []);
@@ -46,6 +58,16 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const spreadData = stored[spreadType];
     const current = spreadData[lang];
     const hasBoth = spreadData.en !== null && spreadData.he !== null;
+
+    const saveReading = async (): Promise<void> => {
+        try {
+            const saveCards = cards.slice(0, positions.length).map((c, i) => ({ name: c.name, position: positions[i] }));
+            await readingService.save(spreadType, question ?? '', saveCards, spreadData.en!, spreadData.he!);
+            setSaved(true);
+        } catch {
+            alert('Failed to save reading. Please try again.');
+        }
+    };
 
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
@@ -93,6 +115,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                         <button className="iw-btn" onClick={interpret} disabled={isInterpreting}>
                             {isInterpreting ? 'Reading the cards...' : hasBoth ? 'Re-interpret' : 'Interpret Reading'}
                         </button>
+                        {hasBoth && loggedIn && (
+                            <button className="iw-save-btn" onClick={saveReading} disabled={saved}>
+                                {saved ? 'Saved ✓' : 'Save Reading'}
+                            </button>
+                        )}
                         {current && (
                             <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                                 {renderInterpretation(current, cards)}
