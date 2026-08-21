@@ -88,6 +88,12 @@ function isGroupQuestion(question: string): boolean {
     return GROUP_KEYWORDS.some(kw => q.includes(kw.toLowerCase()));
 }
 
+const COURT_PREFIXES = ['King of', 'Queen of', 'Knight of', 'Page of'];
+function isCourtOrMajor(name: string): boolean {
+    const base = name.replace(/ Rx$/i, '');
+    return COURT_PREFIXES.some(p => base.startsWith(p)) || MAJOR_ARCANA.has(base.toLowerCase());
+}
+
 const MAJOR_ARCANA = new Set([
     'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
     'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',
@@ -100,22 +106,16 @@ function getMajorArcanaSection(cards: ISpreadCard[]): string {
     const count = majorCards.length;
     const total = cards.length;
     if (count === 0) return "";
-
     const names = majorCards.map(c => c.name).join(", ");
     const ratio = count / total;
 
-    // Profound: ≥65% of cards are major arcana (e.g. 7/10 or 3/3)
     if (ratio >= 0.65) {
-        return `=== PROFOUND FATE READING — OPEN WITH THIS ===\n${count} of ${total} cards are Major Arcana: ${names}.\nThis is an extraordinary, destiny-laden reading. You MUST open your interpretation with a dedicated paragraph explicitly telling the querent: (1) their spread is dominated by Major Arcana, (2) this signals they stand at a genuine karmic crossroads — a life-defining moment, not a passing concern, (3) the forces at play are larger than everyday circumstances — fate and soul-level forces are shaping their path. Use powerful, direct language: "destiny", "karmic turning point", "the universe is speaking unmistakably". Each Major Arcana card in this spread must receive deeper and more emphatic interpretation than any Minor Arcana.\n===\n\n`;
+        return `=== PROFOUND FATE READING — OPEN WITH THIS ===\n${count}/${total} cards are Major Arcana: ${names}.\nOpen with a dedicated paragraph: tell the querent their spread is dominated by Major Arcana — they stand at a genuine karmic crossroads, a life-defining moment. Fate-level forces are at work. Use language like "destiny", "karmic turning point". Each Major Arcana card gets deeper, more emphatic treatment than any Minor Arcana.\n===\n\n`;
     }
-
-    // Significant: ≥40% of cards, or 2+ in a 3-card spread
     if (ratio >= 0.40 || (total <= 3 && count >= 2)) {
-        return `=== DESTINY MARK DETECTED ===\n${count} of ${total} cards are Major Arcana: ${names}.\nEarly in your interpretation — in the opening or the first card paragraph — include a clear statement to the querent that the significant presence of Major Arcana shows this question carries real depth and karmic weight. This is not a trivial matter; forces larger than day-to-day life are involved. Each Major Arcana card must receive noticeably deeper and more emphatic treatment than any Minor Arcana card.\n===\n\n`;
+        return `=== DESTINY MARK ===\n${count}/${total} cards are Major Arcana: ${names}.\nEarly in your interpretation, note that this significant Major Arcana presence signals real karmic weight — forces larger than daily life are involved. Each Major Arcana card gets noticeably deeper treatment than Minor Arcana.\n===\n\n`;
     }
-
-    // Minor: low ratio — just instruct the AI to weight them more, no user notification needed
-    return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
+    return `Note: Major Arcana present (give these more depth and emphasis): ${names}.\n\n`;
 }
 
 const CELTIC_POSITION_GUIDE = `
@@ -143,22 +143,11 @@ class TarotService {
         const isThirdPerson = question?.trim() ? isThirdPersonQuestion(question.trim()) : false;
         const isGroup = isThirdPerson && spreadType === "celtic" && (question?.trim() ? isGroupQuestion(question.trim()) : false);
 
-        const groupStaffException = isGroup
-            ? `\n\nGROUP/FAMILY EXCEPTION — POSITIONS 7, 8, 9, 10 ONLY: Since the question is about multiple people (family/group), positions 7 (Inner World), 8 (Outer World), 9 (Fears), and 10 (Potential) describe THE QUERENT — the person sitting here asking — NOT the family or group. For these four positions ONLY, switch back to "you" language: "In the Inner World position, you feel...", "Your fears are...", "Your potential is...". Positions 1–6 remain about the family/group using they/them/their.`
-            : "";
-
         const thirdPersonSection = isThirdPerson
-            ? `=== THIRD-PERSON READING — THIS OVERRIDES ALL OTHER FRAMING ===\nThe querent is asking about ANOTHER PERSON${isGroup ? " / GROUP OF PEOPLE" : ""}. This spread has been laid for that other person${isGroup ? "/group" : ""}, not for the querent. Treat this exactly as if the OTHER PERSON${isGroup ? "/GROUP" : ""} sat down and asked their own question — every card, every position, every sentence describes THEIR life, THEIR emotions, THEIR past, THEIR future, THEIR fears.\n\nMANDATORY RULES — violating any of these is an error:\n1. NEVER say "you are", "you feel", "you have", "your situation" — these phrases must NEVER appear. The querent is the observer, not the subject.\n2. ALWAYS refer to the subject as "they", "them", "their", or by the specific relationship mentioned (e.g. "your partner", "your mother", "your friend"). If no relationship was named, use "the person you asked about".\n3. Every card position describes what is happening in the OTHER PERSON's${isGroup ? "/GROUP's" : ""} life. "Past" = their past. "Fears" = their fears. "Inner World" = their inner world. "Potential" = their potential outcome.\n4. The querent appears in the reading ONLY as context — e.g. "their relationship with you", "how they feel about you". They are never the main subject.\n5. Do NOT slip. Read through your response before finishing — if you wrote "you" referring to the querent as the main subject anywhere, replace it.${groupStaffException}\n\nExample correct phrasing: "In the Past position, your partner has gone through...", "Right now, they are dealing with...", "Their deepest fear is...", "The potential outcome for the person you asked about is..."\n===\n\n`
+            ? `=== THIRD-PERSON READING ===\nSubject: ${isGroup ? "the family/group" : "the other person"} — NOT the querent.\n1. Never use "you/your" for the subject. Use "they/them/their" or the relationship name ("your mother", "your partner").\n2. Every position describes the subject's life — their past, their fears, their inner world, their potential.\n3. The querent appears only as context ("their relationship with you", "how they feel about you").${isGroup ? `\n4. EXCEPTION — positions 7–10 (Inner World, Outer World, Fears, Potential): these describe THE QUERENT, not the group. Use "you/your" for these four positions only. Positions 1–6 remain about the group.` : ""}\n===\n\n`
             : "";
 
         const isHealth = question?.trim() ? isHealthQuestion(question.trim()) : false;
-
-        // Build per-card health body area lookup (court cards + major arcana only)
-        const COURT_PREFIXES = ['King of', 'Queen of', 'Knight of', 'Page of'];
-        function isCourtOrMajor(name: string): boolean {
-            const base = name.replace(/ Rx$/i, '');
-            return COURT_PREFIXES.some(p => base.startsWith(p)) || MAJOR_ARCANA.has(base.toLowerCase());
-        }
 
         const healthCardBodyMap = new Map<string, string>();
         if (isHealth) {
@@ -188,7 +177,7 @@ class TarotService {
 
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
-            ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
+            ? `=== CARD COMBINATIONS — HIGHEST PRIORITY ===\n${matchedCombos.join("\n")}\nThese combinations are the central message of this reading. Name each one explicitly, explain it in depth — above individual card meanings.\n===\n\n`
             : "";
 
         const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : "";
@@ -222,10 +211,7 @@ class TarotService {
             : "2-3 sentences telling the querent what they should focus on or do to fulfil the potential this spread reveals. Give direct, personal, actionable guidance.";
 
         const energyNote = spreadType === "celtic"
-            ? "\n\nIMPORTANT: Positions 1 (Positive Energy) and 2 (Negative Energy) are NOT events — they are active forces or energies currently surrounding the querent. Do NOT use time-frame language for these two positions. Instead describe them as forces, influences, or currents that are present and at work right now (e.g. \"The energy supporting you is...\", \"The force working against you is...\"). All other positions should still include clear time-frame language." +
-              "\n\nSPECIAL RULE FOR POSITION 1 (Positive Energy): If the card here is traditionally difficult or dark (e.g. Death, The Tower, The Devil, 10 of Swords, 9 of Swords, 3 of Swords, 5 of Cups, 8 of Swords, etc.), do NOT soften it or pretend it is gentle. The card remains exactly as dark and difficult as it is. Explain how this harsh energy is nonetheless functioning as a supporting force — it may be compelling the querent to face an unavoidable truth, stripping away illusions, forcing a necessary ending, or pushing them through pain toward something real. Acknowledge directly that this 'support' will feel uncomfortable or even painful. The message is: this hard thing is on your side — not because it is easy, but because it is necessary." +
-              "\n\nSPECIAL RULE FOR POSITION 2 (Negative Energy): If the card here is traditionally positive or fortunate (e.g. The Star, The Sun, The World, 10 of Cups, 10 of Pentacles, Ace of any suit, 6 of Wands, etc.), do NOT celebrate it or treat it as good news. The card remains exactly as bright and appealing as it is. Explain how this seemingly positive energy is functioning as the obstacle or interference — it may be creating false hope, encouraging complacency, making the querent cling to a comfortable illusion, or tempting them away from what they truly need to do. Acknowledge that the querent will likely perceive this force as welcome and pleasant — that is precisely what makes it dangerous. The message is: this good-looking thing is working against you, not because it is evil, but because it is a distraction or a trap." +
-              "\n\nCRITICAL RULE FOR ALL CARDS IN POSITION 2 (applies to every card, dark or bright): Do NOT stay abstract or philosophical. You must name the SPECIFIC CONCRETE BEHAVIOR or impulse this card represents that is working against the querent. Tell them exactly what to avoid or resist. Examples: if the card is Death — warn them explicitly that the urge to burn everything down, make a total sudden break, or end things completely is the enemy right now; partial change is possible but total destruction is not the answer. If the card is The Tower — warn against forcing a dramatic collapse. If the card is The Devil — warn against a specific compulsion or attachment. If the card is a Sword card — name the specific mental pattern to stop. The querent should finish reading this paragraph knowing exactly what concrete action or impulse to resist — not just that 'a challenging energy surrounds them'."
+            ? `\n\nPositions 1 & 2 are active forces/energies — NOT events. No time-frame language. Describe as currents at work right now.\n\nPosition 1 (Positive Energy) — dark card: do NOT soften it. Explain how this harsh energy supports the querent by necessity — forcing truth, stripping illusions, compelling growth through pain. Say clearly it feels uncomfortable. "This hard thing is on your side — not because it is easy, but because it is necessary."\n\nPosition 2 (Negative Energy) — bright card: do NOT celebrate it. Explain how this positive-looking energy works against the querent — false hope, complacency, or tempting distraction. The querent sees it as welcome; that is exactly what makes it dangerous.\n\nAll Position 2 cards: name the SPECIFIC concrete impulse to resist — not abstract. Example: Death → "resist the urge to end everything completely"; Devil → name the specific compulsion; Sword card → name the exact mental pattern to stop. The querent must finish knowing what exactly to resist.`
             : "";
 
         const cardFormatInstruction = isThirdPerson
@@ -244,8 +230,8 @@ class TarotService {
                     {
                         role: "system",
                         content: isThirdPerson
-                            ? `You are a wise and insightful tarot reader. This is a THIRD-PERSON reading — the cards describe another person's life, not the querent's. Every single card and position refers to THAT OTHER PERSON. Speak in vivid, concrete terms about what is actually happening in THEIR life. Always use 'they', 'them', 'their' for the subject. The word 'you' refers ONLY to the querent as observer — NEVER as the subject of the cards. Never write "you are facing", "you feel", "you have" to describe the reading subject — always say "they are facing", "they feel", "they have". Anchor each card to a clear time frame in THEIR life: their past, their present, what is coming for them. Be direct and personal — speak as if you know their story. Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`
-                            : `You are a wise and insightful tarot reader who speaks in vivid, concrete terms about real life events. Never describe what a card "symbolizes" or "represents" in abstract terms. Instead describe what is actually happening or has happened or will happen in the person's life — real situations, relationships, decisions, turning points. Always anchor each card to a clear time frame: past events that shaped the situation, what is happening right now, what is coming soon, and what lies further ahead. Be explicit: "This happened in your past...", "Right now you are facing...", "In the near future...", "Further down the road...". Ground everything in human experience: heartbreak, career shifts, family tensions, personal growth, financial pressure, new beginnings, loss. Be direct, warm, and personal — speak as if you know their story. Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`,
+                            ? `You are a wise tarot reader giving a third-person reading — every card describes the other person's life, not the querent's. Use "they/them/their" for the subject. Speak concretely about their real situations, relationships, and turning points. Anchor each card to a time frame in their life. Be direct and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`
+                            : `You are a wise tarot reader who speaks in vivid, concrete terms — not symbols or abstractions. Describe what is actually happening in the person's life: real situations, relationships, decisions, turning points. Anchor each card to a clear time frame ("In your past...", "Right now...", "Soon...", "Further ahead..."). Be direct, warm, and personal. Respond in ${language === "he" ? "Hebrew" : "English"}.`,
                     },
                     { role: "user", content: userMessage },
                 ],
