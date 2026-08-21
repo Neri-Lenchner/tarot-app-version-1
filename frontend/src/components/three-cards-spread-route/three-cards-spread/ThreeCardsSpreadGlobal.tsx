@@ -78,8 +78,9 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 <input
                     className="spread-question-input"
                     type="text"
-                    placeholder="What is your question for the cards?"
+                    placeholder="What is your question? / מה שאלתך לקלפים?"
                     value={question}
+                    dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => { if (isSpread3) clearSpread3(); }}
@@ -88,7 +89,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>
-                    <span className="spread-question-text">{submittedQuestion}</span>
+                    <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
                 </div>
             )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />

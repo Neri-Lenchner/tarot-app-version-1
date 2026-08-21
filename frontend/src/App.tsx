@@ -4,6 +4,7 @@ import Header from "./components/layout/header/Header";
 import SideBar from "./components/layout/side-bar/SideBar";
 import Routing from "./utils/Routing";
 import {deckService} from "./services/DeckService";
+import {LanguageProvider} from "./context/language-context";
 
 function App(): JSX.Element {
 
@@ -17,19 +18,21 @@ function App(): JSX.Element {
 
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header />
-      </header>
-      <section>
-          <aside className="side-bar">
-              <SideBar />
-          </aside>
-          <main>
-              <Routing />
-          </main>
-      </section>
-    </div>
+    <LanguageProvider>
+      <div className="App">
+        <header className="App-header">
+          <Header />
+        </header>
+        <section>
+            <aside className="side-bar">
+                <SideBar />
+            </aside>
+            <main>
+                <Routing />
+            </main>
+        </section>
+      </div>
+    </LanguageProvider>
   );
 }
 

@@ -3,6 +3,7 @@ import { interpretService } from '../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState } from '../../state/interpret-state';
 import { authStore } from '../../state/auth-state';
 import { readingService } from '../../services/ReadingService';
+import { useLanguage } from '../../context/language-context';
 import './InterpretWidget.css';
 
 interface InterpretWidgetProps {
@@ -35,7 +36,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
 
 export function InterpretWidget({ cards, positions, spreadType, theme, question, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const { language: lang } = useLanguage();
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [saved, setSaved] = useState(false);
     const [loggedIn, setLoggedIn] = useState(!!authStore.getState().user);
@@ -99,17 +100,12 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 <div className="iw-panel">
                     <div className="iw-header">
                         <span>Reading Interpretation</span>
-                        {hasBoth && (
-                            <button className="iw-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
-                                {lang === 'en' ? 'HE' : 'EN'}
-                            </button>
-                        )}
                     </div>
                     <div className="iw-body">
                         {question && (
                             <div className="iw-question-display">
                                 <span className="iw-question-label">Question</span>
-                                <p className="iw-question-text">{question}</p>
+                                <p className="iw-question-text" dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}>{question}</p>
                             </div>
                         )}
                         <button className="iw-btn" onClick={interpret} disabled={isInterpreting}>

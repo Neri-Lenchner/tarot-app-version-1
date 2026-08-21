@@ -78,8 +78,9 @@ export function CelticSpreadGlobal(): JSX.Element {
                 <input
                     className="spread-question-input"
                     type="text"
-                    placeholder="What is your question for the cards?"
+                    placeholder="What is your question? / מה שאלתך לקלפים?"
                     value={question}
+                    dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => { if (isSpread) clearSpread(); }}
@@ -88,7 +89,7 @@ export function CelticSpreadGlobal(): JSX.Element {
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>
-                    <span className="spread-question-text">{submittedQuestion}</span>
+                    <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
                 </div>
             )}
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
