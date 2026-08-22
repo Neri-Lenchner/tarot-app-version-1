@@ -29,7 +29,7 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
 
     if (!visible) {
         return (
-            <button className="combo-reopen-btn" onClick={() => setVisible(true)}>✦</button>
+            <button className="combo-reopen-btn" onClick={e => { e.stopPropagation(); setVisible(true); }}>✦</button>
         );
     }
 

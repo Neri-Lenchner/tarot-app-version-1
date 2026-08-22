@@ -18,7 +18,8 @@ interface InterpretWidgetProps {
 
 function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
     const lines = text.split('\n').filter(line => line.trim() !== '');
-    const conclusionIdx = lines.findIndex(l => /\*\*conclusion\*\*/i.test(l.trim()) || l.trim().includes('**מסקנה**'));
+    const CONCLUSION_RE = /^\*\*\s*(conclusion|מסקנה|סיכום|לסיכום)\s*:?\*\*$/i;
+    const conclusionIdx = lines.findIndex(l => CONCLUSION_RE.test(l.trim()));
     const displayLines = conclusionIdx !== -1 ? lines.slice(0, conclusionIdx) : lines;
     return displayLines.map((line, i) => {
         if (line.trim().startsWith('**')) {

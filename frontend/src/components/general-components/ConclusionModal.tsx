@@ -10,9 +10,8 @@ interface ConclusionModalProps {
 
 function extractConclusion(text: string): string {
     const lines = text.split('\n');
-    const idx = lines.findIndex(l =>
-        /\*\*conclusion\*\*/i.test(l.trim()) || l.trim().includes('**מסקנה**')
-    );
+    const CONCLUSION_RE = /^\*\*\s*(conclusion|מסקנה|סיכום|לסיכום)\s*:?\*\*$/i;
+    const idx = lines.findIndex(l => CONCLUSION_RE.test(l.trim()));
     if (idx === -1) return '';
     return lines.slice(idx + 1).filter(l => l.trim() !== '').join('\n');
 }
@@ -54,7 +53,7 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
 
     if (!visible) {
         return (
-            <button className={`conclusion-reopen-btn theme-${theme}`} onClick={() => setVisible(true)}>✦</button>
+            <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(true); }}>✦</button>
         );
     }
 

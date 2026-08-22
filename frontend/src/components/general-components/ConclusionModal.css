@@ -125,7 +125,7 @@
     background: rgba(7, 4, 20, 0.9);
     font-size: 18px;
     cursor: pointer;
-    z-index: 1000;
+    z-index: 1001;
     transition: box-shadow var(--transition);
 }
 
