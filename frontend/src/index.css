@@ -9,6 +9,7 @@
     --text-primary: rgba(210, 190, 155, 0.88);
     --text-muted: rgba(155, 135, 100, 0.60);
     --text-faint: rgba(120, 105, 78, 0.35);
+    --card-desc-color: #ffffff;
 
     /* Gold — antique amber accent */
     --gold: #a8880a;
