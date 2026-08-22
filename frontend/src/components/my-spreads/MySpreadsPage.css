@@ -15,7 +15,7 @@
 .my-spreads-title,
 .spread-details-title {
     color: var(--gold);
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     font-weight: 700;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -27,7 +27,7 @@
 .my-spreads-empty {
     text-align: center;
     color: var(--text-muted);
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     margin-top: 60px;
 }
 
@@ -66,19 +66,19 @@
 
 .my-spread-date {
     color: var(--text-muted);
-    font-size: 0.8rem;
+    font-size: 1rem;
     letter-spacing: 0.04em;
 }
 
 .my-spread-question-preview {
     color: var(--text-primary);
     font-style: italic;
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     opacity: 0.8;
 }
 
 .my-spread-type {
-    font-size: 0.72rem;
+    font-size: 0.95rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -105,7 +105,7 @@
     border: none;
     color: var(--text-muted);
     font-family: var(--font-body);
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     letter-spacing: 0.06em;
     cursor: pointer;
     margin-bottom: 20px;
@@ -140,14 +140,14 @@
 
 .spread-details-date {
     color: var(--text-muted);
-    font-size: 0.82rem;
+    font-size: 1rem;
 }
 
 .spread-details-question {
     margin: 0;
     color: var(--text-primary);
     font-style: italic;
-    font-size: 1rem;
+    font-size: 1.2rem;
     border-left: 2px solid rgba(212, 175, 55, 0.3);
     padding-left: 14px;
     opacity: 0.9;
@@ -160,7 +160,7 @@
 }
 
 .spread-details-card-pill {
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: var(--text-muted);
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.08);
@@ -180,7 +180,7 @@
     border-radius: var(--radius-sm);
     color: var(--purple);
     font-family: var(--font-body);
-    font-size: 0.75rem;
+    font-size: 1rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     padding: 5px 12px;
@@ -203,7 +203,7 @@
 .spread-details-interp-title {
     margin: 12px 0 4px;
     color: var(--gold);
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
@@ -213,6 +213,6 @@
 .spread-details-interp-text {
     margin: 0 0 4px;
     color: rgba(255, 255, 255, 0.88);
-    font-size: 0.9rem;
+    font-size: 1.15rem;
     line-height: 1.75;
 }
