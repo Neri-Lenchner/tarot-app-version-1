@@ -1,5 +1,5 @@
 .spread-header-container {
-    background: rgba(7, 4, 20, 0.85);
+    background: rgba(2, 1, 7, 0.96);
     border-bottom: 1px solid rgba(212, 175, 55, 0.12);
     display: flex;
     align-items: center;
@@ -13,7 +13,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border: 1px solid rgba(212, 175, 55, 0.25);
-    background: rgba(20, 10, 50, 0.7);
+    background: rgba(5, 3, 14, 0.85);
     color: var(--text-muted);
     padding: 7px 16px;
     border-radius: var(--radius);
@@ -28,14 +28,14 @@
 }
 
 .spread-header-container button:hover {
-    background: rgba(40, 20, 90, 0.8);
+    background: rgba(10, 5, 25, 0.92);
     border-color: var(--gold);
     color: var(--gold);
     box-shadow: 0 0 10px var(--gold-glow);
 }
 
 .spread-header-container button:active {
-    background: rgba(60, 30, 120, 0.9);
+    background: rgba(15, 8, 38, 0.96);
     color: var(--gold);
 }
 
@@ -45,7 +45,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border: 1px solid rgba(107, 63, 160, 0.35);
-    background: rgba(20, 10, 50, 0.7);
+    background: rgba(5, 3, 14, 0.85);
     color: var(--text-faint);
     padding: 7px 16px;
     border-radius: var(--radius);

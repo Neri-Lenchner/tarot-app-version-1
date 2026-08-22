@@ -53,7 +53,7 @@
 }
 
 .card-modal {
-    background: linear-gradient(160deg, #07071e, #0e0e38);
+    background: linear-gradient(160deg, #030310, #080820);
     border: 1px solid var(--threecards-border);
     border-radius: 12px;
     padding: 32px;

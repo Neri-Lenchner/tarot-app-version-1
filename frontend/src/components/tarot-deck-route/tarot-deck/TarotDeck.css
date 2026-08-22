@@ -1,5 +1,5 @@
 .tarot-deck-container {
-    background: radial-gradient(ellipse at 50% 30%, #2a0408 0%, var(--deck-bg-dark) 55%, #020101 100%);
+    background: radial-gradient(ellipse at 50% 30%, #160204 0%, var(--deck-bg-dark) 55%, #010101 100%);
     overflow-y: auto;
     width: 100%;
     height: 100%;

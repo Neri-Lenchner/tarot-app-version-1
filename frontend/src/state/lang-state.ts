@@ -6,21 +6,21 @@ export interface ILangState {
     lang: Lang;
 }
 
-export enum ILangActionType {
+export enum LangActionType {
     Toggle = 'Toggle',
     Set = 'Set',
 }
 
 export interface ILangAction {
-    type: ILangActionType;
+    type: LangActionType;
     lang?: Lang;
 }
 
 function langReducer(state: ILangState = { lang: 'en' }, action: ILangAction): ILangState {
     switch (action.type) {
-        case ILangActionType.Toggle:
+        case LangActionType.Toggle:
             return { lang: state.lang === 'en' ? 'he' : 'en' };
-        case ILangActionType.Set:
+        case LangActionType.Set:
             return { lang: action.lang ?? state.lang };
         default:
             return state;

@@ -1,5 +1,5 @@
 import {cardsDeck} from "../../../arrays-&-models/tarot-deck-array/tarotDeck";
-import {ITarotCardContainer} from "../../tarot-card/ITarotCardContainer";
+import {TarotCardContainer} from "../../tarot-card/TarotCardContainer";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import './TarotDeck.css';
 import {JSX, useEffect, useState} from "react";
@@ -24,7 +24,7 @@ export function TarotDeck() {
     return (
         <div className="tarot-deck-container">
             {cardsDeck.map((card: ITarotCard): JSX.Element => (
-                <ITarotCardContainer
+                <TarotCardContainer
                     key={card.id}
                     tarotCard={card}
                     onClick={() => setSelectedCard(card)}

@@ -2,9 +2,9 @@
     height: 100%;
     /* Dark overlay over the background image for a deeper mystic look */
     background:
-        linear-gradient(rgba(7, 4, 20, 0.78), rgba(7, 4, 20, 0.78)),
+        linear-gradient(rgba(2, 1, 8, 0.92), rgba(2, 1, 8, 0.92)),
         url('../../../assets/images/tarot-app-background-img.jpg') center / cover no-repeat;
-    border-right: 1px solid rgba(212, 175, 55, 0.12);
+    border-right: 1px solid rgba(168, 136, 10, 0.08);
 }
 
 .SideBar .links {
@@ -18,9 +18,9 @@
 }
 
 .SideBar a {
-    border: 1px solid rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(168, 136, 10, 0.14);
     border-radius: var(--radius-sm);
-    background: rgba(20, 10, 50, 0.6);
+    background: rgba(6, 3, 15, 0.75);
     width: 180px;
     text-align: center;
     padding: 10px 14px;
@@ -38,14 +38,14 @@
 }
 
 .SideBar a:hover {
-    background: rgba(40, 20, 90, 0.75);
-    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(12, 6, 28, 0.88);
+    border-color: rgba(168, 136, 10, 0.4);
     color: var(--gold);
     box-shadow: 0 0 12px var(--gold-glow), inset 0 0 8px rgba(212, 175, 55, 0.06);
 }
 
 .SideBar a.active {
-    background: rgba(60, 30, 120, 0.7);
+    background: rgba(18, 9, 42, 0.88);
     border-color: var(--gold);
     color: var(--gold);
     box-shadow: 0 0 16px var(--gold-glow), 0 0 32px rgba(var(--gold-rgb), 0.12);

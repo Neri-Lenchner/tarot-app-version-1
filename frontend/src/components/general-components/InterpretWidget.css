@@ -14,18 +14,18 @@
     --accent: var(--celtic-accent);
     --accent-rgb: var(--celtic-accent-rgb);
     --glow-color: var(--celtic-glow);
-    --bg: rgba(3, 12, 3, 0.85);
+    --bg: rgba(1, 5, 1, 0.97);
     --border: var(--celtic-border);
-    --header-bg: rgba(0, 0, 0, 0.6);
+    --header-bg: rgba(0, 0, 0, 0.80);
 }
 
 .interpret-widget.theme-blue {
     --accent: var(--threecards-accent);
     --accent-rgb: var(--threecards-accent-rgb);
     --glow-color: var(--threecards-glow);
-    --bg: rgba(3, 3, 18, 0.85);
+    --bg: rgba(1, 1, 10, 0.97);
     --border: var(--threecards-border);
-    --header-bg: rgba(0, 0, 0, 0.6);
+    --header-bg: rgba(0, 0, 0, 0.80);
 }
 
 /* ── Click-outside backdrop ── */

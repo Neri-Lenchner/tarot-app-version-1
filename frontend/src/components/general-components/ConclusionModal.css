@@ -5,7 +5,7 @@
     transform: translateX(-50%);
     z-index: 1000;
     width: 360px;
-    background: rgba(7, 4, 20, 0.92);
+    background: rgba(2, 1, 7, 0.98);
     backdrop-filter: blur(14px);
     border-radius: 14px;
     overflow: hidden;
@@ -37,7 +37,7 @@
 
 /* ── Header ── */
 .conclusion-header {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.72);
     padding: 11px 14px;
     display: flex;
     align-items: center;
@@ -122,7 +122,7 @@
     width: 54px;
     height: 54px;
     border-radius: 50%;
-    background: rgba(7, 4, 20, 0.9);
+    background: rgba(2, 1, 7, 0.98);
     font-size: 18px;
     cursor: pointer;
     z-index: 1001;

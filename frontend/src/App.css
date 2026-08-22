@@ -12,10 +12,10 @@
     width: 100%;
     /* Background image with a heavy dark veil so the title pops */
     background:
-        linear-gradient(rgba(5, 3, 18, 0.72), rgba(5, 3, 18, 0.72)),
+        linear-gradient(rgba(2, 1, 8, 0.90), rgba(2, 1, 8, 0.90)),
         url('assets/images/tarot-app-background-img.jpg') center / cover no-repeat;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-    box-shadow: 0 2px 20px rgba(100, 40, 180, 0.3);
+    border-bottom: 1px solid rgba(168, 136, 10, 0.12);
+    box-shadow: 0 2px 24px rgba(0, 0, 0, 0.8);
 }
 
 section {

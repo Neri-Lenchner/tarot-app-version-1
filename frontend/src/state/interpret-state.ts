@@ -14,14 +14,14 @@ export class InterpretState {
 }
 
 // Step 2
-export enum IInterpretActionType {
+export enum InterpretActionType {
     SetBoth = 'SetBoth',
     Clear = 'Clear',
 }
 
 // Step 3
 export interface IInterpretAction {
-    type: IInterpretActionType;
+    type: InterpretActionType;
     spreadType: SpreadType;
     payload?: { en: string; he: string };
 }
@@ -32,9 +32,9 @@ export function interpretReducer(
     action: IInterpretAction
 ): InterpretState {
     switch (action.type) {
-        case IInterpretActionType.SetBoth:
+        case InterpretActionType.SetBoth:
             return { ...state, [action.spreadType]: action.payload };
-        case IInterpretActionType.Clear:
+        case InterpretActionType.Clear:
             return { ...state, [action.spreadType]: { en: null, he: null } };
         default:
             return state;
