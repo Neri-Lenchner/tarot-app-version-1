@@ -23,6 +23,12 @@ function MySpreadsPage(): JSX.Element {
             .catch(() => setLoading(false));
     }, []);
 
+    const handleDelete = async (e: React.MouseEvent, id: number): Promise<void> => {
+        e.stopPropagation();
+        await readingService.delete(id);
+        setReadings(prev => prev.filter(r => r.id !== id));
+    };
+
     return (
         <div className="my-spreads-page">
             <h2 className="my-spreads-title">My Spreads</h2>
@@ -38,7 +44,14 @@ function MySpreadsPage(): JSX.Element {
                                 <span className="my-spread-date">{formatDate(r.created_at)}</span>
                                 {r.question && <span className="my-spread-question-preview">"{r.question}"</span>}
                             </div>
-                            <span className={`my-spread-type ${spreadClass}`}>{spreadLabel}</span>
+                            <div className="my-spread-item-right">
+                                <span className={`my-spread-type ${spreadClass}`}>{spreadLabel}</span>
+                                <button
+                                    className="my-spread-delete-btn"
+                                    onClick={e => handleDelete(e, r.id)}
+                                    title="Delete"
+                                >✕</button>
+                            </div>
                         </div>
                     );
                 })}

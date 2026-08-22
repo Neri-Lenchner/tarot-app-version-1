@@ -77,6 +77,36 @@
     opacity: 0.8;
 }
 
+.my-spread-item-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.my-spread-delete-btn {
+    background: none;
+    border: 1px solid rgba(200, 60, 60, 0.4);
+    color: rgba(220, 80, 80, 0.8);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.my-spread-delete-btn:hover {
+    background: rgba(200, 60, 60, 0.18);
+    border-color: rgba(220, 80, 80, 0.8);
+    color: #f87171;
+    box-shadow: 0 0 10px rgba(220, 80, 80, 0.4);
+}
+
 .my-spread-type {
     font-size: 0.95rem;
     font-weight: 700;

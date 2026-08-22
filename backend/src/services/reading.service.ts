@@ -40,6 +40,14 @@ class ReadingService {
         const rows = await dal.execute(sql, [id, userId]) as IReadingRecord[];
         return rows[0] ?? null;
     }
+
+    public async deleteReading(userId: number, id: number): Promise<boolean> {
+        const result = await dal.execute(
+            "DELETE FROM readings WHERE id = ? AND user_id = ?",
+            [id, userId]
+        ) as ResultSetHeader;
+        return result.affectedRows > 0;
+    }
 }
 
 export const readingService = new ReadingService();

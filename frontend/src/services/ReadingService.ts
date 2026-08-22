@@ -42,6 +42,10 @@ class ReadingService {
         const response = await axios.get<IReadingRecord>(`${BASE}/${id}`, { headers: this.authHeader });
         return response.data;
     }
+
+    async delete(id: number): Promise<void> {
+        await axios.delete(`${BASE}/${id}`, { headers: this.authHeader });
+    }
 }
 
 export const readingService = new ReadingService();
