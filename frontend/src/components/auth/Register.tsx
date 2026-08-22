@@ -27,30 +27,70 @@ function Register(): JSX.Element {
     return (
         <div className="auth-page">
             <div className="auth-card">
-                <h2 className="auth-title">Create Account</h2>
-                <form onSubmit={handleSubmit(onSubmit)} className="auth-form">
-                    <label>First Name</label>
+                <h2 className="auth-title">
+                    Create Account
+                </h2>
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="auth-form">
+                    <label>
+                        First Name
+                    </label>
                     <input {...register("firstName", { required: "First name is required" })} />
-                    {errors.firstName && <span className="auth-error">{errors.firstName.message}</span>}
+                    {
+                        errors.firstName &&
+                        <span className="auth-error">
+                            {errors.firstName.message}
+                        </span>
+                    }
 
-                    <label>Last Name</label>
+                    <label>
+                        Last Name
+                    </label>
                     <input {...register("lastName", { required: "Last name is required" })} />
-                    {errors.lastName && <span className="auth-error">{errors.lastName.message}</span>}
+                    {
+                        errors.lastName &&
+                        <span className="auth-error">
+                            {errors.lastName.message}
+                        </span>
+                    }
 
-                    <label>Email</label>
+                    <label>
+                        Email
+                    </label>
                     <input type="email" {...register("email", { required: "Email is required" })} />
-                    {errors.email && <span className="auth-error">{errors.email.message}</span>}
+                    {
+                        errors.email &&
+                        <span className="auth-error">
+                            {errors.email.message}
+                        </span>
+                    }
 
-                    <label>Password</label>
+                    <label>
+                        Password
+                    </label>
                     <input type="password" {...register("password", {
                         required: "Password is required",
-                        minLength: { value: 4, message: "At least 4 characters" }
+                        minLength: { value: 4, message: "At least 4 characters"}
                     })} />
-                    {errors.password && <span className="auth-error">{errors.password.message}</span>}
+                    {
+                        errors.password &&
+                        <span className="auth-error">
+                            {errors.password.message}
+                        </span>
+                    }
 
-                    <button type="submit" className="auth-btn">Register</button>
+                    <button
+                        type="submit"
+                        className="auth-btn">
+                        Register
+                    </button>
                 </form>
-                <p className="auth-link-text">Already have an account? <NavLink to="/login">Login</NavLink></p>
+                <p className="auth-link-text">
+                    Already have an account?
+                <NavLink to="/login">
+                    Login
+                </NavLink></p>
             </div>
         </div>
     );

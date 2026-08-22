@@ -60,3 +60,13 @@ Cross cluster (fully connected — any two cross cards are adjacent):
     7 (outside)           2, 6, 8
     8 (fears)             2, 7, 9
     9 (potential)         8, 5
+
+
+    ● Added Question madal:
+
+      1. A combination is detected → the CombinationsModal shows with a "✓ This resonates with my life — Re-read with this context" button under each match
+      2. User clicks it → modal closes, InterpretWidget opens, a re-interpretation is triggered automatically
+      3. The backend receives the confirmed combination and prepends a high-priority block to the AI prompt:
+      ▎ "The user confirmed that [cards] is directly relevant to their life. Treat this as the central truth of the entire spread — reference it explicitly throughout and especially in
+       the conclusion."
+      4. Clearing the spread resets the confirmed combination

@@ -13,7 +13,7 @@ import {
     MAJOR_ARCANA,
     CATEGORY_KEYWORDS,
     CELTIC_POSITION_GUIDE,
-} from "./prompt-constants";
+} from "../utils/prompt-constants";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
