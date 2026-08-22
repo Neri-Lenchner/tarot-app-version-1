@@ -10,10 +10,7 @@
     justify-content: center;
     height: var(--header-height);
     width: 100%;
-    /* Background image with a heavy dark veil so the title pops */
-    background:
-        linear-gradient(rgba(2, 1, 8, 0.90), rgba(2, 1, 8, 0.90)),
-        url('assets/images/tarot-app-background-img.jpg') center / cover no-repeat;
+    background: rgba(2, 1, 8, 0.82);
     border-bottom: 1px solid rgba(168, 136, 10, 0.12);
     box-shadow: 0 2px 24px rgba(0, 0, 0, 0.8);
 }

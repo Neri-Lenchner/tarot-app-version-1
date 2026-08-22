@@ -1,9 +1,6 @@
 .SideBar {
     height: 100%;
-    /* Dark overlay over the background image for a deeper mystic look */
-    background:
-        linear-gradient(rgba(2, 1, 8, 0.92), rgba(2, 1, 8, 0.92)),
-        url('../../../assets/images/tarot-app-background-img.jpg') center / cover no-repeat;
+    background: rgba(2, 1, 8, 0.82);
     border-right: 1px solid rgba(168, 136, 10, 0.08);
 }
 
