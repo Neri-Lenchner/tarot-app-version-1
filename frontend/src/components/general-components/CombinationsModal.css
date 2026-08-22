@@ -138,7 +138,7 @@
 /* ── Meaning & badge ── */
 .combo-meaning {
     font-size: 17px;
-    color: var(--text-primary);
+    color: #ffffff;
     line-height: 1.55;
     margin-bottom: 10px;
 }
