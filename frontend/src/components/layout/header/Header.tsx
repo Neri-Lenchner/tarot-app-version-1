@@ -1,5 +1,6 @@
 import React, {JSX, useState, useEffect} from 'react';
 import './Header.css';
+import berta from '../../../assets/images/berta-1.png';
 import {NavLink, useNavigate} from "react-router-dom";
 import {authStore, Logout, IAuthUser} from "../../../state/auth-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
@@ -28,7 +29,8 @@ function Header(): JSX.Element {
 
     return (
         <div className="Header">
-            <h1>TAROT Cards Spreads</h1>
+            <img src={berta} alt="Berta" className="header-berta" />
+            <h1>BERTA'S TAROT CARDS SPREADS</h1>
             <div className="header-auth">
                 {user ? (
                     <>

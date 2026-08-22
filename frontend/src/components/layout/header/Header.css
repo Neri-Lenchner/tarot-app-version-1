@@ -20,6 +20,16 @@
         0 1px 3px rgba(0, 0, 0, 0.8);
 }
 
+.header-berta {
+    position: absolute;
+    left: 56px;
+    top: 0;
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    z-index: 10;
+}
+
 .header-auth {
     position: absolute;
     right: 20px;
