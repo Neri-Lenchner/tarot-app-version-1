@@ -25,8 +25,8 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     useEffect(() => {
         if (!visible) return;
         const handleClick = () => setVisible(false);
-        document.addEventListener('click', handleClick);
-        return () => document.removeEventListener('click', handleClick);
+        const id = setTimeout(() => document.addEventListener('click', handleClick), 0);
+        return () => { clearTimeout(id); document.removeEventListener('click', handleClick); };
     }, [visible]);
 
     if (!visible) {
