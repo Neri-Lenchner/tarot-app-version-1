@@ -3,17 +3,34 @@
     align-items: center;
     justify-content: center;
     padding: 8px;
+    position: relative;
+}
+
+.TarotCard::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: var(--radius-sm);
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.TarotCard:hover::after {
+    opacity: 0.2;
 }
 
 .small-card {
     border-radius: var(--radius-sm);
     width: 80px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 6px var(--deck-glow);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    filter: contrast(1.08) brightness(0.8) saturate(1.2) sepia(0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .small-card:hover {
     transform: scale(1.12);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8), 0 0 18px var(--deck-glow);
+    filter: contrast(1.04) brightness(0.95) saturate(1.1);
     z-index: 10;
 }
