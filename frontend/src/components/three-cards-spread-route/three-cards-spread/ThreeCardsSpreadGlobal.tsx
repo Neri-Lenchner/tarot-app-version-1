@@ -87,14 +87,14 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => { if (isSpread3) clearSpread3(); }}
                 />
-                <button
-                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
-                    onClick={() => setIsThirdPerson(p => !p)}
-                    type="button"
-                >
-                    {isThirdPerson ? '👤 Reading about someone else' : '👤 Reading about someone else?'}
-                </button>
             </SpreadHeader>
+            <button
+                className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                onClick={() => setIsThirdPerson(p => !p)}
+                type="button"
+            >
+                👤 Reading about someone else
+            </button>
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>

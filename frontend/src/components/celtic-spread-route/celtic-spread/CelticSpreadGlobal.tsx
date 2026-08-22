@@ -87,14 +87,14 @@ export function CelticSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => { if (isSpread) clearSpread(); }}
                 />
-                <button
-                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
-                    onClick={() => setIsThirdPerson(p => !p)}
-                    type="button"
-                >
-                    {isThirdPerson ? '👤 Reading about someone else' : '👤 Reading about someone else?'}
-                </button>
             </SpreadHeader>
+            <button
+                className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                onClick={() => setIsThirdPerson(p => !p)}
+                type="button"
+            >
+                👤 Reading about someone else
+            </button>
             {submittedQuestion && (
                 <div className="spread-question-display">
                     <span className="spread-question-label">Your question:</span>
