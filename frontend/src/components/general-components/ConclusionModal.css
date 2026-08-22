@@ -113,6 +113,75 @@
     margin-bottom: 0;
 }
 
+/* ── Follow-up question ── */
+.conclusion-followup {
+    padding: 10px 16px 14px;
+    border-top: 1px solid var(--conclusion-border);
+}
+
+.conclusion-followup-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.conclusion-followup-input {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--conclusion-border);
+    border-radius: var(--radius-sm);
+    color: #fff;
+    font-size: 15px;
+    padding: 7px 10px;
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.conclusion-followup-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+}
+
+.conclusion-followup-input:focus {
+    border-color: var(--conclusion-accent);
+}
+
+.conclusion-followup-btn {
+    background: none;
+    border: 1px solid var(--conclusion-border);
+    color: var(--conclusion-accent);
+    font-size: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: box-shadow var(--transition), border-color var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.conclusion-followup-btn:hover:not(:disabled) {
+    border-color: var(--conclusion-accent);
+    box-shadow: 0 0 8px var(--conclusion-glow);
+}
+
+.conclusion-followup-btn:disabled {
+    opacity: 0.35;
+    cursor: default;
+}
+
+.conclusion-followup-answer {
+    margin-top: 10px;
+    color: #fff;
+    font-size: 17px;
+    line-height: 1.65;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--conclusion-border);
+}
+
 /* ── Reopen toggle button ── */
 .conclusion-reopen-btn {
     position: fixed;

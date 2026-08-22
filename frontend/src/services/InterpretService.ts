@@ -28,6 +28,15 @@ class InterpretService {
         return response.data.interpretation;
     }
 
+    async followupQuestion(question: string, interpretation: string, lang: "en" | "he"): Promise<string> {
+        const response = await axios.post(`${BASE_URL}/api/tarot/followup`, {
+            question,
+            interpretation,
+            language: lang,
+        });
+        return response.data.answer;
+    }
+
     async interpretBoth(
         spreadType: "celtic" | "three-cards",
         cards: any[],

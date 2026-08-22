@@ -9,6 +9,7 @@ class TarotController {
     constructor() {
         this.router.post("/api/tarot/interpret", this.interpret);
         this.router.post("/api/tarot/check-combinations", this.checkCombinations);
+        this.router.post("/api/tarot/followup", this.followup);
     }
 
     public checkCombinations(request: Request, response: Response, next: NextFunction): void {
@@ -19,6 +20,19 @@ class TarotController {
             }
             const matches = tarotService.checkCombinations(cardNames, question);
             response.json(matches);
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    public async followup(request: Request, response: Response, next: NextFunction): Promise<void> {
+        try {
+            const { question, interpretation, language }: { question: string; interpretation: string; language?: "en" | "he" } = request.body;
+            if (!question?.trim() || !interpretation?.trim()) {
+                throw new ValidationError("question and interpretation are required");
+            }
+            const answer = await tarotService.followupQuestion(question, interpretation, language);
+            response.json({ answer });
         } catch (error) {
             next(error);
         }

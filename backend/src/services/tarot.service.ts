@@ -190,6 +190,37 @@ class TarotService {
         return response.data.choices[0].message.content as string;
     }
 
+    public async followupQuestion(question: string, interpretation: string, language: "en" | "he" = "en"): Promise<string> {
+        const langRule = language === "he"
+            ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. The ONLY exception: keep tarot card names in English.\n\n"
+            : "";
+
+        const response = await axios.post(
+            "https://api.openai.com/v1/chat/completions",
+            {
+                model: "gpt-4o-mini",
+                messages: [
+                    {
+                        role: "system",
+                        content: `${langRule}You are a tarot reader who has just completed a reading. The querent has a follow-up question. Answer it based ONLY on what the cards in the reading revealed — do not invent new meanings beyond the reading. Be direct, warm, and personal. 2–3 sentences maximum. Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`,
+                    },
+                    {
+                        role: "user",
+                        content: `Here is the tarot reading that was given:\n\n${interpretation}\n\nThe querent now asks: "${question}"\n\nAnswer in 2–3 sentences, drawing only from what this reading revealed.`,
+                    },
+                ],
+            },
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${appConfig.openAiApiKey}`,
+                },
+            }
+        );
+
+        return response.data.choices[0].message.content as string;
+    }
+
     public checkCombinations(cardNames: string[], question?: string): import("../dto/tarot.dto").ICombinationMatch[] {
         const nameSet = new Set(cardNames.map(n => n.toLowerCase()));
         const matches: import("../dto/tarot.dto").ICombinationMatch[] = [];

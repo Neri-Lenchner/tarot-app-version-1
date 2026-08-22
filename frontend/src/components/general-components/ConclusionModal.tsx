@@ -1,6 +1,7 @@
 import { JSX, useState, useEffect } from 'react';
 import { interpretStore, InterpretState } from '../../state/interpret-state';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
+import { interpretService } from '../../services/InterpretService';
 import './ConclusionModal.css';
 
 interface IConclusionModalProps {
@@ -21,10 +22,15 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [visible, setVisible] = useState(true);
     const [collapsed, setCollapsed] = useState(false);
+    const [followupQ, setFollowupQ] = useState('');
+    const [followupAnswer, setFollowupAnswer] = useState<string | null>(null);
+    const [followupLoading, setFollowupLoading] = useState(false);
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
             setStored(interpretStore.getState());
             setVisible(true);
+            setFollowupQ('');
+            setFollowupAnswer(null);
         });
         return unsubscribe;
     }, []);
@@ -42,6 +48,21 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         document.addEventListener('click', handleClick);
         return () => document.removeEventListener('click', handleClick);
     }, [visible]);
+
+    const handleFollowup = async (): Promise<void> => {
+        if (!followupQ.trim() || followupLoading) return;
+        const spreadData = stored[spreadType];
+        const interpretation = spreadData.en || spreadData.he || '';
+        if (!interpretation) return;
+        setFollowupLoading(true);
+        setFollowupAnswer(null);
+        try {
+            const answer = await interpretService.followupQuestion(followupQ.trim(), interpretation, lang);
+            setFollowupAnswer(answer);
+        } finally {
+            setFollowupLoading(false);
+        }
+    };
 
     const spreadData = stored[spreadType];
     const en = spreadData.en ? extractConclusion(spreadData.en) : null;
@@ -74,11 +95,38 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 </div>
             </div>
             {!collapsed && (
-                <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                    {current.split('\n').map((line, i) => (
-                        <p key={i} className="conclusion-text">{line}</p>
-                    ))}
-                </div>
+                <>
+                    <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        {current.split('\n').map((line, i) => (
+                            <p key={i} className="conclusion-text">{line}</p>
+                        ))}
+                    </div>
+                    <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <div className="conclusion-followup-row">
+                            <input
+                                className="conclusion-followup-input"
+                                type="text"
+                                placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
+                                value={followupQ}
+                                onChange={e => setFollowupQ(e.target.value)}
+                                onKeyDown={e => e.key === 'Enter' && handleFollowup()}
+                                disabled={followupLoading}
+                            />
+                            <button
+                                className="conclusion-followup-btn"
+                                onClick={handleFollowup}
+                                disabled={!followupQ.trim() || followupLoading}
+                            >
+                                {followupLoading ? '...' : '✦'}
+                            </button>
+                        </div>
+                        {followupAnswer && (
+                            <div className="conclusion-followup-answer">
+                                {followupAnswer}
+                            </div>
+                        )}
+                    </div>
+                </>
             )}
         </div>
     );
