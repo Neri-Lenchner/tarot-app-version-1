@@ -13,6 +13,7 @@
     font-size: 14px;
     padding: 7px 14px;
     outline: none;
+    box-shadow: 0 0 12px var(--threecards-glow), 0 0 28px rgba(var(--threecards-accent-rgb), 0.12);
     transition: border-color var(--transition), box-shadow var(--transition);
 }
 
@@ -22,7 +23,7 @@
 
 .three-cards-global-container .spread-question-input:focus {
     border-color: var(--threecards-accent);
-    box-shadow: 0 0 10px var(--threecards-glow);
+    box-shadow: 0 0 20px var(--threecards-glow), 0 0 48px rgba(var(--threecards-accent-rgb), 0.22);
 }
 
 .three-cards-global-container .spread-question-display {

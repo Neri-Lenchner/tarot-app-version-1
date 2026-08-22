@@ -12,7 +12,7 @@
     font-size: 0.8rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(212, 175, 55, 0.25);
+    border: 1px solid rgba(212, 175, 55, 0.4);
     background: rgba(5, 3, 14, 0.85);
     color: var(--text-muted);
     padding: 7px 16px;
@@ -20,6 +20,7 @@
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
+    box-shadow: 0 0 10px var(--gold-glow), 0 0 22px rgba(212, 175, 55, 0.1);
     transition:
         background var(--transition),
         border-color var(--transition),
@@ -31,7 +32,7 @@
     background: rgba(10, 5, 25, 0.92);
     border-color: var(--gold);
     color: var(--gold);
-    box-shadow: 0 0 10px var(--gold-glow);
+    box-shadow: 0 0 18px var(--gold-glow), 0 0 40px rgba(212, 175, 55, 0.2);
 }
 
 .spread-header-container button:active {
@@ -44,14 +45,14 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(107, 63, 160, 0.35);
+    border: 1px solid rgba(107, 63, 160, 0.55);
     background: rgba(5, 3, 14, 0.85);
-    color: var(--text-faint);
+    color: var(--text-muted);
     padding: 7px 16px;
     border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
-    opacity: 0.75;
+    box-shadow: 0 0 10px rgba(107, 63, 160, 0.35), 0 0 22px rgba(107, 63, 160, 0.1);
     transition:
         background var(--transition),
         border-color var(--transition),
@@ -64,14 +65,12 @@
 .third-person-toggle:hover {
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 10px rgba(107, 63, 160, 0.4);
-    opacity: 1;
+    box-shadow: 0 0 18px rgba(107, 63, 160, 0.6), 0 0 38px rgba(107, 63, 160, 0.18);
 }
 
 .third-person-toggle.active {
     background: rgba(107, 63, 160, 0.25);
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5);
-    opacity: 1;
+    box-shadow: 0 0 20px rgba(107, 63, 160, 0.7), 0 0 42px rgba(107, 63, 160, 0.22);
 }

@@ -201,19 +201,19 @@
 .conclusion-reopen-btn.theme-green {
     color: var(--celtic-accent);
     border: 2px solid var(--celtic-border);
-    box-shadow: 0 0 14px var(--celtic-glow), 0 0 30px rgba(var(--celtic-accent-rgb), 0.12);
+    box-shadow: 0 0 20px var(--celtic-glow), 0 0 42px rgba(var(--celtic-accent-rgb), 0.22);
 }
 
 .conclusion-reopen-btn.theme-green:hover {
-    box-shadow: 0 0 24px var(--celtic-glow), 0 0 48px rgba(var(--celtic-accent-rgb), 0.2);
+    box-shadow: 0 0 32px var(--celtic-glow), 0 0 64px rgba(var(--celtic-accent-rgb), 0.3);
 }
 
 .conclusion-reopen-btn.theme-blue {
     color: var(--threecards-accent);
     border: 2px solid var(--threecards-border);
-    box-shadow: 0 0 14px var(--threecards-glow), 0 0 30px rgba(var(--threecards-accent-rgb), 0.12);
+    box-shadow: 0 0 20px var(--threecards-glow), 0 0 42px rgba(var(--threecards-accent-rgb), 0.22);
 }
 
 .conclusion-reopen-btn.theme-blue:hover {
-    box-shadow: 0 0 24px var(--threecards-glow), 0 0 48px rgba(var(--threecards-accent-rgb), 0.2);
+    box-shadow: 0 0 32px var(--threecards-glow), 0 0 64px rgba(var(--threecards-accent-rgb), 0.3);
 }
