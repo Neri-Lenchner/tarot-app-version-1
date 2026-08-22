@@ -55,28 +55,28 @@
 
 .combo-lang-btn {
     background: none;
-    border: 1px solid var(--purple-border);
-    color: var(--purple);
+    border: 1px solid rgba(192, 132, 252, 0.5);
+    color: #c084fc;
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 7px;
     border-radius: var(--radius-sm);
     cursor: pointer;
-    box-shadow: 0 0 8px rgba(107, 63, 160, 0.45);
-    text-shadow: 0 0 6px rgba(107, 63, 160, 0.7);
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
     transition: box-shadow var(--transition), border-color var(--transition);
 }
 
 .combo-lang-btn:hover {
-    border-color: var(--purple);
-    box-shadow: 0 0 14px rgba(107, 63, 160, 0.75);
+    border-color: #c084fc;
+    box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
 }
 
 .combo-collapse-btn {
     background: none;
-    border: 1px solid var(--purple-border);
-    color: var(--purple);
+    border: 1px solid rgba(192, 132, 252, 0.5);
+    color: #c084fc;
     font-size: 17px;
     width: 26px;
     height: 26px;
@@ -86,13 +86,14 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 0 8px rgba(107, 63, 160, 0.45);
+    box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
     transition: background var(--transition), box-shadow var(--transition);
 }
 
 .combo-collapse-btn:hover {
-    background: rgba(107, 63, 160, 0.35);
-    box-shadow: 0 0 14px rgba(107, 63, 160, 0.7);
+    background: rgba(192, 132, 252, 0.15);
+    box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
 }
 
 .combo-item {
@@ -183,19 +184,19 @@
     height: 54px;
     border-radius: 50%;
     background: rgba(17, 13, 31, 0.9);
-    color: var(--purple);
-    border: 2px solid rgba(107, 63, 160, 0.8);
+    color: #c084fc;
+    border: 2px solid rgba(192, 132, 252, 0.8);
     font-size: 20px;
     cursor: pointer;
     z-index: 1001;
-    box-shadow: 0 0 22px rgba(107, 63, 160, 0.8), 0 0 50px rgba(107, 63, 160, 0.35), inset 0 0 12px rgba(107, 63, 160, 0.15);
-    text-shadow: 0 0 10px rgba(107, 63, 160, 1), 0 0 22px rgba(107, 63, 160, 0.7);
+    box-shadow: 0 0 22px rgba(192, 132, 252, 0.7), 0 0 50px rgba(192, 132, 252, 0.35), inset 0 0 12px rgba(192, 132, 252, 0.15);
+    text-shadow: 0 0 10px rgba(192, 132, 252, 1), 0 0 22px rgba(192, 132, 252, 0.8);
     transition: box-shadow var(--transition), text-shadow var(--transition);
 }
 
 .combo-reopen-btn:hover {
-    box-shadow: 0 0 36px rgba(107, 63, 160, 1), 0 0 72px rgba(107, 63, 160, 0.5), inset 0 0 18px rgba(107, 63, 160, 0.2);
-    text-shadow: 0 0 14px rgba(107, 63, 160, 1), 0 0 30px rgba(107, 63, 160, 0.9);
+    box-shadow: 0 0 36px rgba(192, 132, 252, 0.9), 0 0 72px rgba(192, 132, 252, 0.5), inset 0 0 18px rgba(192, 132, 252, 0.2);
+    text-shadow: 0 0 16px rgba(192, 132, 252, 1), 0 0 34px rgba(192, 132, 252, 0.9);
 }
 
 /* ── Confirm resonance button ── */
@@ -233,21 +234,21 @@
     width: 100%;
     margin-top: 18px;
     padding: 9px;
-    background: rgba(107, 63, 160, 0.4);
-    border: 1px solid var(--purple-border);
-    color: var(--purple);
+    background: rgba(192, 132, 252, 0.15);
+    border: 1px solid rgba(192, 132, 252, 0.5);
+    color: #c084fc;
     border-radius: var(--radius);
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
-    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5);
-    text-shadow: 0 0 8px rgba(107, 63, 160, 0.7);
+    box-shadow: 0 0 14px rgba(192, 132, 252, 0.55);
+    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
     transition: background var(--transition), box-shadow var(--transition);
 }
 
 .combo-modal-close:hover {
-    background: rgba(107, 63, 160, 0.7);
-    box-shadow: 0 0 22px rgba(107, 63, 160, 0.8);
+    background: rgba(192, 132, 252, 0.3);
+    box-shadow: 0 0 26px rgba(192, 132, 252, 0.85);
 }
