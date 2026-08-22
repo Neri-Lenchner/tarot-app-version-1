@@ -4,6 +4,7 @@ import { interpretStore, InterpretActionType, InterpretState } from '../../state
 import { authStore } from '../../state/auth-state';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import { readingService } from '../../services/ReadingService';
+import { ICombinationMatch } from '../../services/CombinationsService';
 import './InterpretWidget.css';
 
 interface IInterpretWidgetProps {
@@ -13,6 +14,7 @@ interface IInterpretWidgetProps {
     theme: 'green' | 'blue';
     question?: string;
     isThirdPerson?: boolean;
+    confirmedCombination?: ICombinationMatch;
     isOpen: boolean;
     onToggle: () => void;
 }
@@ -39,7 +41,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -85,7 +87,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined, isThirdPerson);
+            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined, isThirdPerson, confirmedCombination);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({
@@ -104,6 +106,12 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isOpen]);
+
+    useEffect(() => {
+        if (!confirmedCombination) return;
+        interpret();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [confirmedCombination]);
 
     return (
         <div className={`interpret-widget theme-${theme}`}>

@@ -5,6 +5,15 @@ import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
 import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
+import {
+    HEALTH_KEYWORDS,
+    THIRD_PERSON_PRONOUNS,
+    THIRD_PERSON_RELATIONSHIPS,
+    COURT_CARDS,
+    MAJOR_ARCANA,
+    CATEGORY_KEYWORDS,
+    CELTIC_POSITION_GUIDE,
+} from "./prompt-constants";
 
 function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
@@ -18,15 +27,6 @@ function findMatchingCombinations(cards: ISpreadCard[]): string[] {
     }
     return matches;
 }
-
-const HEALTH_KEYWORDS = [
-    'health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital',
-    'pain', 'body', 'physical', 'heal', 'recover', 'diagnosis', 'symptom',
-    'condition', 'wellbeing', 'well-being', 'surgery', 'treatment', 'medication',
-    'injury', 'accident', 'depression', 'anxiety', 'mental', 'diet', 'exercise',
-    'weight', 'energy', 'fatigue', 'tired', 'chronic', 'בריאות', 'מחלה', 'כאב',
-    'רופא', 'טיפול', 'ניתוח', 'עייפות', 'גוף', 'תרופה',
-];
 
 function isHealthQuestion(question: string): boolean {
     const q = question.toLowerCase();
@@ -48,21 +48,6 @@ function findHealthIndicators(cards: ISpreadCard[]): string[] {
     return matches;
 }
 
-const THIRD_PERSON_PRONOUNS = ['he ', 'she ', 'him ', 'her ', 'his ', 'they ', 'them ', 'their '];
-const THIRD_PERSON_RELATIONSHIPS = [
-    'my friend', 'my partner', 'my mother', 'my father', 'my brother', 'my sister',
-    'my boyfriend', 'my girlfriend', 'my husband', 'my wife', 'my ex', 'my boss',
-    'my colleague', 'my coworker', 'my manager', 'my employee', 'my neighbor',
-    'my son', 'my daughter', 'my child', 'my aunt', 'my uncle',
-    'my grandmother', 'my grandfather', 'my grandma', 'my grandpa', 'my teacher',
-    'about him', 'about her', 'about them',
-    // Hebrew
-    'החבר שלי', 'החברה שלי', 'האמא שלי', 'האבא שלי', 'האח שלי', 'האחות שלי',
-    'הבוס שלי', 'הבן זוג שלי', 'הבת זוג שלי', 'הבעל שלי', 'האישה שלי',
-    'הילד שלי', 'הבן שלי', 'הבת שלי', 'הסבתא שלי', 'הסבא שלי',
-    'הקולגה שלי', 'השכן שלי', 'הגיס שלי', 'הגיסה שלי',
-];
-
 function isThirdPersonQuestion(question: string): boolean {
     const q = question.toLowerCase();
     if (THIRD_PERSON_PRONOUNS.some(p => q.includes(p) || q.startsWith(p.trim()))) return true;
@@ -70,28 +55,12 @@ function isThirdPersonQuestion(question: string): boolean {
     return false;
 }
 
-const MAJOR_ARCANA = new Set([
-    'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
-    'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',
-    'wheel of fortune', 'justice', 'the hanged man', 'death', 'temperance',
-    'the devil', 'the tower', 'the star', 'the moon', 'the sun', 'judgement', 'the world'
-]);
-
-const CATEGORY_KEYWORDS: Record<string, string[]> = {
-    "PREGNANCY / CHILDREN": ['pregnancy', 'pregnant', 'baby', 'child', 'children', 'birth', 'fertility', 'conceive', 'ivf', 'maternal', 'הריון', 'ילד', 'ילדה', 'לידה', 'תינוק', 'פוריות'],
-    "MARRIAGE / WEDDING": ['marriage', 'wedding', 'marry', 'engaged', 'engagement', 'husband', 'wife', 'spouse', 'honeymoon', 'bride', 'groom', 'חתונה', 'נישואים', 'ארוסים', 'בעל', 'אישה', 'חתן', 'כלה'],
-    "DIVORCE / SEPARATION": ['divorce', 'separation', 'breakup', 'break up', 'split', 'separate', 'leaving', 'end relationship', 'גירושין', 'פרידה', 'פרוד', 'התפרדות'],
-    "CAREER / EMPLOYMENT": ['job', 'career', 'work', 'employment', 'promotion', 'fired', 'hired', 'interview', 'boss', 'office', 'profession', 'salary', 'עבודה', 'קריירה', 'מקצוע', 'פיטורים', 'קידום', 'משרה'],
-    "MONEY / FINANCE / BUSINESS": ['money', 'finance', 'financial', 'business', 'debt', 'loan', 'income', 'invest', 'profit', 'bankruptcy', 'savings', 'funds', 'כסף', 'כלכלה', 'עסק', 'חוב', 'הכנסה', 'השקעה'],
-    "LEGAL / COURT": ['legal', 'law', 'court', 'lawsuit', 'lawyer', 'judge', 'contract', 'dispute', 'inheritance', 'חוק', 'משפט', 'עורך דין', 'תביעה', 'ירושה'],
-    "TRAVEL / MOVEMENT": ['travel', 'trip', 'journey', 'move', 'relocation', 'abroad', 'flight', 'vacation', 'נסיעה', 'טיול', 'מעבר', 'חופשה', 'שינוי מגורים'],
-    "HOME / PROPERTY": ['home', 'house', 'property', 'real estate', 'apartment', 'rent', 'buy', 'בית', 'דירה', 'נכס', 'רכישה', 'שכירות'],
-    "PEOPLE / OCCUPATIONS": ['person', 'who is', 'about him', 'about her', 'occupation', 'profession', 'אדם', 'מקצוע', 'מי הוא', 'מי היא'],
-    "HEALTH": ['health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital', 'pain', 'body', 'heal', 'recover', 'diagnosis', 'injury', 'depression', 'anxiety', 'mental', 'בריאות', 'מחלה', 'כאב', 'רופא', 'טיפול'],
-    "SPIRITUAL / PSYCHIC": ['spiritual', 'psychic', 'spirit', 'intuition', 'meditation', 'occult', 'divine', 'angel', 'soul', 'רוחניות', 'פסיכי', 'נשמה', 'מדיטציה'],
-    "health": ['health', 'sick', 'illness', 'disease', 'medical', 'doctor', 'hospital', 'pain', 'body', 'heal', 'recover', 'diagnosis', 'injury', 'בריאות', 'מחלה', 'כאב', 'רופא', 'טיפול'],
-    "mental_health": ['mental', 'anxiety', 'depression', 'stress', 'psychology', 'psychiatry', 'נפש', 'חרדה', 'דיכאון', 'לחץ'],
-};
+function getCourtCardsSection(cards: ISpreadCard[]): string {
+    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
+    if (courtCards.length === 0) return '';
+    const names = courtCards.map(c => c.name).join(', ');
+    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person in the querent's life — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
+}
 
 function isAllMajorArcana(cards: string[]): boolean {
     return cards.every(c => MAJOR_ARCANA.has(c.replace(/ Rx$/i, '').toLowerCase()));
@@ -125,22 +94,8 @@ function getMajorArcanaSection(cards: ISpreadCard[]): string {
     return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
 }
 
-const CELTIC_POSITION_GUIDE = `
-Position guide for the Celtic Cross spread:
-1. Positive Energy — The support, people, or forces actively helping the querent in this situation.
-2. Negative Energy — The obstacles, interference, or destructive forces working against the querent.
-3. Past — Where this situation began; the context and origin of the matter.
-4. Present — The core of the situation as it stands right now.
-5. Near Future — How things will unfold in the short term if nothing changes.
-6. Far Future — The ultimate direction this situation is heading long-term.
-7. Inside — How the querent truly feels inside; their private emotional reality.
-8. Outside — How the querent presents themselves externally; their public face. Note any contradiction with position 7.
-9. Fears — The querent's deepest anxieties about this situation.
-10. Potential — The ultimate outcome or highest potential of the situation.
-`.trim();
-
 class TarotService {
-    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean): Promise<string> {
+    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch): Promise<string> {
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
         const cardList = cards
@@ -169,6 +124,11 @@ class TarotService {
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
+        const courtCardsSection = getCourtCardsSection(cards);
+
+        const confirmedComboSection = confirmedCombination
+            ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
+            : '';
 
         const matchedCombos = findMatchingCombinations(cards);
         const combinationsSection = matchedCombos.length > 0
@@ -200,7 +160,7 @@ class TarotService {
               "\n\nSPECIAL RULE FOR POSITION 2 (Negative Energy): If the card here is traditionally positive or fortunate (e.g. The Star, The Sun, The World, 10 of Cups, 10 of Pentacles, Ace of any suit, 6 of Wands, etc.), do NOT celebrate it or treat it as good news. The card remains exactly as bright and appealing as it is. Explain how this seemingly positive energy is functioning as the obstacle or interference — it may be creating false hope, encouraging complacency, making the querent cling to a comfortable illusion, or tempting them away from what they truly need to do. Acknowledge that the querent will likely perceive this force as welcome and pleasant — that is precisely what makes it dangerous. The message is: this good-looking thing is working against you, not because it is evil, but because it is a distraction or a trap."
             : "";
 
-        const userMessage = `${questionLine}${thirdPersonSection}${healthSection}${majorArcanaSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n- Positive Energy → what supporting force is actively at work for the querent right now?\n- Negative Energy → what is blocking or working against them?\n- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Near Future → what is concretely coming in the short term?\n- Far Future → where is this heading long-term; what is the ultimate direction?\n- Inside → what is the querent's private, unspoken emotional truth that they may not be voicing?\n- Outside → how does the querent appear to others; how do they present themselves to the world?\n- Fears → what does the querent dread, and how is that fear showing up in this situation?\n- Potential → what can the querent achieve here, and what should they focus on or do to reach that potential?\n- Future → what is coming for the querent?\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n- Positive Energy → what supporting force is actively at work for the querent right now?\n- Negative Energy → what is blocking or working against them?\n- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Near Future → what is concretely coming in the short term?\n- Far Future → where is this heading long-term; what is the ultimate direction?\n- Inside → what is the querent's private, unspoken emotional truth that they may not be voicing?\n- Outside → how does the querent appear to others; how do they present themselves to the world?\n- Fears → what does the querent dread, and how is that fear showing up in this situation?\n- Potential → what can the querent achieve here, and what should they focus on or do to reach that potential?\n- Future → what is coming for the querent?\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",

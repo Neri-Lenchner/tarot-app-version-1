@@ -7,11 +7,13 @@ import './CombinationsModal.css';
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
     onClose: () => void;
+    onConfirm: (combo: ICombinationMatch) => void;
 }
 
-export function CombinationsModal({ matches, onClose }: ICombinationsModalProps): JSX.Element {
+export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
+    const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     useEffect(() => {
         const unsubscribe = langStore.subscribe(() => {
@@ -68,6 +70,20 @@ export function CombinationsModal({ matches, onClose }: ICombinationsModalProps)
                                 <span className={`combo-badge ${match.category}`}>
                                     {lang === 'he' ? match.category_he : match.category.replace('_', ' ')}
                                 </span>
+                                <button
+                                    className="combo-confirm-btn"
+                                    disabled={confirmedIndices.has(i)}
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        setConfirmedIndices(prev => new Set(prev).add(i));
+                                        onConfirm(match);
+                                    }}
+                                >
+                                    {confirmedIndices.has(i)
+                                        ? (lang === 'he' ? '✓ נשלח — מפרש מחדש...' : '✓ Sent — Re-reading...')
+                                        : (lang === 'he' ? '✓ זה מדבר אליי — פרש מחדש' : '✓ This resonates with my life — Re-read with this context')
+                                    }
+                                </button>
                             </div>
                         ))}
                         <button className="combo-modal-close" onClick={() => setVisible(false)}>{lang === 'he' ? 'הבנתי' : 'Got it'}</button>

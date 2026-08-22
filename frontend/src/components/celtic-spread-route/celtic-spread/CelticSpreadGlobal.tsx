@@ -31,6 +31,7 @@ export function CelticSpreadGlobal(): JSX.Element {
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
+    const [confirmedCombination, setConfirmedCombination] = useState<ICombinationMatch | null>(null);
 
     const [isSpread, setIsSpread] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread");
@@ -71,7 +72,13 @@ export function CelticSpreadGlobal(): JSX.Element {
         setSubmittedQuestion('');
         setWidgetOpen(false);
         setComboMatches([]);
+        setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
+    };
+
+    const handleConfirmCombination = (combo: ICombinationMatch): void => {
+        setConfirmedCombination(combo);
+        setWidgetOpen(true);
     };
 
     return (
@@ -103,7 +110,7 @@ export function CelticSpreadGlobal(): JSX.Element {
             )}
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}
             {isSpread && selectedCards.length > 0 && (
                 <ConclusionModal spreadType="celtic" theme="green" />
@@ -116,6 +123,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     theme="green"
                     question={submittedQuestion}
                     isThirdPerson={isThirdPerson}
+                    confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}
                     onToggle={() => setWidgetOpen(o => !o)}
                 />

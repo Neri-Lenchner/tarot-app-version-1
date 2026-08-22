@@ -8,6 +8,7 @@ export interface IInterpretRequest {
     language?: "en" | "he";
     question?: string;
     isThirdPerson?: boolean;
+    confirmedCombination?: ICombinationMatch;
     cards: ISpreadCard[];
 }
 

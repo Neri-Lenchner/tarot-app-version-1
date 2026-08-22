@@ -28,6 +28,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
+    const [confirmedCombination, setConfirmedCombination] = useState<ICombinationMatch | null>(null);
 
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
@@ -71,7 +72,13 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setSubmittedQuestion('');
         setWidgetOpen(false);
         setComboMatches([]);
+        setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+    };
+
+    const handleConfirmCombination = (combo: ICombinationMatch): void => {
+        setConfirmedCombination(combo);
+        setWidgetOpen(true);
     };
 
     return (
@@ -103,7 +110,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             )}
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <ConclusionModal spreadType="three-cards" theme="blue" />
@@ -116,6 +123,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     theme="blue"
                     question={submittedQuestion}
                     isThirdPerson={isThirdPerson}
+                    confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}
                     onToggle={() => setWidgetOpen(o => !o)}
                 />
