@@ -9,13 +9,13 @@
 
 .spread-header-container button {
     font-weight: 600;
-    font-size: 0.8rem;
+    font-size: 1.1rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border: 1px solid rgba(212, 175, 55, 0.6);
     background: rgba(5, 3, 14, 0.85);
     color: var(--gold);
-    padding: 7px 16px;
+    padding: 9px 20px;
     border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
