@@ -1,10 +1,10 @@
 // Step 1
 
-import {TarotCardFromApi} from "../arrays-&-models/TarotCardFromApi.model";
+import {TarotCardData} from "../arrays-&-models/TarotCardData.model";
 import { createStore } from 'redux';
 
 export class DeckState {
-    tarotDeckList: TarotCardFromApi[] = [];
+    tarotDeckList: TarotCardData[] = [];
 }
 
 // Step 2
