@@ -22,7 +22,6 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [visible, setVisible] = useState(true);
     const [collapsed, setCollapsed] = useState(false);
-
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
             setStored(interpretStore.getState());
@@ -37,6 +36,13 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
         });
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (!visible) return;
+        const handleClick = () => setVisible(false);
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [visible]);
 
     const spreadData = stored[spreadType];
     const en = spreadData.en ? extractConclusion(spreadData.en) : null;
@@ -53,9 +59,9 @@ export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JS
     }
 
     return (
-        <div className={`conclusion-modal theme-${theme}${collapsed ? ' conclusion-modal--collapsed' : ''}`}>
+        <div className={`conclusion-modal theme-${theme}${collapsed ? ' conclusion-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
             <div className="conclusion-header">
-                <span className="conclusion-title">✦ Conclusion</span>
+                <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
                 <div className="conclusion-header-actions">
                     {hasBoth && (
                         <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>

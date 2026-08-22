@@ -13,13 +13,19 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
-
     useEffect(() => {
         const unsubscribe = langStore.subscribe(() => {
             setLang(langStore.getState().lang);
         });
         return unsubscribe;
     }, []);
+
+    useEffect(() => {
+        if (!visible) return;
+        const handleClick = () => setVisible(false);
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [visible]);
 
     if (!visible) {
         return (
@@ -28,10 +34,9 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
     }
 
     return (
-        <div className="combo-modal-overlay" onClick={collapsed ? undefined : () => setVisible(false)}>
-            <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
+        <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
                 <div className="combo-modal-header">
-                    <span className="combo-modal-title">✦ Card Combinations Detected</span>
+                    <span className="combo-modal-title">{lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}</span>
                     <div className="combo-header-actions">
                         <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
                             {lang === 'en' ? 'HE' : 'EN'}
@@ -65,10 +70,9 @@ export function CombinationsModal({ matches, onClose }: CombinationsModalProps):
                                 </span>
                             </div>
                         ))}
-                        <button className="combo-modal-close" onClick={() => setVisible(false)}>Got it</button>
+                        <button className="combo-modal-close" onClick={() => setVisible(false)}>{lang === 'he' ? 'הבנתי' : 'Got it'}</button>
                     </>
                 )}
-            </div>
         </div>
     );
 }

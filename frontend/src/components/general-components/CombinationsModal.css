@@ -1,15 +1,9 @@
-.combo-modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding-left: 28px;
-    z-index: 1000;
-}
-
 .combo-modal {
+    position: fixed;
+    top: 50%;
+    left: 28px;
+    transform: translateY(-50%);
+    z-index: 1000;
     background: var(--purple-bg);
     border: 1px solid var(--purple-border);
     border-radius: 14px;

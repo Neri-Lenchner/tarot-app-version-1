@@ -107,7 +107,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         <div className={`interpret-widget theme-${theme}`}>
             {isOpen && <div className="iw-backdrop" onClick={onToggle} />}
             {isOpen && (
-                <div className="iw-panel">
+                <div className="iw-panel" onClick={e => e.stopPropagation()}>
                     <div className="iw-header">
                         <span>Reading Interpretation</span>
                         {hasBoth && (

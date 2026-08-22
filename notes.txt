@@ -2,7 +2,7 @@
 
   ---
   1. The type
-  type Language = 'en' | 'he';
+  type Language = 'en' | 'heb';
   Only two valid values — English or Hebrew.
 
   ---
@@ -18,7 +18,7 @@
   3. The provider
   export function LanguageProvider({ children }: { children: ReactNode }): JSX.Element {
       const [language, setLanguage] = useState<Language>('en');
-      const toggleLanguage = () => setLanguage(l => (l === 'en' ? 'he' : 'en'));
+      const toggleLanguage = () => setLanguage(l => (l === 'en' ? 'heb' : 'en'));
       return (
           <LanguageContext.Provider value={{ language, toggleLanguage }}>
               {children}
@@ -26,7 +26,7 @@
       );
   }
   - Holds the actual state (useState)
-  - toggleLanguage flips between 'en' and 'he'
+  - toggleLanguage flips between 'en' and 'heb'
   - Wraps children so everything inside can access the context
   - This is placed high in the component tree (likely in App.tsx)
 
@@ -42,7 +42,7 @@
   Summary flow:
   App wraps with <LanguageProvider>
       ↓
-  Header uses toggleLanguage() → user clicks EN/HE button
+  Header uses toggleLanguage() → user clicks EN/HEB button
       ↓
   language state changes
       ↓
