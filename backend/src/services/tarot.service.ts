@@ -140,7 +140,7 @@ Position guide for the Celtic Cross spread:
 `.trim();
 
 class TarotService {
-    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string): Promise<string> {
+    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean): Promise<string> {
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
         const cardList = cards
@@ -154,9 +154,11 @@ class TarotService {
             ? `The querent's question is: "${question.trim()}"\n\n`
             : "";
 
-        const isThirdPerson = question?.trim() ? isThirdPersonQuestion(question.trim()) : false;
+        const celticThirdPersonPositions = spreadType === "celtic"
+            ? "\n- IMPORTANT — Celtic Cross positions 7 (Inside), 8 (Outside), 9 (Fears), 10 (Potential) are especially revealing: they expose that person's private inner world, how they present themselves to others, what they are afraid of, and what their highest potential is. Treat these four positions as the deepest window into who this person truly is."
+            : "";
         const thirdPersonSection = isThirdPerson
-            ? `=== THIRD-PERSON READING ===\nThe querent is asking about ANOTHER PERSON, not about themselves. Adjust your ENTIRE interpretation accordingly:\n- The spread reflects that OTHER PERSON's life, situation, emotions, and trajectory — not the querent's own.\n- Speak to the querent as the observer. Refer to the subject as "the person you asked about", "they", or by the relationship if it was mentioned (e.g. "your friend", "your partner", "your mother").\n- Every card, position, and event describes what is happening in THAT PERSON's life. Never say "you are facing" — say "the person you asked about is facing".\n- Example phrasing: "In the Past position, the person you asked about has gone through...", "Right now, they are dealing with...", "In the near future, your partner will likely..."\n===\n\n`
+            ? `=== THIRD-PERSON READING ===\nThe querent is asking about ANOTHER PERSON, not about themselves. Adjust your ENTIRE interpretation accordingly:\n- The ENTIRE spread — every card and every position — describes that OTHER PERSON's life, situation, emotions, and trajectory, not the querent's own.\n- Speak to the querent as the observer. Refer to the subject as "the person you asked about", "they", or by the relationship if mentioned (e.g. "your friend", "your partner", "your mother").\n- Never say "you are facing" — say "the person you asked about is facing", "they feel", "their fear is", etc.${celticThirdPersonPositions}\n===\n\n`
             : "";
 
         const healthMatches = question?.trim() && isHealthQuestion(question.trim())

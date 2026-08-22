@@ -38,3 +38,25 @@
     background: rgba(60, 30, 120, 0.9);
     color: var(--gold);
 }
+
+.third-person-toggle {
+    font-size: 0.72rem !important;
+    border-color: rgba(107, 63, 160, 0.35) !important;
+    color: var(--text-faint) !important;
+    opacity: 0.75;
+}
+
+.third-person-toggle:hover {
+    border-color: var(--purple) !important;
+    color: var(--purple) !important;
+    box-shadow: 0 0 10px rgba(107, 63, 160, 0.4) !important;
+    opacity: 1;
+}
+
+.third-person-toggle.active {
+    background: rgba(107, 63, 160, 0.25) !important;
+    border-color: var(--purple) !important;
+    color: var(--purple) !important;
+    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5) !important;
+    opacity: 1;
+}

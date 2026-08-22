@@ -27,6 +27,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     const [submittedQuestion, setSubmittedQuestion] = useState('');
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
+    const [isThirdPerson, setIsThirdPerson] = useState(false);
 
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
@@ -86,6 +87,13 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => { if (isSpread3) clearSpread3(); }}
                 />
+                <button
+                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                    onClick={() => setIsThirdPerson(p => !p)}
+                    type="button"
+                >
+                    {isThirdPerson ? '👤 Reading about someone else' : '👤 Reading about someone else?'}
+                </button>
             </SpreadHeader>
             {submittedQuestion && (
                 <div className="spread-question-display">
@@ -107,6 +115,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     positions={POSITIONS}
                     theme="blue"
                     question={submittedQuestion}
+                    isThirdPerson={isThirdPerson}
                     isOpen={widgetOpen}
                     onToggle={() => setWidgetOpen(o => !o)}
                 />

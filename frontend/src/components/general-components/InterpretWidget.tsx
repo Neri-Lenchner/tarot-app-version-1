@@ -12,6 +12,7 @@ interface InterpretWidgetProps {
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
     question?: string;
+    isThirdPerson?: boolean;
     isOpen: boolean;
     onToggle: () => void;
 }
@@ -38,7 +39,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -84,7 +85,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined);
+            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined, isThirdPerson);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({

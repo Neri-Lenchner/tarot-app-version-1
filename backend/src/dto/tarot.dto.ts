@@ -7,6 +7,7 @@ export interface IInterpretRequest {
     spreadType: "celtic" | "three-cards";
     language?: "en" | "he";
     question?: string;
+    isThirdPerson?: boolean;
     cards: ISpreadCard[];
 }
 

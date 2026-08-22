@@ -30,6 +30,7 @@ export function CelticSpreadGlobal(): JSX.Element {
     const [submittedQuestion, setSubmittedQuestion] = useState('');
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
+    const [isThirdPerson, setIsThirdPerson] = useState(false);
 
     const [isSpread, setIsSpread] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread");
@@ -86,6 +87,13 @@ export function CelticSpreadGlobal(): JSX.Element {
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => { if (isSpread) clearSpread(); }}
                 />
+                <button
+                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                    onClick={() => setIsThirdPerson(p => !p)}
+                    type="button"
+                >
+                    {isThirdPerson ? '👤 Reading about someone else' : '👤 Reading about someone else?'}
+                </button>
             </SpreadHeader>
             {submittedQuestion && (
                 <div className="spread-question-display">
@@ -107,6 +115,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     positions={POSITIONS}
                     theme="green"
                     question={submittedQuestion}
+                    isThirdPerson={isThirdPerson}
                     isOpen={widgetOpen}
                     onToggle={() => setWidgetOpen(o => !o)}
                 />
