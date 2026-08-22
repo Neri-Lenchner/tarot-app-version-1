@@ -11,8 +11,8 @@
 
 /* ── Theme variables (reference global tokens) ── */
 .interpret-widget.theme-green {
-    --accent: var(--celtic-accent);
-    --accent-rgb: var(--celtic-accent-rgb);
+    --accent: #4ade80;
+    --accent-rgb: 74, 222, 128;
     --glow-color: var(--celtic-glow);
     --bg: rgba(1, 5, 1, 0.97);
     --border: var(--celtic-border);
@@ -20,8 +20,8 @@
 }
 
 .interpret-widget.theme-blue {
-    --accent: var(--threecards-accent);
-    --accent-rgb: var(--threecards-accent-rgb);
+    --accent: #60a5fa;
+    --accent-rgb: 96, 165, 250;
     --glow-color: var(--threecards-glow);
     --bg: rgba(1, 1, 10, 0.97);
     --border: var(--threecards-border);
@@ -42,17 +42,19 @@
     border-radius: 50%;
     background: rgba(7, 4, 20, 0.9);
     color: var(--accent);
-    border: 2px solid var(--accent);
-    font-size: 18px;
+    border: 2px solid rgba(var(--accent-rgb), 0.8);
+    font-size: 20px;
     cursor: pointer;
-    box-shadow: 0 0 14px var(--glow-color), 0 0 30px rgba(var(--accent-rgb), 0.12);
-    transition: box-shadow var(--transition);
+    box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.7), 0 0 50px rgba(var(--accent-rgb), 0.35), inset 0 0 12px rgba(var(--accent-rgb), 0.15);
+    text-shadow: 0 0 10px rgba(var(--accent-rgb), 1), 0 0 22px rgba(var(--accent-rgb), 0.8);
+    transition: box-shadow var(--transition), text-shadow var(--transition);
     position: relative;
     z-index: 1001;
 }
 
 .iw-toggle-btn:hover {
-    box-shadow: 0 0 24px var(--glow-color), 0 0 48px rgba(var(--accent-rgb), 0.2);
+    box-shadow: 0 0 36px rgba(var(--accent-rgb), 0.9), 0 0 72px rgba(var(--accent-rgb), 0.5), inset 0 0 18px rgba(var(--accent-rgb), 0.2);
+    text-shadow: 0 0 16px rgba(var(--accent-rgb), 1), 0 0 34px rgba(var(--accent-rgb), 0.9);
 }
 
 /* ── Panel ── */
