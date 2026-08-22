@@ -65,20 +65,20 @@
 .card-modal-name {
     margin: 0 0 20px;
     color: var(--deck-accent);
-    font-size: 22px;
+    font-size: 28px;
     text-shadow: 0 0 10px rgba(var(--deck-accent-rgb), 0.6);
 }
 
 .card-modal-meaning {
     margin: 0 0 16px;
     line-height: 1.7;
-    font-size: 15px;
+    font-size: 19px;
     color: var(--text-primary);
 }
 
 .card-modal-desc {
     margin: 0;
     line-height: 1.7;
-    font-size: 14px;
+    font-size: 18px;
     color: var(--text-muted);
 }

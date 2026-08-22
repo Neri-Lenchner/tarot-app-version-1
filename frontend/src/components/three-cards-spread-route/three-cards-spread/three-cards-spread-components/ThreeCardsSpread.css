@@ -82,7 +82,7 @@
     background: none;
     border: 1px solid var(--threecards-border);
     color: var(--threecards-accent);
-    font-size: 11px;
+    font-size: 15px;
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 8px;
@@ -116,14 +116,14 @@
 .card-modal-name {
     margin: 0 0 4px;
     color: var(--threecards-accent);
-    font-size: 22px;
+    font-size: 28px;
     text-shadow: 0 0 10px rgba(var(--threecards-accent-rgb), 0.6);
 }
 
 .card-modal-position {
     margin: 0 0 20px;
     color: var(--text-faint);
-    font-size: 12px;
+    font-size: 18px;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -131,13 +131,13 @@
 .card-modal-meaning {
     margin: 0 0 16px;
     line-height: 1.7;
-    font-size: 15px;
+    font-size: 19px;
     color: var(--text-primary);
 }
 
 .card-modal-desc {
     margin: 0;
     line-height: 1.7;
-    font-size: 14px;
+    font-size: 18px;
     color: var(--text-muted);
 }

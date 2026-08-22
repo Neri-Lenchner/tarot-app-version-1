@@ -79,7 +79,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: var(--font-body);
-    font-size: 17px;
+    font-size: 22px;
     /* Gothic atmosphere — candlelight bloom from above, deep shadow below */
     background:
         radial-gradient(ellipse at 50% 0%, rgba(18, 3, 35, 0.96) 0%, transparent 50%),
