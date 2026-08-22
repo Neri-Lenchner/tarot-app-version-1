@@ -1,4 +1,4 @@
-export interface TarotCard {
+export interface ITarotCard {
     id: number;
     src: string;
     alt: string;

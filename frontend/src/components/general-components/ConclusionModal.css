@@ -17,17 +17,17 @@
 
 /* ── Theme variables ── */
 .conclusion-modal.theme-green {
-    --conclusion-accent: var(--green);
-    --conclusion-accent-rgb: var(--green-rgb);
-    --conclusion-glow: var(--green-glow);
-    --conclusion-border: var(--green-border);
+    --conclusion-accent: var(--celtic-accent);
+    --conclusion-accent-rgb: var(--celtic-accent-rgb);
+    --conclusion-glow: var(--celtic-glow);
+    --conclusion-border: var(--celtic-border);
 }
 
 .conclusion-modal.theme-blue {
-    --conclusion-accent: var(--blue);
-    --conclusion-accent-rgb: var(--blue-rgb);
-    --conclusion-glow: var(--blue-glow);
-    --conclusion-border: var(--blue-border);
+    --conclusion-accent: var(--threecards-accent);
+    --conclusion-accent-rgb: var(--threecards-accent-rgb);
+    --conclusion-glow: var(--threecards-glow);
+    --conclusion-border: var(--threecards-border);
 }
 
 .conclusion-modal--collapsed {
@@ -130,21 +130,21 @@
 }
 
 .conclusion-reopen-btn.theme-green {
-    color: var(--green);
-    border: 2px solid var(--green-border);
-    box-shadow: 0 0 14px var(--green-glow), 0 0 30px rgba(var(--green-rgb), 0.12);
+    color: var(--celtic-accent);
+    border: 2px solid var(--celtic-border);
+    box-shadow: 0 0 14px var(--celtic-glow), 0 0 30px rgba(var(--celtic-accent-rgb), 0.12);
 }
 
 .conclusion-reopen-btn.theme-green:hover {
-    box-shadow: 0 0 24px var(--green-glow), 0 0 48px rgba(var(--green-rgb), 0.2);
+    box-shadow: 0 0 24px var(--celtic-glow), 0 0 48px rgba(var(--celtic-accent-rgb), 0.2);
 }
 
 .conclusion-reopen-btn.theme-blue {
-    color: var(--blue);
-    border: 2px solid var(--blue-border);
-    box-shadow: 0 0 14px var(--blue-glow), 0 0 30px rgba(var(--blue-rgb), 0.12);
+    color: var(--threecards-accent);
+    border: 2px solid var(--threecards-border);
+    box-shadow: 0 0 14px var(--threecards-glow), 0 0 30px rgba(var(--threecards-accent-rgb), 0.12);
 }
 
 .conclusion-reopen-btn.theme-blue:hover {
-    box-shadow: 0 0 24px var(--blue-glow), 0 0 48px rgba(var(--blue-rgb), 0.2);
+    box-shadow: 0 0 24px var(--threecards-glow), 0 0 48px rgba(var(--threecards-accent-rgb), 0.2);
 }

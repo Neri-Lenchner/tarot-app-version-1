@@ -3,25 +3,25 @@ import { createStore } from 'redux';
 // Step 1
 export type SpreadType = 'celtic' | 'three-cards';
 
-export interface SpreadInterpretation {
+export interface ISpreadInterpretation {
     en: string | null;
     he: string | null;
 }
 
 export class InterpretState {
-    celtic: SpreadInterpretation = { en: null, he: null };
-    'three-cards': SpreadInterpretation = { en: null, he: null };
+    celtic: ISpreadInterpretation = { en: null, he: null };
+    'three-cards': ISpreadInterpretation = { en: null, he: null };
 }
 
 // Step 2
-export enum InterpretActionType {
+export enum IInterpretActionType {
     SetBoth = 'SetBoth',
     Clear = 'Clear',
 }
 
 // Step 3
-export interface InterpretAction {
-    type: InterpretActionType;
+export interface IInterpretAction {
+    type: IInterpretActionType;
     spreadType: SpreadType;
     payload?: { en: string; he: string };
 }
@@ -29,12 +29,12 @@ export interface InterpretAction {
 // Step 4
 export function interpretReducer(
     state: InterpretState = new InterpretState(),
-    action: InterpretAction
+    action: IInterpretAction
 ): InterpretState {
     switch (action.type) {
-        case InterpretActionType.SetBoth:
+        case IInterpretActionType.SetBoth:
             return { ...state, [action.spreadType]: action.payload };
-        case InterpretActionType.Clear:
+        case IInterpretActionType.Clear:
             return { ...state, [action.spreadType]: { en: null, he: null } };
         default:
             return state;

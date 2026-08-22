@@ -155,20 +155,20 @@
 
 .combo-badge.general {
     background: rgba(0, 80, 0, 0.3);
-    color: var(--green);
-    border: 1px solid var(--green-border);
+    color: var(--celtic-accent);
+    border: 1px solid var(--celtic-border);
 }
 
 .combo-badge.health {
     background: rgba(120, 20, 20, 0.35);
-    color: var(--red);
-    border: 1px solid var(--red-border);
+    color: var(--deck-accent);
+    border: 1px solid var(--deck-border);
 }
 
 .combo-badge.mental_health {
     background: rgba(20, 40, 120, 0.35);
-    color: var(--blue);
-    border: 1px solid var(--blue-border);
+    color: var(--threecards-accent);
+    border: 1px solid var(--threecards-border);
 }
 
 /* ── Reopen toggle button ── */

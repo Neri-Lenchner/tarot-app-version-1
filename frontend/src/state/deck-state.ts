@@ -8,25 +8,25 @@ export class DeckState {
 }
 
 // Step 2
-export enum DeckActionType {
+export enum IDeckActionType {
     GetCardsDeck = "GetCardsDeck"
 }
 
 // Step 3
-export interface DeckAction {
-    type: DeckActionType,
+export interface IDeckAction {
+    type: IDeckActionType,
     payload: any,
 }
 
 
 // Step 4
-export function deckReducer(deckState: DeckState = new DeckState(), action: DeckAction): DeckState {
+export function deckReducer(deckState: DeckState = new DeckState(), action: IDeckAction): DeckState {
 
     const newState: DeckState = {...deckState};
     newState.tarotDeckList = [...newState.tarotDeckList];
 
     switch (action.type) {
-        case DeckActionType.GetCardsDeck:
+        case IDeckActionType.GetCardsDeck:
             newState.tarotDeckList = action.payload;
             break;
     }

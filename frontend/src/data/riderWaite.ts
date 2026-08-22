@@ -1,10 +1,10 @@
-export interface RiderWaiteCard {
+export interface IRiderWaiteCard {
     name: string;
     meaning_up: string;
     desc: string;
 }
 
-export const riderWaiteCards: RiderWaiteCard[] = [
+export const riderWaiteCards: IRiderWaiteCard[] = [
     // ── MAJOR ARCANA ──────────────────────────────────────────────────────────
     {
         name: "The Fool",

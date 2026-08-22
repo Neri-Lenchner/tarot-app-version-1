@@ -1,11 +1,11 @@
 import React, {JSX, useState, useEffect} from 'react';
 import './Header.css';
 import {NavLink, useNavigate} from "react-router-dom";
-import {authStore, Logout, AuthUser} from "../../../state/auth-state";
+import {authStore, Logout, IAuthUser} from "../../../state/auth-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
 
 function Header(): JSX.Element {
-    const [user, setUser] = useState<AuthUser | null>(authStore.getState().user);
+    const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);
     const navigate = useNavigate();
 
     useEffect(() => {

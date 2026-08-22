@@ -2,25 +2,25 @@ import { createStore } from 'redux';
 
 export type Lang = 'en' | 'he';
 
-export interface LangState {
+export interface ILangState {
     lang: Lang;
 }
 
-export enum LangActionType {
+export enum ILangActionType {
     Toggle = 'Toggle',
     Set = 'Set',
 }
 
-export interface LangAction {
-    type: LangActionType;
+export interface ILangAction {
+    type: ILangActionType;
     lang?: Lang;
 }
 
-function langReducer(state: LangState = { lang: 'en' }, action: LangAction): LangState {
+function langReducer(state: ILangState = { lang: 'en' }, action: ILangAction): ILangState {
     switch (action.type) {
-        case LangActionType.Toggle:
+        case ILangActionType.Toggle:
             return { lang: state.lang === 'en' ? 'he' : 'en' };
-        case LangActionType.Set:
+        case ILangActionType.Set:
             return { lang: action.lang ?? state.lang };
         default:
             return state;

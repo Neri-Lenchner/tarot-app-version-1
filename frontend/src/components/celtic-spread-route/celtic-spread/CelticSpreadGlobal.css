@@ -7,7 +7,7 @@
     flex: 1;
     min-width: 0;
     background: rgba(0, 0, 0, 0.4);
-    border: 1px solid var(--green-border);
+    border: 1px solid var(--celtic-border);
     border-radius: var(--radius);
     color: var(--text-primary);
     font-size: 14px;
@@ -21,8 +21,8 @@
 }
 
 .celtic-spread-container .spread-question-input:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 10px var(--green-glow);
+    border-color: var(--celtic-accent);
+    box-shadow: 0 0 10px var(--celtic-glow);
 }
 
 .celtic-spread-container .spread-question-display {
@@ -31,11 +31,11 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--green-border);
+    border-bottom: 1px solid var(--celtic-border);
 }
 
 .celtic-spread-container .spread-question-label {
-    color: var(--green);
+    color: var(--celtic-accent);
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;

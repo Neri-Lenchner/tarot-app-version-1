@@ -5,7 +5,7 @@ import {InterpretWidget} from "../../general-components/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal";
 import './CelticSpreadGlobal.css';
-import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
@@ -38,7 +38,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         try { return saved === "true"; } catch { return false; }
     });
 
-    const [selectedCards, setSelectedCards] = useState<TarotCard[]>((): TarotCard[] => {
+    const [selectedCards, setSelectedCards] = useState<ITarotCard[]>((): ITarotCard[] => {
         const saved: string | null = localStorage.getItem("selectedCards");
         if (saved === null) return [];
         try { return JSON.parse(saved); } catch { return []; }

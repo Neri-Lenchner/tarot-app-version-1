@@ -1,15 +1,15 @@
 import React, {JSX} from "react";
-import { TarotCard } from "../../arrays-&-models/tarot-deck-array/tarotCard.interface";
-import './TarotCardContainer.css';
+import { ITarotCard } from "../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import './ITarotCardContainer.css';
 
-interface TarotCardContainerProps {
-    tarotCard: TarotCard;
+interface IITarotCardContainerProps {
+    tarotCard: ITarotCard;
     onClick?: () => void;
 }
 
-export function TarotCardContainer({ tarotCard, onClick }: TarotCardContainerProps): JSX.Element {
+export function ITarotCardContainer({ tarotCard, onClick }: IITarotCardContainerProps): JSX.Element {
     return (
-        <div className="TarotCard" id={tarotCard.id.toString()} onClick={onClick} style={onClick ? {cursor: "pointer"} : {}}>
+        <div className="ITarotCard" id={tarotCard.id.toString()} onClick={onClick} style={onClick ? {cursor: "pointer"} : {}}>
             <img
                 src={tarotCard.src}
                 alt={tarotCard.alt}

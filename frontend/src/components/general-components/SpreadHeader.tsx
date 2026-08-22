@@ -2,13 +2,13 @@ import {JSX} from "react";
 import * as React from "react";
 import './SpreadHeader.css';
 
-interface SpreadHeaderProps {
+interface ISpreadHeaderProps {
     spreadThem: any;
     clearSpread: any;
     children?: React.ReactNode;
 }
 
-export function SpreadHeader({ spreadThem, clearSpread, children }: SpreadHeaderProps): JSX.Element {
+export function SpreadHeader({ spreadThem, clearSpread, children }: ISpreadHeaderProps): JSX.Element {
     return (
         <div className="spread-header-container">
             <button onClick={spreadThem}>Spread Them</button>

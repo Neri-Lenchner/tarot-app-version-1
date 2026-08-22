@@ -50,7 +50,7 @@
     border: 1px solid rgba(212, 175, 55, 0.18);
     border-radius: var(--radius-sm);
     color: var(--text-primary);
-    font-family: var(--font);
+    font-family: var(--font-body);
     font-size: 0.9rem;
     padding: 10px 14px;
     outline: none;
@@ -75,7 +75,7 @@
     border: 1px solid rgba(212, 175, 55, 0.4);
     border-radius: var(--radius-sm);
     color: var(--gold);
-    font-family: var(--font);
+    font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 700;
     letter-spacing: 0.1em;

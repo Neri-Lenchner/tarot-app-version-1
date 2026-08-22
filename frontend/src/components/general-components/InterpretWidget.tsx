@@ -6,7 +6,7 @@ import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import { readingService } from '../../services/ReadingService';
 import './InterpretWidget.css';
 
-interface InterpretWidgetProps {
+interface IInterpretWidgetProps {
     cards: any[];
     positions: string[];
     spreadType: 'celtic' | 'three-cards';
@@ -39,7 +39,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, isOpen, onToggle }: InterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());

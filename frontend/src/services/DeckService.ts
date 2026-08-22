@@ -1,4 +1,4 @@
-import {TarotCard} from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ITarotCard} from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {cardsDeck} from "../arrays-&-models/tarot-deck-array/tarotDeck";
 import {riderWaiteCards} from "../data/riderWaite";
 import {DeckActionType, deckStore} from "../state/deck-state";
@@ -15,8 +15,8 @@ class DeckService {
     }
 
 
-    spreadThemShuffle(): TarotCard[] {
-        const shuffledDeck: TarotCard[] = [...cardsDeck];
+    spreadThemShuffle(): ITarotCard[] {
+        const shuffledDeck: ITarotCard[] = [...cardsDeck];
         for (let i: number = shuffledDeck.length - 1 ; i >= 0 ; i--) {
             let j: number = Math.floor(Math.random() * (i + 1));
             [shuffledDeck[j], shuffledDeck[i]] = [shuffledDeck[i], shuffledDeck[j]];
@@ -24,15 +24,15 @@ class DeckService {
         return shuffledDeck;
     };
 
-    spreadThem(count: number = 10): [TarotCard[], boolean] {
-        const shuffled: TarotCard[] = this.spreadThemShuffle();
-        const chosen: TarotCard[] = shuffled.slice(0, count);
+    spreadThem(count: number = 10): [ITarotCard[], boolean] {
+        const shuffled: ITarotCard[] = this.spreadThemShuffle();
+        const chosen: ITarotCard[] = shuffled.slice(0, count);
         return [chosen, true];
     };
 
-    spreadMajorArcana(count: number = 3): [TarotCard[], boolean] {
-        const majorArcana: TarotCard[] = cardsDeck.slice(0, 22);
-        const shuffled: TarotCard[] = [...majorArcana];
+    spreadMajorArcana(count: number = 3): [ITarotCard[], boolean] {
+        const majorArcana: ITarotCard[] = cardsDeck.slice(0, 22);
+        const shuffled: ITarotCard[] = [...majorArcana];
         for (let i = shuffled.length - 1; i >= 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffled[j], shuffled[i]] = [shuffled[i], shuffled[j]];

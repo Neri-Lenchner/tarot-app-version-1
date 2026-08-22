@@ -11,20 +11,20 @@
 
 /* ── Theme variables (reference global tokens) ── */
 .interpret-widget.theme-green {
-    --accent: var(--green);
-    --accent-rgb: var(--green-rgb);
-    --glow-color: var(--green-glow);
+    --accent: var(--celtic-accent);
+    --accent-rgb: var(--celtic-accent-rgb);
+    --glow-color: var(--celtic-glow);
     --bg: rgba(3, 12, 3, 0.85);
-    --border: var(--green-border);
+    --border: var(--celtic-border);
     --header-bg: rgba(0, 0, 0, 0.6);
 }
 
 .interpret-widget.theme-blue {
-    --accent: var(--blue);
-    --accent-rgb: var(--blue-rgb);
-    --glow-color: var(--blue-glow);
+    --accent: var(--threecards-accent);
+    --accent-rgb: var(--threecards-accent-rgb);
+    --glow-color: var(--threecards-glow);
     --bg: rgba(3, 3, 18, 0.85);
-    --border: var(--blue-border);
+    --border: var(--threecards-border);
     --header-bg: rgba(0, 0, 0, 0.6);
 }
 

@@ -57,7 +57,7 @@
     border: 1px solid rgba(255, 100, 100, 0.25);
     border-radius: var(--radius-sm);
     color: #ff9999;
-    font-family: var(--font);
+    font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;

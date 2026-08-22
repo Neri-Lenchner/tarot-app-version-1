@@ -4,16 +4,16 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
 import "./Auth.css";
 
-interface LoginForm {
+interface ILoginForm {
     email: string;
     password: string;
 }
 
 function Login(): JSX.Element {
-    const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
+    const { register, handleSubmit, formState: { errors } } = useForm<ILoginForm>();
     const navigate = useNavigate();
 
-    async function onSubmit(data: LoginForm): Promise<void> {
+    async function onSubmit(data: ILoginForm): Promise<void> {
         try {
             await authService.login(data.email, data.password);
             navigate("/");

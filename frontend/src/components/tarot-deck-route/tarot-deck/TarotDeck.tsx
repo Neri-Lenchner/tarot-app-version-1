@@ -1,6 +1,6 @@
 import {cardsDeck} from "../../../arrays-&-models/tarot-deck-array/tarotDeck";
-import {TarotCardContainer} from "../../tarot-card/TarotCardContainer";
-import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ITarotCardContainer} from "../../tarot-card/ITarotCardContainer";
+import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import './TarotDeck.css';
 import {JSX, useEffect, useState} from "react";
 import {deckService} from "../../../services/DeckService";
@@ -8,7 +8,7 @@ import {deckStore} from "../../../state/deck-state";
 
 export function TarotDeck() {
     const [apiCards, setApiCards] = useState<any[]>(deckService.tarotCardsDetails as any[]);
-    const [selectedCard, setSelectedCard] = useState<TarotCard | null>(null);
+    const [selectedCard, setSelectedCard] = useState<ITarotCard | null>(null);
 
     useEffect(() => {
         const unsubscribe = deckStore.subscribe(() => {
@@ -23,8 +23,8 @@ export function TarotDeck() {
 
     return (
         <div className="tarot-deck-container">
-            {cardsDeck.map((card: TarotCard): JSX.Element => (
-                <TarotCardContainer
+            {cardsDeck.map((card: ITarotCard): JSX.Element => (
+                <ITarotCardContainer
                     key={card.id}
                     tarotCard={card}
                     onClick={() => setSelectedCard(card)}

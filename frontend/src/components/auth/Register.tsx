@@ -4,7 +4,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
 import "./Auth.css";
 
-interface RegisterForm {
+interface IRegisterForm {
     firstName: string;
     lastName: string;
     email: string;
@@ -12,10 +12,10 @@ interface RegisterForm {
 }
 
 function Register(): JSX.Element {
-    const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
+    const { register, handleSubmit, formState: { errors } } = useForm<IRegisterForm>();
     const navigate = useNavigate();
 
-    async function onSubmit(data: RegisterForm): Promise<void> {
+    async function onSubmit(data: IRegisterForm): Promise<void> {
         try {
             await authService.register(data.firstName, data.lastName, data.email, data.password);
             navigate("/");

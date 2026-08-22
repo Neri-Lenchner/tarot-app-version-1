@@ -1,18 +1,18 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-export interface AuthUser {
+export interface IAuthUser {
     id: number;
     firstName: string;
     lastName: string;
     email: string;
 }
 
-interface AuthState {
+interface IAuthState {
     token: string | null;
-    user: AuthUser | null;
+    user: IAuthUser | null;
 }
 
-function decodeToken(token: string): AuthUser | null {
+function decodeToken(token: string): IAuthUser | null {
     try {
         const base64url = token.split('.')[1];
         const base64 = base64url.replace(/-/g, '+').replace(/_/g, '/');
@@ -25,7 +25,7 @@ function decodeToken(token: string): AuthUser | null {
 
 const savedToken = localStorage.getItem("tarot-token");
 
-const initialState: AuthState = {
+const initialState: IAuthState = {
     token: savedToken,
     user: savedToken ? decodeToken(savedToken) : null,
 };

@@ -2,12 +2,12 @@ import { createContext, useContext, useState, useMemo, useCallback, ReactNode, J
 
 type Language = 'en' | 'he';
 
-interface LanguageContextValue {
+interface ILanguageContextValue {
     language: Language;
     toggleLanguage: () => void;
 }
 
-const LanguageContext = createContext<LanguageContextValue>({
+const LanguageContext = createContext<ILanguageContextValue>({
     language: 'en',
     toggleLanguage: () => {},
 });
@@ -23,6 +23,6 @@ export function LanguageProvider({ children }: { children: ReactNode }): JSX.Ele
     );
 }
 
-export function useLanguage(): LanguageContextValue {
+export function useLanguage(): ILanguageContextValue {
     return useContext(LanguageContext);
 }

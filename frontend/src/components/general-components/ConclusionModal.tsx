@@ -3,7 +3,7 @@ import { interpretStore, InterpretState } from '../../state/interpret-state';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import './ConclusionModal.css';
 
-interface ConclusionModalProps {
+interface IConclusionModalProps {
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
 }
@@ -16,7 +16,7 @@ function extractConclusion(text: string): string {
     return lines.slice(idx + 1).filter(l => l.trim() !== '').join('\n');
 }
 
-export function ConclusionModal({ spreadType, theme }: ConclusionModalProps): JSX.Element | null {
+export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): JSX.Element | null {
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [visible, setVisible] = useState(true);

@@ -1,7 +1,7 @@
 import {JSX, useEffect, useState} from 'react';
 import './ThreeCardsSpreadGlobal.css';
 import {ThreeCardsSpread} from "./three-cards-spread-components/ThreeCardsSpread";
-import {TarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {SpreadHeader} from "../../general-components/SpreadHeader";
 import {InterpretWidget} from "../../general-components/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal";
@@ -35,7 +35,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         try { return saved === "true"; } catch { return false; }
     });
 
-    const [selected3Cards, setSelected3Cards] = useState<TarotCard[]>((): TarotCard[] => {
+    const [selected3Cards, setSelected3Cards] = useState<ITarotCard[]>((): ITarotCard[] => {
         const saved: string | null = localStorage.getItem("selected3Cards");
         if (saved === null) return [];
         try {

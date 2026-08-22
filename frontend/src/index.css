@@ -1,56 +1,59 @@
 /* ── Global design tokens ─────────────────────────────── */
 :root {
     /* Dark backgrounds */
-    --bg-dark: #07050f;
-    --bg-mid: #0d0a1a;
-    --bg-surface: rgba(255, 255, 255, 0.04);
+    --bg-dark: #04030a;
+    --bg-mid: #080615;
+    --bg-surface: rgba(255, 255, 255, 0.03);
 
-    /* Text */
-    --text-primary: rgba(230, 220, 255, 0.92);
-    --text-muted: rgba(200, 185, 240, 0.6);
-    --text-faint: rgba(180, 165, 220, 0.35);
+    /* Text — warm aged parchment */
+    --text-primary: rgba(218, 200, 168, 0.90);
+    --text-muted: rgba(170, 150, 115, 0.65);
+    --text-faint: rgba(140, 120, 90, 0.38);
 
-    /* Gold — header title, accents */
-    --gold: #d4af37;
-    --gold-rgb: 212, 175, 55;
-    --gold-glow: rgba(212, 175, 55, 0.45);
+    /* Gold — antique amber accent */
+    --gold: #b8960c;
+    --gold-rgb: 184, 150, 12;
+    --gold-glow: rgba(184, 150, 12, 0.55);
 
-    /* Celtic / green theme */
-    --green: #90ee90;
-    --green-rgb: 144, 238, 144;
-    --green-glow: rgba(0, 128, 0, 0.42);
-    --green-border: rgba(144, 238, 144, 0.28);
-    --green-grad-a: #071a07;
-    --green-grad-b: #0a0a2a;
+    /* Celtic spread — green theme */
+    --celtic-accent: #6aaa6a;
+    --celtic-accent-rgb: 106, 170, 106;
+    --celtic-glow: rgba(40, 80, 40, 0.55);
+    --celtic-border: rgba(106, 170, 106, 0.22);
+    --celtic-bg-dark: #050f05;
+    --celtic-bg-mid: #080821;
 
-    /* Three Cards / blue theme */
-    --blue: #add8e6;
-    --blue-rgb: 173, 216, 230;
-    --blue-glow: rgba(70, 70, 200, 0.42);
-    --blue-border: rgba(173, 216, 230, 0.28);
-    --blue-grad-a: #070720;
-    --blue-grad-b: #04041a;
+    /* Three Cards spread — blue theme */
+    --threecards-accent: #7a9eb8;
+    --threecards-accent-rgb: 122, 158, 184;
+    --threecards-glow: rgba(40, 65, 100, 0.55);
+    --threecards-border: rgba(122, 158, 184, 0.22);
+    --threecards-bg-dark: #050518;
+    --threecards-bg-mid: #030312;
 
-    /* Deck / red theme */
-    --red: #ff9999;
-    --red-rgb: 255, 153, 153;
-    --red-glow: rgba(200, 50, 50, 0.42);
-    --red-border: rgba(255, 100, 100, 0.3);
-    --red-grad-a: #1a0305;
-    --red-grad-b: #2e0505;
+    /* Tarot Deck — red theme */
+    --deck-accent: #c46060;
+    --deck-accent-rgb: 196, 96, 96;
+    --deck-glow: rgba(140, 25, 25, 0.55);
+    --deck-border: rgba(170, 60, 60, 0.3);
+    --deck-bg-dark: #120203;
+    --deck-bg-mid: #240303;
 
     /* Mystic / purple — modals, sidebar */
-    --purple: #c9a0e8;
-    --purple-dark: #6b3fa0;
-    --purple-bg: #110d1f;
-    --purple-surface: #1c1432;
-    --purple-border: #3d2860;
+    --purple: #a07acc;
+    --purple-dark: #5a2d8f;
+    --purple-bg: #0c0917;
+    --purple-surface: #130e22;
+    --purple-border: #2a1c46;
 
-    /* Common */
-    --radius: 10px;
-    --radius-sm: 6px;
+    /* Typography */
+    --font-heading: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    --font-body: 'Crimson Text', Georgia, 'Times New Roman', serif;
+
+    /* Spacing & motion */
+    --radius: 4px;
+    --radius-sm: 2px;
     --transition: 0.2s;
-    --font: 'Segoe UI', Arial, sans-serif;
 
     /* Layout */
     --header-height: 7vh;
@@ -75,10 +78,19 @@ html {
 body {
     margin: 0;
     padding: 0;
-    font-family: var(--font);
-    /* Deep mystic space — subtle purple radial glow fading to near-black */
-    background: radial-gradient(ellipse at 50% 20%, #1c0a35 0%, #0a0716 45%, var(--bg-dark) 100%);
+    font-family: var(--font-body);
+    font-size: 17px;
+    /* Gothic atmosphere — candlelight bloom from above, deep shadow below */
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(28, 5, 52, 0.92) 0%, transparent 52%),
+        radial-gradient(ellipse at 20% 80%, rgba(8, 2, 20, 0.7) 0%, transparent 40%),
+        var(--bg-dark);
     color: var(--text-primary);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Gothic heading font ─────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
 }

@@ -1,6 +1,6 @@
-import { TarotCard } from "./tarotCard.interface";
+import { ITarotCard } from "./tarotCard.interface";
 
-export const cardsDeck: TarotCard[] = [
+export const cardsDeck: ITarotCard[] = [
     {
         id: 1,
         src: "Tarot-deck-images/Tarot_00_Fool.jpg",

@@ -4,12 +4,12 @@ import { cardsDeck } from '../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import './CombinationsModal.css';
 
-interface CombinationsModalProps {
+interface ICombinationsModalProps {
     matches: ICombinationMatch[];
     onClose: () => void;
 }
 
-export function CombinationsModal({ matches, onClose }: CombinationsModalProps): JSX.Element {
+export function CombinationsModal({ matches, onClose }: ICombinationsModalProps): JSX.Element {
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
