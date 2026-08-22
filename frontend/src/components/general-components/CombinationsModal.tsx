@@ -1,4 +1,4 @@
-import { JSX, useState, useEffect } from 'react';
+import { JSX, useState, useEffect, useRef } from 'react';
 import { ICombinationMatch } from '../../services/CombinationsService';
 import { cardsDeck } from '../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
@@ -14,6 +14,7 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
+    const modalRef = useRef<HTMLDivElement>(null);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     useEffect(() => {
         const unsubscribe = langStore.subscribe(() => {
@@ -24,7 +25,10 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
 
     useEffect(() => {
         if (!visible) return;
-        const handleClick = () => setVisible(false);
+        const handleClick = (e: MouseEvent) => {
+            if (modalRef.current && modalRef.current.contains(e.target as Node)) return;
+            setVisible(false);
+        };
         const id = setTimeout(() => document.addEventListener('click', handleClick), 0);
         return () => { clearTimeout(id); document.removeEventListener('click', handleClick); };
     }, [visible]);
@@ -36,7 +40,7 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     }
 
     return (
-        <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
+        <div ref={modalRef} className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`}>
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">{lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}</span>
                     <div className="combo-header-actions">
