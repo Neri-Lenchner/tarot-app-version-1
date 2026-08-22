@@ -63,12 +63,14 @@
     padding: 3px 7px;
     border-radius: var(--radius-sm);
     cursor: pointer;
+    box-shadow: 0 0 8px rgba(107, 63, 160, 0.45);
+    text-shadow: 0 0 6px rgba(107, 63, 160, 0.7);
     transition: box-shadow var(--transition), border-color var(--transition);
 }
 
 .combo-lang-btn:hover {
     border-color: var(--purple);
-    box-shadow: 0 0 8px rgba(107, 63, 160, 0.5);
+    box-shadow: 0 0 14px rgba(107, 63, 160, 0.75);
 }
 
 .combo-collapse-btn {
@@ -84,12 +86,13 @@
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(107, 63, 160, 0.45);
     transition: background var(--transition), box-shadow var(--transition);
 }
 
 .combo-collapse-btn:hover {
     background: rgba(107, 63, 160, 0.35);
-    box-shadow: 0 0 8px rgba(107, 63, 160, 0.4);
+    box-shadow: 0 0 14px rgba(107, 63, 160, 0.7);
 }
 
 .combo-item {
@@ -237,10 +240,12 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     cursor: pointer;
+    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5);
+    text-shadow: 0 0 8px rgba(107, 63, 160, 0.7);
     transition: background var(--transition), box-shadow var(--transition);
 }
 
 .combo-modal-close:hover {
     background: rgba(107, 63, 160, 0.7);
-    box-shadow: 0 0 12px rgba(107, 63, 160, 0.5);
+    box-shadow: 0 0 22px rgba(107, 63, 160, 0.8);
 }

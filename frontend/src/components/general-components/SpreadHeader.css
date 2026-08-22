@@ -12,15 +12,16 @@
     font-size: 0.8rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(212, 175, 55, 0.4);
+    border: 1px solid rgba(212, 175, 55, 0.6);
     background: rgba(5, 3, 14, 0.85);
-    color: var(--text-muted);
+    color: var(--gold);
     padding: 7px 16px;
     border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
-    box-shadow: 0 0 10px var(--gold-glow), 0 0 22px rgba(212, 175, 55, 0.1);
+    box-shadow: 0 0 14px var(--gold-glow), 0 0 30px rgba(212, 175, 55, 0.15);
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
     transition:
         background var(--transition),
         border-color var(--transition),
@@ -32,7 +33,8 @@
     background: rgba(10, 5, 25, 0.92);
     border-color: var(--gold);
     color: var(--gold);
-    box-shadow: 0 0 18px var(--gold-glow), 0 0 40px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 24px var(--gold-glow), 0 0 50px rgba(212, 175, 55, 0.25);
+    text-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
 }
 
 .spread-header-container button:active {
@@ -45,14 +47,15 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(107, 63, 160, 0.55);
+    border: 1px solid rgba(107, 63, 160, 0.65);
     background: rgba(5, 3, 14, 0.85);
-    color: var(--text-muted);
+    color: var(--purple);
     padding: 7px 16px;
     border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 0 10px rgba(107, 63, 160, 0.35), 0 0 22px rgba(107, 63, 160, 0.1);
+    box-shadow: 0 0 14px rgba(107, 63, 160, 0.5), 0 0 30px rgba(107, 63, 160, 0.15);
+    text-shadow: 0 0 8px rgba(107, 63, 160, 0.7);
     transition:
         background var(--transition),
         border-color var(--transition),
@@ -65,12 +68,14 @@
 .third-person-toggle:hover {
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 18px rgba(107, 63, 160, 0.6), 0 0 38px rgba(107, 63, 160, 0.18);
+    box-shadow: 0 0 24px rgba(107, 63, 160, 0.75), 0 0 48px rgba(107, 63, 160, 0.22);
+    text-shadow: 0 0 12px rgba(107, 63, 160, 0.9);
 }
 
 .third-person-toggle.active {
     background: rgba(107, 63, 160, 0.25);
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 20px rgba(107, 63, 160, 0.7), 0 0 42px rgba(107, 63, 160, 0.22);
+    box-shadow: 0 0 26px rgba(107, 63, 160, 0.8), 0 0 52px rgba(107, 63, 160, 0.25);
+    text-shadow: 0 0 12px rgba(107, 63, 160, 0.9);
 }

@@ -72,6 +72,8 @@
     padding: 3px 7px;
     border-radius: var(--radius-sm);
     cursor: pointer;
+    box-shadow: 0 0 8px var(--conclusion-glow);
+    text-shadow: 0 0 6px rgba(var(--conclusion-accent-rgb), 0.7);
     transition: box-shadow var(--transition), border-color var(--transition);
     display: flex;
     align-items: center;
@@ -87,7 +89,8 @@
 .conclusion-collapse-btn:hover,
 .conclusion-close-btn:hover {
     border-color: var(--conclusion-accent);
-    box-shadow: 0 0 8px var(--conclusion-glow);
+    box-shadow: 0 0 16px var(--conclusion-glow);
+    text-shadow: 0 0 10px rgba(var(--conclusion-accent-rgb), 0.9);
 }
 
 /* ── Body ── */
