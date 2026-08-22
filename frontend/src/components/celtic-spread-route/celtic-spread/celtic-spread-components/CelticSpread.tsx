@@ -1,15 +1,17 @@
 import './CelticSpread.css';
 import {useState, useEffect} from "react";
 import {interpretStore} from "../../../../state/interpret-state";
+import {ISpreadInterpretation} from "../../../../arrays-&-models/SpreadInterpretation.model";
+import {Unsubscribe} from "redux";
 
 function extractCardSection(text: string, cardName: string): string | null {
-    const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const escaped: string = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const cardRegex = new RegExp(escaped, 'i');
-    const paragraph = text.split(/\n\n+/).find(p => cardRegex.test(p) && !/^\*\*Conclusion/i.test(p.trim()));
+    const paragraph: string | undefined = text.split(/\n\n+/).find(p => cardRegex.test(p) && !/^\*\*Conclusion/i.test(p.trim()));
     return paragraph ? paragraph.trim() : null;
 }
 
-const POSITIONS = [
+const POSITIONS: string[] = [
     "Positive Energy", "Negative Energy", "Past", "Present",
     "Near Future", "Far Future", "Inside", "Outside", "Fears", "Potential"
 ];
@@ -17,26 +19,26 @@ const POSITIONS = [
 export function CelticSpread({ isSpread, cards, apiCards }: { isSpread: boolean, cards: any[], apiCards: any[] }) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [lang, setLang] = useState<'en' | 'he'>('en');
-    const [spreadData, setSpreadData] = useState(() => interpretStore.getState().celtic);
+    const [spreadData, setSpreadData] = useState((): ISpreadInterpretation => interpretStore.getState().celtic);
 
-    useEffect(() => {
-        const unsubscribe = interpretStore.subscribe(() => {
+    useEffect((): Unsubscribe => {
+        const unsubscribe: Unsubscribe = interpretStore.subscribe((): void => {
             setSpreadData(interpretStore.getState().celtic);
         });
         return unsubscribe;
     }, []);
 
-    const interpretation = spreadData[lang];
-    const hasBoth = spreadData.en !== null && spreadData.he !== null;
+    const interpretation: string | null = spreadData[lang];
+    const hasBoth: boolean = spreadData.en !== null && spreadData.he !== null;
 
     const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
     const selectedApiCard = selectedCard
-        ? apiCards.find((c: any) => c.name === selectedCard.name)
+        ? apiCards.find((c: any): boolean => c.name === selectedCard.name)
         : null;
 
     return (
         <div className="spread-container">
-            {POSITIONS.map((label, i) => (
+            {POSITIONS.map((label: string, i) => (
                 <div
                     key={label}
                     className={`card-container-${i + 1}`}

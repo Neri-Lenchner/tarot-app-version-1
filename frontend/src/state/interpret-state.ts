@@ -1,12 +1,10 @@
 import { createStore } from 'redux';
+import { ISpreadInterpretation } from '../arrays-&-models/SpreadInterpretation.model';
+
+export type { ISpreadInterpretation };
 
 // Step 1
 export type SpreadType = 'celtic' | 'three-cards';
-
-export interface ISpreadInterpretation {
-    en: string | null;
-    he: string | null;
-}
 
 export class InterpretState {
     celtic: ISpreadInterpretation = { en: null, he: null };
