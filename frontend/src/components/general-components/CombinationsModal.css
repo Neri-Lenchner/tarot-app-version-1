@@ -5,7 +5,7 @@
     transform: translateY(-50%);
     z-index: 1000;
     background: var(--purple-bg);
-    border: 1px solid var(--purple-border);
+    border: 2px solid #7856AA;
     border-radius: 14px;
     padding: 22px 24px;
     width: 340px;
@@ -14,7 +14,8 @@
     scrollbar-width: none;
     color: var(--text-primary);
     box-shadow:
-        0 0 40px rgba(107, 63, 160, 0.35),
+        0 0 14px rgba(120, 86, 170, 0.6),
+        0 0 40px rgba(107, 63, 160, 0.25),
         0 8px 40px rgba(0, 0, 0, 0.6);
 }
 

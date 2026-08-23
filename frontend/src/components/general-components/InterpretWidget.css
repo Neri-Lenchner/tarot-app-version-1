@@ -65,11 +65,11 @@
     height: 580px;
     background: var(--bg);
     backdrop-filter: blur(14px);
-    border: 1px solid var(--border);
+    border: 2px solid #ADE880;
     border-radius: 16px;
     box-shadow:
-        0 0 30px var(--glow-color),
-        0 0 60px rgba(var(--accent-rgb), 0.06),
+        0 0 14px rgba(173, 232, 128, 0.5),
+        0 0 36px rgba(173, 232, 128, 0.2),
         0 8px 40px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
