@@ -11,7 +11,6 @@ interface ICombinationsModalProps {
 }
 
 export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
-    const [collapsed, setCollapsed] = useState(false);
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
@@ -30,21 +29,15 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     }
 
     return (
-        <div className={`combo-modal${collapsed ? ' combo-modal--collapsed' : ''}`}>
+        <div className="combo-modal">
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">{lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}</span>
-                    <div className="combo-header-actions">
-                        <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
-                            {lang === 'en' ? 'HE' : 'EN'}
-                        </button>
-                        <button className="combo-collapse-btn" onClick={() => setCollapsed(c => !c)}>
-                            {collapsed ? '▲' : '▼'}
-                        </button>
-                    </div>
+                    <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                        {lang === 'en' ? 'HE' : 'EN'}
+                    </button>
                 </div>
-                {!collapsed && (
-                    <>
-                        {matches.map((match, i) => (
+                <>
+                    {matches.map((match, i) => (
                             <div key={i} className="combo-item" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                                 <div className="combo-card-images">
                                     {match.cards.map(cardName => {
@@ -80,9 +73,8 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                                 </button>
                             </div>
                         ))}
-                        <button className="combo-modal-close" onClick={() => setVisible(false)}>{lang === 'he' ? 'הבנתי' : 'Got it'}</button>
-                    </>
-                )}
+                    <button className="combo-modal-close" onClick={() => setVisible(false)}>{lang === 'he' ? 'הבנתי' : 'Got it'}</button>
+                </>
         </div>
     );
 }

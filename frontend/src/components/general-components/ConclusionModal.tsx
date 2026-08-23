@@ -21,7 +21,6 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [visible, setVisible] = useState(true);
-    const [collapsed, setCollapsed] = useState(false);
     const [followupQ, setFollowupQ] = useState('');
     const [followupAnswer, setFollowupAnswer] = useState<string | null>(null);
     const [followupLoading, setFollowupLoading] = useState(false);
@@ -83,55 +82,45 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     }
 
     return (
-        <div className={`conclusion-modal theme-${theme}${collapsed ? ' conclusion-modal--collapsed' : ''}`} onClick={e => e.stopPropagation()}>
+        <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
             <div className="conclusion-header">
                 <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
-                <div className="conclusion-header-actions">
-                    {hasBoth && (
-                        <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
-                            {lang === 'en' ? 'HE' : 'EN'}
-                        </button>
-                    )}
-                    <button className="conclusion-collapse-btn" onClick={() => setCollapsed(c => !c)}>
-                        {collapsed ? '▲' : '▼'}
+                {hasBoth && (
+                    <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                        {lang === 'en' ? 'HE' : 'EN'}
                     </button>
-                    <button className="conclusion-close-btn" onClick={() => setVisible(false)}>✕</button>
-                </div>
+                )}
             </div>
-            {!collapsed && (
-                <>
-                    <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        {current.split('\n').map((line, i) => (
-                            <p key={i} className="conclusion-text">{line}</p>
-                        ))}
+            <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                {current.split('\n').map((line, i) => (
+                    <p key={i} className="conclusion-text">{line}</p>
+                ))}
+            </div>
+            <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                <div className="conclusion-followup-row">
+                    <input
+                        className="conclusion-followup-input"
+                        type="text"
+                        placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
+                        value={followupQ}
+                        onChange={e => setFollowupQ(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && handleFollowup()}
+                        disabled={followupLoading}
+                    />
+                    <button
+                        className="conclusion-followup-btn"
+                        onClick={handleFollowup}
+                        disabled={!followupQ.trim() || followupLoading}
+                    >
+                        {followupLoading ? '...' : '✦'}
+                    </button>
+                </div>
+                {followupAnswer && (
+                    <div className="conclusion-followup-answer">
+                        {followupAnswer}
                     </div>
-                    <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        <div className="conclusion-followup-row">
-                            <input
-                                className="conclusion-followup-input"
-                                type="text"
-                                placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
-                                value={followupQ}
-                                onChange={e => setFollowupQ(e.target.value)}
-                                onKeyDown={e => e.key === 'Enter' && handleFollowup()}
-                                disabled={followupLoading}
-                            />
-                            <button
-                                className="conclusion-followup-btn"
-                                onClick={handleFollowup}
-                                disabled={!followupQ.trim() || followupLoading}
-                            >
-                                {followupLoading ? '...' : '✦'}
-                            </button>
-                        </div>
-                        {followupAnswer && (
-                            <div className="conclusion-followup-answer">
-                                {followupAnswer}
-                            </div>
-                        )}
-                    </div>
-                </>
-            )}
+                )}
+            </div>
         </div>
     );
 }
