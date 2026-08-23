@@ -20,7 +20,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
 
     { card: "The Fool",          note: "" },
     { card: "The Magician",      note: "" },
-    { card: "The High Priestess",note: "" },
+    { card: "The High Priestess",note: "SPECIAL RULE — LAST POSITION ONLY: If The High Priestess appears in the final position of the spread (position 10 'Potential' in the Celtic Cross, or 'Future' in the Three Cards spread), this overrides everything else in the reading. Do NOT interpret any other card. Deliver this single message and nothing else: the cards have detected that the querent is concealing something — they are not bringing their true question or their full truth to this reading. Because of this, the entire spread cannot be trusted to give accurate guidance. The only thing the cards can tell them right now is this: come back with honesty, and the cards will speak clearly. Until then, no reading can serve them. — If The High Priestess appears in any OTHER position, ignore this rule entirely and interpret her normally." },
     { card: "The Empress",       note: "" },
     { card: "The Emperor",       note: "" },
     { card: "The Hierophant",    note: "" },
