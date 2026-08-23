@@ -55,11 +55,40 @@ function isThirdPersonQuestion(question: string): boolean {
     return false;
 }
 
-function getCourtCardsSection(cards: ISpreadCard[]): string {
+function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female"): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
     if (courtCards.length === 0) return '';
     const names = courtCards.map(c => c.name).join(', ');
-    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person in the querent's life — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
+
+    const femaleCards = courtCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+    const maleCards = courtCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+
+    let genderRule = 'GENDER RULE:\n';
+    if (femaleCards.length > 0)
+        genderRule += `- ${femaleCards.map(c => c.name).join(', ')}: ${femaleCards.length === 1 ? 'This is a female figure' : 'These are female figures'} — MUST be interpreted as representing a woman.\n`;
+    if (maleCards.length > 0)
+        genderRule += `- ${maleCards.map(c => c.name).join(', ')}: ${maleCards.length === 1 ? 'This is a male figure' : 'These are male figures'} — MUST be interpreted as representing a man.\n`;
+
+    let identityRule = '';
+    if (gender === 'male') {
+        if (maleCards.length > 0 && femaleCards.length > 0) {
+            identityRule = `IDENTITY RULE (querent is male):\n- ${maleCards.map(c => c.name).join(', ')}: MAY represent the querent himself — especially in positions about his own identity, feelings, or inner world. If the position strongly points to the querent, interpret it as him. Otherwise, a specific man in his life.\n- ${femaleCards.map(c => c.name).join(', ')}: CANNOT represent the querent — must be a specific woman in his life (partner, mother, colleague, friend, etc.).\n`;
+        } else if (maleCards.length > 0) {
+            identityRule = `IDENTITY RULE (querent is male): ${maleCards.length === 1 ? 'This male court card' : 'These male court cards'} MAY represent the querent himself, especially in positions about his own identity or inner state. If the position suggests the querent, interpret it that way — otherwise, a specific man in his life.\n`;
+        } else {
+            identityRule = `IDENTITY RULE (querent is male): ${femaleCards.length === 1 ? 'This is a Queen — a female figure' : 'These are Queens — female figures'}. ${femaleCards.length === 1 ? 'She' : 'They'} CANNOT represent the querent. ${femaleCards.length === 1 ? 'She represents' : 'Each represents'} a specific woman in his life.\n`;
+        }
+    } else if (gender === 'female') {
+        if (maleCards.length > 0 && femaleCards.length > 0) {
+            identityRule = `IDENTITY RULE (querent is female):\n- ${femaleCards.map(c => c.name).join(', ')}: MAY represent the querent herself — especially in positions about her own identity, feelings, or inner world. If the position strongly points to the querent, interpret it as her. Otherwise, a specific woman in her life.\n- ${maleCards.map(c => c.name).join(', ')}: CANNOT represent the querent — must be a specific man in her life (partner, father, colleague, friend, etc.).\n`;
+        } else if (femaleCards.length > 0) {
+            identityRule = `IDENTITY RULE (querent is female): ${femaleCards.length === 1 ? 'This female court card' : 'These female court cards'} MAY represent the querent herself, especially in positions about her own identity or inner state. If the position suggests the querent, interpret it that way — otherwise, a specific woman in her life.\n`;
+        } else {
+            identityRule = `IDENTITY RULE (querent is female): ${maleCards.length === 1 ? 'This is a King/Knight/Page — a male figure' : 'These are Kings/Knights/Pages — male figures'}. ${maleCards.length === 1 ? 'He' : 'They'} CANNOT represent the querent. ${maleCards.length === 1 ? 'He represents' : 'Each represents'} a specific man in her life.\n`;
+        }
+    }
+
+    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person in the querent's life — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\n${genderRule}${identityRule ? '\n' + identityRule : ''}\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
 }
 
 function isAllMajorArcana(cards: string[]): boolean {
@@ -124,7 +153,7 @@ class TarotService {
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
-        const courtCardsSection = getCourtCardsSection(cards);
+        const courtCardsSection = getCourtCardsSection(cards, gender);
 
         const confirmedComboSection = confirmedCombination
             ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
