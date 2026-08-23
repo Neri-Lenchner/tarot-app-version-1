@@ -61,7 +61,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     // ── SWORDS ───────────────────────────────────────────────────────────────
 
     { card: "Ace of Swords",     note: "" },
-    { card: "Two of Swords",     note: "" },
+    { card: "Two of Swords",     note: "The silence before the storm — the storm is already on its way and nothing can stop it. The querent has closed their heart as a defense mechanism, and in doing so they have lost their ability to see clearly. They are standing still with their eyes shut while the world around them continues to move. Acknowledge the stillness, but make clear: closing the heart does not delay what is coming. The blindness is real, and so is the storm." },
     { card: "Three of Swords",   note: "" },
     { card: "Four of Swords",    note: "" },
     { card: "Five of Swords",    note: "The Five of Swords is the card of the pyrrhic victory — a win that costs more than it was worth. When this card appears, emphasize that the querent may achieve what they are fighting for, but at a price that outweighs the gain: relationships damaged, trust destroyed, energy depleted, or self-respect compromised. The victory is hollow. Depending on the surrounding cards, this card can also point to betrayal — someone in the querent's life acting in bad faith, stabbing them in the back, or winning at their expense. Always ask: who is holding the swords here — the querent, or someone else?" },
