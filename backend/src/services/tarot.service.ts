@@ -55,42 +55,64 @@ function isThirdPersonQuestion(question: string): boolean {
     return false;
 }
 
-function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female"): string {
+const CELTIC_SELF_POSITIONS = new Set(['inside', 'outside', 'fears', 'potential']);
+
+function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
     if (courtCards.length === 0) return '';
     const names = courtCards.map(c => c.name).join(', ');
 
-    const femaleCards = courtCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
-    const maleCards = courtCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+    // Positions 7-10 in Celtic (Inside, Outside, Fears, Potential) are exclusively about the querent —
+    // any court card there is ALWAYS the querent, regardless of figure gender.
+    const selfCards = spreadType === 'celtic'
+        ? courtCards.filter(c => CELTIC_SELF_POSITIONS.has(c.position.toLowerCase()))
+        : [];
+    const otherCards = courtCards.filter(c => !selfCards.includes(c));
 
-    let genderRule = 'GENDER RULE:\n';
-    if (femaleCards.length > 0)
-        genderRule += `- ${femaleCards.map(c => c.name).join(', ')}: ${femaleCards.length === 1 ? 'This is a female figure' : 'These are female figures'} — MUST be interpreted as representing a woman.\n`;
-    if (maleCards.length > 0)
-        genderRule += `- ${maleCards.map(c => c.name).join(', ')}: ${maleCards.length === 1 ? 'This is a male figure' : 'These are male figures'} — MUST be interpreted as representing a man.\n`;
+    // Gender rule applies to ALL court cards (tells AI the figure's biological gender)
+    let genderRule = 'GENDER RULE (figure gender — applies to every court card):\n';
+    const femaleAll = courtCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+    const maleAll = courtCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+    if (femaleAll.length > 0)
+        genderRule += `- ${femaleAll.map(c => c.name).join(', ')}: female figure(s).\n`;
+    if (maleAll.length > 0)
+        genderRule += `- ${maleAll.map(c => c.name).join(', ')}: male figure(s).\n`;
 
-    const sameGenderDecisionRule = `YOU MUST ACTIVELY DECIDE — based on the position this card falls in AND the overall story the rest of the spread is telling — whether this card represents the querent themselves or a specific person in their life. Do not leave it ambiguous. Read the whole spread first, then commit to a clear answer and state it explicitly in your interpretation (e.g. "This card is you" or "This card represents a specific man/woman in your life").`;
+    // Self-position override
+    let selfRule = '';
+    if (selfCards.length > 0) {
+        const selfList = selfCards.map(c => `${c.name} (${c.position})`).join(', ');
+        selfRule = `\nPOSITION OVERRIDE — ALWAYS THE QUERENT:\n${selfList} ${selfCards.length === 1 ? 'appears' : 'appear'} in position(s) Inside / Outside / Fears / Potential (positions 7–10). These positions are exclusively about the querent's own inner world, self-image, fears, and potential. ANY court card landing here ALWAYS represents the querent themselves — regardless of the figure's gender. Interpret ${selfCards.length === 1 ? 'this card' : 'these cards'} as the querent directly. Do NOT look for an external person here.\n`;
+    }
+
+    // Identity rule only for cards NOT in self-positions
+    const sameGenderDecisionRule = `YOU MUST ACTIVELY DECIDE — based on the position and the overall story the rest of the spread tells — whether this card is the querent themselves or a specific person in their life. Read the whole spread first, then commit to a clear, explicit answer in your interpretation (e.g. "This card is you" or "This card represents a specific person in your life").`;
 
     let identityRule = '';
-    if (gender === 'male') {
-        if (maleCards.length > 0 && femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is male):\n- ${maleCards.map(c => c.name).join(', ')}: This is a male figure and the querent is male — it could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n- ${femaleCards.map(c => c.name).join(', ')}: CANNOT represent the querent. Must be a specific woman in his life (partner, mother, colleague, friend, etc.) — state clearly who she is.\n`;
-        } else if (maleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is male): ${maleCards.length === 1 ? 'This male court card' : 'These male court cards'} could represent the querent himself OR another man in his life. ${sameGenderDecisionRule}\n`;
-        } else {
-            identityRule = `IDENTITY RULE (querent is male): ${femaleCards.length === 1 ? 'This Queen is a female figure' : 'These Queens are female figures'} and CANNOT represent the querent. ${femaleCards.length === 1 ? 'She is' : 'Each is'} a specific woman in his life — state clearly who she is.\n`;
-        }
-    } else if (gender === 'female') {
-        if (maleCards.length > 0 && femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is female):\n- ${femaleCards.map(c => c.name).join(', ')}: This is a female figure and the querent is female — it could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n- ${maleCards.map(c => c.name).join(', ')}: CANNOT represent the querent. Must be a specific man in her life (partner, father, colleague, friend, etc.) — state clearly who he is.\n`;
-        } else if (femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is female): ${femaleCards.length === 1 ? 'This female court card' : 'These female court cards'} could represent the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n`;
-        } else {
-            identityRule = `IDENTITY RULE (querent is female): ${maleCards.length === 1 ? 'This King/Knight/Page is a male figure' : 'These Kings/Knights/Pages are male figures'} and CANNOT represent the querent. ${maleCards.length === 1 ? 'He is' : 'Each is'} a specific man in her life — state clearly who he is.\n`;
+    if (otherCards.length > 0) {
+        const femaleOther = otherCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+        const maleOther = otherCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+
+        if (gender === 'male') {
+            if (maleOther.length > 0 && femaleOther.length > 0) {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male):\n- ${maleOther.map(c => c.name).join(', ')}: male figure, querent is male — could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n- ${femaleOther.map(c => c.name).join(', ')}: female figure — CANNOT be the querent. Must be a specific woman in his life — state clearly who she is.\n`;
+            } else if (maleOther.length > 0) {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male): male figure(s) — could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n`;
+            } else {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male): female figure(s) — CANNOT be the querent. Each is a specific woman in his life — state clearly who she is.\n`;
+            }
+        } else if (gender === 'female') {
+            if (maleOther.length > 0 && femaleOther.length > 0) {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female):\n- ${femaleOther.map(c => c.name).join(', ')}: female figure, querent is female — could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n- ${maleOther.map(c => c.name).join(', ')}: male figure — CANNOT be the querent. Must be a specific man in her life — state clearly who he is.\n`;
+            } else if (femaleOther.length > 0) {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female): female figure(s) — could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n`;
+            } else {
+                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female): male figure(s) — CANNOT be the querent. Each is a specific man in her life — state clearly who he is.\n`;
+            }
         }
     }
 
-    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person in the querent's life — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\n${genderRule}${identityRule ? '\n' + identityRule : ''}\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
+    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\n${genderRule}${selfRule}${identityRule}\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
 }
 
 function isAllMajorArcana(cards: string[]): boolean {
@@ -155,7 +177,7 @@ class TarotService {
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
-        const courtCardsSection = getCourtCardsSection(cards, gender);
+        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType);
 
         const confirmedComboSection = confirmedCombination
             ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
