@@ -115,9 +115,18 @@ function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", 
 
         let ruling: string;
 
+        // Positions 3-6 in Celtic (Past/Present/Near Future/Far Future) or any position in Three Cards
+        const KNIGHT_AMBIGUOUS_POSITIONS = new Set(['past', 'present', 'near future', 'far future', 'future']);
+
         if (isKnight) {
             const thoughtDomain = KNIGHT_SUIT_THOUGHTS[cardBaseName] ?? 'a specific area of life';
-            ruling = `RULING — KNIGHT (THOUGHTS): This card does NOT represent a person. Knights are the bridge between the world of thought and the world of matter — they represent active, powerful thoughts in motion. This Knight signals that there are strong, consuming thoughts of ${thoughtDomain} at work in this situation. Tell the querent explicitly — using language like "there are strong thoughts of...", "you are thinking intensely about...", or "very powerful thoughts of... are driving this" — that this mental energy is real, active, and shaping what is happening. The suit reveals the subject of the thoughts: Cups = thoughts about emotion/love/relationships, Wands = thoughts about passion/goals/inspiration, Swords = thoughts about conflict/decisions/mental tension, Pentacles = thoughts about work/money/practical reality. Do NOT describe this card as a person in any context.`;
+            const isAmbiguousPos = KNIGHT_AMBIGUOUS_POSITIONS.has(pos.toLowerCase());
+
+            if (isAmbiguousPos) {
+                ruling = `RULING — KNIGHT IN STORY POSITION (PERSON OR THOUGHTS — YOU DECIDE): In this position a Knight can represent EITHER a real, specific person in the querent's life OR active thoughts of ${thoughtDomain} — but not both. Read the full spread and the question, then commit to one interpretation. If it is a person: describe them as a driven, fast-moving individual who embodies the energy of ${card.name} — who they are, how they move, and how they affect the querent's situation. If it is thoughts: tell the querent explicitly that there are strong, consuming thoughts of ${thoughtDomain} at work — "you are thinking intensely about...", "very powerful thoughts of... are moving through this". State your choice clearly and do not leave it vague.`;
+            } else {
+                ruling = `RULING — KNIGHT (THOUGHTS ONLY): This card does NOT represent a specific person in this position. Knights are the bridge between the world of thought and the world of matter — they signal active, powerful thoughts in motion. There are strong, consuming thoughts of ${thoughtDomain} at work here. Tell the querent explicitly — "there are strong thoughts of...", "you are thinking intensely about...", "very powerful thoughts of... are shaping this" — that this mental energy is real, active, and influencing the situation. The suit defines the subject: Cups = emotions/love/relationships, Wands = passion/goals/inspiration, Swords = conflict/decisions/tension, Pentacles = work/money/practical matters. Do NOT describe this card as a specific person.`;
+            }
         } else if (isInSelfPos) {
             const isEnergyPos = pos.toLowerCase() === 'positive energy' || pos.toLowerCase() === 'negative energy';
             if (isEnergyPos) {
@@ -144,7 +153,7 @@ function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", 
         lines.push(`• ${card.name} — position: ${pos}\n  ${ruling}`);
     }
 
-    return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nKings, Queens, and Pages represent real, specific people. Knights are NEVER people — they represent active thoughts in motion (see rulings below). Additional exceptions apply in energy positions — see per-card rulings. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = active thoughts bridging mind and matter — NOT a person. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
+    return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nKings, Queens, and Pages represent real, specific people. Knights in story positions (Past/Present/Near Future/Far Future) can be either a person OR active thoughts — AI decides. Knights in all other positions represent thoughts only, never a person. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = active thoughts bridging mind and matter; may also be a person in story positions. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
 }
 
 const SUIT_WORLDS: Record<string, { name: string; domain: string }> = {
