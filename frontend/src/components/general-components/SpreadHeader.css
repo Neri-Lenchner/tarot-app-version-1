@@ -28,8 +28,8 @@
 
 .spread-header-container button:hover {
     background: rgba(10, 5, 25, 0.92);
-    border-color: var(--gold);
-    color: var(--gold);
+    border-color: #ffe680;
+    color: #ffe680;
 }
 
 .spread-header-container button:active {
