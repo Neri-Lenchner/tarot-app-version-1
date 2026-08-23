@@ -3,6 +3,7 @@ import { appConfig } from "../utils/app-config";
 import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
+import { personalCardNotes } from "../data/personal-card-notes";
 import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
 import {
@@ -166,6 +167,20 @@ function getMajorArcanaSection(cards: ISpreadCard[]): string {
     return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
 }
 
+function getPersonalNotesSection(cards: ISpreadCard[]): string {
+    const noteMap = new Map(
+        personalCardNotes
+            .filter(n => n.note.trim() !== '')
+            .map(n => [n.card.toLowerCase(), n.note.trim()])
+    );
+    const active = cards
+        .map(c => ({ name: c.name, note: noteMap.get(c.name.replace(/ Rx$/i, '').toLowerCase()) }))
+        .filter(x => x.note);
+    if (active.length === 0) return '';
+    const lines = active.map(x => `• ${x.name}: ${x.note}`).join('\n');
+    return `=== PERSONAL CARD RULES — MANDATORY ===\nThe following cards have owner-defined interpretive rules. These OVERRIDE any general tarot tradition for the cards listed. Apply them exactly and make them central to your interpretation of each affected card:\n\n${lines}\n===\n\n`;
+}
+
 class TarotService {
     public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): Promise<string> {
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
@@ -207,6 +222,7 @@ class TarotService {
             ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
             : "";
 
+        const personalNotesSection = getPersonalNotesSection(cards);
         const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : "";
 
         const positionInstruction = language === "he"
@@ -240,7 +256,7 @@ class TarotService {
                 ? `- Past → what already happened that started or shaped this situation for them?\n- Present → what are they experiencing or facing right now?\n- Future → what is coming for them?`
                 : `- Past → what already happened that started or shaped this situation?\n- Present → what are you experiencing or facing right now?\n- Future → what is coming for you?`;
 
-        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
