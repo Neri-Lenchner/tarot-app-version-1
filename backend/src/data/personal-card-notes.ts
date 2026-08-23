@@ -66,7 +66,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     { card: "Four of Swords",    note: "" },
     { card: "Five of Swords",    note: "The Five of Swords is the card of the pyrrhic victory — a win that costs more than it was worth. When this card appears, emphasize that the querent may achieve what they are fighting for, but at a price that outweighs the gain: relationships damaged, trust destroyed, energy depleted, or self-respect compromised. The victory is hollow. Depending on the surrounding cards, this card can also point to betrayal — someone in the querent's life acting in bad faith, stabbing them in the back, or winning at their expense. Always ask: who is holding the swords here — the querent, or someone else?" },
     { card: "Six of Swords",     note: "" },
-    { card: "Seven of Swords",   note: "" },
+    { card: "Seven of Swords",   note: "The thief who steals the minds of others — this card speaks of someone who takes what is not theirs to take: ideas, credit, mental energy, trust, or the narrative itself. The Seven of Swords is a master manipulator, a deceiver who operates in the shadows and walks away with something that belonged to someone else. When this card appears, ask: who is playing games here? Who is not being fully honest? It may be someone in the querent's life — or it may be the querent themselves, aware on some level that they are not being entirely above board. Either way, something is being taken without permission, and the truth has not fully surfaced yet." },
     { card: "Eight of Swords",   note: "" },
     { card: "Nine of Swords",    note: "" },
     { card: "Ten of Swords",     note: "" },
