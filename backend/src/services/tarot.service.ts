@@ -70,94 +70,63 @@ function isRomanticQuestion(question: string): boolean {
     return ROMANTIC_KEYWORDS.some(kw => q.includes(kw));
 }
 
-function getRomanticCourtCardRule(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string): string {
-    if (!question?.trim() || !isRomanticQuestion(question) || spreadType !== 'celtic' || !gender) return '';
-
+function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
-    // Only care about court cards in positions 3–6
-    const romanticPosCourt = courtCards.filter(c => CELTIC_ROMANTIC_POSITIONS.has(c.position.toLowerCase()));
-    // Same-gender court cards in those positions
-    const sameGenderCards = gender === 'male'
-        ? romanticPosCourt.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'))
-        : romanticPosCourt.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+    if (courtCards.length === 0) return '';
 
-    if (sameGenderCards.length === 0) return '';
+    const isFemaleFigure = (c: ISpreadCard) => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen');
 
-    const cardList = sameGenderCards.map(c => `${c.name} (${c.position})`).join(', ');
-    const hasLovers = cards.some(c => c.name.toLowerCase().replace(/ rx$/i, '') === 'the lovers');
-    const hasOppGenderMA = gender === 'male'
-        ? cards.some(c => MA_FEMALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
-        : cards.some(c => MA_MALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')));
-    const exceptionActive = hasLovers && hasOppGenderMA;
-
-    const oppGenderWord = gender === 'male' ? 'female' : 'male';
+    // Pre-compute romantic context once
+    const isRomantic = !!(question?.trim() && isRomanticQuestion(question) && spreadType === 'celtic' && gender);
+    const hasLovers = isRomantic && cards.some(c => c.name.toLowerCase().replace(/ rx$/i, '') === 'the lovers');
+    const hasOppGenderMA = isRomantic && (
+        gender === 'male'
+            ? cards.some(c => MA_FEMALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
+            : cards.some(c => MA_MALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
+    );
+    const loversException = hasLovers && hasOppGenderMA;
     const maExampleList = gender === 'male'
         ? 'The High Priestess, The Empress, Justice, Strength, The Star, The World'
         : 'The Magician, The Emperor, The Hierophant, The Chariot, The Hermit, The Hanged Man, Death, The Devil';
 
-    if (exceptionActive) {
-        return `=== ROMANTIC QUESTION — SAME-GENDER COURT CARD (LOVERS EXCEPTION ACTIVE) ===\nThis is a romantic question. The following same-gender court card(s) appear in positions 3–6: ${cardList}.\nNormally same-gender court cards in these positions would NOT be the querent's lover. HOWEVER: The Lovers card AND a ${oppGenderWord} Major Arcana figure are both present in this spread — together they signal a romantic partner context. Therefore, actively decide based on the full spread whether ${sameGenderCards.length === 1 ? 'this card is' : 'these cards are'} the querent's lover or another person in their life (friend, sibling, etc.) — and state your conclusion explicitly.\n===\n\n`;
-    } else {
-        return `=== ROMANTIC QUESTION — SAME-GENDER COURT CARD RULE ===\nThis is a romantic question. The following court card(s) in positions Past / Present / Near Future / Far Future share the querent's gender: ${cardList}.\nCRITICAL: Do NOT interpret ${sameGenderCards.length === 1 ? 'this card' : 'these cards'} as the querent's lover or romantic partner. ${sameGenderCards.length === 1 ? 'It represents' : 'They represent'} another person of the same gender in the querent's life — a friend, sibling, colleague, or the querent themselves.\nThis rule would only be lifted if The Lovers card AND a ${oppGenderWord} Major Arcana figure (such as ${maExampleList}) both appeared in the spread — that combination is not present here.\n===\n\n`;
-    }
-}
+    const lines: string[] = [];
 
-function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string): string {
-    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
-    if (courtCards.length === 0) return '';
-    const names = courtCards.map(c => c.name).join(', ');
+    for (const card of courtCards) {
+        const pos = card.position;
+        const fig = isFemaleFigure(card) ? 'female' : 'male';
+        const isInSelfPos = spreadType === 'celtic' && CELTIC_SELF_POSITIONS.has(pos.toLowerCase());
+        const isInRomanticPos = isRomantic && CELTIC_ROMANTIC_POSITIONS.has(pos.toLowerCase());
+        const isSameGender = !!gender && fig === gender;
+        const oppWord = gender === 'male' ? 'woman' : 'man';
+        const sameWord = gender === 'male' ? 'man' : 'woman';
+        const relExamples = gender === 'male'
+            ? 'romantic partner, mother, sister, colleague, friend'
+            : 'romantic partner, father, brother, colleague, friend';
 
-    // Positions 7-10 in Celtic (Inside, Outside, Fears, Potential) are exclusively about the querent —
-    // any court card there is ALWAYS the querent, regardless of figure gender.
-    const selfCards = spreadType === 'celtic'
-        ? courtCards.filter(c => CELTIC_SELF_POSITIONS.has(c.position.toLowerCase()))
-        : [];
-    const otherCards = courtCards.filter(c => !selfCards.includes(c));
+        let ruling: string;
 
-    // Gender rule applies to ALL court cards (tells AI the figure's biological gender)
-    let genderRule = 'GENDER RULE (figure gender — applies to every court card):\n';
-    const femaleAll = courtCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
-    const maleAll = courtCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
-    if (femaleAll.length > 0)
-        genderRule += `- ${femaleAll.map(c => c.name).join(', ')}: female figure(s).\n`;
-    if (maleAll.length > 0)
-        genderRule += `- ${maleAll.map(c => c.name).join(', ')}: male figure(s).\n`;
-
-    // Self-position override
-    let selfRule = '';
-    if (selfCards.length > 0) {
-        const selfList = selfCards.map(c => `${c.name} (${c.position})`).join(', ');
-        selfRule = `\nPOSITION OVERRIDE — ALWAYS THE QUERENT:\n${selfList} ${selfCards.length === 1 ? 'appears' : 'appear'} in one of the following positions: Positive Energy (1), Negative Energy (2), Inside (7), Outside (8). These positions are exclusively about the querent themselves — their own energies, inner world, and self-image. ANY court card landing in these positions ALWAYS represents the querent, regardless of the figure's gender. Interpret ${selfCards.length === 1 ? 'this card' : 'these cards'} as the querent directly. Do NOT look for an external person here.\n`;
-    }
-
-    // Identity rule only for cards NOT in self-positions
-    const sameGenderDecisionRule = `YOU MUST ACTIVELY DECIDE — based on the position and the overall story the rest of the spread tells — whether this card is the querent themselves or a specific person in their life. Read the whole spread first, then commit to a clear, explicit answer in your interpretation (e.g. "This card is you" or "This card represents a specific person in your life").`;
-
-    let identityRule = '';
-    if (otherCards.length > 0) {
-        const femaleOther = otherCards.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
-        const maleOther = otherCards.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
-
-        if (gender === 'male') {
-            if (maleOther.length > 0 && femaleOther.length > 0) {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male):\n- ${maleOther.map(c => c.name).join(', ')}: male figure, querent is male — could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n- ${femaleOther.map(c => c.name).join(', ')}: female figure — CANNOT be the querent. Must be a specific woman in his life — state clearly who she is.\n`;
-            } else if (maleOther.length > 0) {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male): male figure(s) — could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n`;
+        if (isInSelfPos) {
+            ruling = `RULING — ALWAYS THE QUERENT: Position "${pos}" is exclusively about the querent's own energy or inner world. This card IS THE QUERENT — even though the figure is ${fig} and the querent is ${gender ?? 'unknown gender'}. Do NOT name an external person here. Interpret this card as a direct mirror of who the querent is.`;
+        } else if (!gender) {
+            ruling = `${fig === 'female' ? 'Female' : 'Male'} figure. Interpret as a real, specific ${fig} person in the querent's life — never an abstract quality.`;
+        } else if (isSameGender) {
+            if (isInRomanticPos) {
+                if (loversException) {
+                    ruling = `RULING — SAME GENDER, ROMANTIC POSITION (LOVERS EXCEPTION ACTIVE): ${fig} figure, querent is ${gender}. Normally a same-gender card here cannot be the lover. BUT The Lovers card AND a ${oppWord === 'woman' ? 'female' : 'male'} Major Arcana figure are both present — together they open the possibility of a romantic partner. DECIDE based on the full spread: is this the querent's lover, or another ${sameWord} in their life? State your answer explicitly.`;
+                } else {
+                    ruling = `RULING — SAME GENDER, ROMANTIC POSITION: ${fig} figure, querent is ${gender}. In a romantic question, a same-gender court card in this position IS NOT the querent's romantic partner or lover. It is either the querent themselves or another ${sameWord} in their life (friend, sibling, colleague) — but NOT a love interest. (Exception would apply only if The Lovers card AND a ${oppWord === 'woman' ? 'female' : 'male'} Major Arcana such as ${maExampleList} both appeared — they do not.)`;
+                }
             } else {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is male): female figure(s) — CANNOT be the querent. Each is a specific woman in his life — state clearly who she is.\n`;
+                ruling = `RULING — SAME GENDER: ${fig} figure, querent is ${gender}. This card could be the querent themselves OR a specific ${sameWord} in their life. YOU MUST DECIDE which one by reading the full spread. Commit to one answer and state it explicitly: either "this card is you" or "this card represents [specific person]." Do not leave it vague.`;
             }
-        } else if (gender === 'female') {
-            if (maleOther.length > 0 && femaleOther.length > 0) {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female):\n- ${femaleOther.map(c => c.name).join(', ')}: female figure, querent is female — could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n- ${maleOther.map(c => c.name).join(', ')}: male figure — CANNOT be the querent. Must be a specific man in her life — state clearly who he is.\n`;
-            } else if (femaleOther.length > 0) {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female): female figure(s) — could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n`;
-            } else {
-                identityRule = `\nIDENTITY RULE for remaining court cards (querent is female): male figure(s) — CANNOT be the querent. Each is a specific man in her life — state clearly who he is.\n`;
-            }
+        } else {
+            ruling = `RULING — OPPOSITE GENDER: ${fig} figure, querent is ${gender}. This card CANNOT be the querent. It is a specific ${oppWord} in their life (e.g. ${relExamples}). Name and describe this person clearly — who they are, their energy, and how they affect the querent's situation.`;
         }
+
+        lines.push(`• ${card.name} — position: ${pos}\n  ${ruling}`);
     }
 
-    return `=== COURT CARDS — ALWAYS A REAL PERSON ===\nThe following court cards appear in this spread: ${names}.\nCRITICAL RULE: Every court card MUST be interpreted as a real, specific person — never as an abstract energy, archetype, or personality trait. For each court card, explicitly tell the querent that this card represents a real person, describe who that person is (their nature, energy, role in the querent's life), and explain how they are influencing or will influence the situation.\n${genderRule}${selfRule}${identityRule}\nUse the rank as a guide to who they are:\n- King: A mature, established authority figure — powerful, decisive, in control of their domain.\n- Queen: A mature figure of emotional or intellectual strength — wise, influential, deeply impactful.\n- Knight: A younger, driven, fast-moving person — bold, action-oriented, sometimes impulsive.\n- Page: A young, new, or inexperienced person — a messenger, a student, someone just entering the scene, or someone bringing news.\nUse the suit as a guide to their domain:\n- Wands: passionate, creative, entrepreneurial, fiery.\n- Cups: emotional, empathic, romantic, intuitive.\n- Swords: sharp, intellectual, communicative, sometimes cutting.\n- Pentacles: practical, reliable, financially grounded, hardworking.\n===\n\n`;
+    return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nCourt cards always represent real, specific people — never abstract energies, archetypes, or personality traits. Apply each ruling below exactly as written. For every card, describe the person's character and how they influence the querent's situation.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = younger, driven, action-oriented. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
 }
 
 function isAllMajorArcana(cards: string[]): boolean {
@@ -222,8 +191,7 @@ class TarotService {
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
-        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType);
-        const romanticCourtRule = getRomanticCourtCardRule(cards, gender, spreadType, question);
+        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType, question);
 
         const confirmedComboSection = confirmedCombination
             ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
@@ -263,7 +231,7 @@ class TarotService {
             ? `- Positive Energy → what supporting force is actively at work for the querent right now?\n- Negative Energy → what is blocking or working against them?\n- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Near Future → what is concretely coming in the short term?\n- Far Future → where is this heading long-term; what is the ultimate direction?\n- Inside → what is the querent's private, unspoken emotional truth that they may not be voicing?\n- Outside → how does the querent appear to others; how do they present themselves to the world?\n- Fears → what does the querent dread, and how is that fear showing up in this situation?\n- Potential → what can the querent achieve here, and what should they focus on or do to reach that potential?`
             : `- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Future → what is coming for the querent?`;
 
-        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${romanticCourtRule}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
