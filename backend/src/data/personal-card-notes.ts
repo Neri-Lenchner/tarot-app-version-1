@@ -24,7 +24,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     { card: "The Empress",       note: "" },
     { card: "The Emperor",       note: "" },
     { card: "The Hierophant",    note: "" },
-    { card: "The Lovers",        note: "" },
+    { card: "The Lovers",        note: "The Lovers is first and foremost a card of decision — a crossroads where the querent must choose, or has already chosen, between two fundamentally different paths. The core tension is always the same: the heart versus the mind, emotion versus reason, passion versus wisdom. The classic image is the dilemma of choosing between a young, beautiful, exciting option that sets the heart on fire — and a wiser, more stable option that the rational mind knows is the sounder choice. This is not always literal romance; it can reflect any life decision where the querent is torn between what they feel and what they know. The card does not tell them which to choose — it tells them that a real choice is in front of them (or behind them), and that both sides have genuine weight. Emphasize the inner conflict: part of them wants to follow desire and feeling, part of them wants to follow logic and long-term thinking. The Lovers forces the question: which voice do you listen to?" },
     { card: "The Chariot",       note: "" },
     { card: "Strength",          note: "" },
     { card: "The Hermit",        note: "" },
