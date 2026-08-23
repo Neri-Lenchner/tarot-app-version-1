@@ -13,8 +13,8 @@ class AuthService {
         const exists = await this.emailExists(user.email);
         if (exists) throw new ValidationError("Email already taken");
         user.password = await securityService.hash(user.password);
-        const sql = "INSERT INTO users (firstName, lastName, email, password) VALUES (?, ?, ?, ?)";
-        const result = await dal.execute(sql, [user.firstName, user.lastName, user.email, user.password]) as ResultSetHeader;
+        const sql = "INSERT INTO users (firstName, lastName, email, password, gender) VALUES (?, ?, ?, ?, ?)";
+        const result = await dal.execute(sql, [user.firstName, user.lastName, user.email, user.password, user.gender ?? null]) as ResultSetHeader;
         user.id = result.insertId;
         return securityService.generateToken(user);
     }

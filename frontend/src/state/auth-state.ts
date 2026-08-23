@@ -5,6 +5,7 @@ export interface IAuthUser {
     firstName: string;
     lastName: string;
     email: string;
+    gender?: 'male' | 'female';
 }
 
 interface IAuthState {

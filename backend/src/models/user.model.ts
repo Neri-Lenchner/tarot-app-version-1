@@ -7,6 +7,7 @@ export class User {
     public lastName: string;
     public email: string;
     public password: string;
+    public gender?: 'male' | 'female';
 
     constructor(user: User) {
         this.id = user.id;
@@ -14,6 +15,7 @@ export class User {
         this.lastName = user.lastName;
         this.email = user.email;
         this.password = user.password;
+        this.gender = user.gender;
     }
 
     private static validationSchema = Joi.object({
@@ -22,6 +24,7 @@ export class User {
         lastName: Joi.string().required().min(2).max(50),
         email: Joi.string().email().required(),
         password: Joi.string().required().min(4).max(256),
+        gender: Joi.string().valid('male', 'female').required(),
     });
 
     public validate(): void {

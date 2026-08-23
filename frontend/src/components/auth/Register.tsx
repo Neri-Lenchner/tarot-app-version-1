@@ -1,4 +1,4 @@
-import { JSX } from "react";
+import { JSX, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
@@ -14,10 +14,13 @@ interface IRegisterForm {
 function Register(): JSX.Element {
     const { register, handleSubmit, formState: { errors } } = useForm<IRegisterForm>();
     const navigate = useNavigate();
+    const [gender, setGender] = useState<'male' | 'female' | null>(null);
+    const [genderError, setGenderError] = useState(false);
 
     async function onSubmit(data: IRegisterForm): Promise<void> {
+        if (!gender) { setGenderError(true); return; }
         try {
-            await authService.register(data.firstName, data.lastName, data.email, data.password);
+            await authService.register(data.firstName, data.lastName, data.email, data.password, gender);
             navigate("/");
         } catch (err: any) {
             alert(err.response?.data?.message || "Registration failed");
@@ -79,6 +82,21 @@ function Register(): JSX.Element {
                             {errors.password.message}
                         </span>
                     }
+
+                    <label>I am a...</label>
+                    <div className="auth-gender-toggle">
+                        <button
+                            type="button"
+                            className={`auth-gender-btn${gender === 'male' ? ' active' : ''}`}
+                            onClick={() => { setGender('male'); setGenderError(false); }}
+                        >He ♂</button>
+                        <button
+                            type="button"
+                            className={`auth-gender-btn${gender === 'female' ? ' active' : ''}`}
+                            onClick={() => { setGender('female'); setGenderError(false); }}
+                        >She ♀</button>
+                    </div>
+                    {genderError && <span className="auth-error">Please select He or She</span>}
 
                     <button
                         type="submit"

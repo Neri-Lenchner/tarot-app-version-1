@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ICombinationMatch } from "./CombinationsService";
+import { authStore } from "../state/auth-state";
 
 const BASE_URL = "http://localhost:4000";
 
@@ -13,12 +14,14 @@ class InterpretService {
         isThirdPerson?: boolean,
         confirmedCombination?: ICombinationMatch
     ): Promise<string> {
+        const gender = authStore.getState().user?.gender;
         const payload = {
             spreadType,
             language: lang,
             question: question || undefined,
             isThirdPerson: isThirdPerson || undefined,
             confirmedCombination: confirmedCombination || undefined,
+            gender: gender || undefined,
             cards: cards.slice(0, positions.length).map((card, i) => ({
                 name: card.name,
                 position: positions[i],

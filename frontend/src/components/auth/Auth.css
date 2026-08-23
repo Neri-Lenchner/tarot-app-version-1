@@ -106,3 +106,36 @@
 .auth-link-text a:hover {
     text-shadow: 0 0 10px var(--gold-glow);
 }
+
+.auth-gender-toggle {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.auth-gender-btn {
+    flex: 1;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
+}
+
+.auth-gender-btn:hover {
+    border-color: rgba(212, 175, 55, 0.4);
+    color: var(--gold);
+}
+
+.auth-gender-btn.active {
+    background: rgba(212, 175, 55, 0.14);
+    border-color: var(--gold);
+    color: var(--gold);
+    box-shadow: 0 0 12px var(--gold-glow);
+}

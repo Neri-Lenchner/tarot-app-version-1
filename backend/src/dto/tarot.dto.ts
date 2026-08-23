@@ -10,6 +10,7 @@ export interface IInterpretRequest {
     isThirdPerson?: boolean;
     confirmedCombination?: ICombinationMatch;
     cards: ISpreadCard[];
+    gender?: "male" | "female";
 }
 
 export interface ICombinationMatch {
