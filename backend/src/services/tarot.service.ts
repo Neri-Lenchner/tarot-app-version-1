@@ -69,22 +69,24 @@ function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female"):
     if (maleCards.length > 0)
         genderRule += `- ${maleCards.map(c => c.name).join(', ')}: ${maleCards.length === 1 ? 'This is a male figure' : 'These are male figures'} — MUST be interpreted as representing a man.\n`;
 
+    const sameGenderDecisionRule = `YOU MUST ACTIVELY DECIDE — based on the position this card falls in AND the overall story the rest of the spread is telling — whether this card represents the querent themselves or a specific person in their life. Do not leave it ambiguous. Read the whole spread first, then commit to a clear answer and state it explicitly in your interpretation (e.g. "This card is you" or "This card represents a specific man/woman in your life").`;
+
     let identityRule = '';
     if (gender === 'male') {
         if (maleCards.length > 0 && femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is male):\n- ${maleCards.map(c => c.name).join(', ')}: MAY represent the querent himself — especially in positions about his own identity, feelings, or inner world. If the position strongly points to the querent, interpret it as him. Otherwise, a specific man in his life.\n- ${femaleCards.map(c => c.name).join(', ')}: CANNOT represent the querent — must be a specific woman in his life (partner, mother, colleague, friend, etc.).\n`;
+            identityRule = `IDENTITY RULE (querent is male):\n- ${maleCards.map(c => c.name).join(', ')}: This is a male figure and the querent is male — it could be the querent himself OR another man in his life. ${sameGenderDecisionRule}\n- ${femaleCards.map(c => c.name).join(', ')}: CANNOT represent the querent. Must be a specific woman in his life (partner, mother, colleague, friend, etc.) — state clearly who she is.\n`;
         } else if (maleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is male): ${maleCards.length === 1 ? 'This male court card' : 'These male court cards'} MAY represent the querent himself, especially in positions about his own identity or inner state. If the position suggests the querent, interpret it that way — otherwise, a specific man in his life.\n`;
+            identityRule = `IDENTITY RULE (querent is male): ${maleCards.length === 1 ? 'This male court card' : 'These male court cards'} could represent the querent himself OR another man in his life. ${sameGenderDecisionRule}\n`;
         } else {
-            identityRule = `IDENTITY RULE (querent is male): ${femaleCards.length === 1 ? 'This is a Queen — a female figure' : 'These are Queens — female figures'}. ${femaleCards.length === 1 ? 'She' : 'They'} CANNOT represent the querent. ${femaleCards.length === 1 ? 'She represents' : 'Each represents'} a specific woman in his life.\n`;
+            identityRule = `IDENTITY RULE (querent is male): ${femaleCards.length === 1 ? 'This Queen is a female figure' : 'These Queens are female figures'} and CANNOT represent the querent. ${femaleCards.length === 1 ? 'She is' : 'Each is'} a specific woman in his life — state clearly who she is.\n`;
         }
     } else if (gender === 'female') {
         if (maleCards.length > 0 && femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is female):\n- ${femaleCards.map(c => c.name).join(', ')}: MAY represent the querent herself — especially in positions about her own identity, feelings, or inner world. If the position strongly points to the querent, interpret it as her. Otherwise, a specific woman in her life.\n- ${maleCards.map(c => c.name).join(', ')}: CANNOT represent the querent — must be a specific man in her life (partner, father, colleague, friend, etc.).\n`;
+            identityRule = `IDENTITY RULE (querent is female):\n- ${femaleCards.map(c => c.name).join(', ')}: This is a female figure and the querent is female — it could be the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n- ${maleCards.map(c => c.name).join(', ')}: CANNOT represent the querent. Must be a specific man in her life (partner, father, colleague, friend, etc.) — state clearly who he is.\n`;
         } else if (femaleCards.length > 0) {
-            identityRule = `IDENTITY RULE (querent is female): ${femaleCards.length === 1 ? 'This female court card' : 'These female court cards'} MAY represent the querent herself, especially in positions about her own identity or inner state. If the position suggests the querent, interpret it that way — otherwise, a specific woman in her life.\n`;
+            identityRule = `IDENTITY RULE (querent is female): ${femaleCards.length === 1 ? 'This female court card' : 'These female court cards'} could represent the querent herself OR another woman in her life. ${sameGenderDecisionRule}\n`;
         } else {
-            identityRule = `IDENTITY RULE (querent is female): ${maleCards.length === 1 ? 'This is a King/Knight/Page — a male figure' : 'These are Kings/Knights/Pages — male figures'}. ${maleCards.length === 1 ? 'He' : 'They'} CANNOT represent the querent. ${maleCards.length === 1 ? 'He represents' : 'Each represents'} a specific man in her life.\n`;
+            identityRule = `IDENTITY RULE (querent is female): ${maleCards.length === 1 ? 'This King/Knight/Page is a male figure' : 'These Kings/Knights/Pages are male figures'} and CANNOT represent the querent. ${maleCards.length === 1 ? 'He is' : 'Each is'} a specific man in her life — state clearly who he is.\n`;
         }
     }
 
