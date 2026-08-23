@@ -20,21 +20,16 @@
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
-    box-shadow: 0 0 14px var(--gold-glow), 0 0 30px rgba(212, 175, 55, 0.15);
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.6);
     transition:
         background var(--transition),
         border-color var(--transition),
-        color var(--transition),
-        box-shadow var(--transition);
+        color var(--transition);
 }
 
 .spread-header-container button:hover {
     background: rgba(10, 5, 25, 0.92);
     border-color: var(--gold);
     color: var(--gold);
-    box-shadow: 0 0 24px var(--gold-glow), 0 0 50px rgba(212, 175, 55, 0.25);
-    text-shadow: 0 0 12px rgba(212, 175, 55, 0.9);
 }
 
 .spread-header-container button:active {
@@ -54,13 +49,10 @@
     border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
-    box-shadow: 0 0 14px rgba(107, 63, 160, 0.5), 0 0 30px rgba(107, 63, 160, 0.15);
-    text-shadow: 0 0 8px rgba(107, 63, 160, 0.7);
     transition:
         background var(--transition),
         border-color var(--transition),
-        color var(--transition),
-        box-shadow var(--transition);
+        color var(--transition);
     align-self: flex-start;
     margin: 4px 16px;
 }
@@ -68,14 +60,10 @@
 .third-person-toggle:hover {
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 24px rgba(107, 63, 160, 0.75), 0 0 48px rgba(107, 63, 160, 0.22);
-    text-shadow: 0 0 12px rgba(107, 63, 160, 0.9);
 }
 
 .third-person-toggle.active {
     background: rgba(107, 63, 160, 0.25);
     border-color: var(--purple);
     color: var(--purple);
-    box-shadow: 0 0 26px rgba(107, 63, 160, 0.8), 0 0 52px rgba(107, 63, 160, 0.25);
-    text-shadow: 0 0 12px rgba(107, 63, 160, 0.9);
 }
