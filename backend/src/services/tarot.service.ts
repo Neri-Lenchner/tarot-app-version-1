@@ -57,6 +57,51 @@ function isThirdPersonQuestion(question: string): boolean {
 
 const CELTIC_SELF_POSITIONS = new Set(['positive energy', 'negative energy', 'inside', 'outside']);
 
+// Romantic question detection
+const ROMANTIC_KEYWORDS = ['love', 'relationship', 'partner', 'romance', 'romantic', 'marriage', 'marry', 'boyfriend', 'girlfriend', 'husband', 'wife', 'dating', 'soulmate', 'together', 'couple', 'breakup', 'divorce', 'אהבה', 'זוגיות', 'נישואים', 'חבר', 'חברה', 'בן זוג', 'בת זוג', 'יחסים', 'פרידה'];
+const CELTIC_ROMANTIC_POSITIONS = new Set(['past', 'present', 'near future', 'far future']);
+// Major Arcana cards carrying a female figure/energy
+const MA_FEMALE_FIGURES = new Set(['the high priestess', 'the empress', 'justice', 'strength', 'the star', 'the world']);
+// Major Arcana cards carrying a male figure/energy
+const MA_MALE_FIGURES = new Set(['the magician', 'the emperor', 'the hierophant', 'the chariot', 'the hermit', 'the hanged man', 'death', 'the devil']);
+
+function isRomanticQuestion(question: string): boolean {
+    const q = question.toLowerCase();
+    return ROMANTIC_KEYWORDS.some(kw => q.includes(kw));
+}
+
+function getRomanticCourtCardRule(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string): string {
+    if (!question?.trim() || !isRomanticQuestion(question) || spreadType !== 'celtic' || !gender) return '';
+
+    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
+    // Only care about court cards in positions 3–6
+    const romanticPosCourt = courtCards.filter(c => CELTIC_ROMANTIC_POSITIONS.has(c.position.toLowerCase()));
+    // Same-gender court cards in those positions
+    const sameGenderCards = gender === 'male'
+        ? romanticPosCourt.filter(c => !c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'))
+        : romanticPosCourt.filter(c => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen'));
+
+    if (sameGenderCards.length === 0) return '';
+
+    const cardList = sameGenderCards.map(c => `${c.name} (${c.position})`).join(', ');
+    const hasLovers = cards.some(c => c.name.toLowerCase().replace(/ rx$/i, '') === 'the lovers');
+    const hasOppGenderMA = gender === 'male'
+        ? cards.some(c => MA_FEMALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
+        : cards.some(c => MA_MALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')));
+    const exceptionActive = hasLovers && hasOppGenderMA;
+
+    const oppGenderWord = gender === 'male' ? 'female' : 'male';
+    const maExampleList = gender === 'male'
+        ? 'The High Priestess, The Empress, Justice, Strength, The Star, The World'
+        : 'The Magician, The Emperor, The Hierophant, The Chariot, The Hermit, The Hanged Man, Death, The Devil';
+
+    if (exceptionActive) {
+        return `=== ROMANTIC QUESTION — SAME-GENDER COURT CARD (LOVERS EXCEPTION ACTIVE) ===\nThis is a romantic question. The following same-gender court card(s) appear in positions 3–6: ${cardList}.\nNormally same-gender court cards in these positions would NOT be the querent's lover. HOWEVER: The Lovers card AND a ${oppGenderWord} Major Arcana figure are both present in this spread — together they signal a romantic partner context. Therefore, actively decide based on the full spread whether ${sameGenderCards.length === 1 ? 'this card is' : 'these cards are'} the querent's lover or another person in their life (friend, sibling, etc.) — and state your conclusion explicitly.\n===\n\n`;
+    } else {
+        return `=== ROMANTIC QUESTION — SAME-GENDER COURT CARD RULE ===\nThis is a romantic question. The following court card(s) in positions Past / Present / Near Future / Far Future share the querent's gender: ${cardList}.\nCRITICAL: Do NOT interpret ${sameGenderCards.length === 1 ? 'this card' : 'these cards'} as the querent's lover or romantic partner. ${sameGenderCards.length === 1 ? 'It represents' : 'They represent'} another person of the same gender in the querent's life — a friend, sibling, colleague, or the querent themselves.\nThis rule would only be lifted if The Lovers card AND a ${oppGenderWord} Major Arcana figure (such as ${maExampleList}) both appeared in the spread — that combination is not present here.\n===\n\n`;
+    }
+}
+
 function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
     if (courtCards.length === 0) return '';
@@ -178,6 +223,7 @@ class TarotService {
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
         const courtCardsSection = getCourtCardsSection(cards, gender, spreadType);
+        const romanticCourtRule = getRomanticCourtCardRule(cards, gender, spreadType, question);
 
         const confirmedComboSection = confirmedCombination
             ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
@@ -217,7 +263,7 @@ class TarotService {
             ? `- Positive Energy → what supporting force is actively at work for the querent right now?\n- Negative Energy → what is blocking or working against them?\n- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Near Future → what is concretely coming in the short term?\n- Far Future → where is this heading long-term; what is the ultimate direction?\n- Inside → what is the querent's private, unspoken emotional truth that they may not be voicing?\n- Outside → how does the querent appear to others; how do they present themselves to the world?\n- Fears → what does the querent dread, and how is that fear showing up in this situation?\n- Potential → what can the querent achieve here, and what should they focus on or do to reach that potential?`
             : `- Past → what already happened that started or shaped this situation?\n- Present → what is the querent experiencing or facing right now?\n- Future → what is coming for the querent?`;
 
-        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${romanticCourtRule}${combinationsSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
