@@ -135,6 +135,40 @@ function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", 
     return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nCourt cards in most positions represent real, specific people. EXCEPTION: In the Positive Energy or Negative Energy positions they represent an energy or force, not a person — see the per-card rulings below. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = younger, driven, action-oriented. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
 }
 
+const SUIT_WORLDS: Record<string, { name: string; domain: string }> = {
+    cups:      { name: 'Cups',      domain: 'the emotional world — relationships, feelings, intuition, and the heart' },
+    wands:     { name: 'Wands',     domain: 'the inspirational world — passion, creativity, ambition, and inner drive' },
+    swords:    { name: 'Swords',    domain: 'the mental world — thoughts, decisions, conflict, and the power of the mind' },
+    pentacles: { name: 'Pentacles', domain: 'the material world — money, career, physical reality, and practical matters' },
+};
+
+function getSuitDominanceSection(cards: ISpreadCard[]): string {
+    const counts: Record<string, number> = { cups: 0, wands: 0, swords: 0, pentacles: 0 };
+    for (const card of cards) {
+        const name = card.name.toLowerCase();
+        for (const suit of Object.keys(counts)) {
+            if (name.includes(`of ${suit}`)) { counts[suit]++; break; }
+        }
+    }
+    const total = Object.values(counts).reduce((a, b) => a + b, 0);
+    if (total === 0) return ''; // all major arcana
+
+    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+    const [topSuit, topCount] = sorted[0];
+    const [, secondCount] = sorted[1];
+
+    // Only flag dominance if the top suit has at least 2 cards and leads by at least 1
+    if (topCount < 2 || topCount === secondCount) return '';
+
+    const { name, domain } = SUIT_WORLDS[topSuit];
+    const breakdown = sorted
+        .filter(([, n]) => n > 0)
+        .map(([s, n]) => `${SUIT_WORLDS[s].name}: ${n}`)
+        .join(', ');
+
+    return `=== DOMINANT SUIT — SHAPES THE ENTIRE READING ===\nSuit count: ${breakdown}.\n${name} dominates this spread with ${topCount} out of ${total} Minor Arcana cards. This is a decisive signal: whatever the querent is asking about, the answer lives primarily in ${domain}. You MUST reflect this in your interpretation — open with a clear statement that this reading is rooted in ${domain}, and let that world colour every card you interpret. The querent's situation, their challenge, and the path forward are all filtered through this lens.\n===\n\n`;
+}
+
 function isAllMajorArcana(cards: string[]): boolean {
     return cards.every(c => MAJOR_ARCANA.has(c.replace(/ Rx$/i, '').toLowerCase()));
 }
@@ -222,6 +256,7 @@ class TarotService {
             ? `=== CRITICAL — ESTABLISHED CARD COMBINATIONS DETECTED IN THIS SPREAD ===\nThe following well-known tarot combinations appear in the drawn cards. These are the SINGLE MOST IMPORTANT finding of this reading. They must be explicitly named, explained in depth, and treated as the central message the cards are delivering — above and beyond any individual card meaning:\n\n${matchedCombos.join("\n")}\n\nDo NOT bury these in passing. They are the headline of this reading.\n===\n\n`
             : "";
 
+        const suitDominanceSection = getSuitDominanceSection(cards);
         const personalNotesSection = getPersonalNotesSection(cards);
         const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : "";
 
@@ -256,7 +291,7 @@ class TarotService {
                 ? `- Past → what already happened that started or shaped this situation for them?\n- Present → what are they experiencing or facing right now?\n- Future → what is coming for them?`
                 : `- Past → what already happened that started or shaped this situation?\n- Present → what are you experiencing or facing right now?\n- Future → what is coming for you?`;
 
-        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${courtCardsSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtCardsSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
