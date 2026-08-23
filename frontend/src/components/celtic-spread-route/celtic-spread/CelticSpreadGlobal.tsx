@@ -110,7 +110,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     </div>
                 )}
             </div>
-            <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
+            <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} positions={POSITIONS} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}

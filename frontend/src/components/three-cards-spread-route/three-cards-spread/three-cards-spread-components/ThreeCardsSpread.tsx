@@ -9,9 +9,7 @@ function extractCardSection(text: string, cardName: string): string | null {
     return paragraph ? paragraph.trim() : null;
 }
 
-const POSITIONS = ["Past", "Present", "Future"];
-
-export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: boolean, cards: any[], apiCards: any[] }): JSX.Element {
+export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: { isSpread3: boolean, cards: any[], apiCards: any[], positions: string[] }): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [spreadData, setSpreadData] = useState(() => interpretStore.getState()['three-cards']);
@@ -30,10 +28,11 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: bo
     const selectedApiCard = selectedCard
         ? apiCards.find((c: any) => c.name === selectedCard.name)
         : null;
+    const cardSection = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 
     return (
         <div className="three-cards-spread-container">
-            {POSITIONS.map((label, i) => (
+            {positions.map((label, i) => (
                 <div
                     key={label}
                     className="card-container"
@@ -61,10 +60,10 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards }: { isSpread3: bo
                             )}
                         </div>
                         <h3 className="card-modal-name">{selectedCard?.name}</h3>
-                        <p className="card-modal-position">{POSITIONS[selectedIndex]}</p>
+                        <p className="card-modal-position">{positions[selectedIndex]}</p>
                         <div dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                            {selectedCard && interpretation && extractCardSection(interpretation, selectedCard.name) ? (
-                                <p className="card-modal-desc">{extractCardSection(interpretation, selectedCard.name)}</p>
+                            {cardSection ? (
+                                <p className="card-modal-desc">{cardSection}</p>
                             ) : selectedApiCard ? (
                                 <>
                                     <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>

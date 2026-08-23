@@ -28,7 +28,7 @@ function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
         if (line.trim().startsWith('**')) {
             return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
         }
-        const matchedCard = cards.find(c => line.toLowerCase().includes(c.name.toLowerCase()));
+        const matchedCard = cards.find(c => new RegExp(`\\b${c.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(line));
         if (matchedCard) {
             return (
                 <div key={i} className="iw-card-row">

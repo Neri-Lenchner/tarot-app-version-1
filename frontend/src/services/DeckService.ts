@@ -41,7 +41,6 @@ class DeckService {
     };
 
     clearSpread(bool: string, arr: string): boolean{
-        console.log("Clearing spread");
         localStorage.removeItem(bool);
         localStorage.removeItem(arr);
         return false;
