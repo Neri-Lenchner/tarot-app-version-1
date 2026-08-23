@@ -26,13 +26,19 @@
     box-shadow: 0 0 28px rgba(88, 120, 160, 0.85), 0 0 60px rgba(88, 120, 160, 0.35), inset 0 0 12px rgba(88, 120, 160, 0.12);
 }
 
-.three-cards-global-container .spread-question-display {
+.three-cards-global-container .spread-subheader-row {
+    display: flex;
+    align-items: center;
     background: rgba(7, 4, 20, 0.85);
-    padding: 6px 16px;
+    border-bottom: 1px solid var(--threecards-border);
+}
+
+.three-cards-global-container .spread-question-display {
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid var(--threecards-border);
+    padding: 0 16px;
+    flex: 1;
 }
 
 .three-cards-global-container .spread-question-label {
@@ -45,7 +51,7 @@
 }
 
 .three-cards-global-container .spread-question-text {
-    color: var(--text-muted);
-    font-size: 13px;
+    color: #ffffff;
+    font-size: 17px;
     font-style: italic;
 }

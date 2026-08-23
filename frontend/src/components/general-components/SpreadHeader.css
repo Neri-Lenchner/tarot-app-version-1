@@ -54,7 +54,6 @@
         background var(--transition),
         border-color var(--transition),
         color var(--transition);
-    align-self: flex-start;
     margin: 4px 16px;
 }
 

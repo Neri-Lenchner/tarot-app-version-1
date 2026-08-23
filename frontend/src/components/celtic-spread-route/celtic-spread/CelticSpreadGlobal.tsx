@@ -95,19 +95,21 @@ export function CelticSpreadGlobal(): JSX.Element {
                     onFocus={() => { if (isSpread) clearSpread(); }}
                 />
             </SpreadHeader>
-            <button
-                className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
-                onClick={() => setIsThirdPerson(p => !p)}
-                type="button"
-            >
-                👤 Reading about someone else
-            </button>
-            {submittedQuestion && (
-                <div className="spread-question-display">
-                    <span className="spread-question-label">Your question:</span>
-                    <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
-                </div>
-            )}
+            <div className="spread-subheader-row">
+                <button
+                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                    onClick={() => setIsThirdPerson(p => !p)}
+                    type="button"
+                >
+                    👤 Reading about someone else
+                </button>
+                {submittedQuestion && (
+                    <div className="spread-question-display">
+                        <span className="spread-question-label">Your question:</span>
+                        <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
+                    </div>
+                )}
+            </div>
             <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
