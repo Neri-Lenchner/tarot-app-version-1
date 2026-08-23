@@ -55,7 +55,7 @@ function isThirdPersonQuestion(question: string): boolean {
     return false;
 }
 
-const CELTIC_SELF_POSITIONS = new Set(['positive energy', 'negative energy', 'inside', 'outside', 'fears', 'potential']);
+const CELTIC_SELF_POSITIONS = new Set(['positive energy', 'negative energy', 'inside', 'outside']);
 
 function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
@@ -82,7 +82,7 @@ function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", 
     let selfRule = '';
     if (selfCards.length > 0) {
         const selfList = selfCards.map(c => `${c.name} (${c.position})`).join(', ');
-        selfRule = `\nPOSITION OVERRIDE — ALWAYS THE QUERENT:\n${selfList} ${selfCards.length === 1 ? 'appears' : 'appear'} in one of the following positions: Positive Energy (1), Negative Energy (2), Inside (7), Outside (8), Fears (9), Potential (10). These positions are exclusively about the querent themselves — their own energies, inner world, self-image, fears, and potential. ANY court card landing in these positions ALWAYS represents the querent, regardless of the figure's gender. Interpret ${selfCards.length === 1 ? 'this card' : 'these cards'} as the querent directly. Do NOT look for an external person here.\n`;
+        selfRule = `\nPOSITION OVERRIDE — ALWAYS THE QUERENT:\n${selfList} ${selfCards.length === 1 ? 'appears' : 'appear'} in one of the following positions: Positive Energy (1), Negative Energy (2), Inside (7), Outside (8). These positions are exclusively about the querent themselves — their own energies, inner world, and self-image. ANY court card landing in these positions ALWAYS represents the querent, regardless of the figure's gender. Interpret ${selfCards.length === 1 ? 'this card' : 'these cards'} as the querent directly. Do NOT look for an external person here.\n`;
     }
 
     // Identity rule only for cards NOT in self-positions
