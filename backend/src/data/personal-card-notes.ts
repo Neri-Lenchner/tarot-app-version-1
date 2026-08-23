@@ -32,7 +32,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     { card: "Justice",           note: "" },
     { card: "The Hanged Man",    note: "" },
     { card: "Death",             note: "" },
-    { card: "Temperance",        note: "" },
+    { card: "Temperance",        note: "Temperance is the card of divine guardianship and impossible balance. When it appears, emphasize two things above all: first, that the querent is under the protection of a powerful, angelic force — they are not navigating this situation alone, and the guidance surrounding them is of a higher order than ordinary circumstance. Second, that they possess a rare and extraordinary ability to hold two opposing forces in perfect equilibrium simultaneously — what looks like an impossible contradiction to others is something they can actually achieve. They can walk between worlds, reconcile what cannot be reconciled, and find the middle path where none seems to exist. This is not wishful thinking — the card is saying they are genuinely capable of doing what others would call impossible, and that they are divinely supported in doing so." },
     { card: "The Devil",         note: "" },
     { card: "The Tower",         note: "" },
     { card: "The Star",          note: "" },
