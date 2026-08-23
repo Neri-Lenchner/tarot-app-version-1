@@ -34,7 +34,8 @@
 
 .spread-header-container button:active {
     background: rgba(15, 8, 38, 0.96);
-    color: var(--gold);
+    border-color: #ffe066;
+    color: #ffe066;
 }
 
 .third-person-toggle {
@@ -60,6 +61,12 @@
 .third-person-toggle:hover {
     border-color: var(--purple);
     color: var(--purple);
+}
+
+.third-person-toggle:active {
+    border-color: #d8a8ff;
+    color: #d8a8ff;
+    background: rgba(107, 63, 160, 0.2);
 }
 
 .third-person-toggle.active {
