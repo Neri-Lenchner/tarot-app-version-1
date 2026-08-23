@@ -77,7 +77,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const saveReading = async (): Promise<void> => {
         try {
             const saveCards = cards.slice(0, positions.length).map((c, i) => ({ name: c.name, position: positions[i] }));
-            await readingService.save(spreadType, question ?? '', saveCards, spreadData.en!, spreadData.he!);
+            await readingService.save(
+                spreadType, question ?? '', saveCards,
+                spreadData.en!, spreadData.he!,
+                spreadData.followupQ ?? null, spreadData.followupAnswer ?? null
+            );
             setSaved(true);
         } catch {
             alert('Failed to save reading. Please try again.');

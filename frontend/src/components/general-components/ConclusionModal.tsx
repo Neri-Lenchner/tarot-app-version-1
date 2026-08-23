@@ -1,5 +1,5 @@
 import { JSX, useState, useEffect } from 'react';
-import { interpretStore, InterpretState } from '../../state/interpret-state';
+import { interpretStore, InterpretState, InterpretActionType } from '../../state/interpret-state';
 import { langStore, LangActionType, Lang } from '../../state/lang-state';
 import { interpretService } from '../../services/InterpretService';
 import './ConclusionModal.css';
@@ -27,10 +27,13 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const [followupLoading, setFollowupLoading] = useState(false);
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
-            setStored(interpretStore.getState());
+            const newStored = interpretStore.getState();
+            setStored(newStored);
             setVisible(true);
-            setFollowupQ('');
-            setFollowupAnswer(null);
+            if (newStored[spreadType].followupAnswer == null) {
+                setFollowupQ('');
+                setFollowupAnswer(null);
+            }
         });
         return unsubscribe;
     }, []);
@@ -59,6 +62,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         try {
             const answer = await interpretService.followupQuestion(followupQ.trim(), interpretation, lang);
             setFollowupAnswer(answer);
+            interpretStore.dispatch({ type: InterpretActionType.SetFollowup, spreadType, followup: { question: followupQ.trim(), answer } });
         } finally {
             setFollowupLoading(false);
         }

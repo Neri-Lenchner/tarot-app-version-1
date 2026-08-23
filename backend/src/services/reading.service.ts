@@ -9,6 +9,8 @@ export interface IReadingRecord {
     cards: any;
     interpretation_en: string;
     interpretation_he: string;
+    followup_question: string | null;
+    followup_answer: string | null;
     created_at: string;
 }
 
@@ -19,12 +21,15 @@ class ReadingService {
         question: string | null,
         cards: any[],
         interpretationEn: string,
-        interpretationHe: string
+        interpretationHe: string,
+        followupQuestion: string | null = null,
+        followupAnswer: string | null = null
     ): Promise<IReadingRecord> {
-        const sql = `INSERT INTO readings (user_id, spread_type, question, cards, interpretation_en, interpretation_he)
-                     VALUES (?, ?, ?, ?, ?, ?)`;
+        const sql = `INSERT INTO readings (user_id, spread_type, question, cards, interpretation_en, interpretation_he, followup_question, followup_answer)
+                     VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
         const result = await dal.execute(sql, [
-            userId, spreadType, question || null, JSON.stringify(cards), interpretationEn, interpretationHe
+            userId, spreadType, question || null, JSON.stringify(cards), interpretationEn, interpretationHe,
+            followupQuestion || null, followupAnswer || null
         ]) as ResultSetHeader;
         const rows = await dal.execute("SELECT * FROM readings WHERE id = ?", [result.insertId]) as IReadingRecord[];
         return rows[0];

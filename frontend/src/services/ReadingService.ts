@@ -10,6 +10,8 @@ export interface IReadingRecord {
     cards: { name: string; position: string }[];
     interpretation_en: string;
     interpretation_he: string;
+    followup_question: string | null;
+    followup_answer: string | null;
     created_at: string;
 }
 
@@ -23,11 +25,13 @@ class ReadingService {
         question: string,
         cards: { name: string; position: string }[],
         interpretationEn: string,
-        interpretationHe: string
+        interpretationHe: string,
+        followupQuestion: string | null = null,
+        followupAnswer: string | null = null
     ): Promise<IReadingRecord> {
         const response = await axios.post<IReadingRecord>(
             BASE,
-            { spreadType, question, cards, interpretationEn, interpretationHe },
+            { spreadType, question, cards, interpretationEn, interpretationHe, followupQuestion, followupAnswer },
             { headers: this.authHeader }
         );
         return response.data;

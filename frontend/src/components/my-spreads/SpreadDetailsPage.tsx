@@ -88,6 +88,17 @@ function SpreadDetailsPage(): JSX.Element {
                 <div className="spread-details-interpretation" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                     {renderInterpretation(interpretation)}
                 </div>
+                {(reading.followup_question || reading.followup_answer) && (
+                    <div className="spread-details-interpretation" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <h5 className="spread-details-interp-title">Follow-up Question</h5>
+                        {reading.followup_question && (
+                            <p className="spread-details-interp-text" style={{ fontStyle: 'italic', opacity: 0.8 }}>"{reading.followup_question}"</p>
+                        )}
+                        {reading.followup_answer && (
+                            <p className="spread-details-interp-text">{reading.followup_answer}</p>
+                        )}
+                    </div>
+                )}
             </div>
         </div>
     );

@@ -17,8 +17,8 @@ class ReadingController {
         try {
             const token = request.headers.authorization!.substring(7);
             const user = securityService.extractUser(token)!;
-            const { spreadType, question, cards, interpretationEn, interpretationHe } = request.body;
-            const reading = await readingService.save(user.id!, spreadType, question, cards, interpretationEn, interpretationHe);
+            const { spreadType, question, cards, interpretationEn, interpretationHe, followupQuestion, followupAnswer } = request.body;
+            const reading = await readingService.save(user.id!, spreadType, question, cards, interpretationEn, interpretationHe, followupQuestion, followupAnswer);
             response.status(201).json(reading);
         } catch (error) { next(error); }
     }

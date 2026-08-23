@@ -18,5 +18,7 @@ CREATE TABLE IF NOT EXISTS readings (
     cards JSON NOT NULL,
     interpretation_en TEXT,
     interpretation_he TEXT,
+    followup_question TEXT,
+    followup_answer TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
