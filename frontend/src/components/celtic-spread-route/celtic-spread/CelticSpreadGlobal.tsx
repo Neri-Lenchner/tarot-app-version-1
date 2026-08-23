@@ -81,6 +81,21 @@ export function CelticSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
     };
 
+    const handleReadyQuestion = (q: string): void => {
+        setSubmittedQuestion(q);
+        setQuestion('');
+        const [chosen, bool] = deckService.spreadThem();
+        setSelectedCards(chosen);
+        setIsSpread(bool);
+        setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
+        combinationsService.checkCombinations(chosen.map(c => c.name), q).then(matches => {
+            setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
+        }).catch(() => {});
+    };
+
     return (
         <div className="celtic-spread-container">
             <SpreadHeader spreadThem={spreadThem} clearSpread={clearSpread}>
@@ -110,7 +125,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     </div>
                 )}
             </div>
-            <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} positions={POSITIONS} />
+            <CelticSpread isSpread={isSpread} cards={selectedCards} apiCards={apiCards} positions={POSITIONS} onQuestionSelect={handleReadyQuestion} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}

@@ -32,9 +32,12 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
         <div className="combo-modal">
                 <div className="combo-modal-header">
                     <span className="combo-modal-title">{lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}</span>
-                    <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
-                        {lang === 'en' ? 'HE' : 'EN'}
-                    </button>
+                    <div className="combo-header-actions">
+                        <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                            {lang === 'en' ? 'HE' : 'EN'}
+                        </button>
+                        <button className="combo-close-btn" onClick={() => setVisible(false)}>✕</button>
+                    </div>
                 </div>
                 <>
                     {matches.map((match, i) => (
@@ -73,8 +76,7 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                                 </button>
                             </div>
                         ))}
-                    <button className="combo-modal-close" onClick={() => setVisible(false)}>{lang === 'he' ? 'הבנתי' : 'Got it'}</button>
-                </>
+                    </>
         </div>
     );
 }

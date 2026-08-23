@@ -1,6 +1,8 @@
 import {JSX, useState, useEffect} from "react";
 import './ThreeCardsSpread.css';
 import {interpretStore} from "../../../../state/interpret-state";
+import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -9,7 +11,14 @@ function extractCardSection(text: string, cardName: string): string | null {
     return paragraph ? paragraph.trim() : null;
 }
 
-export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: { isSpread3: boolean, cards: any[], apiCards: any[], positions: string[] }): JSX.Element {
+interface Props {
+    isSpread3: boolean;
+    cards: ITarotCard[];
+    apiCards: TarotCardData[];
+    positions: string[];
+}
+
+export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Props): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [spreadData, setSpreadData] = useState(() => interpretStore.getState()['three-cards']);

@@ -74,7 +74,8 @@
     box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
 }
 
-.combo-collapse-btn {
+.combo-collapse-btn,
+.combo-close-btn {
     background: none;
     border: 1px solid rgba(192, 132, 252, 0.5);
     color: #c084fc;
@@ -92,7 +93,8 @@
     transition: background var(--transition), box-shadow var(--transition);
 }
 
-.combo-collapse-btn:hover {
+.combo-collapse-btn:hover,
+.combo-close-btn:hover {
     background: rgba(192, 132, 252, 0.15);
     box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
 }

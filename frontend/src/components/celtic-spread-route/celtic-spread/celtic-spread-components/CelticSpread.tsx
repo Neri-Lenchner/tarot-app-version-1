@@ -1,8 +1,10 @@
 import './CelticSpread.css';
-import {useState, useEffect} from "react";
+import {useState, useEffect, JSX} from "react";
 import {interpretStore} from "../../../../state/interpret-state";
 import {ISpreadInterpretation} from "../../../../arrays-&-models/SpreadInterpretation.model";
 import {Unsubscribe} from "redux";
+import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped: string = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -11,7 +13,19 @@ function extractCardSection(text: string, cardName: string): string | null {
     return paragraph ? paragraph.trim() : null;
 }
 
-export function CelticSpread({ isSpread, cards, apiCards, positions }: { isSpread: boolean, cards: any[], apiCards: any[], positions: string[] }) {
+const READY_QUESTIONS = [
+    "Tell me what I need to know",
+];
+
+interface Props {
+    isSpread: boolean;
+    cards: ITarotCard[];
+    apiCards: TarotCardData[];
+    positions: string[];
+    onQuestionSelect: (q: string) => void;
+}
+
+export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionSelect }: Props) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [spreadData, setSpreadData] = useState((): ISpreadInterpretation => interpretStore.getState().celtic);
@@ -26,20 +40,27 @@ export function CelticSpread({ isSpread, cards, apiCards, positions }: { isSprea
     const interpretation: string | null = spreadData[lang];
     const hasBoth: boolean = spreadData.en !== null && spreadData.he !== null;
 
-    const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
-    const selectedApiCard = selectedCard
+    const selectedCard: ITarotCard | null = selectedIndex !== null ? cards[selectedIndex] : null;
+    const selectedApiCard: TarotCardData | null | undefined= selectedCard
         ? apiCards.find((c: any): boolean => c.name === selectedCard.name)
         : null;
 
-    const cardSection = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
+    const cardSection: string | null = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 
     return (
         <div className="spread-container">
-            {positions.map((label: string, i) => (
+            <div className="ready-questions-stack">
+                {READY_QUESTIONS.map(q => (
+                    <div key={q} className="ready-question" onClick={() => onQuestionSelect(q)}>
+                        {q}
+                    </div>
+                ))}
+            </div>
+            {positions.map((label: string, i): JSX.Element => (
                 <div
                     key={label}
                     className={`card-container-${i + 1}`}
-                    onClick={() => isSpread && setSelectedIndex(i)}
+                    onClick={(): false | void => isSpread && setSelectedIndex(i)}
                     style={isSpread ? {cursor: "pointer"} : {}}
                 >
                     <h5>{label}</h5>
@@ -52,12 +73,12 @@ export function CelticSpread({ isSpread, cards, apiCards, positions }: { isSprea
             ))}
 
             {selectedIndex !== null && (
-                <div className="card-modal-overlay" onClick={() => setSelectedIndex(null)}>
-                    <div className="card-modal" onClick={(e) => e.stopPropagation()}>
+                <div className="card-modal-overlay" onClick={(): void => setSelectedIndex(null)}>
+                    <div className="card-modal" onClick={(e): void => e.stopPropagation()}>
                         <div className="card-modal-header">
                             <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
                             {hasBoth && (
-                                <button className="card-modal-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
+                                <button className="card-modal-lang-btn" onClick={() => setLang(language => language === 'en' ? 'he' : 'en')}>
                                     {lang === 'en' ? 'HE' : 'EN'}
                                 </button>
                             )}

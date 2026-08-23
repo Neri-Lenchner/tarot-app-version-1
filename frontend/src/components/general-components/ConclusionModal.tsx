@@ -44,12 +44,6 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         return unsubscribe;
     }, []);
 
-    useEffect(() => {
-        if (!visible) return;
-        const handleClick = () => setVisible(false);
-        document.addEventListener('click', handleClick);
-        return () => document.removeEventListener('click', handleClick);
-    }, [visible]);
 
     const handleFollowup = async (): Promise<void> => {
         if (!followupQ.trim() || followupLoading) return;
@@ -85,11 +79,14 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
             <div className="conclusion-header">
                 <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
-                {hasBoth && (
-                    <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
-                        {lang === 'en' ? 'HE' : 'EN'}
-                    </button>
-                )}
+                <div className="conclusion-header-actions">
+                    {hasBoth && (
+                        <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                            {lang === 'en' ? 'HE' : 'EN'}
+                        </button>
+                    )}
+                    <button className="conclusion-close-btn" onClick={() => setVisible(false)}>✕</button>
+                </div>
             </div>
             <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                 {current.split('\n').map((line, i) => (

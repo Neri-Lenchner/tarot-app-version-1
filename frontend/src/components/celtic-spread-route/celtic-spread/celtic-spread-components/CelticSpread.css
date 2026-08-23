@@ -103,6 +103,38 @@
     transform: translateX(-50%);
 }
 
+/* ── Ready questions ────────────────────────────── */
+.ready-questions-stack {
+    position: absolute;
+    right: 70%;
+    top: 6%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    z-index: 10;
+}
+
+.ready-question {
+    color: var(--celtic-accent);
+    border: 1px solid var(--celtic-border);
+    border-radius: var(--radius-sm);
+    padding: 7px 14px;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    background: rgba(0, 30, 0, 0.55);
+    backdrop-filter: blur(4px);
+    text-align: center;
+    transition: background var(--transition), box-shadow var(--transition), border-color var(--transition);
+    white-space: nowrap;
+}
+
+.ready-question:hover {
+    background: rgba(0, 50, 0, 0.75);
+    border-color: var(--celtic-accent);
+    box-shadow: 0 0 10px var(--celtic-glow);
+}
+
 /* ── Card modal ─────────────────────────────────── */
 .card-modal-overlay {
     position: fixed;
