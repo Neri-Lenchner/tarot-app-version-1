@@ -64,7 +64,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     { card: "Two of Swords",     note: "" },
     { card: "Three of Swords",   note: "" },
     { card: "Four of Swords",    note: "" },
-    { card: "Five of Swords",    note: "" },
+    { card: "Five of Swords",    note: "The Five of Swords is the card of the pyrrhic victory — a win that costs more than it was worth. When this card appears, emphasize that the querent may achieve what they are fighting for, but at a price that outweighs the gain: relationships damaged, trust destroyed, energy depleted, or self-respect compromised. The victory is hollow. Depending on the surrounding cards, this card can also point to betrayal — someone in the querent's life acting in bad faith, stabbing them in the back, or winning at their expense. Always ask: who is holding the swords here — the querent, or someone else?" },
     { card: "Six of Swords",     note: "" },
     { card: "Seven of Swords",   note: "" },
     { card: "Eight of Swords",   note: "" },
