@@ -1,6 +1,5 @@
 import { JSX, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { authStore } from "../../state/auth-state";
 import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { useLang } from "../../state/lang-state";
@@ -21,7 +20,6 @@ function MySpreadsPage(): JSX.Element {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!authStore.getState().user) { navigate('/login'); return; }
         readingService.getMyReadings()
             .then(r => { setReadings(r); setLoading(false); })
             .catch(() => setLoading(false));

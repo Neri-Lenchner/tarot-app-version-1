@@ -1,6 +1,7 @@
 import {useState, useEffect, JSX} from "react";
 import {SpreadHeader} from "../../general-components/SpreadHeader/SpreadHeader";
-import {CelticSpread, IReadyQuestion} from "./celtic-spread-components/CelticSpread";
+import {CelticSpread} from "./celtic-spread-components/CelticSpread";
+import {IReadyQuestion} from "../../../arrays-&-models/readyQuestion.interface";
 import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";

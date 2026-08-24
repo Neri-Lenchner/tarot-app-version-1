@@ -5,6 +5,8 @@ import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard
 import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
 import {useLang} from "../../../../state/lang-state";
 import {translate, translatePosition} from "../../../../state/translations";
+import {IReadyQuestion} from "../../../../arrays-&-models/readyQuestion.interface";
+import {READY_QUESTIONS} from "../../../../arrays-&-models/readyQuestions";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -18,13 +20,29 @@ interface Props {
     cards: ITarotCard[];
     apiCards: TarotCardData[];
     positions: string[];
+    onQuestionSelect: (q: IReadyQuestion) => void;
 }
 
-export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Props): JSX.Element {
+export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQuestionSelect }: Props): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [modalLang, setModalLang] = useState<'en' | 'he'>('en');
     const lang = useLang();
     const [spreadData, setSpreadData] = useState(() => interpretStore.getState()['three-cards']);
+    const [clearWarning, setClearWarning] = useState(false);
+
+    useEffect((): (() => void) | void => {
+        if (!clearWarning) return;
+        const timer: ReturnType<typeof setTimeout> = setTimeout(() => setClearWarning(false), 3000);
+        return () => clearTimeout(timer);
+    }, [clearWarning]);
+
+    const handleReadyQuestionClick = (q: IReadyQuestion): void => {
+        if (isSpread3) {
+            setClearWarning(true);
+            return;
+        }
+        onQuestionSelect(q);
+    };
 
     useEffect(() => {
         const unsubscribe = interpretStore.subscribe(() => {
@@ -44,6 +62,19 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
 
     return (
         <div className="three-cards-spread-container">
+            <div className="ready-questions-stack">
+                <h3 className="ready-questions-title" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('maybeAsk', lang)}</h3>
+                {READY_QUESTIONS.map(q => (
+                    <div key={q.en} className="ready-question" onClick={() => handleReadyQuestionClick(q)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        {lang === 'he' ? q.he : q.en}
+                    </div>
+                ))}
+                {clearWarning && (
+                    <div className="ready-question-warning" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        {translate('clearSpreadWarning', lang)}
+                    </div>
+                )}
+            </div>
             {positions.map((label, i) => (
                 <div
                     key={label}

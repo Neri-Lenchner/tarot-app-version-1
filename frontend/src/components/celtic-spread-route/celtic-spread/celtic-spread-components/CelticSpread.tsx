@@ -7,6 +7,8 @@ import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard
 import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
 import {useLang} from "../../../../state/lang-state";
 import {translate, translatePosition} from "../../../../state/translations";
+import {IReadyQuestion} from "../../../../arrays-&-models/readyQuestion.interface";
+import {READY_QUESTIONS} from "../../../../arrays-&-models/readyQuestions";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped: string = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -14,18 +16,6 @@ function extractCardSection(text: string, cardName: string): string | null {
     const paragraph: string | undefined = text.split(/\n\n+/).find(p => cardRegex.test(p) && !/^\*\*Conclusion/i.test(p.trim()));
     return paragraph ? paragraph.trim() : null;
 }
-
-export interface IReadyQuestion {
-    en: string;
-    he: string;
-}
-
-const READY_QUESTIONS: IReadyQuestion[] = [
-    { en: "Tell me what I need to know", he: "ספרו לי מה אני צריך לדעת" },
-    { en: "Tell me about love", he: "ספרו לי על אהבה" },
-    { en: "Tell me about money", he: "ספרו לי על כסף" },
-    { en: "Tell me about health", he: "ספרו לי על בריאות" },
-];
 
 interface Props {
     isSpread: boolean;

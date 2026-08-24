@@ -51,7 +51,8 @@
     transition:
         background var(--transition),
         border-color var(--transition),
-        color var(--transition);
+        color var(--transition),
+        box-shadow var(--transition);
     margin: 4px 16px;
 }
 
@@ -67,7 +68,7 @@
 }
 
 .third-person-toggle.active {
-    background: var(--accent-wash);
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    background: #000;
+    border-color: var(--accent-glow);
+    color: var(--accent-glow);
 }

@@ -1,6 +1,5 @@
 import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { authStore } from "../../state/auth-state";
 import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { cardsDeck } from "../../arrays-&-models/tarot-deck-array/tarotDeck";
@@ -45,7 +44,6 @@ function SpreadDetailsPage(): JSX.Element {
 
     useEffect((): void => {
         async function getSingleReading(id: number): Promise<void> {
-            if (!authStore.getState().user) { navigate('/login'); return; }
             try {
                 const reading = await readingService.getReadingById(id);
                 setReading(reading);

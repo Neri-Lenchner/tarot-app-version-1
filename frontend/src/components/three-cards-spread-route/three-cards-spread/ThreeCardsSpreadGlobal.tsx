@@ -14,6 +14,7 @@ import {interpretStore, InterpretActionType} from "../../../state/interpret-stat
 import {combinationsService, filterByProximity, THREE_CARDS_ADJACENCY} from "../../../services/CombinationsService";
 import {useLang} from "../../../state/lang-state";
 import {translate} from "../../../state/translations";
+import {IReadyQuestion} from "../../../arrays-&-models/readyQuestion.interface";
 
 const POSITIONS = ["Past", "Present", "Future"];
 
@@ -88,6 +89,21 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
     };
 
+    const handleReadyQuestion = (q: IReadyQuestion): void => {
+        setSubmittedQuestion(q.en);
+        setQuestion('');
+        const [chosen, bool] = deckService.spreadMajorArcana(3);
+        setSelected3Cards(chosen);
+        setIsSpread3(bool);
+        setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        combinationsService.checkCombinations(chosen.map(c => c.name), q.en).then(matches => {
+            setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+        }).catch(() => {});
+    };
+
     return (
         <div className="three-cards-global-container">
             <SpreadHeader spreadThem={spreadThem3} clearSpread={clearSpread3}>
@@ -118,7 +134,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     </div>
                 )}
             </div>
-            <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} positions={POSITIONS} />
+            <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} positions={POSITIONS} onQuestionSelect={handleReadyQuestion} />
             {comboMatches.length > 0 && (
                 <CombinationsModal matches={comboMatches} spreadType="three-cards" onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}

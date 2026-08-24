@@ -12,18 +12,19 @@ import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import MySpreadsPage from "../components/my-spreads/MySpreadsPage";
 import SpreadDetailsPage from "../components/my-spreads/SpreadDetailsPage";
+import PrivateRoute from "./PrivateRoute";
 
 function Routing(): JSX.Element {
     return (
         <div className="routing-container">
             <Routes>
-                <Route path="/tarot-deck" element={<TarotDeckRoute />}/>
-                <Route path="/celtic-spread-global" element={<CelticSpreadRoute />}/>
-                <Route path="/three-cards-spread" element={<ThreeCardsSpreadRoute />}/>
+                <Route path="/tarot-deck" element={<PrivateRoute child={<TarotDeckRoute />} />}/>
+                <Route path="/celtic-spread-global" element={<PrivateRoute child={<CelticSpreadRoute />} />}/>
+                <Route path="/three-cards-spread" element={<PrivateRoute child={<ThreeCardsSpreadRoute />} />}/>
                 <Route path="/register" element={<Register />}/>
                 <Route path="/login" element={<Login />}/>
-                <Route path="/my-spreads" element={<MySpreadsPage />}/>
-                <Route path="/my-spreads/:id" element={<SpreadDetailsPage />}/>
+                <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>
+                <Route path="/my-spreads/:id" element={<PrivateRoute child={<SpreadDetailsPage />} />}/>
                 <Route path="*" element={<Main />}/>
                 <Route path="/" element={<Main />}/>
             </Routes>

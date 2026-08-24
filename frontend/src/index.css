@@ -19,6 +19,11 @@
     --accent: #C4822A;
     --accent-rgb: 196, 130, 42;
     --accent-bright: #E3A34A;
+    --accent-bright-rgb: 227, 163, 74;
+    /* Modal glow — a vivid bright yellow, more saturated than the amber
+       accent itself, used only for the floating panels' border/glow. */
+    --accent-glow: #FFD447;
+    --accent-glow-rgb: 255, 212, 71;
     --accent-dim: #654017;
     --accent-wash: rgba(196, 130, 42, 0.12);
     /* Hover feedback only — a true yellow, distinct from the amber accent,

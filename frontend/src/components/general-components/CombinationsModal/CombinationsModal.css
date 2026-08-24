@@ -5,7 +5,8 @@
     transform: translateY(-50%);
     z-index: 1000;
     background: var(--bg-2);
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-glow);
+    box-shadow: 0 0 14px rgba(var(--accent-glow-rgb), 0.45), 0 0 36px rgba(var(--accent-glow-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
     padding: 22px 24px;
     width: 340px;
     max-height: 85vh;
@@ -33,6 +34,7 @@
     margin: 0;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    text-shadow: 0 0 8px rgba(var(--accent-glow-rgb), 0.55);
 }
 
 .combo-header-actions {
@@ -141,16 +143,18 @@
     height: 44px;
     background: var(--bg-2);
     color: var(--accent);
-    border: 1px solid var(--accent);
+    border: 1px solid var(--accent-glow);
     font-size: 16px;
     cursor: pointer;
     z-index: 1001;
-    transition: border-color var(--transition), color var(--transition);
+    box-shadow: 0 0 12px rgba(var(--accent-glow-rgb), 0.55), 0 0 28px rgba(var(--accent-glow-rgb), 0.25);
+    transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
 }
 
 .combo-reopen-btn:hover {
     border-color: var(--accent-hover);
     color: var(--accent-hover);
+    box-shadow: 0 0 18px rgba(var(--accent-glow-rgb), 0.8), 0 0 42px rgba(var(--accent-glow-rgb), 0.4);
 }
 
 /* ── Confirm resonance button ── */
