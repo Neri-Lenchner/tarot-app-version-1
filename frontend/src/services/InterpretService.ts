@@ -1,13 +1,14 @@
 import axios from "axios";
-import { ICombinationMatch } from "./CombinationsService";
 import { authStore } from "../state/auth-state";
+import { ITarotCard } from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import { ICombinationMatch } from "../arrays-&-models/combinationMatch.interface";
 
 const BASE_URL = "http://localhost:4000";
 
 class InterpretService {
     async interpretSpread(
         spreadType: "celtic" | "three-cards",
-        cards: any[],
+        cards: ITarotCard[],
         positions: string[],
         lang: "en" | "he",
         question?: string,
@@ -42,7 +43,7 @@ class InterpretService {
 
     async interpretBoth(
         spreadType: "celtic" | "three-cards",
-        cards: any[],
+        cards: ITarotCard[],
         positions: string[],
         question?: string,
         isThirdPerson?: boolean,

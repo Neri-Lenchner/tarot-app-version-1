@@ -1,14 +1,15 @@
 import { JSX, useEffect, useState } from 'react';
-import { interpretService } from '../../services/InterpretService';
-import { interpretStore, InterpretActionType, InterpretState } from '../../state/interpret-state';
-import { authStore } from '../../state/auth-state';
-import { langStore, LangActionType, Lang } from '../../state/lang-state';
-import { readingService } from '../../services/ReadingService';
-import { ICombinationMatch } from '../../services/CombinationsService';
+import { interpretService } from '../../../services/InterpretService';
+import { interpretStore, InterpretActionType, InterpretState } from '../../../state/interpret-state';
+import { authStore } from '../../../state/auth-state';
+import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { readingService } from '../../../services/ReadingService';
+import { ICombinationMatch } from '../../../arrays-&-models/combinationMatch.interface';
+import { ITarotCard } from '../../../arrays-&-models/tarot-deck-array/tarotCard.interface';
 import './InterpretWidget.css';
 
 interface IInterpretWidgetProps {
-    cards: any[];
+    cards: ITarotCard[];
     positions: string[];
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
@@ -19,7 +20,7 @@ interface IInterpretWidgetProps {
     onToggle: () => void;
 }
 
-function renderInterpretation(text: string, cards: any[]): JSX.Element[] {
+function renderInterpretation(text: string, cards: ITarotCard[]): JSX.Element[] {
     const lines = text.split('\n').filter(line => line.trim() !== '');
     const CONCLUSION_RE = /^\*\*\s*(conclusion|מסקנה|סיכום|לסיכום)\s*:?\*\*$/i;
     const conclusionIdx = lines.findIndex(l => CONCLUSION_RE.test(l.trim()));

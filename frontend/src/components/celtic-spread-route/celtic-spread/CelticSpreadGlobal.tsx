@@ -1,15 +1,17 @@
 import {useState, useEffect, JSX} from "react";
-import {SpreadHeader} from "../../general-components/SpreadHeader";
+import {SpreadHeader} from "../../general-components/SpreadHeader/SpreadHeader";
 import {CelticSpread} from "./celtic-spread-components/CelticSpread";
-import {InterpretWidget} from "../../general-components/InterpretWidget";
-import {CombinationsModal} from "../../general-components/CombinationsModal";
-import {ConclusionModal} from "../../general-components/ConclusionModal";
+import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
+import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
+import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";
 import './CelticSpreadGlobal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
+import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
-import {combinationsService, ICombinationMatch, filterByProximity, CELTIC_ADJACENCY} from "../../../services/CombinationsService";
+import {combinationsService, filterByProximity, CELTIC_ADJACENCY} from "../../../services/CombinationsService";
 
 const POSITIONS = [
     "Positive Energy", "Negative Energy", "Past", "Present",
@@ -17,11 +19,11 @@ const POSITIONS = [
 ];
 
 export function CelticSpreadGlobal(): JSX.Element {
-    const [apiCards, setApiCards] = useState<any[]>(deckService.tarotCardsDetails as any[]);
+    const [apiCards, setApiCards] = useState<TarotCardData[]>(deckService.tarotCardsDetails);
 
     useEffect(() => {
         const unsubscribe = deckStore.subscribe(() => {
-            setApiCards(deckService.tarotCardsDetails as any[]);
+            setApiCards(deckService.tarotCardsDetails);
         });
         return unsubscribe;
     }, []);

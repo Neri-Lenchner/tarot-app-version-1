@@ -32,7 +32,7 @@ class AuthService {
 
     private async emailExists(email: string): Promise<boolean> {
         const sql = "SELECT id FROM users WHERE email = ?";
-        const rows = await dal.execute(sql, [email]) as any[];
+        const rows = await dal.execute(sql, [email]) as { id: number }[];
         return rows.length > 0;
     }
 }

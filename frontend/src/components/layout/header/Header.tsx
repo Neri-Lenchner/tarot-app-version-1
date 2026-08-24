@@ -2,7 +2,8 @@ import React, {JSX, useState, useEffect} from 'react';
 import './Header.css';
 import berta from '../../../assets/images/berta-1.png';
 import {NavLink, useNavigate} from "react-router-dom";
-import {authStore, Logout, IAuthUser} from "../../../state/auth-state";
+import {authStore, Logout} from "../../../state/auth-state";
+import {IAuthUser} from "../../../arrays-&-models/authUser.interface";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
 
 function Header(): JSX.Element {

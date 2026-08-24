@@ -35,7 +35,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
 
     const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
     const selectedApiCard = selectedCard
-        ? apiCards.find((c: any) => c.name === selectedCard.name)
+        ? apiCards.find((c: TarotCardData) => c.name === selectedCard.name)
         : null;
     const cardSection = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 

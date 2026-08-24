@@ -1,7 +1,8 @@
 import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { authStore } from "../../state/auth-state";
-import { readingService, IReadingRecord } from "../../services/ReadingService";
+import { readingService } from "../../services/ReadingService";
+import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { cardsDeck } from "../../arrays-&-models/tarot-deck-array/tarotDeck";
 import "./MySpreadsPage.css";
 

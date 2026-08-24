@@ -3,8 +3,8 @@ import * as React from "react";
 import './SpreadHeader.css';
 
 interface ISpreadHeaderProps {
-    spreadThem: any;
-    clearSpread: any;
+    spreadThem: () => void;
+    clearSpread: () => void;
     children?: React.ReactNode;
 }
 

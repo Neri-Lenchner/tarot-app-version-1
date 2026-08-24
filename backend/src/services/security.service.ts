@@ -10,8 +10,8 @@ class SecurityService {
     }
 
     public generateToken(user: User): string {
-        delete (user as any).password;
-        const container = { user };
+        const { password, ...safeUser } = user;
+        const container = { user: safeUser };
         const options: SignOptions = { expiresIn: "30d" };
         return jwt.sign(container, appConfig.jwtSecret, options);
     }

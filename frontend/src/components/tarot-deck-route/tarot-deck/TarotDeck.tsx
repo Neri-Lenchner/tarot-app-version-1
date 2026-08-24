@@ -1,24 +1,25 @@
 import {cardsDeck} from "../../../arrays-&-models/tarot-deck-array/tarotDeck";
 import {TarotCardContainer} from "../../tarot-card/TarotCardContainer";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
 import './TarotDeck.css';
 import {JSX, useEffect, useState} from "react";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 
 export function TarotDeck() {
-    const [apiCards, setApiCards] = useState<any[]>(deckService.tarotCardsDetails as any[]);
+    const [apiCards, setApiCards] = useState<TarotCardData[]>(deckService.tarotCardsDetails);
     const [selectedCard, setSelectedCard] = useState<ITarotCard | null>(null);
 
     useEffect(() => {
         const unsubscribe = deckStore.subscribe(() => {
-            setApiCards(deckService.tarotCardsDetails as any[]);
+            setApiCards(deckService.tarotCardsDetails);
         });
         return unsubscribe;
     }, []);
 
     const selectedApiCard = selectedCard
-        ? apiCards.find((c: any) => c.name === selectedCard.name)
+        ? apiCards.find((c: TarotCardData) => c.name === selectedCard.name)
         : null;
 
     return (

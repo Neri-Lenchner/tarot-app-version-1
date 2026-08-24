@@ -1,4 +1,5 @@
 import { JSX } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
@@ -17,8 +18,9 @@ function Login(): JSX.Element {
         try {
             await authService.login(data.email, data.password);
             navigate("/");
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Login failed");
+        } catch (err) {
+            const message = axios.isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined;
+            alert(message || "Login failed");
         }
     }
 

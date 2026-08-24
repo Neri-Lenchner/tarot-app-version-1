@@ -1,12 +1,5 @@
 import { configureStore, createSlice, PayloadAction } from "@reduxjs/toolkit";
-
-export interface IAuthUser {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    gender?: 'male' | 'female';
-}
+import { IAuthUser } from "../arrays-&-models/authUser.interface";
 
 interface IAuthState {
     token: string | null;

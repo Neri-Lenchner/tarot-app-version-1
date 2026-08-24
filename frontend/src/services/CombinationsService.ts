@@ -1,13 +1,6 @@
 import axios from "axios";
-
-export interface ICombinationMatch {
-    cards: string[];
-    meaning: string;
-    meaning_he: string;
-    source: "general" | "health";
-    category: string;
-    category_he: string;
-}
+import { ITarotCard } from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import { ICombinationMatch } from "../arrays-&-models/combinationMatch.interface";
 
 type Adjacency = Record<number, number[]>;
 
@@ -31,11 +24,11 @@ export const THREE_CARDS_ADJACENCY: Adjacency = {
     2: [1],
 };
 
-function isConnectedInSpread(comboCards: string[], spreadCards: any[], adjacency: Adjacency): boolean {
+function isConnectedInSpread(comboCards: string[], spreadCards: ITarotCard[], adjacency: Adjacency): boolean {
     const positions: number[] = [];
     for (const cardName of comboCards) {
-        const idx = spreadCards.findIndex(
-            c => c.name.replace(/ Rx$/i, '').toLowerCase() === cardName.replace(/ Rx$/i, '').toLowerCase()
+        const idx: number = spreadCards.findIndex(
+            card => card.name.replace(/ Rx$/i, '').toLowerCase() === cardName.replace(/ Rx$/i, '').toLowerCase()
         );
         if (idx === -1) return false;
         positions.push(idx);
@@ -58,7 +51,7 @@ function isConnectedInSpread(comboCards: string[], spreadCards: any[], adjacency
     return visited.size === posSet.size;
 }
 
-export function filterByProximity(matches: ICombinationMatch[], spreadCards: any[], adjacency: Adjacency): ICombinationMatch[] {
+export function filterByProximity(matches: ICombinationMatch[], spreadCards: ITarotCard[], adjacency: Adjacency): ICombinationMatch[] {
     return matches.filter(match => isConnectedInSpread(match.cards, spreadCards, adjacency));
 }
 

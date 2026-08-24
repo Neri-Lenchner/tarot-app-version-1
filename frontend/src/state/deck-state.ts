@@ -15,7 +15,7 @@ export enum DeckActionType {
 // Step 3
 export interface IDeckAction {
     type: DeckActionType,
-    payload: any,
+    payload: TarotCardData[],
 }
 
 

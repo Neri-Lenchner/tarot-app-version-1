@@ -1,12 +1,13 @@
 import { ResultSetHeader } from "mysql2";
 import { dal } from "../utils/dal";
+import { ISpreadCard } from "../dto/tarot.dto";
 
 export interface IReadingRecord {
     id: number;
     user_id: number;
     spread_type: string;
     question: string | null;
-    cards: any;
+    cards: ISpreadCard[];
     interpretation_en: string;
     interpretation_he: string;
     followup_question: string | null;
@@ -19,7 +20,7 @@ class ReadingService {
         userId: number,
         spreadType: string,
         question: string | null,
-        cards: any[],
+        cards: ISpreadCard[],
         interpretationEn: string,
         interpretationHe: string,
         followupQuestion: string | null = null,

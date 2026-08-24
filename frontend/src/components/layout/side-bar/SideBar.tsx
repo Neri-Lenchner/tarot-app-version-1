@@ -1,7 +1,8 @@
 import React, {JSX, useState, useEffect} from 'react';
 import './SideBar.css';
 import {NavLink} from "react-router-dom";
-import {authStore, IAuthUser} from "../../../state/auth-state";
+import {authStore} from "../../../state/auth-state";
+import {IAuthUser} from "../../../arrays-&-models/authUser.interface";
 
 function SideBar(): JSX.Element {
     const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);

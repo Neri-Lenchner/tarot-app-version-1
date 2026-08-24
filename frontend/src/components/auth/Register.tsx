@@ -1,4 +1,5 @@
 import { JSX, useState } from "react";
+import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
@@ -22,8 +23,9 @@ function Register(): JSX.Element {
         try {
             await authService.register(data.firstName, data.lastName, data.email, data.password, gender);
             navigate("/");
-        } catch (err: any) {
-            alert(err.response?.data?.message || "Registration failed");
+        } catch (err) {
+            const message = axios.isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined;
+            alert(message || "Registration failed");
         }
     }
 

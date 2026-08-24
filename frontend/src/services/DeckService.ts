@@ -1,15 +1,16 @@
 import {ITarotCard} from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {cardsDeck} from "../arrays-&-models/tarot-deck-array/tarotDeck";
 import {riderWaiteCards} from "../data/riderWaite";
+import {TarotCardData} from "../arrays-&-models/TarotCardData.model";
 import {DeckActionType, deckStore} from "../state/deck-state";
 class DeckService {
 
     constructor(
-        public tarotCardsDetails: any[] = riderWaiteCards
+        public tarotCardsDetails: TarotCardData[] = riderWaiteCards
     ) {}
 
 
-    async getTarotDetails(): Promise<any> {
+    async getTarotDetails(): Promise<TarotCardData[]> {
         deckStore.dispatch({type: DeckActionType.GetCardsDeck, payload: riderWaiteCards});
         return deckStore.getState().tarotDeckList;
     }

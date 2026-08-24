@@ -1,8 +1,10 @@
 import { JSX, useState, useEffect } from 'react';
-import { ICombinationMatch } from '../../services/CombinationsService';
-import { cardsDeck } from '../../arrays-&-models/tarot-deck-array/tarotDeck';
-import { langStore, LangActionType, Lang } from '../../state/lang-state';
+import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
+import { langStore, LangActionType, Lang } from '../../../state/lang-state';
 import './CombinationsModal.css';
+import {Unsubscribe} from "redux";
+import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
 
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
@@ -14,8 +16,8 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
-    useEffect(() => {
-        const unsubscribe = langStore.subscribe(() => {
+    useEffect((): Unsubscribe => {
+        const unsubscribe: Unsubscribe = langStore.subscribe((): void => {
             setLang(langStore.getState().lang);
         });
         return unsubscribe;
@@ -31,31 +33,46 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     return (
         <div className="combo-modal">
                 <div className="combo-modal-header">
-                    <span className="combo-modal-title">{lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}</span>
+                    <span className="combo-modal-title">
+                        {lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}
+                    </span>
                     <div className="combo-header-actions">
                         <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
                             {lang === 'en' ? 'HE' : 'EN'}
                         </button>
-                        <button className="combo-close-btn" onClick={() => setVisible(false)}>✕</button>
+                        <button className="combo-close-btn" onClick={(): void => setVisible(false)}>
+                            ✕
+                        </button>
                     </div>
                 </div>
                 <>
                     {matches.map((match, i) => (
-                            <div key={i} className="combo-item" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            <div
+                                key={i}
+                                className="combo-item"
+                                dir={lang === 'he' ? 'rtl' : 'ltr'}>
                                 <div className="combo-card-images">
                                     {match.cards.map(cardName => {
-                                        const baseName = cardName.replace(/ Rx$/i, '');
-                                        const card = cardsDeck.find(c => c.name.toLowerCase() === baseName.toLowerCase());
+                                        const baseName: string = cardName.replace(/ Rx$/i, '');
+                                        const card: ITarotCard | undefined = cardsDeck.find(card => card.name.toLowerCase() === baseName.toLowerCase());
                                         return (
                                             <div key={cardName} className="combo-card-image-wrap">
-                                                {card && <img src={card.src} alt={card.name} className="combo-card-img" />}
-                                                <span className="combo-card-name">{cardName}</span>
+                                                {
+                                                    card && <img src={card.src} alt={card.name} className="combo-card-img" />
+                                                }
+                                                <span className="combo-card-name">
+                                                    {cardName}
+                                                </span>
                                             </div>
                                         );
                                     })}
                                 </div>
                                 <div className="combo-meaning">
-                                    {lang === 'he' ? match.meaning_he : match.meaning}
+                                    {
+                                        lang === 'he'
+                                            ? match.meaning_he
+                                            : match.meaning
+                                    }
                                 </div>
                                 <span className={`combo-badge ${match.category}`}>
                                     {lang === 'he' ? match.category_he : match.category.replace('_', ' ')}

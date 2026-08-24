@@ -1,7 +1,7 @@
 import { JSX, useState, useEffect } from 'react';
-import { interpretStore, InterpretState, InterpretActionType } from '../../state/interpret-state';
-import { langStore, LangActionType, Lang } from '../../state/lang-state';
-import { interpretService } from '../../services/InterpretService';
+import { interpretStore, InterpretState, InterpretActionType } from '../../../state/interpret-state';
+import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { interpretService } from '../../../services/InterpretService';
 import './ConclusionModal.css';
 
 interface IConclusionModalProps {

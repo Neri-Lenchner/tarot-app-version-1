@@ -3,9 +3,9 @@ import { ClientError } from "../models/client-error";
 import { StatusCode } from "../models/enums";
 
 class ErrorMiddleware {
-    public serverError(error: any, request: Request, response: Response, next: NextFunction): void {
+    public serverError(error: unknown, request: Request, response: Response, next: NextFunction): void {
         const statusCode = error instanceof ClientError ? error.statusCode : StatusCode.InternalServerError;
-        const message = error.message || "Internal server error";
+        const message = error instanceof Error ? error.message : "Internal server error";
         console.error(`Error: ${message}`);
         response.status(statusCode).json({ message });
     }

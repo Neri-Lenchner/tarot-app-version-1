@@ -42,7 +42,7 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
 
     const selectedCard: ITarotCard | null = selectedIndex !== null ? cards[selectedIndex] : null;
     const selectedApiCard: TarotCardData | null | undefined= selectedCard
-        ? apiCards.find((c: any): boolean => c.name === selectedCard.name)
+        ? apiCards.find((c: TarotCardData): boolean => c.name === selectedCard.name)
         : null;
 
     const cardSection: string | null = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
