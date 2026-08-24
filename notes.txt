@@ -70,3 +70,6 @@ Cross cluster (fully connected — any two cross cards are adjacent):
       ▎ "The user confirmed that [cards] is directly relevant to their life. Treat this as the central truth of the entire spread — reference it explicitly throughout and especially in
        the conclusion."
       4. Clearing the spread resets the confirmed combination
+
+
+      design1

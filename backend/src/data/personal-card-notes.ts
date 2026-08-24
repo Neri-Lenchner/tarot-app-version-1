@@ -90,7 +90,7 @@ export const personalCardNotes: IPersonalCardNote[] = [
     { card: "Page of Wands",     note: "" },
     { card: "Knight of Wands",   note: "" },
     { card: "Queen of Wands",    note: "" },
-    { card: "King of Wands",     note: "" },
+    { card: "King of Wands",     note: "The King of Wands carries an imposing presence — a natural, almost magnetic authority that fills a room before he says a word. This is not aggression; it is command. People instinctively defer to him, follow his lead, or measure themselves against him. When this card appears, emphasize the commanding, larger-than-life energy of the querent (or the figure represented): bold, visionary, sure of themselves, unwilling to be overlooked. But the same imposingness that inspires can also intimidate or overshadow others — where the surrounding cards suggest friction, consider whether this dominant presence is being felt as leadership or as an imposition on someone else's space." },
 
     // ── PENTACLES ────────────────────────────────────────────────────────────
 

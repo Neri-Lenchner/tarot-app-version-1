@@ -3,241 +3,22 @@ import { appConfig } from "../utils/app-config";
 import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
-import { personalCardNotes } from "../data/personal-card-notes";
-import { healthIndicators } from "../data/health";
 import { healthCombinations } from "../data/health-combinations";
+import { CELTIC_POSITION_GUIDE } from "../utils/prompt-constants";
 import {
-    HEALTH_KEYWORDS,
-    THIRD_PERSON_PRONOUNS,
-    THIRD_PERSON_RELATIONSHIPS,
-    COURT_CARDS,
-    MAJOR_ARCANA,
-    CATEGORY_KEYWORDS,
-    CELTIC_POSITION_GUIDE,
-} from "../utils/prompt-constants";
-
-function findMatchingCombinations(cards: ISpreadCard[]): string[] {
-    const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
-    const matches: string[] = [];
-    for (const category of tarotCombinations) {
-        for (const combo of category.combinations) {
-            if (combo.cards.every(name => nameSet.has(name.toLowerCase()))) {
-                matches.push(`• ${combo.cards.join(" + ")} → ${combo.meaning} [${category.category}]`);
-            }
-        }
-    }
-    return matches;
-}
-
-function isHealthQuestion(question: string): boolean {
-    const q = question.toLowerCase();
-    return HEALTH_KEYWORDS.some(kw => q.includes(kw));
-}
-
-function findHealthIndicators(cards: ISpreadCard[]): string[] {
-    const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
-    const matches: string[] = [];
-    for (const indicator of healthIndicators) {
-        const matchCount = indicator.cards.filter(c =>
-            nameSet.has(c.replace(/ Rx$/i, '').toLowerCase())
-        ).length;
-        const threshold = indicator.cards.length === 1 ? 1 : 2;
-        if (matchCount >= threshold) {
-            matches.push(`• ${indicator.health}`);
-        }
-    }
-    return matches;
-}
-
-function isThirdPersonQuestion(question: string): boolean {
-    const q = question.toLowerCase();
-    if (THIRD_PERSON_PRONOUNS.some(p => q.includes(p) || q.startsWith(p.trim()))) return true;
-    if (THIRD_PERSON_RELATIONSHIPS.some(r => q.includes(r.toLowerCase()))) return true;
-    return false;
-}
-
-const CELTIC_SELF_POSITIONS = new Set(['positive energy', 'negative energy', 'inside', 'outside']);
-
-// Romantic question detection
-const ROMANTIC_KEYWORDS = ['love', 'relationship', 'partner', 'romance', 'romantic', 'marriage', 'marry', 'boyfriend', 'girlfriend', 'husband', 'wife', 'dating', 'soulmate', 'together', 'couple', 'breakup', 'divorce', 'אהבה', 'זוגיות', 'נישואים', 'חבר', 'חברה', 'בן זוג', 'בת זוג', 'יחסים', 'פרידה'];
-const CELTIC_ROMANTIC_POSITIONS = new Set(['past', 'present', 'near future', 'far future']);
-// Major Arcana cards carrying a female figure/energy
-const MA_FEMALE_FIGURES = new Set(['the high priestess', 'the empress', 'justice', 'strength', 'the star', 'the world']);
-// Major Arcana cards carrying a male figure/energy
-const MA_MALE_FIGURES = new Set(['the magician', 'the emperor', 'the hierophant', 'the chariot', 'the hermit', 'the hanged man', 'death', 'the devil']);
-
-function isRomanticQuestion(question: string): boolean {
-    const q = question.toLowerCase();
-    return ROMANTIC_KEYWORDS.some(kw => q.includes(kw));
-}
-
-function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string): string {
-    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
-    if (courtCards.length === 0) return '';
-
-    const isFemaleFigure = (c: ISpreadCard) => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen');
-
-    // Pre-compute romantic context once
-    const isRomantic = !!(question?.trim() && isRomanticQuestion(question) && spreadType === 'celtic' && gender);
-    const hasLovers = isRomantic && cards.some(c => c.name.toLowerCase().replace(/ rx$/i, '') === 'the lovers');
-    const hasOppGenderMA = isRomantic && (
-        gender === 'male'
-            ? cards.some(c => MA_FEMALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
-            : cards.some(c => MA_MALE_FIGURES.has(c.name.toLowerCase().replace(/ rx$/i, '')))
-    );
-    const loversException = hasLovers && hasOppGenderMA;
-    const maExampleList = gender === 'male'
-        ? 'The High Priestess, The Empress, Justice, Strength, The Star, The World'
-        : 'The Magician, The Emperor, The Hierophant, The Chariot, The Hermit, The Hanged Man, Death, The Devil';
-
-    const lines: string[] = [];
-
-    const KNIGHT_SUIT_THOUGHTS: Record<string, string> = {
-        'knight of cups':      'emotions, love, and relationships',
-        'knight of wands':     'passion, inspiration, and ambition',
-        'knight of swords':    'conflict, decisions, and mental clarity',
-        'knight of pentacles': 'work, money, and practical matters',
-    };
-
-    for (const card of courtCards) {
-        const pos = card.position;
-        const cardBaseName = card.name.replace(/ Rx$/i, '').toLowerCase();
-        const isKnight = cardBaseName.startsWith('knight');
-        const fig = isFemaleFigure(card) ? 'female' : 'male';
-        const isInSelfPos = spreadType === 'celtic' && CELTIC_SELF_POSITIONS.has(pos.toLowerCase());
-        const isInRomanticPos = isRomantic && CELTIC_ROMANTIC_POSITIONS.has(pos.toLowerCase());
-        const isSameGender = !!gender && fig === gender;
-        const oppWord = gender === 'male' ? 'woman' : 'man';
-        const sameWord = gender === 'male' ? 'man' : 'woman';
-        const relExamples = gender === 'male'
-            ? 'romantic partner, mother, sister, colleague, friend'
-            : 'romantic partner, father, brother, colleague, friend';
-
-        let ruling: string;
-
-        // Positions 3-6 in Celtic (Past/Present/Near Future/Far Future) or any position in Three Cards
-        const KNIGHT_AMBIGUOUS_POSITIONS = new Set(['past', 'present', 'near future', 'far future', 'future']);
-
-        if (isKnight) {
-            const thoughtDomain = KNIGHT_SUIT_THOUGHTS[cardBaseName] ?? 'a specific area of life';
-            const isAmbiguousPos = KNIGHT_AMBIGUOUS_POSITIONS.has(pos.toLowerCase());
-
-            if (isAmbiguousPos) {
-                ruling = `RULING — KNIGHT IN STORY POSITION (PERSON OR THOUGHTS — YOU DECIDE): In this position a Knight can represent EITHER a real, specific person in the querent's life OR active thoughts of ${thoughtDomain} — but not both. Read the full spread and the question, then commit to one interpretation. If it is a person: describe them as a driven, fast-moving individual who embodies the energy of ${card.name} — who they are, how they move, and how they affect the querent's situation. If it is thoughts: tell the querent explicitly that there are strong, consuming thoughts of ${thoughtDomain} at work — "you are thinking intensely about...", "very powerful thoughts of... are moving through this". State your choice clearly and do not leave it vague.`;
-            } else {
-                ruling = `RULING — KNIGHT (THOUGHTS ONLY): This card does NOT represent a specific person in this position. Knights are the bridge between the world of thought and the world of matter — they signal active, powerful thoughts in motion. There are strong, consuming thoughts of ${thoughtDomain} at work here. Tell the querent explicitly — "there are strong thoughts of...", "you are thinking intensely about...", "very powerful thoughts of... are shaping this" — that this mental energy is real, active, and influencing the situation. The suit defines the subject: Cups = emotions/love/relationships, Wands = passion/goals/inspiration, Swords = conflict/decisions/tension, Pentacles = work/money/practical matters. Do NOT describe this card as a specific person.`;
-            }
-        } else if (isInSelfPos) {
-            const isEnergyPos = pos.toLowerCase() === 'positive energy' || pos.toLowerCase() === 'negative energy';
-            if (isEnergyPos) {
-                ruling = `RULING — ENERGY POSITION: Position "${pos}" represents an impersonal energy or force active in the querent's life — not a person. This court card embodies the quality or nature of that force (${fig} figure, querent is ${gender ?? 'unknown gender'}). Do NOT name an external person here. Describe what energetic quality this card brings to this position: what kind of force, drive, or current is it, and how is it operating in the querent's circumstances?`;
-            } else {
-                ruling = `RULING — ALWAYS THE QUERENT: Position "${pos}" is exclusively about the querent's own inner world. This card IS THE QUERENT — even though the figure is ${fig} and the querent is ${gender ?? 'unknown gender'}. Do NOT name an external person here. Interpret this card as a direct mirror of who the querent is.`;
-            }
-        } else if (!gender) {
-            ruling = `${fig === 'female' ? 'Female' : 'Male'} figure. Interpret as a real, specific ${fig} person in the querent's life — never an abstract quality.`;
-        } else if (isSameGender) {
-            if (isInRomanticPos) {
-                if (loversException) {
-                    ruling = `RULING — SAME GENDER, ROMANTIC POSITION (LOVERS EXCEPTION ACTIVE): ${fig} figure, querent is ${gender}. Normally a same-gender card here cannot be the lover. BUT The Lovers card AND a ${oppWord === 'woman' ? 'female' : 'male'} Major Arcana figure are both present — together they open the possibility of a romantic partner. DECIDE based on the full spread: is this the querent's lover, or another ${sameWord} in their life? State your answer explicitly.`;
-                } else {
-                    ruling = `RULING — SAME GENDER, ROMANTIC POSITION: ${fig} figure, querent is ${gender}. In a romantic question, a same-gender court card in this position IS NOT the querent's romantic partner or lover. It is either the querent themselves or another ${sameWord} in their life (friend, sibling, colleague) — but NOT a love interest. (Exception would apply only if The Lovers card AND a ${oppWord === 'woman' ? 'female' : 'male'} Major Arcana such as ${maExampleList} both appeared — they do not.)`;
-                }
-            } else {
-                ruling = `RULING — SAME GENDER: ${fig} figure, querent is ${gender}. This card could be the querent themselves OR a specific ${sameWord} in their life. YOU MUST DECIDE which one by reading the full spread. Commit to one answer and state it explicitly: either "this card is you" or "this card represents [specific person]." Do not leave it vague.`;
-            }
-        } else {
-            ruling = `RULING — OPPOSITE GENDER: ${fig} figure, querent is ${gender}. This card CANNOT be the querent. It is a specific ${oppWord} in their life (e.g. ${relExamples}). Name and describe this person clearly — who they are, their energy, and how they affect the querent's situation.`;
-        }
-
-        lines.push(`• ${card.name} — position: ${pos}\n  ${ruling}`);
-    }
-
-    return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nKings, Queens, and Pages represent real, specific people. Knights in story positions (Past/Present/Near Future/Far Future) can be either a person OR active thoughts — AI decides. Knights in all other positions represent thoughts only, never a person. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = active thoughts bridging mind and matter; may also be a person in story positions. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
-}
-
-const SUIT_WORLDS: Record<string, { name: string; domain: string }> = {
-    cups:      { name: 'Cups',      domain: 'the emotional world — relationships, feelings, intuition, and the heart' },
-    wands:     { name: 'Wands',     domain: 'the inspirational world — passion, creativity, ambition, and inner drive' },
-    swords:    { name: 'Swords',    domain: 'the mental world — thoughts, decisions, conflict, and the power of the mind' },
-    pentacles: { name: 'Pentacles', domain: 'the material world — money, career, physical reality, and practical matters' },
-};
-
-function getSuitDominanceSection(cards: ISpreadCard[]): string {
-    const counts: Record<string, number> = { cups: 0, wands: 0, swords: 0, pentacles: 0 };
-    for (const card of cards) {
-        const name = card.name.toLowerCase();
-        for (const suit of Object.keys(counts)) {
-            if (name.includes(`of ${suit}`)) { counts[suit]++; break; }
-        }
-    }
-    const total = Object.values(counts).reduce((a, b) => a + b, 0);
-    if (total === 0) return ''; // all major arcana
-
-    const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
-    const [topSuit, topCount] = sorted[0];
-    const [, secondCount] = sorted[1];
-
-    // Only flag dominance if the top suit has at least 2 cards and leads by at least 1
-    if (topCount < 2 || topCount === secondCount) return '';
-
-    const { name, domain } = SUIT_WORLDS[topSuit];
-    const breakdown = sorted
-        .filter(([, n]) => n > 0)
-        .map(([s, n]) => `${SUIT_WORLDS[s].name}: ${n}`)
-        .join(', ');
-
-    return `=== DOMINANT SUIT — SHAPES THE ENTIRE READING ===\nSuit count: ${breakdown}.\n${name} dominates this spread with ${topCount} out of ${total} Minor Arcana cards. This is a decisive signal: whatever the querent is asking about, the answer lives primarily in ${domain}. You MUST reflect this in your interpretation — open with a clear statement that this reading is rooted in ${domain}, and let that world colour every card you interpret. The querent's situation, their challenge, and the path forward are all filtered through this lens.\n===\n\n`;
-}
-
-function isAllMajorArcana(cards: string[]): boolean {
-    return cards.every(c => MAJOR_ARCANA.has(c.replace(/ Rx$/i, '').toLowerCase()));
-}
-
-function isCategoryRelevant(category: string, question: string): boolean {
-    const q = question.toLowerCase();
-    return (CATEGORY_KEYWORDS[category] ?? []).some(kw => q.includes(kw.toLowerCase()));
-}
-
-function getMajorArcanaSection(cards: ISpreadCard[]): string {
-    const majorCards = cards.filter(c => MAJOR_ARCANA.has(c.name.toLowerCase()));
-    const count = majorCards.length;
-    const total = cards.length;
-    if (count === 0) return "";
-
-    const names = majorCards.map(c => c.name).join(", ");
-    const ratio = count / total;
-
-    // Profound: ≥65% of cards are major arcana (e.g. 7/10 or 3/3)
-    if (ratio >= 0.65) {
-        return `=== PROFOUND FATE READING — OPEN WITH THIS ===\n${count} of ${total} cards are Major Arcana: ${names}.\nThis is an extraordinary, destiny-laden reading. You MUST open your interpretation with a dedicated paragraph explicitly telling the querent: (1) their spread is dominated by Major Arcana, (2) this signals they stand at a genuine karmic crossroads — a life-defining moment, not a passing concern, (3) the forces at play are larger than everyday circumstances — fate and soul-level forces are shaping their path. Use powerful, direct language: "destiny", "karmic turning point", "the universe is speaking unmistakably". Each Major Arcana card in this spread must receive deeper and more emphatic interpretation than any Minor Arcana.\n===\n\n`;
-    }
-
-    // Significant: ≥40% of cards, or 2+ in a 3-card spread
-    if (ratio >= 0.40 || (total <= 3 && count >= 2)) {
-        return `=== DESTINY MARK DETECTED ===\n${count} of ${total} cards are Major Arcana: ${names}.\nEarly in your interpretation — in the opening or the first card paragraph — include a clear statement to the querent that the significant presence of Major Arcana shows this question carries real depth and karmic weight. This is not a trivial matter; forces larger than day-to-day life are involved. Each Major Arcana card must receive noticeably deeper and more emphatic treatment than any Minor Arcana card.\n===\n\n`;
-    }
-
-    // Minor: low ratio — just instruct the AI to weight them more, no user notification needed
-    return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
-}
-
-function getPersonalNotesSection(cards: ISpreadCard[]): string {
-    const noteMap = new Map(
-        personalCardNotes
-            .filter(n => n.note.trim() !== '')
-            .map(n => [n.card.toLowerCase(), n.note.trim()])
-    );
-    const active = cards
-        .map(c => ({ name: c.name, note: noteMap.get(c.name.replace(/ Rx$/i, '').toLowerCase()) }))
-        .filter(x => x.note);
-    if (active.length === 0) return '';
-    const lines = active.map(x => `• ${x.name}: ${x.note}`).join('\n');
-    return `=== PERSONAL CARD RULES — MANDATORY ===\nThe following cards have owner-defined interpretive rules. These OVERRIDE any general tarot tradition for the cards listed. Apply them exactly and make them central to your interpretation of each affected card:\n\n${lines}\n===\n\n`;
-}
+    findMatchingCombinations,
+    isHealthQuestion,
+    findHealthIndicators,
+    getCourtCardsSection,
+    getSuitDominanceSection,
+    isAllMajorArcana,
+    isCategoryRelevant,
+    getMajorArcanaSection,
+    getPersonalNotesSection,
+} from "./prompt-sections";
 
 class TarotService {
-    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): Promise<string> {
+    private buildInterpretationMessages(spreadType: string, cards: ISpreadCard[], language: "en" | "he", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): { system: string; user: string } {
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
         const cardList = cards
@@ -315,17 +96,19 @@ class TarotService {
 
         const userMessage = `${questionLine}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtCardsSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
 
+        const system = `${language === "he" ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. Every sentence, every structural phrase, every opening line must be in Hebrew. Do NOT write any sentence in English. The ONLY exception: keep card names in English (e.g. 'The Fool', 'Nine of Wands'). If an instruction gives you an example sentence in English, translate that sentence into Hebrew — do not copy it literally.\n\n" : ""}You are a wise and insightful tarot reader who speaks in vivid, concrete terms about real life events. Never describe what a card "symbolizes" or "represents" in abstract terms. Instead describe what is actually happening or has happened or will happen in the person's life — real situations, relationships, decisions, turning points. Always anchor each card to a clear time frame: past events that shaped the situation, what is happening right now, what is coming soon, and what lies further ahead. Be explicit: "This happened in your past...", "Right now you are facing...", "In the near future...", "Further down the road...". Ground everything in human experience: heartbreak, career shifts, family tensions, personal growth, financial pressure, new beginnings, loss. Be direct, warm, and personal — speak as if you know their story.${gender === "male" ? " The querent is male. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'אתה' (you, masculine) and NEVER 'הוא' (he). All Hebrew verbs, adjectives, and participles addressing the querent must be in masculine grammatical form (לשון זכר). Example: say 'אתה עומד בפני' NOT 'הוא עומד בפני'." : gender === "female" ? " The querent is female. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'את' (you, feminine) and NEVER 'היא' (she). All Hebrew verbs, adjectives, and participles addressing the querent must be in feminine grammatical form (לשון נקבה). Example: say 'את עומדת בפני' NOT 'היא עומדת בפני'." : ""} Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`;
+
+        return { system, user: userMessage };
+    }
+
+    private async callChat(system: string, user: string): Promise<string> {
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
             {
-                model: "gpt-4o-mini",
+                model: "gpt-4o",
                 messages: [
-                    {
-                        role: "system",
-                        content:
-                            `${language === "he" ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. Every sentence, every structural phrase, every opening line must be in Hebrew. Do NOT write any sentence in English. The ONLY exception: keep card names in English (e.g. 'The Fool', 'Nine of Wands'). If an instruction gives you an example sentence in English, translate that sentence into Hebrew — do not copy it literally.\n\n" : ""}You are a wise and insightful tarot reader who speaks in vivid, concrete terms about real life events. Never describe what a card "symbolizes" or "represents" in abstract terms. Instead describe what is actually happening or has happened or will happen in the person's life — real situations, relationships, decisions, turning points. Always anchor each card to a clear time frame: past events that shaped the situation, what is happening right now, what is coming soon, and what lies further ahead. Be explicit: "This happened in your past...", "Right now you are facing...", "In the near future...", "Further down the road...". Ground everything in human experience: heartbreak, career shifts, family tensions, personal growth, financial pressure, new beginnings, loss. Be direct, warm, and personal — speak as if you know their story.${gender === "male" ? " The querent is male. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'אתה' (you, masculine) and NEVER 'הוא' (he). All Hebrew verbs, adjectives, and participles addressing the querent must be in masculine grammatical form (לשון זכר). Example: say 'אתה עומד בפני' NOT 'הוא עומד בפני'." : gender === "female" ? " The querent is female. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'את' (you, feminine) and NEVER 'היא' (she). All Hebrew verbs, adjectives, and participles addressing the querent must be in feminine grammatical form (לשון נקבה). Example: say 'את עומדת בפני' NOT 'היא עומדת בפני'." : ""} Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`,
-                    },
-                    { role: "user", content: userMessage },
+                    { role: "system", content: system },
+                    { role: "user", content: user },
                 ],
             },
             {
@@ -339,6 +122,23 @@ class TarotService {
         return response.data.choices[0].message.content as string;
     }
 
+    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): Promise<string> {
+        const { system, user } = this.buildInterpretationMessages(spreadType, cards, language, question, isThirdPerson, confirmedCombination, gender);
+        return this.callChat(system, user);
+    }
+
+    public async translateInterpretation(text: string, gender?: "male" | "female"): Promise<string> {
+        const genderRule = gender === "male"
+            ? " The querent is male. Address them as 'אתה' (masculine 'you') — never 'הוא'. Every Hebrew verb, adjective, and participle addressing the querent must be in masculine grammatical form (לשון זכר)."
+            : gender === "female"
+                ? " The querent is female. Address them as 'את' (feminine 'you') — never 'היא'. Every Hebrew verb, adjective, and participle addressing the querent must be in feminine grammatical form (לשון נקבה)."
+                : "";
+
+        const systemPrompt = `You are a professional translator specializing in tarot readings. Translate the following English tarot reading into Hebrew.\n\nRules — follow exactly, this is a faithful translation, not a new composition:\n- Keep every tarot card name in English exactly as written (e.g. 'The Fool', 'Nine of Wands', 'Queen of Cups'). Do not translate card names.\n- Translate every position name into Hebrew using this mapping: Past→עבר, Present→הווה, Future→עתיד, Positive Energy→אנרגיה חיובית, Negative Energy→אנרגיה שלילית, Near Future→עתיד קרוב, Far Future→עתיד רחוק, Inside→עולם פנימי, Outside→עולם חיצוני, Fears→פחדים, Potential→פוטנציאל.\n- When translating a phrase like "in the X position", use the word 'מיקום' (NOT 'מצב').\n- Preserve the exact structure of the original: the same paragraphs, in the same order, covering exactly the same content. Do not add, remove, or reinterpret anything — including which card combinations are mentioned.\n- Keep the literal marker '**Conclusion**' unchanged, on its own line, exactly as written — do not translate it.${genderRule}\n\nRespond with ONLY the Hebrew translation — no preamble, no notes, nothing else.`;
+
+        return this.callChat(systemPrompt, text);
+    }
+
     public async followupQuestion(question: string, interpretation: string, language: "en" | "he" = "en"): Promise<string> {
         const langRule = language === "he"
             ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. The ONLY exception: keep tarot card names in English.\n\n"
@@ -347,7 +147,7 @@ class TarotService {
         const response = await axios.post(
             "https://api.openai.com/v1/chat/completions",
             {
-                model: "gpt-4o-mini",
+                model: "gpt-4o",
                 messages: [
                     {
                         role: "system",

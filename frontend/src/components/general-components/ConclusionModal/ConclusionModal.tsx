@@ -1,5 +1,5 @@
 import { JSX, useState, useEffect } from 'react';
-import { interpretStore, InterpretState, InterpretActionType } from '../../../state/interpret-state';
+import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTranslation } from '../../../state/interpret-state';
 import { langStore, LangActionType, Lang } from '../../../state/lang-state';
 import { interpretService } from '../../../services/InterpretService';
 import './ConclusionModal.css';
@@ -44,6 +44,12 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         return unsubscribe;
     }, []);
 
+    const toggleLang = (): void => {
+        langStore.dispatch({ type: LangActionType.Toggle });
+        if (langStore.getState().lang === 'he') {
+            ensureHebrewTranslation(spreadType);
+        }
+    };
 
     const handleFollowup = async (): Promise<void> => {
         if (!followupQ.trim() || followupLoading) return;
@@ -64,10 +70,11 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const spreadData = stored[spreadType];
     const en = spreadData.en ? extractConclusion(spreadData.en) : null;
     const he = spreadData.he ? extractConclusion(spreadData.he) : null;
-    const hasBoth = spreadData.en !== null && spreadData.he !== null;
-    const current = lang === 'en' ? (en || he) : (he || en);
+    const canToggle = spreadData.en !== null;
+    const isTranslating = lang === 'he' && spreadData.en !== null && spreadData.he === null;
+    const current = lang === 'en' ? en : he;
 
-    if (!current) return null;
+    if (!current && !isTranslating) return null;
 
     return (
         <div className="conclusion-widget">
@@ -76,17 +83,21 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                     <div className="conclusion-header">
                         <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
                         <div className="conclusion-header-actions">
-                            {hasBoth && (
-                                <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                            {canToggle && (
+                                <button className="conclusion-lang-btn" onClick={toggleLang}>
                                     {lang === 'en' ? 'HE' : 'EN'}
                                 </button>
                             )}
                         </div>
                     </div>
                     <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        {current.split('\n').map((line, i) => (
-                            <p key={i} className="conclusion-text">{line}</p>
-                        ))}
+                        {isTranslating ? (
+                            <p className="conclusion-text">Translating to Hebrew...</p>
+                        ) : (
+                            current!.split('\n').map((line, i) => (
+                                <p key={i} className="conclusion-text">{line}</p>
+                            ))
+                        )}
                     </div>
                     <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         <div className="conclusion-followup-row">

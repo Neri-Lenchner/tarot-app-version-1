@@ -37,6 +37,21 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     const [lang, setLang] = useState<'en' | 'he'>('en');
     const [spreadData, setSpreadData] = useState((): ISpreadInterpretation => interpretStore.getState().celtic);
+    const [clearWarning, setClearWarning] = useState(false);
+
+    useEffect((): (() => void) | void => {
+        if (!clearWarning) return;
+        const timer: ReturnType<typeof setTimeout> = setTimeout(() => setClearWarning(false), 3000);
+        return () => clearTimeout(timer);
+    }, [clearWarning]);
+
+    const handleReadyQuestionClick = (q: IReadyQuestion): void => {
+        if (isSpread) {
+            setClearWarning(true);
+            return;
+        }
+        onQuestionSelect(q);
+    };
 
     useEffect((): Unsubscribe => {
         const unsubscribe: Unsubscribe = interpretStore.subscribe((): void => {
@@ -58,11 +73,17 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
     return (
         <div className="spread-container">
             <div className="ready-questions-stack">
+                <h2 className="ready-questions-title">Maybe you want to ask: </h2>
                 {READY_QUESTIONS.map(q => (
-                    <div key={q.en} className="ready-question" onClick={() => onQuestionSelect(q)}>
+                    <div key={q.en} className="ready-question" onClick={() => handleReadyQuestionClick(q)}>
                         {q.en}
                     </div>
                 ))}
+                {clearWarning && (
+                    <div className="ready-question-warning">
+                        Please clear the current spread first
+                    </div>
+                )}
             </div>
             {positions.map((label: string, i): JSX.Element => (
                 <div

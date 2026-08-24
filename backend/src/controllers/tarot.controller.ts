@@ -10,6 +10,20 @@ class TarotController {
         this.router.post("/api/tarot/interpret", this.interpret);
         this.router.post("/api/tarot/check-combinations", this.checkCombinations);
         this.router.post("/api/tarot/followup", this.followup);
+        this.router.post("/api/tarot/translate", this.translate);
+    }
+
+    public async translate(request: Request, response: Response, next: NextFunction): Promise<void> {
+        try {
+            const { text, gender }: { text: string; gender?: "male" | "female" } = request.body;
+            if (!text?.trim()) {
+                throw new ValidationError("text is required");
+            }
+            const translation = await tarotService.translateInterpretation(text, gender);
+            response.json({ translation });
+        } catch (error) {
+            next(error);
+        }
     }
 
     public checkCombinations(request: Request, response: Response, next: NextFunction): void {

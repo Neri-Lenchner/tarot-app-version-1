@@ -1,6 +1,7 @@
 import { JSX, useState, useEffect } from 'react';
 import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { ensureHebrewTranslation, SpreadType } from '../../../state/interpret-state';
 import './CombinationsModal.css';
 import {Unsubscribe} from "redux";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
@@ -8,11 +9,12 @@ import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.inter
 
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
+    spreadType: SpreadType;
     onClose: () => void;
     onConfirm: (combo: ICombinationMatch) => void;
 }
 
-export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
+export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
@@ -22,6 +24,13 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
         });
         return unsubscribe;
     }, []);
+
+    const toggleLang = (): void => {
+        langStore.dispatch({ type: LangActionType.Toggle });
+        if (langStore.getState().lang === 'he') {
+            ensureHebrewTranslation(spreadType);
+        }
+    };
 
 
     return (
@@ -33,7 +42,7 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                             {lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}
                         </span>
                         <div className="combo-header-actions">
-                            <button className="combo-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                            <button className="combo-lang-btn" onClick={toggleLang}>
                                 {lang === 'en' ? 'HE' : 'EN'}
                             </button>
                         </div>

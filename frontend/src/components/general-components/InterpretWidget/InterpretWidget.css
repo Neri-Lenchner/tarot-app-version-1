@@ -251,6 +251,13 @@
     margin-bottom: 6px;
 }
 
+.iw-card-images {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
 .iw-card-img {
     width: 52px;
     flex-shrink: 0;

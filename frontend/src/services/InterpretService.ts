@@ -41,20 +41,13 @@ class InterpretService {
         return response.data.answer;
     }
 
-    async interpretBoth(
-        spreadType: "celtic" | "three-cards",
-        cards: ITarotCard[],
-        positions: string[],
-        question?: string,
-        isThirdPerson?: boolean,
-        confirmedCombination?: ICombinationMatch,
-        questionHe?: string
-    ): Promise<{ en: string; he: string }> {
-        const [en, he] = await Promise.all([
-            this.interpretSpread(spreadType, cards, positions, "en", question, isThirdPerson, confirmedCombination),
-            this.interpretSpread(spreadType, cards, positions, "he", questionHe || question, isThirdPerson, confirmedCombination),
-        ]);
-        return { en, he };
+    async translateToHebrew(text: string): Promise<string> {
+        const gender = authStore.getState().user?.gender;
+        const response = await axios.post(`${BASE_URL}/api/tarot/translate`, {
+            text,
+            gender: gender || undefined,
+        });
+        return response.data.translation;
     }
 }
 
