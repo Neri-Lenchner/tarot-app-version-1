@@ -1,9 +1,9 @@
 /* ── Global design tokens — Arcanum (Occult Woodcut) ──── */
 :root {
     /* Backgrounds — antique manuscript, warm and dark */
-    --bg: #14110D;
-    --bg-2: #1D1811;
-    --bg-3: #241D14;
+    --bg: #0C0A08;
+    --bg-2: #110E0A;
+    --bg-3: #16110C;
     --bg-surface: rgba(231, 223, 200, 0.03);
 
     /* Text — ink on parchment */

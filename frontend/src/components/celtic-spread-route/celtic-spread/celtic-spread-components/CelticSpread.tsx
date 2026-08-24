@@ -107,7 +107,7 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
             ))}
 
             {selectedIndex !== null && (
-                <div className="card-modal-overlay" onClick={(): void => setSelectedIndex(null)}>
+                <div className="card-modal-overlay modal-widget-root" onClick={(): void => setSelectedIndex(null)}>
                     <div className="card-modal" onClick={(e): void => e.stopPropagation()}>
                         <div className="card-modal-header">
                             <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>

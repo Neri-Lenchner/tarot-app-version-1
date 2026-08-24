@@ -36,7 +36,7 @@ export function TarotDeck() {
             ))}
 
             {selectedCard !== null && (
-                <div className="card-modal-overlay" onClick={() => setSelectedCard(null)}>
+                <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedCard(null)}>
                     <div className="card-modal" onClick={(e) => e.stopPropagation()}>
                         <button className="card-modal-close" onClick={() => setSelectedCard(null)}>✕</button>
                         <h3 className="card-modal-name">{selectedCard.name}</h3>

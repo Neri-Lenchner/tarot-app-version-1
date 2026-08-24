@@ -7,6 +7,7 @@ import { translate, POSITION_HE } from '../../../state/translations';
 import { readingService } from '../../../services/ReadingService';
 import { ICombinationMatch } from '../../../arrays-&-models/combinationMatch.interface';
 import { ITarotCard } from '../../../arrays-&-models/tarot-deck-array/tarotCard.interface';
+import { useClickOutsideModals, MODAL_ROOT_CLASS } from '../../../hooks/useClickOutsideModals';
 import './InterpretWidget.css';
 
 interface IInterpretWidgetProps {
@@ -150,8 +151,10 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [confirmedCombination]);
 
+    useClickOutsideModals(onToggle, isOpen);
+
     return (
-        <div className={`interpret-widget theme-${theme}`}>
+        <div className={`interpret-widget theme-${theme} ${MODAL_ROOT_CLASS}`}>
             {isOpen && (
                 <div className="iw-panel">
                     <div className="iw-header">
@@ -198,7 +201,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 </div>
             )}
             <button className="iw-toggle-btn" onClick={onToggle}>
-                {isOpen ? '✕' : '✦'}
+                {isOpen ? '✕' : 'i'}
             </button>
         </div>
     );

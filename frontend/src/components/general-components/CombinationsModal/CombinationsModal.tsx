@@ -5,6 +5,7 @@ import { ensureHebrewTranslation, SpreadType } from '../../../state/interpret-st
 import './CombinationsModal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
+import {useClickOutsideModals, MODAL_ROOT_CLASS} from "../../../hooks/useClickOutsideModals";
 
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
@@ -26,13 +27,15 @@ export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: I
     };
 
 
+    useClickOutsideModals(() => setVisible(false), visible);
+
     return (
-        <div className="combo-widget">
+        <div className={`combo-widget ${MODAL_ROOT_CLASS}`}>
             {visible && (
                 <div className="combo-modal">
                     <div className="combo-modal-header">
                         <span className="combo-modal-title">
-                            {lang === 'he' ? '✦ שילובי קלפים שזוהו' : '✦ Card Combinations Detected'}
+                            {lang === 'he' ? '+ שילובי קלפים שזוהו' : '+ Card Combinations Detected'}
                         </span>
                         <div className="combo-header-actions">
                             <button className="combo-lang-btn" onClick={toggleLang}>
@@ -96,7 +99,7 @@ export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: I
                 </div>
             )}
             <button className="combo-reopen-btn" onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
-                {visible ? '✕' : '✦'}
+                {visible ? '✕' : 'i'}
             </button>
         </div>
     );

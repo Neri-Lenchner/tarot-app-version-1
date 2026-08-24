@@ -63,7 +63,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
             ))}
 
             {selectedIndex !== null && (
-                <div className="card-modal-overlay" onClick={() => setSelectedIndex(null)}>
+                <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedIndex(null)}>
                     <div className="card-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="card-modal-header">
                             <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>

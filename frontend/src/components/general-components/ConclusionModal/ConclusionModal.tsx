@@ -3,6 +3,7 @@ import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTransl
 import { langStore, LangActionType, useLang } from '../../../state/lang-state';
 import { translate } from '../../../state/translations';
 import { interpretService } from '../../../services/InterpretService';
+import { useClickOutsideModals, MODAL_ROOT_CLASS } from '../../../hooks/useClickOutsideModals';
 import './ConclusionModal.css';
 
 interface IConclusionModalProps {
@@ -68,14 +69,16 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const isTranslating = lang === 'he' && spreadData.en !== null && spreadData.he === null;
     const current = lang === 'en' ? en : he;
 
+    useClickOutsideModals(() => setVisible(false), visible);
+
     if (!current && !isTranslating) return null;
 
     return (
-        <div className="conclusion-widget">
+        <div className={`conclusion-widget ${MODAL_ROOT_CLASS}`}>
             {visible && (
                 <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
                     <div className="conclusion-header">
-                        <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
+                        <span className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
                         <div className="conclusion-header-actions">
                             {canToggle && (
                                 <button className="conclusion-lang-btn" onClick={toggleLang}>
@@ -109,7 +112,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                                 onClick={handleFollowup}
                                 disabled={!followupQ.trim() || followupLoading}
                             >
-                                {followupLoading ? '...' : '✦'}
+                                {followupLoading ? '...' : 'i'}
                             </button>
                         </div>
                         {followupAnswer && (
@@ -121,7 +124,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 </div>
             )}
             <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
-                {visible ? '✕' : '✦'}
+                {visible ? '✕' : 'i'}
             </button>
         </div>
     );
