@@ -4,7 +4,9 @@
     min-height: calc(100vh - var(--header-height) - 60px);
     width: 100%;
     margin: 0 auto;
-    background: var(--bg);
+    background:
+        radial-gradient(ellipse at center, rgba(20, 17, 13, 0.35) 0%, rgba(20, 17, 13, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
 }
 
 .spread-container h5 {

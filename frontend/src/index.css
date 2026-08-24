@@ -15,12 +15,12 @@
     --line: #3A3226;
     --line-soft: #2A241A;
 
-    /* Single accent — burnt ochre/rust. No secondary accent color anywhere. */
-    --accent: #B5502B;
-    --accent-rgb: 181, 80, 43;
-    --accent-bright: #D06840;
-    --accent-dim: #6E3A21;
-    --accent-wash: rgba(181, 80, 43, 0.12);
+    /* Single accent — warm amber, between orange and yellow. No secondary accent color anywhere. */
+    --accent: #C4822A;
+    --accent-rgb: 196, 130, 42;
+    --accent-bright: #E3A34A;
+    --accent-dim: #654017;
+    --accent-wash: rgba(196, 130, 42, 0.12);
     /* Arcanum is flat and inky — no glow. Kept as a token (rather than
        stripping every box-shadow reference across every component file)
        so every existing var(--x-glow) usage resolves to nothing. */

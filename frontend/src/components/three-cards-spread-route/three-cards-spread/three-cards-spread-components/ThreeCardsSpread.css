@@ -7,7 +7,9 @@
     min-width: 700px;
     display: flex;
     justify-content: space-around;
-    background: var(--bg);
+    background:
+        radial-gradient(ellipse at center, rgba(20, 17, 13, 0.35) 0%, rgba(20, 17, 13, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
 }
 
 .three-cards-spread-container h2 {

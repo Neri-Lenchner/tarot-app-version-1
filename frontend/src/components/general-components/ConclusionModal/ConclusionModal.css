@@ -21,7 +21,7 @@
 .conclusion-modal.theme-green,
 .conclusion-modal.theme-blue {
     --conclusion-accent: var(--accent);
-    --conclusion-accent-rgb: 181, 80, 43;
+    --conclusion-accent-rgb: 196, 130, 42;
     --conclusion-glow: var(--no-glow);
     --conclusion-border: var(--line);
 }
