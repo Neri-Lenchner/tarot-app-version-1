@@ -9,15 +9,11 @@
 
 .Header h1 {
     margin: 0;
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.4rem;
+    font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: #ffe680;
-    text-shadow:
-        0 0 6px #fff5a0,
-        0 0 16px rgba(255, 215, 0, 0.6),
-        0 0 36px rgba(255, 200, 0, 0.3);
+    color: var(--accent-bright);
 }
 
 .header-berta {
@@ -39,21 +35,20 @@
 }
 
 .header-login {
-    color: var(--gold);
+    color: var(--accent-bright);
     text-decoration: none;
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
     padding: 5px 14px;
-    transition: background var(--transition), box-shadow var(--transition);
+    transition: background var(--transition), border-color var(--transition);
 }
 
 .header-login:hover {
-    background: rgba(212, 175, 55, 0.1);
-    box-shadow: 0 0 10px var(--gold-glow);
+    background: var(--accent-wash);
+    border-color: var(--accent);
 }
 
 .header-user {
@@ -64,9 +59,8 @@
 
 .header-logout {
     background: none;
-    border: 1px solid rgba(255, 100, 100, 0.25);
-    border-radius: var(--radius-sm);
-    color: #ff9999;
+    border: 1px solid var(--danger);
+    color: var(--danger-bright);
     font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 600;
@@ -74,10 +68,10 @@
     text-transform: uppercase;
     padding: 5px 12px;
     cursor: pointer;
-    transition: background var(--transition), box-shadow var(--transition);
+    transition: background var(--transition), border-color var(--transition);
 }
 
 .header-logout:hover {
-    background: rgba(100, 10, 10, 0.4);
-    box-shadow: 0 0 8px rgba(200, 50, 50, 0.3);
+    background: rgba(122, 50, 38, 0.18);
+    border-color: var(--danger-bright);
 }

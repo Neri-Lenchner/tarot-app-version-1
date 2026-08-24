@@ -9,52 +9,36 @@
     gap: 12px;
 }
 
-/* ── Theme variables (reference global tokens) ── */
-.interpret-widget.theme-green {
-    --accent: #4ade80;
-    --accent-rgb: 74, 222, 128;
-    --glow-color: var(--celtic-glow);
-    --bg: rgba(1, 5, 1, 0.97);
-    --border: var(--celtic-border);
-    --header-bg: rgba(0, 0, 0, 0.80);
-}
-
+/* ── Theme variables (both themes resolve to the single Arcanum accent —
+   kept as scoped vars so the theme-green/theme-blue class names on the
+   component don't need to change) ── */
+.interpret-widget.theme-green,
 .interpret-widget.theme-blue {
-    --accent: #60a5fa;
-    --accent-rgb: 96, 165, 250;
-    --glow-color: var(--threecards-glow);
-    --bg: rgba(1, 1, 10, 0.97);
-    --border: var(--threecards-border);
-    --header-bg: rgba(0, 0, 0, 0.80);
-}
-
-/* ── Click-outside backdrop ── */
-.iw-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 999;
+    --accent: var(--accent);
+    --accent-rgb: 181, 80, 43;
+    --glow-color: var(--no-glow);
+    --bg: var(--bg-2);
+    --border: var(--line);
+    --header-bg: var(--bg-3);
 }
 
 /* ── Toggle button ── */
 .iw-toggle-btn {
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: rgba(7, 4, 20, 0.9);
+    width: 44px;
+    height: 44px;
+    background: var(--bg-2);
     color: var(--accent);
-    border: 2px solid rgba(var(--accent-rgb), 0.8);
-    font-size: 20px;
+    border: 1px solid var(--accent);
+    font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 0 22px rgba(var(--accent-rgb), 0.7), 0 0 50px rgba(var(--accent-rgb), 0.35);
-    text-shadow: 0 0 10px rgba(var(--accent-rgb), 1), 0 0 22px rgba(var(--accent-rgb), 0.8);
-    transition: box-shadow var(--transition), text-shadow var(--transition);
+    transition: border-color var(--transition), color var(--transition);
     position: relative;
     z-index: 1001;
 }
 
 .iw-toggle-btn:hover {
-    box-shadow: 0 0 36px rgba(var(--accent-rgb), 0.9), 0 0 72px rgba(var(--accent-rgb), 0.5);
-    text-shadow: 0 0 16px rgba(var(--accent-rgb), 1), 0 0 34px rgba(var(--accent-rgb), 0.9);
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
 }
 
 /* ── Panel ── */
@@ -64,13 +48,7 @@
     width: 520px;
     height: 580px;
     background: var(--bg);
-    backdrop-filter: blur(14px);
-    border: 2px solid #ADE880;
-    border-radius: 16px;
-    box-shadow:
-        0 0 14px rgba(173, 232, 128, 0.5),
-        0 0 36px rgba(173, 232, 128, 0.2),
-        0 8px 40px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--accent);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -84,12 +62,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-weight: 700;
-    font-size: 18px;
+    font-weight: 400;
+    font-family: var(--font-heading);
+    font-size: 20px;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-bottom: 1px solid var(--border);
-    text-shadow: 0 0 8px rgba(var(--accent-rgb), 0.6);
     flex-shrink: 0;
 }
 
@@ -101,14 +79,12 @@
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 8px;
-    border-radius: var(--radius-sm);
     cursor: pointer;
-    transition: box-shadow var(--transition), border-color var(--transition);
+    transition: border-color var(--transition);
 }
 
 .iw-lang-btn:hover {
     border-color: var(--accent);
-    box-shadow: 0 0 8px var(--glow-color);
 }
 
 /* ── Scrollable body ── */
@@ -129,9 +105,8 @@
 /* ── Question display ── */
 .iw-question-display {
     border: 1px solid var(--border);
-    border-radius: var(--radius);
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-surface);
     flex-shrink: 0;
 }
 
@@ -148,7 +123,7 @@
 .iw-question-text {
     margin: 0;
     font-size: 17px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--ink);
     font-style: italic;
     line-height: 1.5;
 }
@@ -156,27 +131,28 @@
 /* ── Interpret button ── */
 .iw-btn {
     width: 100%;
+    min-height: 44px;
     padding: 10px;
-    background: none;
-    color: var(--accent);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
+    background: var(--accent);
+    color: var(--bg);
+    border: 1px solid var(--accent);
     font-size: 18px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    transition: background var(--transition), border-color var(--transition);
     flex-shrink: 0;
 }
 
 .iw-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    background: rgba(var(--accent-rgb), 0.06);
-    box-shadow: 0 0 14px var(--glow-color);
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
 }
 
 .iw-btn:disabled {
-    opacity: 0.5;
+    background: var(--accent-dim);
+    border-color: var(--accent-dim);
+    color: var(--ink-faint);
     cursor: not-allowed;
 }
 
@@ -192,11 +168,10 @@
 .iw-spinner {
     width: 44px;
     height: 44px;
-    border: 3px solid rgba(var(--accent-rgb), 0.15);
+    border: 3px solid var(--line-soft);
     border-top-color: var(--accent);
     border-radius: 50%;
     animation: iw-spin 0.9s linear infinite;
-    box-shadow: 0 0 14px var(--glow-color);
 }
 
 @keyframes iw-spin {
@@ -221,21 +196,20 @@
 .iw-save-btn {
     width: 100%;
     padding: 8px;
-    background: rgba(212, 175, 55, 0.07);
-    color: var(--gold);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: var(--radius);
+    background: none;
+    color: var(--accent);
+    border: 1px solid var(--line);
     font-size: 17px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: box-shadow var(--transition), background var(--transition);
+    transition: border-color var(--transition), background var(--transition);
     flex-shrink: 0;
 }
 
 .iw-save-btn:hover:not(:disabled) {
-    background: rgba(212, 175, 55, 0.15);
-    box-shadow: 0 0 10px var(--gold-glow);
+    border-color: var(--accent);
+    background: var(--accent-wash);
 }
 
 .iw-save-btn:disabled {
@@ -261,9 +235,7 @@
 .iw-card-img {
     width: 52px;
     flex-shrink: 0;
-    border-radius: var(--radius-sm);
     border: 1px solid var(--border);
-    box-shadow: 0 0 8px var(--glow-color);
 }
 
 /* ── Result text ── */
@@ -282,12 +254,11 @@
     text-transform: uppercase;
     border-bottom: 1px solid var(--border);
     padding-bottom: 3px;
-    text-shadow: 0 0 6px rgba(var(--accent-rgb), 0.5);
 }
 
 .iw-card-text {
     margin: 0 0 6px;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--ink);
     font-size: 18px;
     line-height: 1.75;
 }

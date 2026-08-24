@@ -1,5 +1,5 @@
 .tarot-deck-container {
-    background: radial-gradient(ellipse at 50% 30%, #160204 0%, var(--deck-bg-dark) 55%, #010101 100%);
+    background: var(--bg);
     overflow-y: auto;
     width: 100%;
     height: 100%;
@@ -19,7 +19,7 @@
 .card-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.75);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -27,9 +27,8 @@
 }
 
 .card-modal {
-    background: linear-gradient(160deg, #1a0203, #30060a);
-    border: 1px solid var(--deck-border);
-    border-radius: 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
     padding: 32px;
     max-width: 480px;
     width: 90%;
@@ -38,7 +37,7 @@
     scrollbar-width: none;
     color: var(--text-primary);
     position: relative;
-    box-shadow: 0 0 40px var(--deck-glow), 0 8px 40px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
 .card-modal::-webkit-scrollbar {
@@ -51,7 +50,7 @@
     right: 16px;
     background: none;
     border: none;
-    color: var(--deck-accent);
+    color: var(--accent);
     font-size: 18px;
     cursor: pointer;
     opacity: 0.7;
@@ -64,9 +63,8 @@
 
 .card-modal-name {
     margin: 0 0 20px;
-    color: var(--deck-accent);
+    color: var(--accent-bright);
     font-size: 28px;
-    text-shadow: 0 0 10px rgba(var(--deck-accent-rgb), 0.6);
 }
 
 .card-modal-meaning {

@@ -1,6 +1,6 @@
 .spread-header-container {
-    background: rgba(2, 1, 7, 0.96);
-    border-bottom: 1px solid rgba(212, 175, 55, 0.12);
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line-soft);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -12,11 +12,10 @@
     font-size: 1.1rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(212, 175, 55, 0.6);
-    background: rgba(5, 3, 14, 0.85);
-    color: var(--gold);
+    border: 1px solid var(--line);
+    background: var(--bg-3);
+    color: var(--accent);
     padding: 11px 20px;
-    border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
@@ -27,15 +26,15 @@
 }
 
 .spread-header-container button:hover {
-    background: rgba(10, 5, 25, 0.92);
-    border-color: #ffe680;
-    color: #ffe680;
+    background: var(--accent-wash);
+    border-color: var(--accent);
+    color: var(--accent-bright);
 }
 
 .spread-header-container button:active {
-    background: rgba(15, 8, 38, 0.96);
-    border-color: #ffffff;
-    color: #ffffff;
+    background: var(--accent-wash);
+    border-color: var(--accent-bright);
+    color: var(--ink);
 }
 
 .third-person-toggle {
@@ -43,11 +42,10 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    border: 1px solid rgba(107, 63, 160, 0.65);
-    background: rgba(5, 3, 14, 0.85);
-    color: var(--purple);
+    border: 1px solid var(--line);
+    background: var(--bg-3);
+    color: var(--ink-dim);
     padding: 7px 16px;
-    border-radius: var(--radius);
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -58,18 +56,18 @@
 }
 
 .third-person-toggle:hover {
-    border-color: var(--purple);
-    color: var(--purple);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .third-person-toggle:active {
-    border-color: #d8a8ff;
-    color: #d8a8ff;
-    background: rgba(107, 63, 160, 0.2);
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
+    background: var(--accent-wash);
 }
 
 .third-person-toggle.active {
-    background: rgba(192, 132, 252, 0.18);
-    border-color: #c084fc;
-    color: #c084fc;
+    background: var(--accent-wash);
+    border-color: var(--accent);
+    color: var(--accent-bright);
 }

@@ -1,59 +1,88 @@
-/* ── Global design tokens ─────────────────────────────── */
+/* ── Global design tokens — Arcanum (Occult Woodcut) ──── */
 :root {
-    /* Dark backgrounds */
-    --bg-dark: #010107;
-    --bg-mid: #050410;
-    --bg-surface: rgba(255, 255, 255, 0.02);
+    /* Backgrounds — antique manuscript, warm and dark */
+    --bg: #14110D;
+    --bg-2: #1D1811;
+    --bg-3: #241D14;
+    --bg-surface: rgba(231, 223, 200, 0.03);
 
-    /* Text — warm aged parchment */
-    --text-primary: rgba(210, 190, 155, 0.88);
-    --text-muted: rgba(155, 135, 100, 0.60);
-    --text-faint: rgba(120, 105, 78, 0.35);
-    --card-desc-color: #ffffff;
+    /* Text — ink on parchment */
+    --ink: #E7DFC8;
+    --ink-dim: #9C917A;
+    --ink-faint: #6E624C;
 
-    /* Gold — antique amber accent */
-    --gold: #a8880a;
-    --gold-rgb: 168, 136, 10;
-    --gold-glow: rgba(168, 136, 10, 0.50);
+    /* Lines / borders */
+    --line: #3A3226;
+    --line-soft: #2A241A;
 
-    /* Celtic spread — green theme */
-    --celtic-accent: #4a8a4a;
-    --celtic-accent-rgb: 74, 138, 74;
-    --celtic-glow: rgba(25, 55, 25, 0.60);
-    --celtic-border: rgba(74, 138, 74, 0.18);
-    --celtic-bg-dark: #030803;
-    --celtic-bg-mid: #060618;
+    /* Single accent — burnt ochre/rust. No secondary accent color anywhere. */
+    --accent: #B5502B;
+    --accent-rgb: 181, 80, 43;
+    --accent-bright: #D06840;
+    --accent-dim: #6E3A21;
+    --accent-wash: rgba(181, 80, 43, 0.12);
+    /* Arcanum is flat and inky — no glow. Kept as a token (rather than
+       stripping every box-shadow reference across every component file)
+       so every existing var(--x-glow) usage resolves to nothing. */
+    --no-glow: rgba(0, 0, 0, 0);
 
-    /* Three Cards spread — blue theme */
-    --threecards-accent: #5878a0;
-    --threecards-accent-rgb: 88, 120, 160;
-    --threecards-glow: rgba(25, 45, 78, 0.60);
-    --threecards-border: rgba(88, 120, 160, 0.18);
-    --threecards-bg-dark: #03030f;
-    --threecards-bg-mid: #02020c;
+    /* ── Legacy semantic aliases ──
+       Components were written against --gold / --celtic-accent /
+       --threecards-accent / --deck-accent / --purple etc. Rather than a
+       full rename pass across every CSS file, those names now resolve
+       through the single Arcanum accent — same visual result, same
+       file-per-component architecture. */
+    --bg-dark: var(--bg);
+    --bg-mid: var(--bg-2);
+    --text-primary: var(--ink);
+    --text-muted: var(--ink-dim);
+    --text-faint: var(--ink-faint);
+    --card-desc-color: var(--ink);
 
-    /* Tarot Deck — red theme */
-    --deck-accent: #9a4444;
-    --deck-accent-rgb: 154, 68, 68;
-    --deck-glow: rgba(100, 15, 15, 0.60);
-    --deck-border: rgba(130, 40, 40, 0.25);
-    --deck-bg-dark: #0a0101;
-    --deck-bg-mid: #150101;
+    --gold: var(--accent);
+    --gold-rgb: var(--accent-rgb);
+    --gold-glow: var(--no-glow);
 
-    /* Mystic / purple — modals, sidebar */
-    --purple: #7856aa;
-    --purple-dark: #3e1c6e;
-    --purple-bg: #07040e;
-    --purple-surface: #0c0818;
-    --purple-border: #1a1130;
+    --celtic-accent: var(--accent);
+    --celtic-accent-rgb: var(--accent-rgb);
+    --celtic-glow: var(--no-glow);
+    --celtic-border: var(--line);
+    --celtic-bg-dark: var(--bg);
+    --celtic-bg-mid: var(--bg-2);
 
-    /* Typography */
-    --font-heading: 'Cinzel', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
-    --font-body: 'Crimson Text', Georgia, 'Times New Roman', serif;
+    --threecards-accent: var(--accent);
+    --threecards-accent-rgb: var(--accent-rgb);
+    --threecards-glow: var(--no-glow);
+    --threecards-border: var(--line);
+    --threecards-bg-dark: var(--bg);
+    --threecards-bg-mid: var(--bg-2);
 
-    /* Spacing & motion */
-    --radius: 4px;
-    --radius-sm: 2px;
+    --deck-accent: var(--accent);
+    --deck-accent-rgb: var(--accent-rgb);
+    --deck-glow: var(--no-glow);
+    --deck-border: var(--line);
+    --deck-bg-dark: var(--bg);
+    --deck-bg-mid: var(--bg-2);
+
+    --purple: var(--accent);
+    --purple-dark: var(--accent-dim);
+    --purple-bg: var(--bg);
+    --purple-surface: var(--bg-2);
+    --purple-border: var(--line);
+
+    /* Destructive actions only (logout, delete) — not part of the spec's
+       single-accent system, kept separate and muted so it reads as a
+       different signal without breaking the one-accent rule visually. */
+    --danger: #7A3226;
+    --danger-bright: #9C4534;
+
+    /* Typography — all-serif manuscript pairing, no sans-serif anywhere */
+    --font-heading: 'IM Fell English SC', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
+
+    /* Shape & motion — sharp edges everywhere, no rounded corners */
+    --radius: 0;
+    --radius-sm: 0;
     --transition: 0.2s;
 
     /* Layout */
@@ -81,17 +110,27 @@ body {
     padding: 0;
     font-family: var(--font-body);
     font-size: 22px;
-    /* Gothic atmosphere — candlelight bloom from above, deep shadow below */
-    background:
-        radial-gradient(ellipse at 50% 0%, rgba(18, 3, 35, 0.96) 0%, transparent 50%),
-        radial-gradient(ellipse at 15% 85%, rgba(5, 1, 15, 0.8) 0%, transparent 38%),
-        var(--bg-dark);
+    background: var(--bg);
     color: var(--text-primary);
+    position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Paper grain — the "occult woodcut" texture, full-bleed on every screen ── */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 /* ── Gothic heading font ─────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
+    font-weight: 400;
 }

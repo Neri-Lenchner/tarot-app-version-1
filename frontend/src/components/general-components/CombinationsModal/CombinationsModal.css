@@ -4,27 +4,18 @@
     left: 28px;
     transform: translateY(-50%);
     z-index: 1000;
-    background: var(--purple-bg);
-    border: 2px solid #7856AA;
-    border-radius: 14px;
+    background: var(--bg-2);
+    border: 1px solid var(--accent);
     padding: 22px 24px;
     width: 340px;
     max-height: 85vh;
     overflow-y: auto;
     scrollbar-width: none;
     color: var(--text-primary);
-    box-shadow:
-        0 0 14px rgba(120, 86, 170, 0.6),
-        0 0 40px rgba(107, 63, 160, 0.25),
-        0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
 .combo-modal::-webkit-scrollbar {
     display: none;
-}
-
-.combo-modal--collapsed {
-    padding: 14px 18px;
 }
 
 .combo-modal-header {
@@ -34,18 +25,14 @@
     margin-bottom: 18px;
 }
 
-.combo-modal--collapsed .combo-modal-header {
-    margin-bottom: 0;
-}
-
 .combo-modal-title {
-    font-size: 17px;
-    font-weight: 700;
-    color: var(--purple);
+    font-size: 18px;
+    font-family: var(--font-heading);
+    font-weight: 400;
+    color: var(--accent);
     margin: 0;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(201, 160, 232, 0.4);
 }
 
 .combo-header-actions {
@@ -56,51 +43,23 @@
 
 .combo-lang-btn {
     background: none;
-    border: 1px solid rgba(192, 132, 252, 0.5);
-    color: #c084fc;
+    border: 1px solid var(--line);
+    color: var(--accent);
     font-size: 16px;
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 7px;
-    border-radius: var(--radius-sm);
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
-    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
-    transition: box-shadow var(--transition), border-color var(--transition);
+    transition: border-color var(--transition);
 }
 
 .combo-lang-btn:hover {
-    border-color: #c084fc;
-    box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
-}
-
-.combo-collapse-btn {
-    background: none;
-    border: 1px solid rgba(192, 132, 252, 0.5);
-    color: #c084fc;
-    font-size: 17px;
-    width: 26px;
-    height: 26px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    box-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
-    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
-    transition: background var(--transition), box-shadow var(--transition);
-}
-
-.combo-collapse-btn:hover {
-    background: rgba(192, 132, 252, 0.15);
-    box-shadow: 0 0 18px rgba(192, 132, 252, 0.8);
+    border-color: var(--accent);
 }
 
 .combo-item {
-    background: var(--purple-surface);
-    border: 1px solid var(--purple-border);
-    border-radius: var(--radius);
+    background: var(--bg-3);
+    border: 1px solid var(--line-soft);
     padding: 14px;
     margin-bottom: 12px;
 }
@@ -126,9 +85,7 @@
 
 .combo-card-img {
     width: 62px;
-    border-radius: 5px;
-    border: 1px solid var(--purple-border);
-    box-shadow: 0 0 10px rgba(107, 63, 160, 0.4);
+    border: 1px solid var(--line-soft);
 }
 
 .combo-card-name {
@@ -143,7 +100,7 @@
 /* ── Meaning & badge ── */
 .combo-meaning {
     font-size: 17px;
-    color: #ffffff;
+    color: var(--ink);
     line-height: 1.55;
     margin-bottom: 10px;
 }
@@ -153,27 +110,11 @@
     font-size: 16px;
     font-weight: 700;
     padding: 2px 9px;
-    border-radius: 20px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-}
-
-.combo-badge.general {
-    background: rgba(0, 80, 0, 0.3);
-    color: var(--celtic-accent);
-    border: 1px solid var(--celtic-border);
-}
-
-.combo-badge.health {
-    background: rgba(120, 20, 20, 0.35);
-    color: var(--deck-accent);
-    border: 1px solid var(--deck-border);
-}
-
-.combo-badge.mental_health {
-    background: rgba(20, 40, 120, 0.35);
-    color: var(--threecards-accent);
-    border: 1px solid var(--threecards-border);
+    border: 1px solid var(--accent);
+    color: var(--accent-bright);
+    background: var(--accent-wash);
 }
 
 /* ── Toggle button ── */
@@ -181,23 +122,20 @@
     position: fixed;
     bottom: 28px;
     left: 28px;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: rgba(17, 13, 31, 0.9);
-    color: #c084fc;
-    border: 2px solid rgba(192, 132, 252, 0.8);
-    font-size: 20px;
+    width: 44px;
+    height: 44px;
+    background: var(--bg-2);
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    font-size: 16px;
     cursor: pointer;
     z-index: 1001;
-    box-shadow: 0 0 22px rgba(192, 132, 252, 0.7), 0 0 50px rgba(192, 132, 252, 0.35);
-    text-shadow: 0 0 10px rgba(192, 132, 252, 1), 0 0 22px rgba(192, 132, 252, 0.8);
-    transition: box-shadow var(--transition), text-shadow var(--transition);
+    transition: border-color var(--transition), color var(--transition);
 }
 
 .combo-reopen-btn:hover {
-    box-shadow: 0 0 36px rgba(192, 132, 252, 0.9), 0 0 72px rgba(192, 132, 252, 0.5);
-    text-shadow: 0 0 16px rgba(192, 132, 252, 1), 0 0 34px rgba(192, 132, 252, 0.9);
+    border-color: var(--accent-bright);
+    color: var(--accent-bright);
 }
 
 /* ── Confirm resonance button ── */
@@ -206,50 +144,23 @@
     width: 100%;
     margin-top: 10px;
     padding: 8px;
-    background: rgba(120, 86, 170, 0.12);
-    border: 1px solid var(--purple-border);
-    color: var(--purple);
-    border-radius: var(--radius);
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--accent);
     font-size: 13px;
     font-weight: 700;
     letter-spacing: 0.04em;
     cursor: pointer;
-    transition: background var(--transition), border-color var(--transition), box-shadow var(--transition);
+    transition: border-color var(--transition), background var(--transition);
     text-align: center;
 }
 
 .combo-confirm-btn:hover:not(:disabled) {
-    background: rgba(120, 86, 170, 0.32);
-    border-color: var(--purple);
-    box-shadow: 0 0 10px rgba(120, 86, 170, 0.4);
+    background: var(--accent-wash);
+    border-color: var(--accent);
 }
 
 .combo-confirm-btn:disabled {
     opacity: 0.45;
     cursor: default;
-}
-
-/* ── Close button ── */
-.combo-modal-close {
-    display: block;
-    width: 100%;
-    margin-top: 18px;
-    padding: 9px;
-    background: rgba(192, 132, 252, 0.15);
-    border: 1px solid rgba(192, 132, 252, 0.5);
-    color: #c084fc;
-    border-radius: var(--radius);
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 0 0 14px rgba(192, 132, 252, 0.55);
-    text-shadow: 0 0 8px rgba(192, 132, 252, 0.9);
-    transition: background var(--transition), box-shadow var(--transition);
-}
-
-.combo-modal-close:hover {
-    background: rgba(192, 132, 252, 0.3);
-    box-shadow: 0 0 26px rgba(192, 132, 252, 0.85);
 }
