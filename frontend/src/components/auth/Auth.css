@@ -81,8 +81,8 @@
 }
 
 .auth-btn:hover {
-    background: var(--accent-bright);
-    border-color: var(--accent-bright);
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
 }
 
 .auth-link-text {
@@ -125,7 +125,7 @@
 
 .auth-gender-btn:hover {
     border-color: var(--line);
-    color: var(--accent-bright);
+    color: var(--accent-hover);
 }
 
 .auth-gender-btn.active {

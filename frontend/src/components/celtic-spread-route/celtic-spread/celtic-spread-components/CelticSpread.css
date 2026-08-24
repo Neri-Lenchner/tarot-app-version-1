@@ -152,8 +152,8 @@
 
 .ready-question:hover {
     background: var(--accent-wash);
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .ready-question-warning {
@@ -217,8 +217,8 @@
 }
 
 .card-modal-lang-btn:hover {
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .card-modal-close {

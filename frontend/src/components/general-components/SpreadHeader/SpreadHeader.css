@@ -27,8 +27,8 @@
 
 .spread-header-container button:hover {
     background: var(--accent-wash);
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .spread-header-container button:active {
@@ -56,8 +56,8 @@
 }
 
 .third-person-toggle:hover {
-    border-color: var(--accent);
-    color: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .third-person-toggle:active {

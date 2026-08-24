@@ -131,7 +131,7 @@
 }
 
 .spread-details-back:hover {
-    color: var(--accent-bright);
+    color: var(--accent-hover);
 }
 
 .spread-details-card {
@@ -200,8 +200,8 @@
 }
 
 .spread-details-lang:hover {
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .spread-details-interpretation {

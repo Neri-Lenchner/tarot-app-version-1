@@ -34,7 +34,7 @@
 
 .SideBar a:hover {
     border-color: var(--line);
-    color: var(--accent-bright);
+    color: var(--accent-hover);
 }
 
 .SideBar a.active {

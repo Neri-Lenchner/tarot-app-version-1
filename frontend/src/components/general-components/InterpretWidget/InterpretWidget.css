@@ -37,8 +37,8 @@
 }
 
 .iw-toggle-btn:hover {
-    border-color: var(--accent-bright);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 /* ── Panel ── */
@@ -84,7 +84,8 @@
 }
 
 .iw-lang-btn:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 /* ── Scrollable body ── */
@@ -145,8 +146,8 @@
 }
 
 .iw-btn:hover:not(:disabled) {
-    background: var(--accent-bright);
-    border-color: var(--accent-bright);
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
 }
 
 .iw-btn:disabled {
@@ -208,7 +209,8 @@
 }
 
 .iw-save-btn:hover:not(:disabled) {
-    border-color: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
     background: var(--accent-wash);
 }
 

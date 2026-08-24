@@ -54,7 +54,8 @@
 }
 
 .combo-lang-btn:hover {
-    border-color: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .combo-item {
@@ -148,8 +149,8 @@
 }
 
 .combo-reopen-btn:hover {
-    border-color: var(--accent-bright);
-    color: var(--accent-bright);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 /* ── Confirm resonance button ── */
@@ -171,7 +172,8 @@
 
 .combo-confirm-btn:hover:not(:disabled) {
     background: var(--accent-wash);
-    border-color: var(--accent);
+    border-color: var(--accent-hover);
+    color: var(--accent-hover);
 }
 
 .combo-confirm-btn:disabled {
