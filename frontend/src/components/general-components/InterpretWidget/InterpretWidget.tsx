@@ -14,6 +14,7 @@ interface IInterpretWidgetProps {
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
     question?: string;
+    questionHe?: string;
     isThirdPerson?: boolean;
     confirmedCombination?: ICombinationMatch;
     isOpen: boolean;
@@ -42,7 +43,7 @@ function renderInterpretation(text: string, cards: ITarotCard[]): JSX.Element[] 
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, questionHe, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -92,7 +93,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
         try {
-            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined, isThirdPerson, confirmedCombination);
+            const result = await interpretService.interpretBoth(spreadType, cards, positions, question?.trim() || undefined, isThirdPerson, confirmedCombination, questionHe?.trim() || undefined);
             interpretStore.dispatch({ type: InterpretActionType.SetBoth, spreadType, payload: result });
         } catch {
             interpretStore.dispatch({

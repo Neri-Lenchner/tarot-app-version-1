@@ -22,9 +22,9 @@
 
 .header-berta {
     position: absolute;
-    left: 56px;
+    left: 36px;
     top: 0;
-    height: 120px;
+    height: 170px;
     width: auto;
     object-fit: contain;
     z-index: 10;

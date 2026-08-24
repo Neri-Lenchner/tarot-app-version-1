@@ -69,7 +69,7 @@
 }
 
 .third-person-toggle.active {
-    background: rgba(107, 63, 160, 0.25);
-    border-color: var(--purple);
-    color: var(--purple);
+    background: rgba(192, 132, 252, 0.18);
+    border-color: #c084fc;
+    color: #c084fc;
 }

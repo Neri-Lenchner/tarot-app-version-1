@@ -13,8 +13,16 @@ function extractCardSection(text: string, cardName: string): string | null {
     return paragraph ? paragraph.trim() : null;
 }
 
-const READY_QUESTIONS = [
-    "Tell me what I need to know",
+export interface IReadyQuestion {
+    en: string;
+    he: string;
+}
+
+const READY_QUESTIONS: IReadyQuestion[] = [
+    { en: "Tell me what I need to know", he: "ספרו לי מה אני צריך לדעת" },
+    { en: "Tell me about love", he: "ספרו לי על אהבה" },
+    { en: "Tell me about money", he: "ספרו לי על כסף" },
+    { en: "Tell me about health", he: "ספרו לי על בריאות" },
 ];
 
 interface Props {
@@ -22,7 +30,7 @@ interface Props {
     cards: ITarotCard[];
     apiCards: TarotCardData[];
     positions: string[];
-    onQuestionSelect: (q: string) => void;
+    onQuestionSelect: (q: IReadyQuestion) => void;
 }
 
 export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionSelect }: Props) {
@@ -51,8 +59,8 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
         <div className="spread-container">
             <div className="ready-questions-stack">
                 {READY_QUESTIONS.map(q => (
-                    <div key={q} className="ready-question" onClick={() => onQuestionSelect(q)}>
-                        {q}
+                    <div key={q.en} className="ready-question" onClick={() => onQuestionSelect(q)}>
+                        {q.en}
                     </div>
                 ))}
             </div>

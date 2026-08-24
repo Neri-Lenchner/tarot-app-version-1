@@ -1,6 +1,6 @@
 import {useState, useEffect, JSX} from "react";
 import {SpreadHeader} from "../../general-components/SpreadHeader/SpreadHeader";
-import {CelticSpread} from "./celtic-spread-components/CelticSpread";
+import {CelticSpread, IReadyQuestion} from "./celtic-spread-components/CelticSpread";
 import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";
@@ -11,6 +11,7 @@ import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.inter
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
+import {langStore, Lang} from "../../../state/lang-state";
 import {combinationsService, filterByProximity, CELTIC_ADJACENCY} from "../../../services/CombinationsService";
 
 const POSITIONS = [
@@ -30,6 +31,8 @@ export function CelticSpreadGlobal(): JSX.Element {
 
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
+    const [submittedQuestionHe, setSubmittedQuestionHe] = useState('');
+    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
@@ -52,9 +55,17 @@ export function CelticSpreadGlobal(): JSX.Element {
         localStorage.setItem("selectedCards", JSON.stringify(selectedCards));
     }, [isSpread, selectedCards]);
 
+    useEffect((): (() => void) => {
+        const unsubscribe = langStore.subscribe((): void => {
+            setLang(langStore.getState().lang);
+        });
+        return unsubscribe;
+    }, []);
+
     const spreadThem: () => void = (): void => {
         if (question.trim()) {
             setSubmittedQuestion(question.trim());
+            setSubmittedQuestionHe('');
             setQuestion('');
         }
         const [chosen, bool] = deckService.spreadThem();
@@ -74,6 +85,7 @@ export function CelticSpreadGlobal(): JSX.Element {
         setIsSpread(bool);
         setSelectedCards([]);
         setSubmittedQuestion('');
+        setSubmittedQuestionHe('');
         setWidgetOpen(false);
         setComboMatches([]);
         setConfirmedCombination(null);
@@ -85,8 +97,9 @@ export function CelticSpreadGlobal(): JSX.Element {
         setWidgetOpen(true);
     };
 
-    const handleReadyQuestion = (q: string): void => {
-        setSubmittedQuestion(q);
+    const handleReadyQuestion = (q: IReadyQuestion): void => {
+        setSubmittedQuestion(q.en);
+        setSubmittedQuestionHe(q.he);
         setQuestion('');
         const [chosen, bool] = deckService.spreadThem();
         setSelectedCards(chosen);
@@ -95,10 +108,12 @@ export function CelticSpreadGlobal(): JSX.Element {
         setComboMatches([]);
         setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
-        combinationsService.checkCombinations(chosen.map(c => c.name), q).then(matches => {
+        combinationsService.checkCombinations(chosen.map(c => c.name), q.en).then(matches => {
             setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
         }).catch(() => {});
     };
+
+    const displayQuestion: string = lang === 'he' ? (submittedQuestionHe || submittedQuestion) : submittedQuestion;
 
     return (
         <div className="celtic-spread-container">
@@ -125,7 +140,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                 {submittedQuestion && (
                     <div className="spread-question-display">
                         <span className="spread-question-label">Your question:</span>
-                        <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
+                        <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(displayQuestion) ? 'rtl' : 'ltr'}>{displayQuestion}</span>
                     </div>
                 )}
             </div>
@@ -143,6 +158,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     positions={POSITIONS}
                     theme="green"
                     question={submittedQuestion}
+                    questionHe={submittedQuestionHe || undefined}
                     isThirdPerson={isThirdPerson}
                     confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}

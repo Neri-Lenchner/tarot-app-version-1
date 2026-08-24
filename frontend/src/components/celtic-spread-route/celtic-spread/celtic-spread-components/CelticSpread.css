@@ -106,33 +106,34 @@
 /* ── Ready questions ────────────────────────────── */
 .ready-questions-stack {
     position: absolute;
-    right: 70%;
+    right: calc(70% + 120px);
     top: 6%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 14px;
     z-index: 10;
 }
 
 .ready-question {
-    color: var(--celtic-accent);
-    border: 1px solid var(--celtic-border);
+    color: #4dff7a;
+    border: 1px solid #4dff7a;
     border-radius: var(--radius-sm);
-    padding: 7px 14px;
-    font-size: 0.78rem;
+    padding: 12px 22px;
+    font-size: 0.95rem;
     letter-spacing: 0.06em;
     cursor: pointer;
     background: rgba(0, 30, 0, 0.55);
     backdrop-filter: blur(4px);
     text-align: center;
+    text-shadow: 0 0 8px rgba(77, 255, 122, 0.7);
     transition: background var(--transition), box-shadow var(--transition), border-color var(--transition);
     white-space: nowrap;
 }
 
 .ready-question:hover {
     background: rgba(0, 50, 0, 0.75);
-    border-color: var(--celtic-accent);
-    box-shadow: 0 0 10px var(--celtic-glow);
+    border-color: #4dff7a;
+    box-shadow: 0 0 14px rgba(77, 255, 122, 0.8);
 }
 
 /* ── Card modal ─────────────────────────────────── */

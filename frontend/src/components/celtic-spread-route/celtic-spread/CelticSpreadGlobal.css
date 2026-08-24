@@ -13,7 +13,7 @@
     font-size: 22px;
     padding: 9px 16px;
     outline: none;
-    box-shadow: 0 0 18px rgba(74, 138, 74, 0.6), 0 0 40px rgba(74, 138, 74, 0.25), inset 0 0 8px rgba(74, 138, 74, 0.08);
+    box-shadow: 0 0 18px rgba(74, 138, 74, 0.6), 0 0 40px rgba(74, 138, 74, 0.25);
     transition: border-color var(--transition), box-shadow var(--transition);
 }
 
@@ -23,7 +23,7 @@
 
 .celtic-spread-container .spread-question-input:focus {
     border-color: var(--celtic-accent);
-    box-shadow: 0 0 28px rgba(74, 138, 74, 0.85), 0 0 60px rgba(74, 138, 74, 0.35), inset 0 0 12px rgba(74, 138, 74, 0.12);
+    box-shadow: 0 0 28px rgba(74, 138, 74, 0.85), 0 0 60px rgba(74, 138, 74, 0.35);
 }
 
 .celtic-spread-container .spread-subheader-row {

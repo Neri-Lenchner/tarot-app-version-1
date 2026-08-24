@@ -205,23 +205,23 @@
 .conclusion-reopen-btn.theme-green {
     color: #4ade80;
     border: 2px solid rgba(74, 222, 128, 0.8);
-    box-shadow: 0 0 22px rgba(74, 222, 128, 0.7), 0 0 50px rgba(74, 222, 128, 0.35), inset 0 0 12px rgba(74, 222, 128, 0.15);
+    box-shadow: 0 0 22px rgba(74, 222, 128, 0.7), 0 0 50px rgba(74, 222, 128, 0.35);
     text-shadow: 0 0 10px rgba(74, 222, 128, 1), 0 0 22px rgba(74, 222, 128, 0.8);
 }
 
 .conclusion-reopen-btn.theme-green:hover {
-    box-shadow: 0 0 36px rgba(74, 222, 128, 0.9), 0 0 72px rgba(74, 222, 128, 0.5), inset 0 0 18px rgba(74, 222, 128, 0.2);
+    box-shadow: 0 0 36px rgba(74, 222, 128, 0.9), 0 0 72px rgba(74, 222, 128, 0.5);
     text-shadow: 0 0 16px rgba(74, 222, 128, 1), 0 0 34px rgba(74, 222, 128, 0.9);
 }
 
 .conclusion-reopen-btn.theme-blue {
     color: #60a5fa;
     border: 2px solid rgba(96, 165, 250, 0.8);
-    box-shadow: 0 0 22px rgba(96, 165, 250, 0.7), 0 0 50px rgba(96, 165, 250, 0.35), inset 0 0 12px rgba(96, 165, 250, 0.15);
+    box-shadow: 0 0 22px rgba(96, 165, 250, 0.7), 0 0 50px rgba(96, 165, 250, 0.35);
     text-shadow: 0 0 10px rgba(96, 165, 250, 1), 0 0 22px rgba(96, 165, 250, 0.8);
 }
 
 .conclusion-reopen-btn.theme-blue:hover {
-    box-shadow: 0 0 36px rgba(96, 165, 250, 0.9), 0 0 72px rgba(96, 165, 250, 0.5), inset 0 0 18px rgba(96, 165, 250, 0.2);
+    box-shadow: 0 0 36px rgba(96, 165, 250, 0.9), 0 0 72px rgba(96, 165, 250, 0.5);
     text-shadow: 0 0 16px rgba(96, 165, 250, 1), 0 0 34px rgba(96, 165, 250, 0.9);
 }

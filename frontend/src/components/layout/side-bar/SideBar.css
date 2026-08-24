@@ -38,7 +38,7 @@
     background: rgba(12, 6, 28, 0.88);
     border-color: rgba(168, 136, 10, 0.4);
     color: var(--gold);
-    box-shadow: 0 0 12px var(--gold-glow), inset 0 0 8px rgba(212, 175, 55, 0.06);
+    box-shadow: 0 0 12px var(--gold-glow);
 }
 
 .SideBar a.active {

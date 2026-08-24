@@ -47,11 +47,12 @@ class InterpretService {
         positions: string[],
         question?: string,
         isThirdPerson?: boolean,
-        confirmedCombination?: ICombinationMatch
+        confirmedCombination?: ICombinationMatch,
+        questionHe?: string
     ): Promise<{ en: string; he: string }> {
         const [en, he] = await Promise.all([
             this.interpretSpread(spreadType, cards, positions, "en", question, isThirdPerson, confirmedCombination),
-            this.interpretSpread(spreadType, cards, positions, "he", question, isThirdPerson, confirmedCombination),
+            this.interpretSpread(spreadType, cards, positions, "he", questionHe || question, isThirdPerson, confirmedCombination),
         ]);
         return { en, he };
     }
