@@ -69,55 +69,55 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
 
     if (!current) return null;
 
-    if (!visible) {
-        return (
-            <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(true); }}>✦</button>
-        );
-    }
-
     return (
-        <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
-            <div className="conclusion-header">
-                <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
-                <div className="conclusion-header-actions">
-                    {hasBoth && (
-                        <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
-                            {lang === 'en' ? 'HE' : 'EN'}
-                        </button>
-                    )}
-                    <button className="conclusion-close-btn" onClick={() => setVisible(false)}>✕</button>
-                </div>
-            </div>
-            <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                {current.split('\n').map((line, i) => (
-                    <p key={i} className="conclusion-text">{line}</p>
-                ))}
-            </div>
-            <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                <div className="conclusion-followup-row">
-                    <input
-                        className="conclusion-followup-input"
-                        type="text"
-                        placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
-                        value={followupQ}
-                        onChange={e => setFollowupQ(e.target.value)}
-                        onKeyDown={e => e.key === 'Enter' && handleFollowup()}
-                        disabled={followupLoading}
-                    />
-                    <button
-                        className="conclusion-followup-btn"
-                        onClick={handleFollowup}
-                        disabled={!followupQ.trim() || followupLoading}
-                    >
-                        {followupLoading ? '...' : '✦'}
-                    </button>
-                </div>
-                {followupAnswer && (
-                    <div className="conclusion-followup-answer">
-                        {followupAnswer}
+        <div className="conclusion-widget">
+            {visible && (
+                <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
+                    <div className="conclusion-header">
+                        <span className="conclusion-title">{lang === 'he' ? '✦ מסקנה' : '✦ Conclusion'}</span>
+                        <div className="conclusion-header-actions">
+                            {hasBoth && (
+                                <button className="conclusion-lang-btn" onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}>
+                                    {lang === 'en' ? 'HE' : 'EN'}
+                                </button>
+                            )}
+                        </div>
                     </div>
-                )}
-            </div>
+                    <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        {current.split('\n').map((line, i) => (
+                            <p key={i} className="conclusion-text">{line}</p>
+                        ))}
+                    </div>
+                    <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <div className="conclusion-followup-row">
+                            <input
+                                className="conclusion-followup-input"
+                                type="text"
+                                placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
+                                value={followupQ}
+                                onChange={e => setFollowupQ(e.target.value)}
+                                onKeyDown={e => e.key === 'Enter' && handleFollowup()}
+                                disabled={followupLoading}
+                            />
+                            <button
+                                className="conclusion-followup-btn"
+                                onClick={handleFollowup}
+                                disabled={!followupQ.trim() || followupLoading}
+                            >
+                                {followupLoading ? '...' : '✦'}
+                            </button>
+                        </div>
+                        {followupAnswer && (
+                            <div className="conclusion-followup-answer">
+                                {followupAnswer}
+                            </div>
+                        )}
+                    </div>
+                </div>
+            )}
+            <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
+                {visible ? '✕' : '✦'}
+            </button>
         </div>
     );
 }

@@ -1,9 +1,16 @@
-.conclusion-modal {
+.conclusion-widget {
     position: fixed;
     bottom: 28px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.conclusion-modal {
     width: 360px;
     background: rgba(2, 1, 7, 0.98);
     backdrop-filter: blur(14px);
@@ -62,8 +69,7 @@
 }
 
 .conclusion-lang-btn,
-.conclusion-collapse-btn,
-.conclusion-close-btn {
+.conclusion-collapse-btn {
     background: none;
     border: 1px solid var(--conclusion-border);
     color: var(--conclusion-accent);
@@ -87,8 +93,7 @@
 }
 
 .conclusion-lang-btn:hover,
-.conclusion-collapse-btn:hover,
-.conclusion-close-btn:hover {
+.conclusion-collapse-btn:hover {
     border-color: var(--conclusion-accent);
     box-shadow: 0 0 16px var(--conclusion-glow);
     text-shadow: 0 0 10px rgba(var(--conclusion-accent-rgb), 0.9);
@@ -186,19 +191,14 @@
     border: 1px solid var(--conclusion-border);
 }
 
-/* ── Reopen toggle button ── */
+/* ── Toggle button ── */
 .conclusion-reopen-btn {
-    position: fixed;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
     width: 54px;
     height: 54px;
     border-radius: 50%;
     background: rgba(2, 1, 7, 0.98);
     font-size: 18px;
     cursor: pointer;
-    z-index: 1001;
     transition: box-shadow var(--transition);
 }
 
