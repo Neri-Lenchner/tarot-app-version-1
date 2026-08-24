@@ -20,28 +20,57 @@ interface IInterpretWidgetProps {
     onToggle: () => void;
 }
 
-function renderInterpretation(text: string, cards: ITarotCard[]): JSX.Element[] {
+// Matches the Hebrew glossary the backend translates position names through
+// (tarot.service.ts) — used to recognize a paragraph's own position even
+// when the reading is displayed in Hebrew.
+const POSITION_HE: Record<string, string> = {
+    'Past': 'עבר',
+    'Present': 'הווה',
+    'Future': 'עתיד',
+    'Positive Energy': 'אנרגיה חיובית',
+    'Negative Energy': 'אנרגיה שלילית',
+    'Near Future': 'עתיד קרוב',
+    'Far Future': 'עתיד רחוק',
+    'Inside': 'עולם פנימי',
+    'Outside': 'עולם חיצוני',
+    'Fears': 'פחדים',
+    'Potential': 'פוטנציאל',
+};
+
+function renderInterpretation(text: string, cards: ITarotCard[], positions: string[]): JSX.Element[] {
     const lines = text.split('\n').filter(line => line.trim() !== '');
     const CONCLUSION_RE = /^\*\*\s*(conclusion|מסקנה|סיכום|לסיכום)\s*:?\*\*$/i;
     const conclusionIdx = lines.findIndex(l => CONCLUSION_RE.test(l.trim()));
     const displayLines = conclusionIdx !== -1 ? lines.slice(0, conclusionIdx) : lines;
-    const shownCards = new Set<string>();
     return displayLines.map((line, i) => {
         if (line.trim().startsWith('**')) {
             return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
         }
-        const matchedCards = cards.filter(c => {
-            if (shownCards.has(c.name)) return false;
-            const isMentioned = new RegExp(`\\b${c.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(line);
-            if (isMentioned) shownCards.add(c.name);
-            return isMentioned;
+
+        // A position paragraph always states its position up front ("in the
+        // Potential position..."), so anchor to the opening chunk and look the
+        // card up by index directly — this can't be stolen by that paragraph
+        // later mentioning other cards' names (e.g. Potential referencing the
+        // positive/negative energy cards), unlike scanning the whole line.
+        const openingChunk = line.slice(0, 60);
+        const positionIdx = positions.findIndex(p => {
+            const heName = POSITION_HE[p];
+            const enRe = new RegExp(`\\b${p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i');
+            return enRe.test(openingChunk) || (!!heName && openingChunk.includes(heName));
         });
+
+        const matchedCards = positionIdx !== -1
+            ? [cards[positionIdx]].filter((c): c is ITarotCard => !!c)
+            : cards.filter(c => new RegExp(`\\b${c.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(line));
+
         if (matchedCards.length > 0) {
             return (
                 <div key={i} className="iw-card-row">
                     <div className="iw-card-images">
                         {matchedCards.map(c => (
-                            <img key={c.name} src={c.src} alt={c.name} className="iw-card-img" />
+                            <div key={c.name} className="iw-card-vignette">
+                                <img src={c.src} alt={c.name} className="iw-card-img" />
+                            </div>
                         ))}
                     </div>
                     <p className="iw-card-text">{line}</p>
@@ -185,7 +214,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                         )}
                         {current && !isTranslating && (
                             <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                {renderInterpretation(current, cards)}
+                                {renderInterpretation(current, cards, positions)}
                             </div>
                         )}
                     </div>

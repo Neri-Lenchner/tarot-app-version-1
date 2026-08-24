@@ -83,9 +83,23 @@
     gap: 5px;
 }
 
+.combo-card-vignette {
+    position: relative;
+    display: inline-block;
+}
+
+.combo-card-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+}
+
 .combo-card-img {
     width: 62px;
     border: 1px solid var(--line-soft);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 .combo-card-name {

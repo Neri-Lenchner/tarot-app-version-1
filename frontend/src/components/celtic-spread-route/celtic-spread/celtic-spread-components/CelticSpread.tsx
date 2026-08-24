@@ -93,11 +93,13 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
                     style={isSpread ? {cursor: "pointer"} : {}}
                 >
                     <h5>{label}</h5>
-                    <img
-                        className="card"
-                        src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
-                        alt={isSpread ? cards[i]?.alt : "card back"}
-                    />
+                    <div className="card-vignette">
+                        <img
+                            className="card"
+                            src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
+                            alt={isSpread ? cards[i]?.alt : "card back"}
+                        />
+                    </div>
                 </div>
             ))}
 

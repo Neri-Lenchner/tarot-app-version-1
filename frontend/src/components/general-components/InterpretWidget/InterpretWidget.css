@@ -232,10 +232,25 @@
     flex-shrink: 0;
 }
 
+.iw-card-vignette {
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+.iw-card-vignette::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
+    pointer-events: none;
+}
+
 .iw-card-img {
     width: 52px;
     flex-shrink: 0;
     border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
 
 /* ── Result text ── */

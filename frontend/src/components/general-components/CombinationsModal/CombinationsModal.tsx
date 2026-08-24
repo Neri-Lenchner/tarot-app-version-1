@@ -60,7 +60,11 @@ export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: I
                                             return (
                                                 <div key={cardName} className="combo-card-image-wrap">
                                                     {
-                                                        card && <img src={card.src} alt={card.name} className="combo-card-img" />
+                                                        card && (
+                                                            <div className="combo-card-vignette">
+                                                                <img src={card.src} alt={card.name} className="combo-card-img" />
+                                                            </div>
+                                                        )
                                                     }
                                                     <span className="combo-card-name">
                                                         {cardName}

@@ -22,7 +22,9 @@ function renderInterpretation(text: string): JSX.Element[] {
         if (matchedCard) {
             return (
                 <div key={i} className="iw-card-row">
-                    <img src={`/${matchedCard.src}`} alt={matchedCard.name} className="iw-card-img" />
+                    <div className="iw-card-vignette">
+                        <img src={`/${matchedCard.src}`} alt={matchedCard.name} className="iw-card-img" />
+                    </div>
                     <p className="spread-details-interp-text">{line}</p>
                 </div>
             );

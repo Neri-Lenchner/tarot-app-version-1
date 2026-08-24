@@ -49,11 +49,13 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
                     style={isSpread3 ? {cursor: "pointer"} : {}}
                 >
                     <h2>{label}</h2>
-                    <img
-                        className="card"
-                        src={isSpread3 ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
-                        alt={isSpread3 ? cards[i]?.alt : "card back"}
-                    />
+                    <div className="card-vignette">
+                        <img
+                            className="card"
+                            src={isSpread3 ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
+                            alt={isSpread3 ? cards[i]?.alt : "card back"}
+                        />
+                    </div>
                 </div>
             ))}
 
