@@ -1,6 +1,7 @@
 import { JSX, useState, useEffect } from 'react';
 import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTranslation } from '../../../state/interpret-state';
-import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { langStore, LangActionType, useLang } from '../../../state/lang-state';
+import { translate } from '../../../state/translations';
 import { interpretService } from '../../../services/InterpretService';
 import './ConclusionModal.css';
 
@@ -19,7 +20,7 @@ function extractConclusion(text: string): string {
 
 export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): JSX.Element | null {
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
-    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
+    const lang = useLang();
     const [visible, setVisible] = useState(true);
     const [followupQ, setFollowupQ] = useState('');
     const [followupAnswer, setFollowupAnswer] = useState<string | null>(null);
@@ -33,13 +34,6 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 setFollowupQ('');
                 setFollowupAnswer(null);
             }
-        });
-        return unsubscribe;
-    }, []);
-
-    useEffect(() => {
-        const unsubscribe = langStore.subscribe(() => {
-            setLang(langStore.getState().lang);
         });
         return unsubscribe;
     }, []);
@@ -92,7 +86,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                     </div>
                     <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         {isTranslating ? (
-                            <p className="conclusion-text">Translating to Hebrew...</p>
+                            <p className="conclusion-text">{translate('translatingHebrew', lang)}</p>
                         ) : (
                             current!.split('\n').map((line, i) => (
                                 <p key={i} className="conclusion-text">{line}</p>

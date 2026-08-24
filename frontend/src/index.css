@@ -80,6 +80,12 @@
     --font-heading: 'IM Fell English SC', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
     --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
 
+    /* Hebrew — Noto Rashi Hebrew is the semi-cursive script historically used
+       for Kabbalistic/Talmudic commentary; paired with a literary serif body
+       face, it reads as "mysterious old manuscript" rather than generic UI Hebrew. */
+    --font-heading-he: 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
+    --font-body-he: 'Frank Ruhl Libre', 'Noto Rashi Hebrew', serif;
+
     /* Shape & motion — sharp edges everywhere, no rounded corners */
     --radius: 0;
     --radius-sm: 0;
@@ -133,4 +139,21 @@ body::before {
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
     font-weight: 400;
+}
+
+/* ── Hebrew typography ──
+   Any element marked dir="rtl" (and its descendants) switches to the
+   Hebrew manuscript pairing automatically — components just set dir
+   on translated Hebrew text, no per-component font rules needed. */
+[dir="rtl"] {
+    font-family: var(--font-body-he);
+}
+
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+    font-family: var(--font-heading-he);
 }

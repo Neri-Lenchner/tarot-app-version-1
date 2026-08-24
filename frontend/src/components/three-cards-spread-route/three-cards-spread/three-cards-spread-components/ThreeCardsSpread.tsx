@@ -3,6 +3,8 @@ import './ThreeCardsSpread.css';
 import {interpretStore} from "../../../../state/interpret-state";
 import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
+import {useLang} from "../../../../state/lang-state";
+import {translate, translatePosition} from "../../../../state/translations";
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -20,7 +22,8 @@ interface Props {
 
 export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Props): JSX.Element {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [modalLang, setModalLang] = useState<'en' | 'he'>('en');
+    const lang = useLang();
     const [spreadData, setSpreadData] = useState(() => interpretStore.getState()['three-cards']);
 
     useEffect(() => {
@@ -30,7 +33,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
         return unsubscribe;
     }, []);
 
-    const interpretation = spreadData[lang];
+    const interpretation = spreadData[modalLang];
     const hasBoth = spreadData.en !== null && spreadData.he !== null;
 
     const selectedCard = selectedIndex !== null ? cards[selectedIndex] : null;
@@ -48,7 +51,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
                     onClick={() => isSpread3 && setSelectedIndex(i)}
                     style={isSpread3 ? {cursor: "pointer"} : {}}
                 >
-                    <h2>{label}</h2>
+                    <h2 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h2>
                     <div className="card-vignette">
                         <img
                             className="card"
@@ -65,23 +68,23 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions }: Prop
                         <div className="card-modal-header">
                             <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
                             {hasBoth && (
-                                <button className="card-modal-lang-btn" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
-                                    {lang === 'en' ? 'HE' : 'EN'}
+                                <button className="card-modal-lang-btn" onClick={() => setModalLang(l => l === 'en' ? 'he' : 'en')}>
+                                    {modalLang === 'en' ? 'HE' : 'EN'}
                                 </button>
                             )}
                         </div>
                         <h3 className="card-modal-name">{selectedCard?.name}</h3>
-                        <p className="card-modal-position">{positions[selectedIndex]}</p>
-                        <div dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <p className="card-modal-position" dir={modalLang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[selectedIndex], modalLang)}</p>
+                        <div dir={modalLang === 'he' ? 'rtl' : 'ltr'}>
                             {cardSection ? (
                                 <p className="card-modal-desc">{cardSection}</p>
                             ) : selectedApiCard ? (
                                 <>
-                                    <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>
+                                    <p className="card-modal-meaning"><strong>{translate('meaning', modalLang)}</strong> {selectedApiCard.meaning_up}</p>
                                     <p className="card-modal-desc">{selectedApiCard.desc}</p>
                                 </>
                             ) : (
-                                <p className="card-modal-meaning">No details available.</p>
+                                <p className="card-modal-meaning">{translate('noDetails', modalLang)}</p>
                             )}
                         </div>
                     </div>

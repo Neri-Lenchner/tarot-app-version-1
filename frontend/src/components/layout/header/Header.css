@@ -34,6 +34,23 @@
     gap: 12px;
 }
 
+.header-lang-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: border-color var(--transition), color var(--transition);
+}
+
+.header-lang-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent-bright);
+}
+
 .header-login {
     color: var(--accent-bright);
     text-decoration: none;

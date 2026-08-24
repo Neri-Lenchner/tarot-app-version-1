@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { authStore } from "../../state/auth-state";
 import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
+import { useLang } from "../../state/lang-state";
+import { translate } from "../../state/translations";
 import "./MySpreadsPage.css";
 
 function formatDate(dateStr: string): string {
@@ -14,6 +16,7 @@ function formatDate(dateStr: string): string {
 
 function MySpreadsPage(): JSX.Element {
     const navigate = useNavigate();
+    const lang = useLang();
     const [readings, setReadings] = useState<IReadingRecord[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -30,14 +33,16 @@ function MySpreadsPage(): JSX.Element {
         setReadings(prev => prev.filter(r => r.id !== id));
     };
 
+    const dir = lang === 'he' ? 'rtl' : 'ltr';
+
     return (
-        <div className="my-spreads-page">
-            <h2 className="my-spreads-title">My Spreads</h2>
-            {loading && <p className="my-spreads-empty">Loading...</p>}
-            {!loading && readings.length === 0 && <p className="my-spreads-empty">No saved readings yet.</p>}
+        <div className="my-spreads-page" dir={dir}>
+            <h2 className="my-spreads-title">{translate('mySpreadsTitle', lang)}</h2>
+            {loading && <p className="my-spreads-empty">{translate('loading', lang)}</p>}
+            {!loading && readings.length === 0 && <p className="my-spreads-empty">{translate('noSavedReadings', lang)}</p>}
             <div className="my-spreads-list">
                 {readings.map(r => {
-                    const spreadLabel = r.spread_type === 'celtic' ? 'Celtic Spread' : 'Old Gipsy Spread';
+                    const spreadLabel = r.spread_type === 'celtic' ? translate('navCeltic', lang) : translate('navThreeCards', lang);
                     const spreadClass = r.spread_type === 'celtic' ? 'celtic' : 'three-cards';
                     return (
                         <div key={r.id} className="my-spread-item" onClick={() => navigate(`/my-spreads/${r.id}`)}>
@@ -50,7 +55,7 @@ function MySpreadsPage(): JSX.Element {
                                 <button
                                     className="my-spread-delete-btn"
                                     onClick={e => handleDelete(e, r.id)}
-                                    title="Delete"
+                                    title={translate('delete', lang)}
                                 >✕</button>
                             </div>
                         </div>

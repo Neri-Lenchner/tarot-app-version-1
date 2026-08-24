@@ -5,10 +5,14 @@ import {NavLink, useNavigate} from "react-router-dom";
 import {authStore, Logout} from "../../../state/auth-state";
 import {IAuthUser} from "../../../arrays-&-models/authUser.interface";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
+import {langStore, LangActionType, useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 
 function Header(): JSX.Element {
     const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);
     const navigate = useNavigate();
+    const lang = useLang();
+    const t = (key: Parameters<typeof translate>[0]): string => translate(key, lang);
 
     useEffect(() => {
         const unsubscribe = authStore.subscribe(() => {
@@ -31,15 +35,22 @@ function Header(): JSX.Element {
     return (
         <div className="Header">
             <img src={berta} alt="Berta" className="header-berta" />
-            <h1>BERTA'S TAROT CARDS SPREADS</h1>
+            <h1 dir={lang === 'he' ? 'rtl' : 'ltr'}>{t('headerTitle')}</h1>
             <div className="header-auth">
+                <button
+                    className="header-lang-btn"
+                    onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}
+                    title="עברית / English"
+                >
+                    {lang === 'en' ? 'HE' : 'EN'}
+                </button>
                 {user ? (
                     <>
-                        <span className="header-user">Hello, {user.firstName}</span>
-                        <button className="header-logout" onClick={handleLogout}>Logout</button>
+                        <span className="header-user" dir={lang === 'he' ? 'rtl' : 'ltr'}>{t('hello')}, {user.firstName}</span>
+                        <button className="header-logout" onClick={handleLogout}>{t('logout')}</button>
                     </>
                 ) : (
-                    <NavLink to="/login" className="header-login">Login</NavLink>
+                    <NavLink to="/login" className="header-login">{t('login')}</NavLink>
                 )}
             </div>
         </div>

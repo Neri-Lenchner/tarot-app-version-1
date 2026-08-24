@@ -3,9 +3,12 @@ import './SideBar.css';
 import {NavLink} from "react-router-dom";
 import {authStore} from "../../../state/auth-state";
 import {IAuthUser} from "../../../arrays-&-models/authUser.interface";
+import {useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 
 function SideBar(): JSX.Element {
     const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);
+    const lang = useLang();
 
     useEffect(() => {
         const unsubscribe = authStore.subscribe(() => {
@@ -16,11 +19,11 @@ function SideBar(): JSX.Element {
 
     return (
         <div className="SideBar">
-            <div className="links">
-                <NavLink to="/celtic-spread-global">Celtic Spread</NavLink>
-                <NavLink to="/three-cards-spread">Old Gipsy Spread</NavLink>
-                <NavLink to="/">Home Page</NavLink>
-                {user && <NavLink to="/my-spreads">My Spreads</NavLink>}
+            <div className="links" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                <NavLink to="/celtic-spread-global">{translate('navCeltic', lang)}</NavLink>
+                <NavLink to="/three-cards-spread">{translate('navThreeCards', lang)}</NavLink>
+                <NavLink to="/">{translate('navHome', lang)}</NavLink>
+                {user && <NavLink to="/my-spreads">{translate('navMySpreads', lang)}</NavLink>}
             </div>
         </div>
     );

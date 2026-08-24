@@ -12,10 +12,13 @@ import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
 import {combinationsService, filterByProximity, THREE_CARDS_ADJACENCY} from "../../../services/CombinationsService";
+import {useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 
 const POSITIONS = ["Past", "Present", "Future"];
 
 export function ThreeCardsSpreadGlobal(): JSX.Element {
+    const lang = useLang();
     const [apiCards, setApiCards] = useState<TarotCardData[]>(deckService.tarotCardsDetails);
 
     useEffect(() => {
@@ -91,9 +94,9 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 <input
                     className="spread-question-input"
                     type="text"
-                    placeholder="What is your question? / מה שאלתך לקלפים?"
+                    placeholder={translate('questionPlaceholder', lang)}
                     value={question}
-                    dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
+                    dir={lang === 'he' || /[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem3()}
                     onFocus={() => { if (isSpread3) clearSpread3(); }}
@@ -104,12 +107,13 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
                     onClick={() => setIsThirdPerson(p => !p)}
                     type="button"
+                    dir={lang === 'he' ? 'rtl' : 'ltr'}
                 >
-                    👤 Reading about someone else
+                    {translate('thirdPersonToggle', lang)}
                 </button>
                 {submittedQuestion && (
                     <div className="spread-question-display">
-                        <span className="spread-question-label">Your question:</span>
+                        <span className="spread-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('yourQuestion', lang)}</span>
                         <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
                     </div>
                 )}

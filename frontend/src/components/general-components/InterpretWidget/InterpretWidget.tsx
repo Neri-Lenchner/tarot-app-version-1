@@ -2,7 +2,8 @@ import { JSX, useEffect, useState } from 'react';
 import { interpretService } from '../../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState, ensureHebrewTranslation, waitForHebrewTranslation } from '../../../state/interpret-state';
 import { authStore } from '../../../state/auth-state';
-import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { langStore, LangActionType, useLang } from '../../../state/lang-state';
+import { translate, POSITION_HE } from '../../../state/translations';
 import { readingService } from '../../../services/ReadingService';
 import { ICombinationMatch } from '../../../arrays-&-models/combinationMatch.interface';
 import { ITarotCard } from '../../../arrays-&-models/tarot-deck-array/tarotCard.interface';
@@ -19,23 +20,6 @@ interface IInterpretWidgetProps {
     isOpen: boolean;
     onToggle: () => void;
 }
-
-// Matches the Hebrew glossary the backend translates position names through
-// (tarot.service.ts) — used to recognize a paragraph's own position even
-// when the reading is displayed in Hebrew.
-const POSITION_HE: Record<string, string> = {
-    'Past': 'עבר',
-    'Present': 'הווה',
-    'Future': 'עתיד',
-    'Positive Energy': 'אנרגיה חיובית',
-    'Negative Energy': 'אנרגיה שלילית',
-    'Near Future': 'עתיד קרוב',
-    'Far Future': 'עתיד רחוק',
-    'Inside': 'עולם פנימי',
-    'Outside': 'עולם חיצוני',
-    'Fears': 'פחדים',
-    'Potential': 'פוטנציאל',
-};
 
 function renderInterpretation(text: string, cards: ITarotCard[], positions: string[]): JSX.Element[] {
     const lines = text.split('\n').filter(line => line.trim() !== '');
@@ -83,7 +67,7 @@ function renderInterpretation(text: string, cards: ITarotCard[], positions: stri
 
 export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
-    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
+    const lang = useLang();
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const [saved, setSaved] = useState(false);
     const [isSaving, setIsSaving] = useState(false);
@@ -93,13 +77,6 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         const unsubscribe = interpretStore.subscribe(() => {
             setStored(interpretStore.getState());
             setSaved(false);
-        });
-        return unsubscribe;
-    }, []);
-
-    useEffect(() => {
-        const unsubscribe = langStore.subscribe(() => {
-            setLang(langStore.getState().lang);
         });
         return unsubscribe;
     }, []);
@@ -135,7 +112,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
             );
             setSaved(true);
         } catch {
-            alert('Failed to save reading. Please try again.');
+            alert(translate('failedSave', lang));
         } finally {
             setIsSaving(false);
         }
@@ -153,7 +130,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
             interpretStore.dispatch({
                 type: InterpretActionType.SetEnglish,
                 spreadType,
-                payload: { en: 'Failed to get interpretation. Please try again.' },
+                payload: { en: translate('failedInterpretation', 'en') },
             });
         } finally {
             setIsInterpreting(false);
@@ -178,7 +155,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
             {isOpen && (
                 <div className="iw-panel">
                     <div className="iw-header">
-                        <span>Reading Interpretation</span>
+                        <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('readingInterpretation', lang)}</span>
                         {canToggle && (
                             <button className="iw-lang-btn" onClick={toggleLang}>
                                 {lang === 'en' ? 'HE' : 'EN'}
@@ -188,28 +165,28 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                     <div className="iw-body">
                         {question && (
                             <div className="iw-question-display">
-                                <span className="iw-question-label">Question</span>
+                                <span className="iw-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('question', lang)}</span>
                                 <p className="iw-question-text" dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}>{question}</p>
                             </div>
                         )}
-                        <button className="iw-btn" onClick={interpret} disabled={isInterpreting}>
-                            {isInterpreting ? 'Reading the cards...' : canToggle ? 'Re-interpret' : 'Interpret Reading'}
+                        <button className="iw-btn" onClick={interpret} disabled={isInterpreting} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            {isInterpreting ? translate('readingCards', lang) : canToggle ? translate('reInterpret', lang) : translate('interpretReading', lang)}
                         </button>
                         {isInterpreting && (
                             <div className="iw-spinner-wrap">
                                 <div className="iw-spinner" />
-                                <span className="iw-spinner-text">The cards are speaking...</span>
+                                <span className="iw-spinner-text" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('cardsSpeaking', lang)}</span>
                             </div>
                         )}
                         {canToggle && loggedIn && (
-                            <button className="iw-save-btn" onClick={saveReading} disabled={saved || isSaving}>
-                                {saved ? 'Saved ✓' : isSaving ? 'Saving...' : 'Save Reading'}
+                            <button className="iw-save-btn" onClick={saveReading} disabled={saved || isSaving} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                                {saved ? translate('saved', lang) : isSaving ? translate('saving', lang) : translate('saveReading', lang)}
                             </button>
                         )}
                         {isTranslating && (
                             <div className="iw-spinner-wrap">
                                 <div className="iw-spinner" />
-                                <span className="iw-spinner-text">Translating to Hebrew...</span>
+                                <span className="iw-spinner-text" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('translatingHebrew', lang)}</span>
                             </div>
                         )}
                         {current && !isTranslating && (

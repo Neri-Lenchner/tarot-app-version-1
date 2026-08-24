@@ -6,8 +6,11 @@ import './TarotDeck.css';
 import {JSX, useEffect, useState} from "react";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
+import {useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 
 export function TarotDeck() {
+    const lang = useLang();
     const [apiCards, setApiCards] = useState<TarotCardData[]>(deckService.tarotCardsDetails);
     const [selectedCard, setSelectedCard] = useState<ITarotCard | null>(null);
 
@@ -39,11 +42,11 @@ export function TarotDeck() {
                         <h3 className="card-modal-name">{selectedCard.name}</h3>
                         {selectedApiCard ? (
                             <>
-                                <p className="card-modal-meaning"><strong>Meaning:</strong> {selectedApiCard.meaning_up}</p>
+                                <p className="card-modal-meaning"><strong>{translate('meaning', lang)}</strong> {selectedApiCard.meaning_up}</p>
                                 <p className="card-modal-desc">{selectedApiCard.desc}</p>
                             </>
                         ) : (
-                            <p className="card-modal-meaning">No details available.</p>
+                            <p className="card-modal-meaning">{translate('noDetails', lang)}</p>
                         )}
                     </div>
                 </div>

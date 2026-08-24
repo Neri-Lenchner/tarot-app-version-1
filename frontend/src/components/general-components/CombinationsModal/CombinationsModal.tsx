@@ -1,9 +1,8 @@
-import { JSX, useState, useEffect } from 'react';
+import { JSX, useState } from 'react';
 import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
-import { langStore, LangActionType, Lang } from '../../../state/lang-state';
+import { langStore, LangActionType, useLang } from '../../../state/lang-state';
 import { ensureHebrewTranslation, SpreadType } from '../../../state/interpret-state';
 import './CombinationsModal.css';
-import {Unsubscribe} from "redux";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
 
@@ -17,13 +16,7 @@ interface ICombinationsModalProps {
 export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
-    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
-    useEffect((): Unsubscribe => {
-        const unsubscribe: Unsubscribe = langStore.subscribe((): void => {
-            setLang(langStore.getState().lang);
-        });
-        return unsubscribe;
-    }, []);
+    const lang = useLang();
 
     const toggleLang = (): void => {
         langStore.dispatch({ type: LangActionType.Toggle });

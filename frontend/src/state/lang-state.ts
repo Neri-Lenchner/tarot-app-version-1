@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+import { useEffect, useState } from 'react';
 
 export type Lang = 'en' | 'he';
 
@@ -28,3 +29,14 @@ function langReducer(state: ILangState = { lang: 'en' }, action: ILangAction): I
 }
 
 export const langStore = createStore(langReducer);
+
+// Subscribes a component to the global language, re-rendering it whenever
+// the header's HE/EN toggle (or any other langStore dispatch) fires.
+export function useLang(): Lang {
+    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
+    useEffect(() => {
+        const unsubscribe = langStore.subscribe(() => setLang(langStore.getState().lang));
+        return unsubscribe;
+    }, []);
+    return lang;
+}

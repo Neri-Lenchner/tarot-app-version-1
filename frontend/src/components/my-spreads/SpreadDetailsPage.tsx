@@ -4,6 +4,8 @@ import { authStore } from "../../state/auth-state";
 import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { cardsDeck } from "../../arrays-&-models/tarot-deck-array/tarotDeck";
+import { useLang } from "../../state/lang-state";
+import { translate, translatePosition } from "../../state/translations";
 import "./MySpreadsPage.css";
 
 function formatDate(dateStr: string): string {
@@ -36,9 +38,10 @@ function renderInterpretation(text: string): JSX.Element[] {
 function SpreadDetailsPage(): JSX.Element {
     const params = useParams();
     const navigate = useNavigate();
+    const lang = useLang();
     const [reading, setReading] = useState<IReadingRecord | null>(null);
     const [loading, setLoading] = useState(true);
-    const [lang, setLang] = useState<'en' | 'he'>('en');
+    const [viewLang, setViewLang] = useState<'en' | 'he'>('en');
 
     useEffect((): void => {
         async function getSingleReading(id: number): Promise<void> {
@@ -58,20 +61,20 @@ function SpreadDetailsPage(): JSX.Element {
     }, [params.id]);
 
     if (loading) {
-        return <div className="spread-details-page"><p className="my-spreads-empty">Loading...</p></div>;
+        return <div className="spread-details-page"><p className="my-spreads-empty">{translate('loading', lang)}</p></div>;
     }
 
     if (!reading) return <></>;
 
     const cards: { name: string; position: string }[] =
         typeof reading.cards === 'string' ? JSON.parse(reading.cards) : reading.cards;
-    const spreadLabel = reading.spread_type === 'celtic' ? 'Celtic Spread' : 'Old Gipsy Spread';
+    const spreadLabel = reading.spread_type === 'celtic' ? translate('navCeltic', lang) : translate('navThreeCards', lang);
     const spreadClass = reading.spread_type === 'celtic' ? 'celtic' : 'three-cards';
-    const interpretation = lang === 'en' ? reading.interpretation_en : reading.interpretation_he;
+    const interpretation = viewLang === 'en' ? reading.interpretation_en : reading.interpretation_he;
 
     return (
-        <div className="spread-details-page">
-            <button className="spread-details-back" onClick={() => navigate('/my-spreads')}>← Back to My Spreads</button>
+        <div className="spread-details-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+            <button className="spread-details-back" onClick={() => navigate('/my-spreads')}>{translate('backToMySpreads', lang)}</button>
             <div className="spread-details-card">
                 <div className="spread-details-meta">
                     <span className="spread-details-date">{formatDate(reading.created_at)}</span>
@@ -80,20 +83,20 @@ function SpreadDetailsPage(): JSX.Element {
                 {reading.question && <p className="spread-details-question">"{reading.question}"</p>}
                 <div className="spread-details-cards">
                     {cards.map((c, i) => (
-                        <span key={i} className="spread-details-card-pill">{c.position}: {c.name}</span>
+                        <span key={i} className="spread-details-card-pill">{translatePosition(c.position, viewLang)}: {c.name}</span>
                     ))}
                 </div>
                 <div className="spread-details-actions">
-                    <button className="spread-details-lang" onClick={() => setLang(l => l === 'en' ? 'he' : 'en')}>
-                        {lang === 'en' ? 'HE' : 'EN'}
+                    <button className="spread-details-lang" onClick={() => setViewLang(l => l === 'en' ? 'he' : 'en')}>
+                        {viewLang === 'en' ? 'HE' : 'EN'}
                     </button>
                 </div>
-                <div className="spread-details-interpretation" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                <div className="spread-details-interpretation" dir={viewLang === 'he' ? 'rtl' : 'ltr'}>
                     {renderInterpretation(interpretation)}
                 </div>
                 {(reading.followup_question || reading.followup_answer) && (
-                    <div className="spread-details-interpretation" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        <h5 className="spread-details-interp-title">Follow-up Question</h5>
+                    <div className="spread-details-interpretation" dir={viewLang === 'he' ? 'rtl' : 'ltr'}>
+                        <h5 className="spread-details-interp-title">{translate('followupQuestionTitle', viewLang)}</h5>
                         {reading.followup_question && (
                             <p className="spread-details-interp-text" style={{ fontStyle: 'italic', opacity: 0.8 }}>"{reading.followup_question}"</p>
                         )}

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import { authService } from "../../services/AuthService";
+import { useLang } from "../../state/lang-state";
+import { translate } from "../../state/translations";
 import "./Auth.css";
 
 interface IRegisterForm {
@@ -17,6 +19,8 @@ function Register(): JSX.Element {
     const navigate = useNavigate();
     const [gender, setGender] = useState<'male' | 'female' | null>(null);
     const [genderError, setGenderError] = useState(false);
+    const lang = useLang();
+    const dir = lang === 'he' ? 'rtl' : 'ltr';
 
     async function onSubmit(data: IRegisterForm): Promise<void> {
         if (!gender) { setGenderError(true); return; }
@@ -25,23 +29,23 @@ function Register(): JSX.Element {
             navigate("/");
         } catch (err) {
             const message = axios.isAxiosError<{ message?: string }>(err) ? err.response?.data?.message : undefined;
-            alert(message || "Registration failed");
+            alert(message || translate('registrationFailed', lang));
         }
     }
 
     return (
         <div className="auth-page">
-            <div className="auth-card">
+            <div className="auth-card" dir={dir}>
                 <h2 className="auth-title">
-                    Create Account
+                    {translate('createAccount', lang)}
                 </h2>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="auth-form">
                     <label>
-                        First Name
+                        {translate('firstName', lang)}
                     </label>
-                    <input {...register("firstName", { required: "First name is required" })} />
+                    <input {...register("firstName", { required: translate('firstNameRequired', lang) })} />
                     {
                         errors.firstName &&
                         <span className="auth-error">
@@ -50,9 +54,9 @@ function Register(): JSX.Element {
                     }
 
                     <label>
-                        Last Name
+                        {translate('lastName', lang)}
                     </label>
-                    <input {...register("lastName", { required: "Last name is required" })} />
+                    <input {...register("lastName", { required: translate('lastNameRequired', lang) })} />
                     {
                         errors.lastName &&
                         <span className="auth-error">
@@ -61,9 +65,9 @@ function Register(): JSX.Element {
                     }
 
                     <label>
-                        Email
+                        {translate('email', lang)}
                     </label>
-                    <input type="email" {...register("email", { required: "Email is required" })} />
+                    <input type="email" {...register("email", { required: translate('emailRequired', lang) })} />
                     {
                         errors.email &&
                         <span className="auth-error">
@@ -72,11 +76,11 @@ function Register(): JSX.Element {
                     }
 
                     <label>
-                        Password
+                        {translate('password', lang)}
                     </label>
                     <input type="password" {...register("password", {
-                        required: "Password is required",
-                        minLength: { value: 4, message: "At least 4 characters"}
+                        required: translate('passwordRequired', lang),
+                        minLength: { value: 4, message: translate('passwordMinLength', lang) }
                     })} />
                     {
                         errors.password &&
@@ -85,31 +89,31 @@ function Register(): JSX.Element {
                         </span>
                     }
 
-                    <label>I am a...</label>
+                    <label>{translate('iAmA', lang)}</label>
                     <div className="auth-gender-toggle">
                         <button
                             type="button"
                             className={`auth-gender-btn${gender === 'male' ? ' active' : ''}`}
                             onClick={() => { setGender('male'); setGenderError(false); }}
-                        >He ♂</button>
+                        >{translate('genderMale', lang)}</button>
                         <button
                             type="button"
                             className={`auth-gender-btn${gender === 'female' ? ' active' : ''}`}
                             onClick={() => { setGender('female'); setGenderError(false); }}
-                        >She ♀</button>
+                        >{translate('genderFemale', lang)}</button>
                     </div>
-                    {genderError && <span className="auth-error">Please select He or She</span>}
+                    {genderError && <span className="auth-error">{translate('selectGender', lang)}</span>}
 
                     <button
                         type="submit"
                         className="auth-btn">
-                        Register
+                        {translate('register', lang)}
                     </button>
                 </form>
                 <p className="auth-link-text">
-                    Already have an account?
+                    {translate('alreadyHaveAccount', lang)}
                 <NavLink to="/login">
-                    Login
+                    {translate('login', lang)}
                 </NavLink></p>
             </div>
         </div>

@@ -11,7 +11,8 @@ import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.inter
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
-import {langStore, Lang} from "../../../state/lang-state";
+import {useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 import {combinationsService, filterByProximity, CELTIC_ADJACENCY} from "../../../services/CombinationsService";
 
 const POSITIONS = [
@@ -32,7 +33,7 @@ export function CelticSpreadGlobal(): JSX.Element {
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
     const [submittedQuestionHe, setSubmittedQuestionHe] = useState('');
-    const [lang, setLang] = useState<Lang>(langStore.getState().lang);
+    const lang = useLang();
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
@@ -54,13 +55,6 @@ export function CelticSpreadGlobal(): JSX.Element {
         localStorage.setItem("isSpread", JSON.stringify(isSpread));
         localStorage.setItem("selectedCards", JSON.stringify(selectedCards));
     }, [isSpread, selectedCards]);
-
-    useEffect((): (() => void) => {
-        const unsubscribe = langStore.subscribe((): void => {
-            setLang(langStore.getState().lang);
-        });
-        return unsubscribe;
-    }, []);
 
     const spreadThem: () => void = (): void => {
         if (question.trim()) {
@@ -121,9 +115,9 @@ export function CelticSpreadGlobal(): JSX.Element {
                 <input
                     className="spread-question-input"
                     type="text"
-                    placeholder="What is your question? / מה שאלתך לקלפים?"
+                    placeholder={translate('questionPlaceholder', lang)}
                     value={question}
-                    dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
+                    dir={lang === 'he' || /[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
                     onChange={e => setQuestion(e.target.value)}
                     onKeyDown={e => e.key === 'Enter' && spreadThem()}
                     onFocus={() => { if (isSpread) clearSpread(); }}
@@ -134,12 +128,13 @@ export function CelticSpreadGlobal(): JSX.Element {
                     className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
                     onClick={() => setIsThirdPerson(p => !p)}
                     type="button"
+                    dir={lang === 'he' ? 'rtl' : 'ltr'}
                 >
-                    👤 Reading about someone else
+                    {translate('thirdPersonToggle', lang)}
                 </button>
                 {submittedQuestion && (
                     <div className="spread-question-display">
-                        <span className="spread-question-label">Your question:</span>
+                        <span className="spread-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('yourQuestion', lang)}</span>
                         <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(displayQuestion) ? 'rtl' : 'ltr'}>{displayQuestion}</span>
                     </div>
                 )}
