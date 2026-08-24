@@ -59,6 +59,8 @@ export function CelticSpreadGlobal(): JSX.Element {
         setSelectedCards(chosen);
         setIsSpread(bool);
         setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
         combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
             setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));

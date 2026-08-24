@@ -59,6 +59,8 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setSelected3Cards(chosen);
         setIsSpread3(bool);
         setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
         combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
             setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
