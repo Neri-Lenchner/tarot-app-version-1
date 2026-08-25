@@ -5,12 +5,14 @@ import Header from "./components/layout/header/Header";
 import SideBar from "./components/layout/side-bar/SideBar";
 import Routing from "./utils/Routing";
 import {deckService} from "./services/DeckService";
+import {useLang} from "./state/lang-state";
 
 const NO_NAV_ROUTES = ['/login', '/register'];
 
 function App(): JSX.Element {
     const location = useLocation();
     const hideNav = NO_NAV_ROUTES.includes(location.pathname);
+    const lang = useLang();
 
     useEffect(() => {
         async function createTarotList(): Promise<void> {
@@ -19,6 +21,13 @@ function App(): JSX.Element {
         }
         createTarotList();
     }, []);
+
+    // Hebrew text renders visually smaller than Latin at the same rem size,
+    // so bump the root font-size while Hebrew is active — every rem-sized
+    // rule in the app scales up together instead of hand-editing each one.
+    useEffect(() => {
+        document.documentElement.setAttribute('data-lang', lang);
+    }, [lang]);
 
 
   return (
