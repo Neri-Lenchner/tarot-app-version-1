@@ -72,12 +72,14 @@
     content: '';
     position: absolute;
     inset: 0;
+    border-radius: var(--radius-sm);
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
     pointer-events: none;
 }
 
 .combo-card-img {
     width: 62px;
+    border-radius: var(--radius-sm);
     border: 1px solid var(--line-soft);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }

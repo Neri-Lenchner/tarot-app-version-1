@@ -94,9 +94,9 @@
     --font-heading-he: 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
     --font-body-he: 'Frank Ruhl Libre', 'Noto Rashi Hebrew', serif;
 
-    /* Shape & motion — sharp edges everywhere, no rounded corners */
+    /* Shape & motion — sharp edges everywhere, except a small rounding on card images */
     --radius: 0;
-    --radius-sm: 0;
+    --radius-sm: 4px;
     --transition: 0.2s;
 
     /* Layout */

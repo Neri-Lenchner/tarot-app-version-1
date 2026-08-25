@@ -19,7 +19,8 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     useEffect(() => {
         if (!visible) return;
         const handleClick = (e: MouseEvent): void => {
-            if (!(e.target as HTMLElement).closest('.modal-widget-root')) {
+            const target = e.target as HTMLElement;
+            if (!target.closest('.modal-widget-root') && !target.closest('.header-lang-btn')) {
                 setVisible(false);
             }
         };
