@@ -118,18 +118,33 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
 
     const interpret = async (): Promise<void> => {
         setIsInterpreting(true);
+        interpretStore.dispatch({ type: InterpretActionType.BeginInterpret, spreadType });
+        const myRequestId = interpretStore.getState()[spreadType].requestId;
         try {
             const en = await interpretService.interpretSpread(spreadType, cards, positions, "en", question?.trim() || undefined, isThirdPerson, confirmedCombination);
-            interpretStore.dispatch({ type: InterpretActionType.SetEnglish, spreadType, payload: { en } });
-            ensureHebrewTranslation(spreadType);
+            // Only commit if nothing superseded this request (another
+            // interpret call, or the spread being cleared) while it was in
+            // flight — e.g. the user navigating away without triggering a
+            // new one still lets this result land normally when it's done.
+            if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+                interpretStore.dispatch({ type: InterpretActionType.SetEnglish, spreadType, payload: { en } });
+                ensureHebrewTranslation(spreadType);
+            }
         } catch {
-            interpretStore.dispatch({
-                type: InterpretActionType.SetEnglish,
-                spreadType,
-                payload: { en: translate('failedInterpretation', 'en') },
-            });
+            if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+                interpretStore.dispatch({
+                    type: InterpretActionType.SetEnglish,
+                    spreadType,
+                    payload: { en: translate('failedInterpretation', 'en') },
+                });
+            }
         } finally {
-            setIsInterpreting(false);
+            // Guard against a stale call's finally clearing the spinner for
+            // a newer request that's still running on this same widget
+            // (e.g. confirming a combination mid-flight starts a second call).
+            if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+                setIsInterpreting(false);
+            }
         }
     };
 

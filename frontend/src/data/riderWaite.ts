@@ -167,287 +167,399 @@ export const riderWaiteCards: IRiderWaiteCard[] = [
     {
         name: "Ace of Cups",
         meaning_up: "House of the true heart, joy, content, abode, nourishment, abundance, fertility; Holy Table, felicity hereof.",
-        desc: "The waters are beneath, and thereon are water-lilies; the hand issues from the cloud, holding in its palm the cup, from which four streams are pouring; a dove, bearing in its bill a cross-marked Host, descends to place the Wafer in the Cup; the dew of water is falling on all sides. It is an intimation of that which may lie behind the Lesser Arcana."
+        desc: "The waters are beneath, and thereon are water-lilies; the hand issues from the cloud, holding in its palm the cup, from which four streams are pouring; a dove, bearing in its bill a cross-marked Host, descends to place the Wafer in the Cup; the dew of water is falling on all sides. It is an intimation of that which may lie behind the Lesser Arcana.",
+        meaning_up_he: "בית הלב האמיתי, שמחה, שביעות רצון, מעון, מזון, שפע, פוריות; שולחן הקודש, האושר הטמון בו.",
+        desc_he: "המים למטה, ועליהם שושני מים; היד יוצאת מן הענן, אוחזת בכפה את הגביע, שממנו נשפכים ארבעה זרמים; יונה, נושאת בפיה לחם קודש מסומן בצלב, יורדת להניח את הוואפר בגביע; טל המים נופל מכל עבר. זהו רמז למה שעשוי לטמון בו הארקנה הקטנה."
     },
     {
         name: "Two of Cups",
         meaning_up: "Love, passion, friendship, affinity, union, concord, sympathy, the interrelation of the sexes, and--as a suggestion apart from all offices of divination--that desire which is not in Nature, but by which Nature is sanctified.",
-        desc: "A youth and maiden are pledging one another, and above their cups rises the Caduceus of Hermes, between the great wings of which there appears a lion's head. It is a variant of a sign which is found in a few old examples of this card. Some curious emblematical meanings are attached to it, but they do not concern us in this place."
+        desc: "A youth and maiden are pledging one another, and above their cups rises the Caduceus of Hermes, between the great wings of which there appears a lion's head. It is a variant of a sign which is found in a few old examples of this card. Some curious emblematical meanings are attached to it, but they do not concern us in this place.",
+        meaning_up_he: "אהבה, תשוקה, ידידות, קרבת נפש, איחוד, הרמוניה, אהדה, יחסי הגומלין בין המינים; ומעבר לכל תפקידי הניחוש – אותה תשוקה שאינה מן הטבע, אך באמצעותה מתקדש הטבע.",
+        desc_he: "עלם ועלמה מתחייבים זה לזה, ומעל גביעיהם מתנשא שרביט הרמס, ובין כנפיו הגדולות נראה ראש אריה. זוהי גרסה של סימן המצוי בכמה דגמים עתיקים של קלף זה. משמעויות סמליות מסוימות מיוחסות לו, אך אינן נוגעות לענייננו כאן."
     },
     {
         name: "Three of Cups",
         meaning_up: "The conclusion of any matter in plenty, perfection and merriment; happy issue, victory, fulfilment, solace, healing.",
-        desc: "Maidens in a garden-ground with cups uplifted, as if pledging one another."
+        desc: "Maidens in a garden-ground with cups uplifted, as if pledging one another.",
+        meaning_up_he: "סיום כל עניין בשפע, שלמות ועליצות; תוצאה שמחה, ניצחון, מימוש, נחמה, ריפוי.",
+        desc_he: "עלמות בגן, גביעיהן מורמים, כמו מתחייבות זו לזו."
     },
     {
         name: "Four of Cups",
         meaning_up: "Weariness, disgust, aversion, imaginary vexations, as if the wine of this world had caused satiety only; another wine, as if a fairy gift, is now offered the wastrel, but he sees no consolation therein. This is also a card of blended pleasure.",
-        desc: "A young man is seated under a tree and contemplates three cups set on the grass before him; an arm issuing from a cloud offers him another cup. His expression notwithstanding is one of discontent with his environment."
+        desc: "A young man is seated under a tree and contemplates three cups set on the grass before him; an arm issuing from a cloud offers him another cup. His expression notwithstanding is one of discontent with his environment.",
+        meaning_up_he: "עייפות, גועל, סלידה, טרדות מדומיינות, כאילו יין העולם הזה גרם רק לשובע; יין אחר, כמו מתנת פיות, מוצע כעת לבזבזן, אך אין הוא רואה בכך נחמה. זהו גם קלף של הנאה מעורבת.",
+        desc_he: "צעיר יושב תחת עץ ומתבונן בשלושה גביעים המונחים על הדשא לפניו; זרוע היוצאת מענן מציעה לו גביע נוסף. הבעת פניו, למרות זאת, מבטאת אי-שביעות רצון מסביבתו."
     },
     {
         name: "Five of Cups",
         meaning_up: "It is a card of loss, but something remains over; three have been taken, but two are left; it is a card of inheritance, patrimony, transmission, but not corresponding to expectations; with some interpreters it is a card of marriage, but not without bitterness or frustration.",
-        desc: "A dark, cloaked figure, looking sideways at three prone cups two others stand upright behind him; a bridge is in the background, leading to a small keep or holding. It is a card of loss, but something remains over; three have been taken, but two are left; it is a card of inheritance, patrimony, transmission, but not corresponding to expectations; with some interpreters it is a card of marriage, but not without bitterness or frustration."
+        desc: "A dark, cloaked figure, looking sideways at three prone cups two others stand upright behind him; a bridge is in the background, leading to a small keep or holding. It is a card of loss, but something remains over; three have been taken, but two are left; it is a card of inheritance, patrimony, transmission, but not corresponding to expectations; with some interpreters it is a card of marriage, but not without bitterness or frustration.",
+        meaning_up_he: "קלף של אובדן, אך משהו נותר; שלושה נלקחו, אך שניים נשארו; קלף של ירושה, נחלת אבות, העברה – שאינה תואמת את הציפיות; אצל פרשנים מסוימים קלף של נישואין, אך לא בלא מרירות או תסכול.",
+        desc_he: "דמות עוטה גלימה כהה, מביטה הצידה בשלושה גביעים הפוכים; שני גביעים נוספים ניצבים זקופים מאחוריה; ברקע נראה גשר, המוביל אל מצודה או אחוזה קטנה. זה קלף של אובדן, אך משהו נותר; שלושה נלקחו, אך שניים נשארו; קלף של ירושה, נחלה, העברה – שאינה תואמת את הציפיות; אצל פרשנים מסוימים קלף של נישואין, אך לא בלא מרירות או תסכול."
     },
     {
         name: "Six of Cups",
         meaning_up: "A card of the past and of memories, looking back, as--for example--on childhood; happiness, enjoyment, but coming rather from the past; things that have vanished. Another reading reverses this, giving new relations, new knowledge, new environment.",
-        desc: "Children in an old garden, their cups filled with flowers."
+        desc: "Children in an old garden, their cups filled with flowers.",
+        meaning_up_he: "קלף של עבר וזיכרונות, מבט לאחור – למשל אל הילדות; אושר והנאה, אך הבאים מן העבר; דברים שחלפו. קריאה אחרת הופכת זאת, ומעניקה קשרים חדשים, ידע חדש, סביבה חדשה.",
+        desc_he: "ילדים בגן ישן, גביעיהם מלאים פרחים."
     },
     {
         name: "Seven of Cups",
         meaning_up: "Fairy favours, images of reflection, sentiment, imagination, things seen in the glass of contemplation; some attainment in these degrees, but nothing permanent or substantial is suggested.",
-        desc: "Strange chalices of vision, but the images are more especially those of the fantastic spirit."
+        desc: "Strange chalices of vision, but the images are more especially those of the fantastic spirit.",
+        meaning_up_he: "חסדי פיות, דמויות של הרהור, רגש, דמיון, דברים הנראים בזכוכית ההתבוננות; השגה מסוימת בדרגות אלה, אך דבר של קבע או ממש אינו נרמז.",
+        desc_he: "גביעי חזון מוזרים, אך הדמויות הן בעיקר של הרוח הפנטסטית."
     },
     {
         name: "Eight of Cups",
         meaning_up: "The card speaks for itself on the surface, but other readings are entirely antithetical--giving joy, mildness, timidity, honour, modesty. In practice, it is usually found that the card shews the decline of a matter, or that a matter which has been thought to be important is really of slight consequence--either for good or evil.",
-        desc: "A man of dejected aspect is deserting the cups of his felicity, enterprise, undertaking or previous concern."
+        desc: "A man of dejected aspect is deserting the cups of his felicity, enterprise, undertaking or previous concern.",
+        meaning_up_he: "הקלף מדבר בעד עצמו על פני השטח, אך פרשנויות אחרות הן הפוכות לחלוטין – שמחה, עדינות, ביישנות, כבוד, צניעות. בפועל נמצא בדרך כלל שהקלף מראה דעיכה של עניין, או שעניין שנחשב חשוב הוא למעשה קל ערך – לטוב או לרע.",
+        desc_he: "אדם בעל ארשת נכאים נוטש את גביעי אושרו, מפעלו, יוזמתו או עניינו הקודם."
     },
     {
         name: "Nine of Cups",
         meaning_up: "Concord, contentment, physical bien-être; also victory, success, advantage; satisfaction for the Querent or person for whom the consultation is made.",
-        desc: "A goodly personage has feasted to his heart's content, and abundant refreshment of wine is on the arched counter behind him, seeming to indicate that the future is also assured. The picture offers the material side only, but there are other aspects."
+        desc: "A goodly personage has feasted to his heart's content, and abundant refreshment of wine is on the arched counter behind him, seeming to indicate that the future is also assured. The picture offers the material side only, but there are other aspects.",
+        meaning_up_he: "הרמוניה, שביעות רצון, רווחה גופנית; גם ניצחון, הצלחה, יתרון; סיפוק עבור השואל או האדם שלמענו נערכת ההתייעצות.",
+        desc_he: "דמות מכובדת סעדה לשובע רצונה, ורענון יין רב מונח על הדלפק הקמור מאחוריה, כמסמן שגם העתיד מובטח. התמונה מציעה רק את הצד החומרי, אך יש היבטים נוספים."
     },
     {
         name: "Ten of Cups",
         meaning_up: "Contentment, repose of the entire heart; the perfection of that state; also perfection of human love and friendship; if with several picture-cards, a person who is taking charge of the Querent's interests; also the town, village or country inhabited by the Querent.",
-        desc: "Appearance of Cups in a rainbow; it is contemplated in wonder and ecstacy by a man and woman below, evidently husband and wife. His right arm is about her; his left is raised upward; she raises her right arm. The two children dancing near them have not observed the prodigy but are happy after their own manner. There is a home-scene beyond."
+        desc: "Appearance of Cups in a rainbow; it is contemplated in wonder and ecstacy by a man and woman below, evidently husband and wife. His right arm is about her; his left is raised upward; she raises her right arm. The two children dancing near them have not observed the prodigy but are happy after their own manner. There is a home-scene beyond.",
+        meaning_up_he: "שביעות רצון, מנוחת הלב כולו; שלמות אותו מצב; גם שלמות האהבה והידידות האנושית; אם לצידו קלפי דמות רבים – אדם המטפל בענייני השואל; גם העיר, הכפר או הארץ שבה מתגורר השואל.",
+        desc_he: "הופעת גביעים בקשת בענן; נשקפת בפליאה וחדוות נפש על ידי גבר ואישה למטה, ככל הנראה בעל ואישה. זרועו הימנית חובקת אותה; שמאלו מורמת כלפי מעלה; היא מרימה את זרועה הימנית. שני ילדים הרוקדים לידם לא הבחינו בפלא אך מאושרים בדרכם שלהם. ברקע נשקף בית משפחתי."
     },
     {
         name: "Page of Cups",
         meaning_up: "Fair young man, one impelled to render service and with whom the Querent will be connected; a studious youth; news, message; application, reflection, meditation; also these things directed to business.",
-        desc: "A fair, pleasing, somewhat effeminate page, of studious and intent aspect, contemplates a fish rising from a cup to look at him. It is the pictures of the mind taking form."
+        desc: "A fair, pleasing, somewhat effeminate page, of studious and intent aspect, contemplates a fish rising from a cup to look at him. It is the pictures of the mind taking form.",
+        meaning_up_he: "עלם בהיר, נכון להגיש שירות ואשר השואל יתחבר אליו; נער שקדן; חדשות, מסר; שקדנות, הרהור, מדיטציה; וכן דברים אלה המכוונים לעסקים.",
+        desc_he: "עלם בהיר, נעים ומעט נשי, בעל ארשת שקדנית ודרוכה, מתבונן בדג העולה מגביע להביט בו. אלה תמונות הנפש הלובשות צורה."
     },
     {
         name: "Knight of Cups",
         meaning_up: "Arrival, approach--sometimes that of a messenger; advances, proposition, demeanour, invitation, incitement.",
-        desc: "Graceful, but not warlike; riding quietly, wearing a winged helmet, referring to those higher graces of the imagination which sometimes characterize this card. He too is a dreamer, but the images of the side of sense haunt him in his vision."
+        desc: "Graceful, but not warlike; riding quietly, wearing a winged helmet, referring to those higher graces of the imagination which sometimes characterize this card. He too is a dreamer, but the images of the side of sense haunt him in his vision.",
+        meaning_up_he: "הגעה, התקרבות – לעיתים של שליח; התקדמות, הצעה, התנהגות, הזמנה, גירוי.",
+        desc_he: "חינני, אך לא לוחמני; רוכב בשלווה, חובש קסדה מכונפת, המרמזת על החסד הנעלה יותר של הדמיון האופייני לקלף זה לעיתים. גם הוא חולם, אך דמויות עולם החושים רודפות אותו בחזונו."
     },
     {
         name: "Queen of Cups",
         meaning_up: "Good, fair woman; honest, devoted woman, who will do service to the Querent; loving intelligence, and hence the gift of vision; success, happiness, pleasure; also wisdom, virtue; a perfect spouse and a good mother.",
-        desc: "Beautiful, fair, dreamy--as one who sees visions in a cup. This is, however, only one of her aspects; she sees, but she also acts, and her activity feeds her dream."
+        desc: "Beautiful, fair, dreamy--as one who sees visions in a cup. This is, however, only one of her aspects; she sees, but she also acts, and her activity feeds her dream.",
+        meaning_up_he: "אישה טובה ובהירה; אישה כנה ומסורה, שתשרת את השואל; תבונה אוהבת, ומכאן מתנת החזון; הצלחה, אושר, עונג; גם חוכמה, מידה טובה; בת זוג מושלמת ואם טובה.",
+        desc_he: "יפה, בהירה, חולמנית – כמי שרואה חזיונות בתוך גביע. זהו עם זאת רק אחד מהיבטיה; היא רואה, אך גם פועלת, ופעילותה ניזונה מחלומה."
     },
     {
         name: "King of Cups",
         meaning_up: "Fair man, man of business, law, or divinity; responsible, disposed to oblige the Querent; also equity, art and science, including those who profess science, law and art; creative intelligence.",
-        desc: "He holds a short sceptre in his left hand and a great cup in his right; his throne is set upon the sea; on one side a ship is riding and on the other a dolphin is leaping. The implicit is that the Sign of the Cup naturally refers to water, which appears in all the court cards."
+        desc: "He holds a short sceptre in his left hand and a great cup in his right; his throne is set upon the sea; on one side a ship is riding and on the other a dolphin is leaping. The implicit is that the Sign of the Cup naturally refers to water, which appears in all the court cards.",
+        meaning_up_he: "איש בהיר, איש עסקים, משפט או דת; אחראי, נוטה לרצות את השואל; גם יושר, אמנות ומדע, לרבות בעלי מקצוע במדע, במשפט ובאמנות; תבונה יוצרת.",
+        desc_he: "בידו השמאלית שרביט קצר, ובימינו גביע גדול; כסאו מוצב על הים; מצידו האחד ספינה שטה, ומצידו האחר דולפין קופץ. המשתמע הוא שסימן הגביע מתייחס באורח טבעי למים, המופיע בכל קלפי החצר."
     },
 
     // ── SWORDS ────────────────────────────────────────────────────────────────
     {
         name: "Ace of Swords",
         meaning_up: "Triumph, the excessive degree in everything, conquest, triumph of force. It is a card of great force, in love as well as in hatred. The crown may carry a much higher significance than comes usually within the sphere of fortune-telling.",
-        desc: "A hand issues from a cloud, grasping a sword, the point of which is encircled by a crown."
+        desc: "A hand issues from a cloud, grasping a sword, the point of which is encircled by a crown.",
+        meaning_up_he: "ניצחון, המידה הקיצונית שבכול, כיבוש, ניצחון הכוח. קלף של עוצמה רבה, באהבה כמו בשנאה. הכתר עשוי לשאת משמעות נעלה בהרבה מזו הרגילה בתחום קריאת המזל.",
+        desc_he: "יד יוצאת מענן, אוחזת בחרב, וקצה להבה מוקף כתר."
     },
     {
         name: "Two of Swords",
         meaning_up: "Conformity and the equipoise which it suggests, courage, friendship, concord in a state of arms; another reading gives tenderness, affection, intimacy. The suggestion of harmony and other favourable readings must be considered in a qualified manner, as Swords generally are not symbolical of beneficent forces in human affairs.",
-        desc: "A hoodwinked female figure balances two swords upon her shoulders."
+        desc: "A hoodwinked female figure balances two swords upon her shoulders.",
+        meaning_up_he: "הסכמה ושיווי המשקל הנרמז ממנה, אומץ, ידידות, הרמוניה במצב חימוש; קריאה אחרת מעניקה עדינות, חיבה, קרבה. יש להתייחס לרמז ההרמוניה ולקריאות חיוביות אחרות בהסתייגות, שכן החרבות בדרך כלל אינן מסמלות כוחות מיטיבים בענייני אדם.",
+        desc_he: "דמות נשית מכוסת עיניים משווה שיווי משקל לשתי חרבות על כתפיה."
     },
     {
         name: "Three of Swords",
         meaning_up: "Removal, absence, delay, division, rupture, dispersion, and all that the design signifies naturally, being too simple and obvious to call for specific enumeration.",
-        desc: "Three swords piercing a heart; cloud and rain behind."
+        desc: "Three swords piercing a heart; cloud and rain behind.",
+        meaning_up_he: "עקירה, היעדרות, עיכוב, פילוג, קרע, פיזור, וכל מה שהעיצוב מסמן באורח טבעי, פשוט וברור מכדי לדרוש פירוט מיוחד.",
+        desc_he: "שלוש חרבות חודרות לב; עננים וגשם ברקע."
     },
     {
         name: "Four of Swords",
         meaning_up: "Vigilance, retreat, solitude, hermit's repose, exile, tomb and coffin. It is these last that have suggested the design.",
-        desc: "The effigy of a knight in the attitude of prayer, at full length upon his tomb."
+        desc: "The effigy of a knight in the attitude of prayer, at full length upon his tomb.",
+        meaning_up_he: "עירנות, נסיגה, בדידות, מנוחת נזיר, גלות, קבר וארון. אלה האחרונים הם שהשראו את העיצוב.",
+        desc_he: "דמות אביר בתפילה, בגודל מלא, על גבי קברו."
     },
     {
         name: "Five of Swords",
         meaning_up: "Degradation, destruction, revocation, infamy, dishonour, loss, with the variants and analogues of these.",
-        desc: "A disdainful man looks after two retreating and dejected figures. Their swords lie upon the ground. He carries two others on his left shoulder, and a third sword is in his right hand, point to earth. He is the master in possession of the field."
+        desc: "A disdainful man looks after two retreating and dejected figures. Their swords lie upon the ground. He carries two others on his left shoulder, and a third sword is in his right hand, point to earth. He is the master in possession of the field.",
+        meaning_up_he: "השפלה, הרס, ביטול, קלון, חוסר כבוד, אובדן, על גווניהם ונגזרותיהם.",
+        desc_he: "איש בז מביט אחר שתי דמויות נסוגות ומדוכאות. חרבותיהן מונחות על הקרקע. הוא נושא שתיים נוספות על כתפו השמאלית, וחרב שלישית בידו הימנית, חודה לאדמה. הוא האדון השולט בשדה."
     },
     {
         name: "Six of Swords",
         meaning_up: "Journey by water, route, way, envoy, commissionary, expedient.",
-        desc: "A ferryman carrying passengers in his punt to the further shore. The course is smooth, and seeing that the freight is light, it may be noted that the work is not beyond his strength."
+        desc: "A ferryman carrying passengers in his punt to the further shore. The course is smooth, and seeing that the freight is light, it may be noted that the work is not beyond his strength.",
+        meaning_up_he: "מסע במים, דרך, נתיב, שליח, ציר, אמצעי מועיל.",
+        desc_he: "מעבורתן נושא נוסעים בסירתו אל החוף שממול. המסלול חלק, ובראותו שהמטען קל, ייתכן שהמשימה אינה מעבר לכוחו."
     },
     {
         name: "Seven of Swords",
         meaning_up: "Design, attempt, wish, hope, confidence; also quarrelling, a plan that may fail, annoyance. The design is uncertain in its import, because the significations are widely at variance with each other.",
-        desc: "A man in the act of carrying away five swords rapidly; the two others of the card remain stuck in the ground. A camp is close at hand."
+        desc: "A man in the act of carrying away five swords rapidly; the two others of the card remain stuck in the ground. A camp is close at hand.",
+        meaning_up_he: "תכנון, ניסיון, משאלה, תקווה, ביטחון; גם קטטה, תוכנית העלולה להיכשל, טרדה. משמעות העיצוב אינה ודאית, שכן הפרשנויות שונות זו מזו במידה רבה.",
+        desc_he: "אדם הנושא חמש חרבות במהירות; שתי החרבות הנוספות שבקלף נותרות תקועות באדמה. מחנה ניצב סמוך."
     },
     {
         name: "Eight of Swords",
         meaning_up: "Bad news, violent chagrin, crisis, censure, power in trammels, conflict, calumny; also sickness.",
-        desc: "A woman, bound and hoodwinked, with the swords of the card about her. Yet it is rather a card of temporary durance than of irretrievable bondage."
+        desc: "A woman, bound and hoodwinked, with the swords of the card about her. Yet it is rather a card of temporary durance than of irretrievable bondage.",
+        meaning_up_he: "בשורות רעות, מרירות עזה, משבר, גינוי, כוח כבול, קונפליקט, עלילת שווא; גם מחלה.",
+        desc_he: "אישה, קשורה ומכוסת עיניים, וסביבה חרבות הקלף. אך זהו קלף של כליאה זמנית ולא של שעבוד בל יימוש."
     },
     {
         name: "Nine of Swords",
         meaning_up: "Death, failure, miscarriage, delay, deception, disappointment, despair.",
-        desc: "One seated on her couch in lamentation, with the swords over her. She is as one who knows no sorrow which is like unto hers. It is a card of utter desolation."
+        desc: "One seated on her couch in lamentation, with the swords over her. She is as one who knows no sorrow which is like unto hers. It is a card of utter desolation.",
+        meaning_up_he: "מוות, כישלון, כישלון הריון, עיכוב, הונאה, אכזבה, ייאוש.",
+        desc_he: "דמות יושבת על משכבה בקינה, והחרבות מעליה. היא כמי שאינה יודעת צער כמוה. זהו קלף של שממון מוחלט."
     },
     {
         name: "Ten of Swords",
         meaning_up: "Whatsoever is intimated by the design; also pain, affliction, tears, sadness, desolation. It is not especially a card of violent death.",
-        desc: "A prostrate figure, pierced by all the swords belonging to the card."
+        desc: "A prostrate figure, pierced by all the swords belonging to the card.",
+        meaning_up_he: "כל מה שהעיצוב מרמז עליו; גם כאב, סבל, דמעות, עצב, שממה. אין זה בהכרח קלף של מוות אלים.",
+        desc_he: "דמות שרועה, חדורה בכל החרבות השייכות לקלף."
     },
     {
         name: "Page of Swords",
         meaning_up: "Authority, overseeing, secret service, vigilance, spying, examination, and the qualities thereto belonging.",
-        desc: "A lithe, active figure holds a sword upright in both hands, while in the act of swift walking. He is passing over rugged land, and about his way the clouds are collocated wildly. He is alert and lithe, looking this way and that, as if an expected enemy might appear at any moment."
+        desc: "A lithe, active figure holds a sword upright in both hands, while in the act of swift walking. He is passing over rugged land, and about his way the clouds are collocated wildly. He is alert and lithe, looking this way and that, as if an expected enemy might appear at any moment.",
+        meaning_up_he: "סמכות, פיקוח, שירות חשאי, עירנות, ריגול, בדיקה, והתכונות הנלוות לכך.",
+        desc_he: "דמות זריזה ופעלתנית אוחזת חרב זקופה בשתי ידיה, תוך כדי הליכה מהירה. היא חוצה אדמה מחוספסת, והעננים סביבה מתקבצים בפראות. היא דרוכה וזריזה, מביטה לכאן ולכאן, כמי שמצפה שאויב יופיע בכל רגע."
     },
     {
         name: "Knight of Swords",
         meaning_up: "Skill, bravery, capacity, defence, address, enmity, wrath, war, destruction, opposition, resistance, ruin. There is therefore a sense in which the card signifies death, but it carries this meaning only in its proximity to other cards of fatality.",
-        desc: "He is riding in full course, as if scattering his enemies. In the design he is really a prototypical hero of romantic chivalry. He might almost be Galahad, whose sword is swift and sure because he is clean of heart."
+        desc: "He is riding in full course, as if scattering his enemies. In the design he is really a prototypical hero of romantic chivalry. He might almost be Galahad, whose sword is swift and sure because he is clean of heart.",
+        meaning_up_he: "מיומנות, אומץ, יכולת, הגנה, תושייה, איבה, זעם, מלחמה, הרס, התנגדות, עמידות, חורבן. יש אפוא מובן שבו הקלף מסמן מוות, אך הוא נושא משמעות זו רק בקרבתו לקלפי גורל אחרים.",
+        desc_he: "הוא דוהר במלוא מהירותו, כמפזר את אויביו. בעיצוב הוא למעשה גיבור אבירי אב-טיפוס של האבירות הרומנטית. כמעט אפשר לראות בו את גאלאהד, אשר חרבו מהירה וודאית משום שהוא טהור לב."
     },
     {
         name: "Queen of Swords",
         meaning_up: "Widowhood, female sadness and embarrassment, absence, sterility, mourning, privation, separation.",
-        desc: "Her right hand raises the weapon vertically and the hilt rests on an arm of her royal chair the left hand is extended, the arm raised her countenance is severe but chastened; it suggests familiarity with sorrow. It does not represent mercy, and, her sword notwithstanding, she is scarcely a symbol of power."
+        desc: "Her right hand raises the weapon vertically and the hilt rests on an arm of her royal chair the left hand is extended, the arm raised her countenance is severe but chastened; it suggests familiarity with sorrow. It does not represent mercy, and, her sword notwithstanding, she is scarcely a symbol of power.",
+        meaning_up_he: "אלמנות, עצב ומבוכה נשיים, היעדרות, עקרות, אבל, מחסור, פרידה.",
+        desc_he: "ידה הימנית מרימה את הנשק במאונך, וניצבו נשען על זרוע כסאה המלכותי; ידה השמאלית פרושה, זרועה מורמת; ארשת פניה חמורה אך מרוככת, מרמזת על היכרות עם צער. אין היא מייצגת רחמים, ולמרות חרבה כמעט שאינה סמל לעוצמה."
     },
     {
         name: "King of Swords",
         meaning_up: "Whatsoever arises out of the idea of judgment and all its connexions-power, command, authority, militant intelligence, law, offices of the crown, and so forth.",
-        desc: "He sits in judgment, holding the unsheathed sign of his suit. He recalls, of course, the conventional Symbol of justice in the Trumps Major, and he may represent this virtue, but he is rather the power of life and death, in virtue of his office."
+        desc: "He sits in judgment, holding the unsheathed sign of his suit. He recalls, of course, the conventional Symbol of justice in the Trumps Major, and he may represent this virtue, but he is rather the power of life and death, in virtue of his office.",
+        meaning_up_he: "כל מה שנובע מרעיון המשפט וכל הנלווה אליו – כוח, פיקוד, סמכות, תבונה לוחמת, חוק, תפקידי הכתר וכיוצא באלה.",
+        desc_he: "הוא יושב לדין, אוחז בסימן הפתוח של חפיסתו. הוא מזכיר, כמובן, את סמל הצדק המקובל בקלפי הארקנה הגדולה, ואולי הוא מייצג מידה זו, אך הוא בעיקר כוח החיים והמוות, מתוקף תפקידו."
     },
 
     // ── WANDS ─────────────────────────────────────────────────────────────────
     {
         name: "Ace of Wands",
         meaning_up: "Creation, invention, enterprise, the powers which result in these; principle, beginning, source; birth, family, origin, and in a sense the virility which is behind them; the starting point of enterprises; according to another account, money, fortune, inheritance.",
-        desc: "A hand issuing from a cloud grasps a stout wand or club."
+        desc: "A hand issuing from a cloud grasps a stout wand or club.",
+        meaning_up_he: "בריאה, המצאה, יוזמה, הכוחות המולידים אותן; עיקרון, התחלה, מקור; לידה, משפחה, מוצא, ובמובן מסוים הגבריות שמאחוריהם; נקודת הפתיחה של מפעלים; ולפי גרסה אחרת – כסף, מזל, ירושה.",
+        desc_he: "יד יוצאת מענן אוחזת מקל חסון או אלה."
     },
     {
         name: "Two of Wands",
         meaning_up: "Between the alternative readings there is no marriage possible; on the one hand, riches, fortune, magnificence; on the other, physical suffering, disease, chagrin, sadness, mortification. The design gives one suggestion; here is a lord overlooking his dominion and alternately contemplating a globe; it looks like the malady, the mortification, the sadness of Alexander amidst the grandeur of this world's wealth.",
-        desc: "A tall man looks from a battlemented roof over sea and shore; he holds a globe in his right hand, while a staff in his left rests on the battlement; another is fixed in a ring. The Rose and Cross and Lily should be noticed on the left side."
+        desc: "A tall man looks from a battlemented roof over sea and shore; he holds a globe in his right hand, while a staff in his left rests on the battlement; another is fixed in a ring. The Rose and Cross and Lily should be noticed on the left side.",
+        meaning_up_he: "בין הפרשנויות החלופיות אין אפשרות פיוס; מצד אחד – עושר, מזל, פאר; מצד שני – סבל גופני, מחלה, מרירות, עצב, השפלה. העיצוב מציע רמז אחד: אדון המשקיף על מלכותו ומתבונן חליפות בכדור עולם; זה כדוגמת מחלתו, השפלתו, עצבותו של אלכסנדר בתוך הדר עושרו של העולם הזה.",
+        desc_he: "איש גבוה מביט מגג מצריח מעל ים וחוף; בידו הימנית כדור עולם, בעוד מקל בשמאלו נשען על החומה; מקל נוסף נעוץ בטבעת. יש לשים לב לוורד, הצלב והשושנה מן הצד השמאלי."
     },
     {
         name: "Three of Wands",
         meaning_up: "He symbolizes established strength, enterprise, effort, trade, commerce, discovery; those are his ships, bearing his merchandise, which are sailing over the sea. The card also signifies able co-operation in business, as if the successful merchant prince were looking from his side towards yours with a view to help you.",
-        desc: "A calm, stately personage, with his back turned, looking from a cliff's edge at ships passing over the sea. Three staves are planted in the ground, and he leans slightly on one of them."
+        desc: "A calm, stately personage, with his back turned, looking from a cliff's edge at ships passing over the sea. Three staves are planted in the ground, and he leans slightly on one of them.",
+        meaning_up_he: "הוא מסמל עוצמה מבוססת, יוזמה, מאמץ, מסחר, סחר, גילוי; אלה ספינותיו, נושאות את סחורתו, המפליגות בים. הקלף מסמן גם שיתוף פעולה מוצלח בעסקים, כאילו נסיך הסוחרים המצליח מביט מצדו לעברך במטרה לסייע לך.",
+        desc_he: "דמות רגועה ומכובדת, גבה פונה אלינו, מביטה מקצה צוק אל ספינות חולפות בים. שלושה מקלות נטועים באדמה, והוא נשען קלות על אחד מהם."
     },
     {
         name: "Four of Wands",
         meaning_up: "They are for once almost on the surface--country life, haven of refuge, a species of domestic harvest-home, repose, concord, harmony, prosperity, peace, and the perfected work of these.",
-        desc: "From the four great staves planted in the foreground there is a great garland suspended; two female figures uplift nosegays; at their side is a bridge over a moat, leading to an old manorial house."
+        desc: "From the four great staves planted in the foreground there is a great garland suspended; two female figures uplift nosegays; at their side is a bridge over a moat, leading to an old manorial house.",
+        meaning_up_he: "הפעם הן כמעט גלויות על פני השטח – חיי כפר, מפלט ומחסה, מעין חג אסיף ביתי, מנוחה, הרמוניה, שלווה, שגשוג, שלום, וההגשמה השלמה של כל אלה.",
+        desc_he: "מארבעת המקלות הגדולים הנטועים בקדמת הקלף תלוי זר גדול; שתי דמויות נשיות מרימות זרי פרחים; לצדן גשר מעל תעלה, המוביל אל בית אחוזה עתיק."
     },
     {
         name: "Five of Wands",
         meaning_up: "Imitation, as, for example, sham fight, but also the strenuous competition and struggle of the search after riches and fortune. In this sense it connects with the battle of life. Hence some attributions say that it is a card of gold, gain, opulence.",
-        desc: "A posse of youths, who are brandishing staves, as if in sport or strife. It is mimic warfare, and hereto correspond the diverse readings of the card."
+        desc: "A posse of youths, who are brandishing staves, as if in sport or strife. It is mimic warfare, and hereto correspond the diverse readings of the card.",
+        meaning_up_he: "חיקוי, למשל קרב מבוים, אך גם התחרות והמאבק הנמרצים בחיפוש אחר עושר ומזל. במובן זה הוא מתחבר למלחמת החיים. מכאן שיש המייחסים לו קלף של זהב, רווח, שפע.",
+        desc_he: "חבורת עלמים המנופפים במקלות, כאילו במשחק או בקרב. זוהי מלחמה מדומה, ולכך מתאימות הפרשנויות המגוונות של הקלף."
     },
     {
         name: "Six of Wands",
         meaning_up: "The card has been so designed that it can cover several significations; on the surface, it is a victor triumphing, but it is also great news, such as might be carried in state by the King's courier; it is expectation crowned with its own desire, the crown of hope, and so forth.",
-        desc: "A laurelled horseman bears one staff adorned with a laurel crown; footmen with staves are at his side."
+        desc: "A laurelled horseman bears one staff adorned with a laurel crown; footmen with staves are at his side.",
+        meaning_up_he: "הקלף עוצב כך שיוכל לשאת כמה משמעויות; על פני השטח – מנצח החוגג ניצחון, אך גם בשורה גדולה, כזו שעשוי לשאת שליח המלך במלוא הדרו; ציפייה המוכתרת במשאלתה שלה, כתר התקווה, וכן הלאה.",
+        desc_he: "פרש עטור זר דפנה נושא מקל אחד מעוטר בכתר דפנה; חיילי רגל בעלי מקלות לצדו."
     },
     {
         name: "Seven of Wands",
         meaning_up: "It is a card of valour, for, on the surface, six are attacking one, who has, however, the vantage position. On the intellectual plane, it signifies discussion, wordy strife; in business--negotiations, war of trade, barter, competition. It is further a card of success, for the combatant is on the top and his enemies may be unable to reach him.",
-        desc: "A young man on a craggy eminence brandishing a staff; six other staves are raised towards him from below."
+        desc: "A young man on a craggy eminence brandishing a staff; six other staves are raised towards him from below.",
+        meaning_up_he: "קלף של גבורה, שכן על פני השטח שישה תוקפים אחד, שבכל זאת נמצא בעמדת יתרון. במישור השכלי הוא מסמן ויכוח, מריבת מילים; בעסקים – משא ומתן, מלחמת סחר, תחרות. הוא גם קלף של הצלחה, שכן הלוחם נמצא למעלה ואויביו עשויים שלא להשיגו.",
+        desc_he: "עלם על גבעה סלעית מנופף במקל; שישה מקלות נוספים מורמים כלפיו מלמטה."
     },
     {
         name: "Eight of Wands",
         meaning_up: "Activity in undertakings, the path of such activity, swiftness, as that of an express messenger; great haste, great hope, speed towards an end which promises assured felicity; generally, that which is on the move; also the arrows of love.",
-        desc: "The card represents motion through the immovable-a flight of wands through an open country; but they draw to the term of their course. That which they signify is at hand; it may be even on the threshold."
+        desc: "The card represents motion through the immovable-a flight of wands through an open country; but they draw to the term of their course. That which they signify is at hand; it may be even on the threshold.",
+        meaning_up_he: "פעילות במפעלים, מסלולה של פעילות זו, מהירות – כשל שליח דחוף; חיפזון רב, תקווה רבה, מהירות אל מטרה המבטיחה אושר ודאי; באורח כללי, מה שנמצא בתנועה; גם חצי האהבה.",
+        desc_he: "הקלף מייצג תנועה דרך הבלתי נע – מעוף מקלות בשדה פתוח; אך הם מתקרבים לתום מסלולם. מה שהם מסמנים קרוב, ואף עשוי להיות כבר על הסף."
     },
     {
         name: "Nine of Wands",
         meaning_up: "The card signifies strength in opposition. If attacked, the person will meet an onslaught boldly; and his build shews, that he may prove a formidable antagonist. With this main significance there are all its possible adjuncts--delay, suspension, adjournment.",
-        desc: "The figure leans upon his staff and has an expectant look, as if awaiting an enemy. Behind are eight other staves--erect, in orderly disposition, like a palisade."
+        desc: "The figure leans upon his staff and has an expectant look, as if awaiting an enemy. Behind are eight other staves--erect, in orderly disposition, like a palisade.",
+        meaning_up_he: "הקלף מסמן עוצמה מול התנגדות. אם יותקף, יפגוש האדם את המתקפה באומץ; ומבנה גופו מראה שעשוי להיות יריב מרשים. עם משמעות עיקרית זו נלווים כל הנספחים האפשריים – עיכוב, השעיה, דחייה.",
+        desc_he: "הדמות נשענת על מקלה ובעלת מבט דרוך, כמצפה לאויב. מאחוריה שמונה מקלות נוספים – זקופים, מסודרים כמו חומת עץ."
     },
     {
         name: "Ten of Wands",
         meaning_up: "A card of many significances, and some of the readings cannot be harmonized. The chief meaning is oppression simply, but it is also fortune, gain, any kind of success, and then it is the oppression of these things. It is also a card of false-seeming, disguise, perfidy.",
-        desc: "A man oppressed by the weight of the ten staves which he is carrying."
+        desc: "A man oppressed by the weight of the ten staves which he is carrying.",
+        meaning_up_he: "קלף בעל משמעויות רבות, וחלק מהפרשנויות אינן ניתנות ליישוב. המשמעות העיקרית היא פשוט דיכוי, אך הוא גם מזל, רווח, כל סוג של הצלחה – ואז זהו הדיכוי הנובע מהם. זהו גם קלף של מראית עין כוזבת, הסוואה, בגידה.",
+        desc_he: "אדם מדוכא תחת משקל עשרת המקלות שהוא נושא."
     },
     {
         name: "Page of Wands",
         meaning_up: "Dark young man, faithful, a lover, an envoy, a postman. Beside a man, he will bear favourable testimony concerning him. A dangerous rival, if followed by the Page of Cups. Has the chief qualities of his suit. He may signify family intelligence.",
-        desc: "In a scene similar to the former, a young man stands in the act of proclamation. He is unknown but faithful, and his tidings are strange."
+        desc: "In a scene similar to the former, a young man stands in the act of proclamation. He is unknown but faithful, and his tidings are strange.",
+        meaning_up_he: "עלם כהה שיער, נאמן, מאהב, שליח, דוור. לצד גבר, יעיד עליו לטובה. יריב מסוכן, אם מלווה בנסיך הגביעים. נושא את תכונותיה העיקריות של חפיסתו. עשוי לסמן ידיעות משפחתיות.",
+        desc_he: "בסצנה דומה לקודמת, עומד עלם צעיר בפעולת הכרזה. הוא בלתי ידוע אך נאמן, ובשורתו מוזרה."
     },
     {
         name: "Knight of Wands",
         meaning_up: "Departure, absence, flight, emigration. A dark young man, friendly. Change of residence.",
-        desc: "He is shewn as if upon a journey, armed with a short wand, and although mailed is not on a warlike errand. He is passing mounds or pyramids. The motion of the horse is a key to the character of its rider, and suggests the precipitate mood, or things connected therewith."
+        desc: "He is shewn as if upon a journey, armed with a short wand, and although mailed is not on a warlike errand. He is passing mounds or pyramids. The motion of the horse is a key to the character of its rider, and suggests the precipitate mood, or things connected therewith.",
+        meaning_up_he: "עזיבה, היעדרות, בריחה, הגירה. עלם כהה שיער, ידידותי. שינוי מקום מגורים.",
+        desc_he: "הוא מוצג כביכול במסע, חמוש במקל קצר, ואף שהוא לבוש שריון אינו יוצא לשליחות מלחמתית. הוא חולף על פני תלוליות או פירמידות. תנועת הסוס היא מפתח לאופי רוכבו, ומרמזת על מזג נחפז, או דברים הקשורים בכך."
     },
     {
         name: "Queen of Wands",
         meaning_up: "A dark woman, countrywoman, friendly, chaste, loving, honourable. If the card beside her signifies a man, she is well disposed towards him; if a woman, she is interested in the Querent. Also, love of money, or a certain success in business.",
-        desc: "The Wands throughout this suit are always in leaf, as it is a suit of life and animation. Emotionally and otherwise, the Queen's personality corresponds to that of the King, but is more magnetic."
+        desc: "The Wands throughout this suit are always in leaf, as it is a suit of life and animation. Emotionally and otherwise, the Queen's personality corresponds to that of the King, but is more magnetic.",
+        meaning_up_he: "אישה כהת שיער, כפרית, ידידותית, צנועה, אוהבת, מכובדת. אם הקלף לצדה מסמן גבר, היא נוטה לטובתו; אם אישה, היא מתעניינת בשואל. גם אהבת ממון, או הצלחה מסוימת בעסקים.",
+        desc_he: "המקלות בחפיסה זו תמיד עלים, שכן זו חפיסת חיים ותנועה. מבחינה רגשית ואחרת, אישיות המלכה תואמת לזו של המלך, אך היא מגנטית יותר."
     },
     {
         name: "King of Wands",
         meaning_up: "Dark man, friendly, countryman, generally married, honest and conscientious. The card always signifies honesty, and may mean news concerning an unexpected heritage to fall in before very long.",
-        desc: "The physical and emotional nature to which this card is attributed is dark, ardent, lithe, animated, impassioned, noble. The King uplifts a flowering wand, and wears, like his three correspondences in the remaining suits, what is called a cap of maintenance beneath his crown. He connects with the symbol of the lion, which is emblazoned on the back of his throne."
+        desc: "The physical and emotional nature to which this card is attributed is dark, ardent, lithe, animated, impassioned, noble. The King uplifts a flowering wand, and wears, like his three correspondences in the remaining suits, what is called a cap of maintenance beneath his crown. He connects with the symbol of the lion, which is emblazoned on the back of his throne.",
+        meaning_up_he: "איש כהה שיער, ידידותי, כפרי, בדרך כלל נשוי, כן ומצפוני. הקלף מסמן תמיד יושר, ועשוי לרמז על בשורות בנוגע לירושה בלתי צפויה הצפויה להתקבל בקרוב.",
+        desc_he: "הטבע הגופני והרגשי המיוחס לקלף זה כהה, נלהב, גמיש, נמרץ, נסער, אציל. המלך מרים מקל פורח, ולובש, כשלוש הדמויות המקבילות לו בחפיסות האחרות, מה שנקרא כובע שמירה מתחת לכתרו. הוא מתחבר לסמל האריה, המעוטר על גב כסאו."
     },
 
     // ── PENTACLES ─────────────────────────────────────────────────────────────
     {
         name: "Ace of Pentacles",
         meaning_up: "Perfect contentment, felicity, ecstasy; also speedy intelligence; gold.",
-        desc: "A hand--issuing, as usual, from a cloud--holds up a pentacle."
+        desc: "A hand--issuing, as usual, from a cloud--holds up a pentacle.",
+        meaning_up_he: "שביעות רצון מושלמת, אושר, התעלות; גם ידיעה מהירה; זהב.",
+        desc_he: "יד – יוצאת כרגיל מענן – מרימה פנטקל."
     },
     {
         name: "Two of Pentacles",
         meaning_up: "On the one hand it is represented as a card of gaiety, recreation and its connexions, which is the subject of the design; but it is read also as news and messages in writing, as obstacles, agitation, trouble, embroilment.",
-        desc: "A young man, in the act of dancing, has a pentacle in either hand, and they are joined by that endless cord which is like the number 8 reversed."
+        desc: "A young man, in the act of dancing, has a pentacle in either hand, and they are joined by that endless cord which is like the number 8 reversed.",
+        meaning_up_he: "מצד אחד מוצג כקלף של עליזות, פנאי והנלווים אליו, שהוא נושא העיצוב; אך נקרא גם כחדשות ומסרים בכתב, כמכשולים, אי-שקט, צרה, סבך.",
+        desc_he: "עלם, בעיצומה של ריקוד, מחזיק פנטקל בכל יד, ושניהם מחוברים בחבל האינסופי הדומה לספרה 8 הפוכה."
     },
     {
         name: "Three of Pentacles",
         meaning_up: "Métier, trade, skilled labour; usually, however, regarded as a card of nobility, aristocracy, renown, glory.",
-        desc: "A sculptor at his work in a monastery. Compare the design which illustrates the Eight of Pentacles. The apprentice or amateur therein has received his reward and is now at work in earnest."
+        desc: "A sculptor at his work in a monastery. Compare the design which illustrates the Eight of Pentacles. The apprentice or amateur therein has received his reward and is now at work in earnest.",
+        meaning_up_he: "מקצוע, מסחר, עבודה מיומנת; אך בדרך כלל נחשב לקלף של אצולה, יוקרה, פרסום, תהילה.",
+        desc_he: "פסל בעבודתו במנזר. השווה לעיצוב שבקלף שמונה הפנטקלים. השוליה או החובבן שם קיבל את שכרו ועובד כעת ברצינות."
     },
     {
         name: "Four of Pentacles",
         meaning_up: "The surety of possessions, cleaving to that which one has, gift, legacy, inheritance.",
-        desc: "A crowned figure, having a pentacle over his crown, clasps another with hands and arms; two pentacles are under his feet. He holds to that which he has."
+        desc: "A crowned figure, having a pentacle over his crown, clasps another with hands and arms; two pentacles are under his feet. He holds to that which he has.",
+        meaning_up_he: "ביטחון הרכוש, היאחזות במה שיש לאדם, מתנה, ירושה, נחלה.",
+        desc_he: "דמות מוכתרת, ופנטקל מעל כתרה, מחבקת פנטקל נוסף בידיה ובזרועותיה; שני פנטקלים נוספים תחת רגליה. הוא נאחז במה שיש לו."
     },
     {
         name: "Five of Pentacles",
         meaning_up: "The card foretells material trouble above all, whether in the form illustrated--that is, destitution--or otherwise. For some cartomancists, it is a card of love and lovers-wife, husband, friend, mistress; also concordance, affinities.",
-        desc: "Two mendicants in a snow-storm pass a lighted casement."
+        desc: "Two mendicants in a snow-storm pass a lighted casement.",
+        meaning_up_he: "הקלף מבשר מעל לכול צרה חומרית, בין אם בצורה המוצגת – כלומר עוני – ובין אם באופן אחר. אצל חלק מקוראי הקלפים, זהו קלף של אהבה ואוהבים – אישה, בעל, ידיד, אהובה; גם הרמוניה, קרבת נפש.",
+        desc_he: "שני קבצנים בסופת שלג חולפים על פני חלון מואר."
     },
     {
         name: "Six of Pentacles",
         meaning_up: "Presents, gifts, gratification another account says attention, vigilance now is the accepted time, present prosperity, etc.",
-        desc: "A person in the guise of a merchant weighs money in a pair of scales and distributes it to the needy and distressed. It is a testimony to his own success in life, as well as to his goodness of heart."
+        desc: "A person in the guise of a merchant weighs money in a pair of scales and distributes it to the needy and distressed. It is a testimony to his own success in life, as well as to his goodness of heart.",
+        meaning_up_he: "מתנות, מנחות, סיפוק; גרסה אחרת אומרת תשומת לב, ערנות – עכשיו הוא הזמן המקובל, שגשוג בהווה וכדומה.",
+        desc_he: "דמות בדמות סוחר שוקלת כסף במאזניים ומחלקת אותו לנזקקים ולמצוקים. זוהי עדות להצלחתו בחיים, כמו גם לטוב לבו."
     },
     {
         name: "Seven of Pentacles",
         meaning_up: "These are exceedingly contradictory; in the main, it is a card of money, business, barter; but one reading gives altercation, quarrels--and another innocence, ingenuity, purgation.",
-        desc: "A young man, leaning on his staff, looks intently at seven pentacles attached to a clump of greenery on his right; one would say that these were his treasures and that his heart was there."
+        desc: "A young man, leaning on his staff, looks intently at seven pentacles attached to a clump of greenery on his right; one would say that these were his treasures and that his heart was there.",
+        meaning_up_he: "אלה סותרים מאוד; בעיקרו זהו קלף של כסף, עסקים, סחר חליפין; אך פרשנות אחת מעניקה מריבה, קטטות – ואחרת תמימות, כושר המצאה, טיהור.",
+        desc_he: "עלם, נשען על מקלו, מביט בעיון בשבעה פנטקלים המחוברים לצמח ירוק מימינו; כמו אומר שאלה אוצרותיו וכי לבו נתון שם."
     },
     {
         name: "Eight of Pentacles",
         meaning_up: "Work, employment, commission, craftsmanship, skill in craft and business, perhaps in the preparatory stage.",
-        desc: "An artist in stone at his work, which he exhibits in the form of trophies."
+        desc: "An artist in stone at his work, which he exhibits in the form of trophies.",
+        meaning_up_he: "עבודה, תעסוקה, עמלה, אומנות יד, מיומנות במלאכה ובעסקים, אולי בשלב ההכנה.",
+        desc_he: "אמן אבן בעבודתו, המוצגת בצורת גביעי תפארת."
     },
     {
         name: "Nine of Pentacles",
         meaning_up: "Prudence, safety, success, accomplishment, certitude, discernment.",
-        desc: "A woman, with a bird upon her wrist, stands amidst a great abundance of grapevines in the garden of a manorial house. It is a wide domain, suggesting plenty in all things. Possibly it is her own possession and testifies to material well-being."
+        desc: "A woman, with a bird upon her wrist, stands amidst a great abundance of grapevines in the garden of a manorial house. It is a wide domain, suggesting plenty in all things. Possibly it is her own possession and testifies to material well-being.",
+        meaning_up_he: "זהירות, ביטחון, הצלחה, הישג, ודאות, תבונה.",
+        desc_he: "אישה, וציפור על פרק ידה, ניצבת בתוך שפע גדול של גפנים בגן בית אחוזה. זהו תחום רחב, המרמז על שפע בכול. ייתכן שזהו רכושה שלה, ומעיד על רווחה חומרית."
     },
     {
         name: "Ten of Pentacles",
         meaning_up: "Gain, riches; family matters, archives, extraction, the abode of a family.",
-        desc: "A man and woman beneath an archway which gives entrance to a house and domain. They are accompanied by a child, who looks curiously at two dogs accosting an ancient personage seated in the foreground. The child's hand is on one of them."
+        desc: "A man and woman beneath an archway which gives entrance to a house and domain. They are accompanied by a child, who looks curiously at two dogs accosting an ancient personage seated in the foreground. The child's hand is on one of them.",
+        meaning_up_he: "רווח, עושר; ענייני משפחה, ארכיונים, מוצא, מעון המשפחה.",
+        desc_he: "גבר ואישה מתחת לשער המוביל אל בית ותחום. מלווים אותם ילד, המביט בסקרנות בשני כלבים הפונים אל דמות קשישה היושבת בקדמת הקלף. יד הילד על אחד מהם."
     },
     {
         name: "Page of Pentacles",
         meaning_up: "Application, study, scholarship, reflection another reading says news, messages and the bringer thereof; also rule, management.",
-        desc: "A youthful figure, looking intently at the pentacle which hovers over his raised hands. He moves slowly, insensible of that which is about him."
+        desc: "A youthful figure, looking intently at the pentacle which hovers over his raised hands. He moves slowly, insensible of that which is about him.",
+        meaning_up_he: "שקדנות, לימוד, מלגה, הרהור; פרשנות אחרת אומרת חדשות, מסרים ונושאיהם; גם שלטון, ניהול.",
+        desc_he: "דמות צעירה, מביטה בעיון בפנטקל המרחף מעל ידיה המורמות. היא נעה לאט, בלתי מודעת למתרחש סביבה."
     },
     {
         name: "Knight of Pentacles",
         meaning_up: "Utility, serviceableness, interest, responsibility, rectitude-all on the normal and external plane.",
-        desc: "He rides a slow, enduring, heavy horse, to which his own aspect corresponds. He exhibits his symbol, but does not look therein."
+        desc: "He rides a slow, enduring, heavy horse, to which his own aspect corresponds. He exhibits his symbol, but does not look therein.",
+        meaning_up_he: "תועלת, שירותיות, עניין, אחריות, יושרה – כל אלה במישור הרגיל והחיצוני.",
+        desc_he: "הוא רוכב על סוס איטי וסבלני, שאליו מתאימה ארשתו שלו. הוא מציג את סמלו, אך אינו מביט בו."
     },
     {
         name: "Queen of Pentacles",
         meaning_up: "Opulence, generosity, magnificence, security, liberty.",
-        desc: "The face suggests that of a dark woman, whose qualities might be summed up in the idea of greatness of soul; she has also the serious cast of intelligence; she contemplates her symbol and may see worlds therein."
+        desc: "The face suggests that of a dark woman, whose qualities might be summed up in the idea of greatness of soul; she has also the serious cast of intelligence; she contemplates her symbol and may see worlds therein.",
+        meaning_up_he: "שפע, נדיבות, הדר, ביטחון, חירות.",
+        desc_he: "הפנים מרמזות על אישה כהת שיער, שתכונותיה ניתנות לסיכום ברעיון גדלות הנפש; יש לה גם ארשת רצינית של תבונה; היא מתבוננת בסמלה ואולי רואה בו עולמות."
     },
     {
         name: "King of Pentacles",
         meaning_up: "Valour, realizing intelligence, business and normal intellectual aptitude, sometimes mathematical gifts and attainments of this kind; success in these paths.",
-        desc: "The figure calls for no special description the face is rather dark, suggesting also courage, but somewhat lethargic in tendency. The bull's head should be noted as a recurrent symbol on the throne. The sign of this suit is represented throughout as engraved or blazoned with the pentagram, typifying the correspondence of the four elements in human nature and that by which they may be governed."
+        desc: "The figure calls for no special description the face is rather dark, suggesting also courage, but somewhat lethargic in tendency. The bull's head should be noted as a recurrent symbol on the throne. The sign of this suit is represented throughout as engraved or blazoned with the pentagram, typifying the correspondence of the four elements in human nature and that by which they may be governed.",
+        meaning_up_he: "אומץ, תבונה מגשימה, כישרון עסקי ושכלי רגיל, לעיתים כישרונות מתמטיים והישגים מסוג זה; הצלחה בדרכים אלה.",
+        desc_he: "הדמות אינה דורשת תיאור מיוחד; פניה כהות למדי, מרמזות גם על אומץ, אך נוטות מעט לעצלות. יש לשים לב לראש השור כסמל חוזר על הכס. סימן חפיסה זו מיוצג לכל אורכה כחקוק או מעוטר בפנטגרם, המסמל את התאמת ארבעת היסודות בטבע האדם ואת האופן שבו ניתן לשלוט בהם."
     }
 ];

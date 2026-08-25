@@ -8,12 +8,13 @@ export type { ISpreadInterpretation };
 export type SpreadType = 'celtic' | 'three-cards';
 
 export class InterpretState {
-    celtic: ISpreadInterpretation = { en: null, he: null, heLoading: false };
-    'three-cards': ISpreadInterpretation = { en: null, he: null, heLoading: false };
+    celtic: ISpreadInterpretation = { en: null, he: null, heLoading: false, requestId: 0 };
+    'three-cards': ISpreadInterpretation = { en: null, he: null, heLoading: false, requestId: 0 };
 }
 
 // Step 2
 export enum InterpretActionType {
+    BeginInterpret = 'BeginInterpret',
     SetEnglish = 'SetEnglish',
     SetHebrew = 'SetHebrew',
     SetHebrewLoading = 'SetHebrewLoading',
@@ -36,8 +37,10 @@ export function interpretReducer(
     action: IInterpretAction
 ): InterpretState {
     switch (action.type) {
+        case InterpretActionType.BeginInterpret:
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], requestId: (state[action.spreadType].requestId ?? 0) + 1 } };
         case InterpretActionType.SetEnglish:
-            return { ...state, [action.spreadType]: { en: action.payload!.en!, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], en: action.payload!.en!, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
         case InterpretActionType.SetHebrewLoading:
             return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: true, heFailed: false } };
         case InterpretActionType.SetHebrew:
@@ -45,7 +48,7 @@ export function interpretReducer(
         case InterpretActionType.SetHebrewFailed:
             return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: false, heFailed: true } };
         case InterpretActionType.Clear:
-            return { ...state, [action.spreadType]: { en: null, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
+            return { ...state, [action.spreadType]: { en: null, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null, requestId: (state[action.spreadType].requestId ?? 0) + 1 } };
         case InterpretActionType.SetFollowup:
             return { ...state, [action.spreadType]: { ...state[action.spreadType], followupQ: action.followup!.question, followupAnswer: action.followup!.answer } };
         default:
@@ -63,12 +66,19 @@ export async function ensureHebrewTranslation(spreadType: SpreadType): Promise<v
     const current = interpretStore.getState()[spreadType];
     if (current.en === null || current.he !== null || current.heLoading) return;
 
+    const myRequestId = current.requestId;
     interpretStore.dispatch({ type: InterpretActionType.SetHebrewLoading, spreadType });
     try {
         const he = await interpretService.translateToHebrew(current.en);
-        interpretStore.dispatch({ type: InterpretActionType.SetHebrew, spreadType, payload: { he } });
+        // Only commit if nothing superseded this request (a fresh interpret
+        // or a Clear) while the translation was in flight.
+        if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+            interpretStore.dispatch({ type: InterpretActionType.SetHebrew, spreadType, payload: { he } });
+        }
     } catch {
-        interpretStore.dispatch({ type: InterpretActionType.SetHebrewFailed, spreadType });
+        if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+            interpretStore.dispatch({ type: InterpretActionType.SetHebrewFailed, spreadType });
+        }
     }
 }
 

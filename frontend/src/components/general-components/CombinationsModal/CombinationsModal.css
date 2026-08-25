@@ -9,7 +9,7 @@
     box-shadow: 0 0 14px rgba(var(--accent-glow-rgb), 0.45), 0 0 36px rgba(var(--accent-glow-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
     padding: 22px 24px;
     width: 340px;
-    max-height: 85vh;
+    max-height: calc(85vh - 20px);
     overflow-y: auto;
     scrollbar-width: none;
     color: var(--text-primary);

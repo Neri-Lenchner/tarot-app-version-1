@@ -5,9 +5,8 @@
     overflow: hidden;
     display: flex;
     align-items: center;
-    background:
-        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
-        url('/mystic-image-3.png') center/cover no-repeat;
+    /* Background now lives on .home-page-container so it's continuous
+       behind the hero text too, instead of only starting here. */
     /* Fades cards toward transparent near both edges, full strength in the
        center — a static "far on the sides, close in the middle" cue that
        doesn't need to track which card is where (see notes/carausel.txt). */

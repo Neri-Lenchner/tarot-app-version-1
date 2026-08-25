@@ -12,7 +12,7 @@ interface ICombinationsModalProps {
 }
 
 export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState<boolean>(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const lang = useLang();
 

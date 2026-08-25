@@ -1,6 +1,6 @@
 import {JSX} from "react";
 import {Route, Routes} from "react-router-dom";
-import Main from "../components/layout/main/Main";
+import {HomePage} from "../components/home-route/HomePage";
 import {TarotDeck} from "../components/tarot-deck-route/tarot-deck/TarotDeck";
 import './Routing.css';
 import {TarotDeckRoute} from "../components/tarot-deck-route/TarotDeckRoute";
@@ -25,8 +25,8 @@ function Routing(): JSX.Element {
                 <Route path="/login" element={<Login />}/>
                 <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>
                 <Route path="/my-spreads/:id" element={<PrivateRoute child={<SpreadDetailsPage />} />}/>
-                <Route path="*" element={<Main />}/>
-                <Route path="/" element={<Main />}/>
+                <Route path="*" element={<HomePage />}/>
+                <Route path="/" element={<HomePage />}/>
             </Routes>
         </div>
     );
@@ -35,7 +35,7 @@ function Routing(): JSX.Element {
 //  <Route path="/new-course" element={<CourseForm />}/>
 //             <Route path="/courses-list" element={<CourseListRoute />}/>
 //             {/*<Route path="/task-details/:id" element={<TaskDetails />}/>*/}
-//             <Route path="/" element={<Main />}/>
-//             <Route path="*" element={<Main />}/>
+//             <Route path="/" element={<HomePage />}/>
+//             <Route path="*" element={<HomePage />}/>
 
 export default Routing;

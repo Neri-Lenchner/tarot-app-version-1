@@ -1,4 +1,4 @@
-import React, {JSX, useEffect} from 'react';
+import React, {JSX, useEffect, useState} from 'react';
 import {useLocation} from "react-router-dom";
 import './App.css';
 import Header from "./components/layout/header/Header";
@@ -6,13 +6,28 @@ import SideBar from "./components/layout/side-bar/SideBar";
 import Routing from "./utils/Routing";
 import {deckService} from "./services/DeckService";
 import {useLang} from "./state/lang-state";
+import {authStore} from "./state/auth-state";
+import {IAuthUser} from "./arrays-&-models/authUser.interface";
 
-const NO_NAV_ROUTES = ['/login', '/register'];
+// Login/Register always hide the sidebar (pure auth forms). Home only hides
+// it while logged out — the "gated landing page" behavior shouldn't persist
+// once there's a session, or a logged-in user landing on "/" would have no
+// way to navigate anywhere else.
+const ALWAYS_NO_NAV_ROUTES = ['/login', '/register'];
 
 function App(): JSX.Element {
     const location = useLocation();
-    const hideNav = NO_NAV_ROUTES.includes(location.pathname);
     const lang = useLang();
+    const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);
+
+    useEffect(() => {
+        const unsubscribe = authStore.subscribe(() => {
+            setUser(authStore.getState().user);
+        });
+        return unsubscribe;
+    }, []);
+
+    const hideNav = ALWAYS_NO_NAV_ROUTES.includes(location.pathname) || (location.pathname === '/' && !user);
 
     useEffect(() => {
         async function createTarotList(): Promise<void> {

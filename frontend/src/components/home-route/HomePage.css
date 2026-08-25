@@ -1,41 +1,43 @@
-.main-container {
+.home-page-container {
     min-width: 300px;
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    background:
+        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
 }
 
-.main-hero {
+.home-hero {
     flex-shrink: 0;
     text-align: center;
     padding: 28px 20px 18px;
+    margin-top: 200px;
     background: transparent;
-    border-bottom: 1px solid var(--line-soft);
 }
 
-.main-hero h1 {
+.home-hero h1 {
     margin: 0 0 8px;
     font-size: 1.8rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--accent-bright);
+    background: transparent;
 }
 
-.main-hero h2 {
+.home-hero h2 {
     margin: 0;
     font-size: 1.05rem;
     font-weight: 400;
     letter-spacing: 0.08em;
+    background: transparent;
     color: var(--ink-dim);
 }
 
 /* Regular Hebrew body font here, not the special mystic heading face used
    for the header title. */
-.main-hero[dir="rtl"] h1,
-.main-hero[dir="rtl"] h2 {
+.home-hero[dir="rtl"] h1,
+.home-hero[dir="rtl"] h2 {
     font-family: var(--font-body-he);
 }
-
-
-
