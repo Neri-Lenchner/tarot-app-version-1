@@ -13,7 +13,7 @@
     font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--accent-bright);
+    color: var(--berta-gold);
 }
 
 .Header h1[dir="rtl"] {

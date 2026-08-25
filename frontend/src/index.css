@@ -34,6 +34,11 @@
        so every existing var(--x-glow) usage resolves to nothing. */
     --no-glow: rgba(0, 0, 0, 0);
 
+    /* One deliberate exception to the single-accent rule above: the
+       antique-gold lettering color sampled from the Berta's logo
+       (berta-1.png), used only for the header title. */
+    --berta-gold: #C9A667;
+
     /* ── Legacy semantic aliases ──
        Components were written against --gold / --celtic-accent /
        --threecards-accent / --deck-accent / --purple etc. Rather than a
