@@ -111,8 +111,8 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
                                 <p className="card-modal-desc">{cardSection}</p>
                             ) : selectedApiCard ? (
                                 <>
-                                    <p className="card-modal-meaning"><strong>{translate('meaning', modalLang)}</strong> {selectedApiCard.meaning_up}</p>
-                                    <p className="card-modal-desc">{selectedApiCard.desc}</p>
+                                    <p className="card-modal-meaning"><strong>{translate('meaning', modalLang)}</strong> {modalLang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
+                                    <p className="card-modal-desc">{modalLang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
                                 </>
                             ) : (
                                 <p className="card-modal-meaning">{translate('noDetails', modalLang)}</p>

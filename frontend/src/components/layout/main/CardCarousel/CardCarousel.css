@@ -1,0 +1,109 @@
+.carousel-viewport {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    background:
+        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
+    /* Fades cards toward transparent near both edges, full strength in the
+       center — a static "far on the sides, close in the middle" cue that
+       doesn't need to track which card is where (see notes/carausel.txt). */
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
+}
+
+.carousel-track {
+    display: flex;
+    width: max-content;
+    /* 78 cards * ~96px each = ~7488px for one full set — the animation
+       covers that same distance (0% to -50% of the doubled track), so
+       the duration is picked for a slow, ambient drift rather than a fixed
+       loop time. */
+    animation: carousel-scroll 110s linear infinite;
+}
+
+.carousel-track:hover {
+    animation-play-state: paused;
+}
+
+.carousel-track .TarotCard {
+    flex-shrink: 0;
+}
+
+@keyframes carousel-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* ── Card modal ─────────────────────────────────── */
+.card-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.card-modal {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    padding: 32px;
+    max-width: 480px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    scrollbar-width: none;
+    color: var(--text-primary);
+    position: relative;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.card-modal::-webkit-scrollbar {
+    display: none;
+}
+
+.card-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--accent);
+    font-size: 18px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: opacity var(--transition);
+}
+
+.card-modal-close:hover {
+    opacity: 1;
+}
+
+.card-modal-name {
+    margin: 0 0 20px;
+    color: var(--accent-bright);
+    font-size: 28px;
+}
+
+.card-modal-meaning {
+    margin: 0 0 16px;
+    line-height: 1.7;
+    font-size: 19px;
+    color: var(--card-desc-color);
+}
+
+.card-modal-desc {
+    margin: 0;
+    line-height: 1.7;
+    font-size: 18px;
+    color: var(--text-primary);
+}

@@ -1,13 +1,20 @@
-import React, {JSX, useState} from 'react';
+import React, {JSX} from 'react';
 import './Main.css';
-import {TarotDeck} from "../../tarot-deck-route/tarot-deck/TarotDeck";
+import {CardCarousel} from "./CardCarousel/CardCarousel";
+import {useLang} from "../../../state/lang-state";
+import {translate} from "../../../state/translations";
 
 function Main(): JSX.Element {
-
+    const lang = useLang();
+    const dir = lang === 'he' ? 'rtl' : 'ltr';
 
     return (
-        <div className="tarot-deck-container">
-            <TarotDeck />
+        <div className="main-container">
+            <div className="main-hero" dir={dir}>
+                <h1>{translate('homeWelcome', lang)}</h1>
+                <h2>{translate('homeDestinyCheck', lang)}</h2>
+            </div>
+            <CardCarousel />
         </div>
     );
 }

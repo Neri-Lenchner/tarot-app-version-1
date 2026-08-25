@@ -6,10 +6,12 @@ import './TarotCardContainer.css';
 interface ITarotCardContainerProps {
     tarotCard: ITarotCard;
     onClick?: () => void;
+    tiltScale?: number;
+    tiltSpeedMs?: number;
 }
 
-export function TarotCardContainer({ tarotCard, onClick }: ITarotCardContainerProps): JSX.Element {
-    const { ref, onMouseMove, onMouseLeave } = useTilt<HTMLDivElement>();
+export function TarotCardContainer({ tarotCard, onClick, tiltScale, tiltSpeedMs }: ITarotCardContainerProps): JSX.Element {
+    const { ref, onMouseMove, onMouseLeave } = useTilt<HTMLDivElement>({ scale: tiltScale, moveTransitionMs: tiltSpeedMs });
 
     return (
         <div className="TarotCard" id={tarotCard.id.toString()} onClick={onClick} style={onClick ? {cursor: "pointer"} : {}}>

@@ -1,15 +1,17 @@
-import {cardsDeck} from "../../../arrays-&-models/tarot-deck-array/tarotDeck";
-import {TarotCardContainer} from "../../tarot-card/TarotCardContainer";
-import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
-import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
-import './TarotDeck.css';
-import {JSX, useEffect, useState} from "react";
-import {deckService} from "../../../services/DeckService";
-import {deckStore} from "../../../state/deck-state";
-import {useLang} from "../../../state/lang-state";
-import {translate} from "../../../state/translations";
+import { JSX, useEffect, useState } from 'react';
+import { cardsDeck } from '../../../../arrays-&-models/tarot-deck-array/tarotDeck';
+import { ITarotCard } from '../../../../arrays-&-models/tarot-deck-array/tarotCard.interface';
+import { TarotCardData } from '../../../../arrays-&-models/TarotCardData.model';
+import { TarotCardContainer } from '../../../tarot-card/TarotCardContainer';
+import { deckService } from '../../../../services/DeckService';
+import { deckStore } from '../../../../state/deck-state';
+import { useLang } from '../../../../state/lang-state';
+import { translate } from '../../../../state/translations';
+import './CardCarousel.css';
 
-export function TarotDeck() {
+// Track holds the full deck twice back-to-back so the CSS loop (0% to -50%)
+// resets on a point that looks pixel-identical to the start — see notes/carausel.txt.
+export function CardCarousel(): JSX.Element {
     const lang = useLang();
     const [apiCards, setApiCards] = useState<TarotCardData[]>(deckService.tarotCardsDetails);
     const [selectedCard, setSelectedCard] = useState<ITarotCard | null>(null);
@@ -26,14 +28,15 @@ export function TarotDeck() {
         : null;
 
     return (
-        <div className="tarot-deck-container">
-            {cardsDeck.map((card: ITarotCard): JSX.Element => (
-                <TarotCardContainer
-                    key={card.id}
-                    tarotCard={card}
-                    onClick={() => setSelectedCard(card)}
-                />
-            ))}
+        <div className="carousel-viewport">
+            <div className="carousel-track">
+                {cardsDeck.map(card => (
+                    <TarotCardContainer key={`a-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} />
+                ))}
+                {cardsDeck.map(card => (
+                    <TarotCardContainer key={`b-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} />
+                ))}
+            </div>
 
             {selectedCard !== null && (
                 <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedCard(null)}>

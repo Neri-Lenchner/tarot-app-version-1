@@ -22,6 +22,7 @@ function SideBar(): JSX.Element {
             <div className="links" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                 <NavLink to="/celtic-spread-global">{translate('navCeltic', lang)}</NavLink>
                 <NavLink to="/three-cards-spread">{translate('navThreeCards', lang)}</NavLink>
+                <NavLink to="/tarot-deck">{translate('navTarotDeck', lang)}</NavLink>
                 <NavLink to="/">{translate('navHome', lang)}</NavLink>
                 {user && <NavLink to="/my-spreads">{translate('navMySpreads', lang)}</NavLink>}
             </div>

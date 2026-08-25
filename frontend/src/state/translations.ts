@@ -5,12 +5,17 @@ import { Lang } from './lang-state';
 const translations = {
     // ── Header / nav ──
     headerTitle: { en: "Berta's Tarot Cards Spreads", he: "קלפי הטארוט של ברטה" },
+
+    // ── Home hero ──
+    homeWelcome: { en: "Welcome to Berta's Tarot Experience", he: "ברוכים הבאים לחוויית הטארוט של ברטה" },
+    homeDestinyCheck: { en: "Enjoy Your Destiny Check", he: "תיהנו מהצצה לגורלכם" },
     hello: { en: "Hello", he: "שלום" },
     logout: { en: "Logout", he: "התנתקות" },
     login: { en: "Login", he: "התחברות" },
     navCeltic: { en: "Celtic Spread", he: "פריסה קלטית" },
     navThreeCards: { en: "Old Gipsy Spread", he: "פריסת הצוענייה" },
     navHome: { en: "Home Page", he: "עמוד הבית" },
+    navTarotDeck: { en: "Tarot Deck", he: "חפיסת הטארוט" },
     navMySpreads: { en: "My Spreads", he: "הפריסות שלי" },
 
     // ── Spread header / question bar ──
