@@ -1,10 +1,9 @@
-import { JSX, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { useLang } from '../../../state/lang-state';
 import './CombinationsModal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
-import {useClickOutsideModals, MODAL_ROOT_CLASS} from "../../../hooks/useClickOutsideModals";
 
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
@@ -17,10 +16,19 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const lang = useLang();
 
-    useClickOutsideModals(() => setVisible(false), visible);
+    useEffect(() => {
+        if (!visible) return;
+        const handleClick = (e: MouseEvent): void => {
+            if (!(e.target as HTMLElement).closest('.modal-widget-root')) {
+                setVisible(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [visible]);
 
     return (
-        <div className={`combo-widget ${MODAL_ROOT_CLASS}`}>
+        <div className="combo-widget modal-widget-root">
             {visible && (
                 <div className="combo-modal">
                     <div className="combo-modal-header">

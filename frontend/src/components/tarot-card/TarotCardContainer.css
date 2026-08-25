@@ -4,6 +4,7 @@
     justify-content: center;
     padding: 8px;
     position: relative;
+    perspective: 700px;
 }
 
 .TarotCard::after {
@@ -20,17 +21,74 @@
     opacity: 0.2;
 }
 
+/* ── 3D tilt wrapper — follows the cursor, resets smoothly on leave ── */
+.small-card-tilt {
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+.small-card-tilt:hover {
+    z-index: 10;
+}
+
+.small-card-tilt::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-sm);
+    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(var(--accent-rgb), 0.4), transparent 60%);
+    opacity: var(--glare-opacity, 0);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    mix-blend-mode: screen;
+}
+
 .small-card {
+    display: block;
     border-radius: var(--radius-sm);
     width: 80px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 6px var(--deck-glow);
     filter: contrast(1.08) brightness(0.8) saturate(1.2) sepia(0.1);
-    transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+    transition: box-shadow 0.25s ease, filter 0.25s ease;
 }
 
-.small-card:hover {
-    transform: scale(1.12);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8), 0 0 18px var(--deck-glow);
+.small-card-tilt:hover .small-card {
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85), 0 0 18px var(--deck-glow);
     filter: contrast(1.04) brightness(0.95) saturate(1.1);
-    z-index: 10;
 }
+
+/* ── Sparkle dust — drifts off the card on hover ── */
+.card-particles {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.card-particles span {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: var(--accent-glow);
+    border-radius: 50%;
+    opacity: 0;
+    box-shadow: 0 0 4px var(--accent-glow);
+}
+
+.small-card-tilt:hover .card-particles span {
+    animation: card-particle-float 1.6s ease-out infinite;
+}
+
+@keyframes card-particle-float {
+    0% { transform: translate(0, 0); opacity: 0; }
+    35% { opacity: 1; }
+    100% { transform: translate(calc(var(--px, 0) * 22px), calc(var(--py, 0) * 22px)); opacity: 0; }
+}
+
+.card-particles span:nth-child(1) { --px: 1;    --py: -1;   top: 30%; left: 20%; animation-delay: 0s; }
+.card-particles span:nth-child(2) { --px: -1;   --py: -1;   top: 60%; right: 20%; animation-delay: 0.25s; }
+.card-particles span:nth-child(3) { --px: 0.5;  --py: 1;    top: 20%; left: 45%; animation-delay: 0.5s; }
+.card-particles span:nth-child(4) { --px: -0.5; --py: 1;    top: 78%; right: 40%; animation-delay: 0.75s; }
+.card-particles span:nth-child(5) { --px: 1;    --py: 0.5;  top: 35%; left: 65%; animation-delay: 1s; }
+.card-particles span:nth-child(6) { --px: -1;   --py: 0.5;  top: 68%; right: 65%; animation-delay: 1.25s; }

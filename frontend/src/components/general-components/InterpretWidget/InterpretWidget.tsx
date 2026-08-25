@@ -7,7 +7,6 @@ import { translate, POSITION_HE } from '../../../state/translations';
 import { readingService } from '../../../services/ReadingService';
 import { ICombinationMatch } from '../../../arrays-&-models/combinationMatch.interface';
 import { ITarotCard } from '../../../arrays-&-models/tarot-deck-array/tarotCard.interface';
-import { useClickOutsideModals, MODAL_ROOT_CLASS } from '../../../hooks/useClickOutsideModals';
 import './InterpretWidget.css';
 
 interface IInterpretWidgetProps {
@@ -147,10 +146,19 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [confirmedCombination]);
 
-    useClickOutsideModals(onToggle, isOpen);
+    useEffect(() => {
+        if (!isOpen) return;
+        const handleClick = (e: MouseEvent): void => {
+            if (!(e.target as HTMLElement).closest('.modal-widget-root')) {
+                onToggle();
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [isOpen, onToggle]);
 
     return (
-        <div className={`interpret-widget theme-${theme} ${MODAL_ROOT_CLASS}`}>
+        <div className={`interpret-widget theme-${theme} modal-widget-root`}>
             {isOpen && (
                 <div className="iw-panel">
                     <div className="iw-header">

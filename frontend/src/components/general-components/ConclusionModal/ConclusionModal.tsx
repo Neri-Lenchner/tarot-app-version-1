@@ -3,7 +3,6 @@ import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTransl
 import { useLang } from '../../../state/lang-state';
 import { translate } from '../../../state/translations';
 import { interpretService } from '../../../services/InterpretService';
-import { useClickOutsideModals, MODAL_ROOT_CLASS } from '../../../hooks/useClickOutsideModals';
 import './ConclusionModal.css';
 
 interface IConclusionModalProps {
@@ -65,12 +64,21 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const awaitingHebrew = lang === 'he' && spreadData.he === null && !!spreadData.heLoading;
     const translationFailed = lang === 'he' && spreadData.en !== null && spreadData.he === null && !spreadData.heLoading && !!spreadData.heFailed;
 
-    useClickOutsideModals(() => setVisible(false), visible);
+    useEffect(() => {
+        if (!visible) return;
+        const handleClick = (e: MouseEvent): void => {
+            if (!(e.target as HTMLElement).closest('.modal-widget-root')) {
+                setVisible(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [visible]);
 
     if (!current && !awaitingHebrew && !translationFailed) return null;
 
     return (
-        <div className={`conclusion-widget ${MODAL_ROOT_CLASS}`}>
+        <div className="conclusion-widget modal-widget-root">
             {visible && (
                 <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
                     <div className="conclusion-header">
