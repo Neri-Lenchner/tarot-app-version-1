@@ -186,9 +186,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                                 <p className="iw-question-text" dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}>{question}</p>
                             </div>
                         )}
-                        <button className="iw-btn" onClick={interpret} disabled={isInterpreting} dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                            {isInterpreting ? translate('readingCards', lang) : canToggle ? translate('reInterpret', lang) : translate('interpretReading', lang)}
-                        </button>
+                        {!canToggle && (
+                            <button className="iw-btn" onClick={interpret} disabled={isInterpreting} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                                {isInterpreting ? translate('readingCards', lang) : translate('interpretReading', lang)}
+                            </button>
+                        )}
                         {isInterpreting && (
                             <div className="iw-spinner-wrap">
                                 <div className="iw-spinner" />
