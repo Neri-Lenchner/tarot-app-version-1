@@ -16,10 +16,10 @@
     --line-soft: #2A241A;
 
     /* Single accent — vivid saturated red. No secondary accent color anywhere. */
-    --accent: #C41E1E;
-    --accent-rgb: 196, 30, 30;
-    --accent-bright: #F04438;
-    --accent-bright-rgb: 240, 68, 56;
+    --accent: #F02B2B;
+    --accent-rgb: 240, 43, 43;
+    --accent-bright: #FF5C4D;
+    --accent-bright-rgb: 255, 92, 77;
     /* Modal glow — a vivid bright yellow, more saturated than the accent
        itself, used only for the floating panels' border/glow. */
     --accent-glow: #FFD447;

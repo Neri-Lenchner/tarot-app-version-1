@@ -7,6 +7,12 @@
     scrollbar-width: none;
 }
 
+.spread-details-page {
+    background:
+        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
+}
+
 .my-spreads-page::-webkit-scrollbar,
 .spread-details-page::-webkit-scrollbar {
     display: none;
