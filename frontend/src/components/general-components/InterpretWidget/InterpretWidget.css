@@ -73,23 +73,6 @@
     flex-shrink: 0;
 }
 
-.iw-lang-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--accent);
-    font-size: 17px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 3px 8px;
-    cursor: pointer;
-    transition: border-color var(--transition);
-}
-
-.iw-lang-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-}
-
 /* ── Scrollable body ── */
 .iw-body {
     flex: 1;

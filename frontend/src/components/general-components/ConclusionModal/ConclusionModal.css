@@ -47,32 +47,6 @@
     text-shadow: 0 0 8px rgba(var(--accent-glow-rgb), 0.55);
 }
 
-.conclusion-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.conclusion-lang-btn {
-    background: none;
-    border: 1px solid var(--conclusion-border);
-    color: var(--conclusion-accent);
-    font-size: 14px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 3px 7px;
-    cursor: pointer;
-    transition: border-color var(--transition);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.conclusion-lang-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-}
-
 /* ── Body ── */
 .conclusion-body {
     padding: 14px 16px;

@@ -37,29 +37,6 @@
     text-shadow: 0 0 8px rgba(var(--accent-glow-rgb), 0.55);
 }
 
-.combo-header-actions {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.combo-lang-btn {
-    background: none;
-    border: 1px solid var(--line);
-    color: var(--accent);
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    padding: 3px 7px;
-    cursor: pointer;
-    transition: border-color var(--transition);
-}
-
-.combo-lang-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-}
-
 .combo-item {
     background: var(--bg-3);
     border: 1px solid var(--line-soft);
