@@ -13,7 +13,10 @@
     color: var(--accent);
     text-align: center;
     margin: 0;
-    font-size: 0.7rem;
+    /* px, not rem — the html[data-lang="he"] root-scaling would otherwise
+       grow this label in Hebrew, changing .card-container-N's height and
+       shifting the -50%/-50% centered cards on language switch. */
+    font-size: 11.2px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     z-index: 1000;
@@ -45,10 +48,17 @@
     z-index: 100;
 }
 
+/* Each container's width is pinned to its English-rendered width (measured
+   live) instead of shrinking-to-fit around the h5 label. Without this, a
+   long English label ("Negative Energy") is wider than the card image and
+   becomes the box's width driver; the much narrower Hebrew label isn't,
+   so the box (anchored via right:X%) visibly narrows and shifts sideways
+   on language switch. Pinning width keeps both languages identical. */
 .card-container-1 {
     position: absolute;
     right: 50%;
     top: 45%;
+    width: 120px;
     transform: translate(calc(-50% + 20px), -50%);
     transition: all 0.5s;
 }
@@ -57,6 +67,7 @@
     position: absolute;
     right: 50%;
     top: 40%;
+    width: 128px;
     transform: translateX(20px);
 }
 
@@ -64,6 +75,7 @@
     position: absolute;
     right: 35%;
     top: 45%;
+    width: 76px;
     transform: translate(-50%, -50%);
 }
 
@@ -71,6 +83,7 @@
     position: absolute;
     right: 50%;
     top: 82%;
+    width: 76px;
     transform: translate(-50%, -50%);
 }
 
@@ -78,6 +91,7 @@
     position: absolute;
     right: 65%;
     top: 45%;
+    width: 97px;
     transform: translate(-50%, -50%);
 }
 
@@ -85,6 +99,7 @@
     position: absolute;
     right: 50%;
     top: 80px;
+    width: 85px;
     transform: translate(-50%, -50%);
 }
 
@@ -92,6 +107,7 @@
     position: absolute;
     right: 10%;
     top: 74%;
+    width: 76px;
     transform: translateX(-50%);
 }
 
@@ -99,6 +115,7 @@
     position: absolute;
     right: 10%;
     top: calc(51% - 10px);
+    width: 76px;
     transform: translateX(-50%);
 }
 
@@ -106,6 +123,7 @@
     position: absolute;
     right: 10%;
     top: calc(28% - 20px);
+    width: 76px;
     transform: translateX(-50%);
 }
 
@@ -113,6 +131,7 @@
     position: absolute;
     right: 10%;
     top: calc(5% - 25px);
+    width: 78px;
     transform: translateX(-50%);
 }
 

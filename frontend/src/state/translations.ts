@@ -37,7 +37,6 @@ const translations = {
     readingInterpretation: { en: "Reading Interpretation", he: "פירוש הפריסה" },
     question: { en: "Question", he: "שאלה" },
     readingCards: { en: "Reading the cards...", he: "קורא את הקלפים..." },
-    reInterpret: { en: "Re-interpret", he: "פרש מחדש" },
     interpretReading: { en: "Interpret Reading", he: "פרש את הפריסה" },
     cardsSpeaking: { en: "The cards are speaking...", he: "הקלפים מדברים..." },
     saveReading: { en: "Save Reading", he: "שמור פריסה" },

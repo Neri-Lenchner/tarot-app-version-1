@@ -7,6 +7,7 @@
     scrollbar-width: none;
 }
 
+.my-spreads-page,
 .spread-details-page {
     background:
         radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
