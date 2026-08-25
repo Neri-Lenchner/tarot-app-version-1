@@ -9,15 +9,52 @@ import {
     COURT_CARDS,
     MAJOR_ARCANA,
     CATEGORY_KEYWORDS,
+    Adjacency,
+    CELTIC_POSITION_INDEX,
+    CELTIC_ADJACENCY,
+    THREE_CARDS_POSITION_INDEX,
+    THREE_CARDS_ADJACENCY,
 } from "../utils/prompt-constants";
 
 // ── Card Combinations ───────────────────────────────────────────────────────
-export function findMatchingCombinations(cards: ISpreadCard[]): string[] {
+// Same connectivity rule as frontend/src/services/CombinationsService.ts —
+// a combination only counts if its cards are adjacent to each other in the
+// spread, not merely present anywhere in it.
+function isConnectedInSpread(comboCards: string[], cards: ISpreadCard[], positionIndex: Record<string, number>, adjacency: Adjacency): boolean {
+    const positions: number[] = [];
+    for (const comboCardName of comboCards) {
+        const card = cards.find(
+            c => c.name.replace(/ Rx$/i, '').toLowerCase() === comboCardName.replace(/ Rx$/i, '').toLowerCase()
+        );
+        const idx = card ? positionIndex[card.position.toLowerCase()] : undefined;
+        if (idx === undefined) return false;
+        positions.push(idx);
+    }
+    if (positions.length <= 1) return true;
+
+    const posSet = new Set(positions);
+    const visited = new Set<number>([positions[0]]);
+    const queue = [positions[0]];
+    while (queue.length > 0) {
+        const curr = queue.shift()!;
+        for (const neighbor of (adjacency[curr] ?? [])) {
+            if (posSet.has(neighbor) && !visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push(neighbor);
+            }
+        }
+    }
+    return visited.size === posSet.size;
+}
+
+export function findMatchingCombinations(cards: ISpreadCard[], spreadType: string): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
+    const positionIndex = spreadType === "celtic" ? CELTIC_POSITION_INDEX : THREE_CARDS_POSITION_INDEX;
+    const adjacency = spreadType === "celtic" ? CELTIC_ADJACENCY : THREE_CARDS_ADJACENCY;
     const matches: string[] = [];
     for (const category of tarotCombinations) {
         for (const combo of category.combinations) {
-            if (combo.cards.every(name => nameSet.has(name.toLowerCase()))) {
+            if (combo.cards.every(name => nameSet.has(name.toLowerCase())) && isConnectedInSpread(combo.cards, cards, positionIndex, adjacency)) {
                 matches.push(`• ${combo.cards.join(" + ")} → ${combo.meaning} [${category.category}]`);
             }
         }

@@ -52,6 +52,51 @@ export const CATEGORY_KEYWORDS: Record<string, string[]> = {
     "mental_health": ['mental', 'anxiety', 'depression', 'stress', 'psychology', 'psychiatry', 'נפש', 'חרדה', 'דיכאון', 'לחץ'],
 };
 
+// Position name → spread-order index, matching the frontend's POSITIONS
+// arrays (CelticSpreadGlobal.tsx / ThreeCardsSpreadGlobal.tsx) exactly, so
+// the same adjacency graphs below apply.
+export const CELTIC_POSITION_INDEX: Record<string, number> = {
+    "positive energy": 0,
+    "negative energy": 1,
+    "past": 2,
+    "present": 3,
+    "near future": 4,
+    "far future": 5,
+    "inside": 6,
+    "outside": 7,
+    "fears": 8,
+    "potential": 9,
+};
+
+export const THREE_CARDS_POSITION_INDEX: Record<string, number> = {
+    "past": 0,
+    "present": 1,
+    "future": 2,
+};
+
+export type Adjacency = Record<number, number[]>;
+
+// Mirrors frontend/src/services/CombinationsService.ts — keep in sync.
+export const CELTIC_ADJACENCY: Adjacency = {
+    0: [1, 2, 3, 4, 5],
+    1: [0, 2, 3, 4, 5],
+    2: [0, 1, 3, 6, 7, 8],
+    3: [0, 1, 2, 4],
+    4: [0, 1, 3, 5],
+    5: [0, 1, 2, 4, 9],
+    6: [7, 2],
+    7: [2, 6, 8],
+    8: [2, 7, 9],
+    9: [8, 5],
+};
+
+// Three Cards: linear chain 0 ↔ 1 ↔ 2
+export const THREE_CARDS_ADJACENCY: Adjacency = {
+    0: [1],
+    1: [0, 2],
+    2: [1],
+};
+
 export const CELTIC_POSITION_GUIDE = `
 Position guide for the Celtic Cross spread:
 1. Positive Energy — The support, people, or forces actively helping the querent in this situation.
