@@ -37,15 +37,15 @@ export function interpretReducer(
 ): InterpretState {
     switch (action.type) {
         case InterpretActionType.SetEnglish:
-            return { ...state, [action.spreadType]: { en: action.payload!.en!, he: null, heLoading: false, followupQ: null, followupAnswer: null } };
+            return { ...state, [action.spreadType]: { en: action.payload!.en!, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
         case InterpretActionType.SetHebrewLoading:
-            return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: true } };
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: true, heFailed: false } };
         case InterpretActionType.SetHebrew:
-            return { ...state, [action.spreadType]: { ...state[action.spreadType], he: action.payload!.he!, heLoading: false } };
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], he: action.payload!.he!, heLoading: false, heFailed: false } };
         case InterpretActionType.SetHebrewFailed:
-            return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: false } };
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], heLoading: false, heFailed: true } };
         case InterpretActionType.Clear:
-            return { ...state, [action.spreadType]: { en: null, he: null, heLoading: false, followupQ: null, followupAnswer: null } };
+            return { ...state, [action.spreadType]: { en: null, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
         case InterpretActionType.SetFollowup:
             return { ...state, [action.spreadType]: { ...state[action.spreadType], followupQ: action.followup!.question, followupAnswer: action.followup!.answer } };
         default:

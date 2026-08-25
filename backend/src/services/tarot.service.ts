@@ -116,6 +116,7 @@ class TarotService {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${appConfig.openAiApiKey}`,
                 },
+                timeout: 60000,
             }
         );
 
@@ -164,6 +165,7 @@ class TarotService {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${appConfig.openAiApiKey}`,
                 },
+                timeout: 60000,
             }
         );
 

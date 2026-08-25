@@ -2,7 +2,7 @@ import { JSX, useEffect, useState } from 'react';
 import { interpretService } from '../../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState, ensureHebrewTranslation, waitForHebrewTranslation } from '../../../state/interpret-state';
 import { authStore } from '../../../state/auth-state';
-import { langStore, LangActionType, useLang } from '../../../state/lang-state';
+import { useLang } from '../../../state/lang-state';
 import { translate, POSITION_HE } from '../../../state/translations';
 import { readingService } from '../../../services/ReadingService';
 import { ICombinationMatch } from '../../../arrays-&-models/combinationMatch.interface';
@@ -82,13 +82,6 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         return unsubscribe;
     }, []);
 
-    const toggleLang = (): void => {
-        langStore.dispatch({ type: LangActionType.Toggle });
-        if (langStore.getState().lang === 'he') {
-            ensureHebrewTranslation(spreadType);
-        }
-    };
-
     useEffect(() => {
         const unsubscribe = authStore.subscribe(() => {
             setLoggedIn(!!authStore.getState().user);
@@ -97,9 +90,14 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     }, []);
 
     const spreadData = stored[spreadType];
-    const current = spreadData[lang];
+    // While Hebrew is still being translated (or failed), fall back to the
+    // already-ready English text rather than blocking the view on a spinner —
+    // the reading upgrades to Hebrew in place once the translation lands.
+    const current = lang === 'he' ? (spreadData.he ?? spreadData.en) : spreadData.en;
+    const contentIsHebrew = lang === 'he' && spreadData.he !== null;
     const canToggle = spreadData.en !== null;
-    const isTranslating = lang === 'he' && spreadData.en !== null && spreadData.he === null;
+    const awaitingHebrew = lang === 'he' && spreadData.he === null && !!spreadData.heLoading;
+    const translationFailed = lang === 'he' && spreadData.en !== null && spreadData.he === null && !spreadData.heLoading && !!spreadData.heFailed;
 
     const saveReading = async (): Promise<void> => {
         setIsSaving(true);
@@ -124,9 +122,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         try {
             const en = await interpretService.interpretSpread(spreadType, cards, positions, "en", question?.trim() || undefined, isThirdPerson, confirmedCombination);
             interpretStore.dispatch({ type: InterpretActionType.SetEnglish, spreadType, payload: { en } });
-            if (langStore.getState().lang === 'he') {
-                ensureHebrewTranslation(spreadType);
-            }
+            ensureHebrewTranslation(spreadType);
         } catch {
             interpretStore.dispatch({
                 type: InterpretActionType.SetEnglish,
@@ -159,11 +155,6 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 <div className="iw-panel">
                     <div className="iw-header">
                         <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('readingInterpretation', lang)}</span>
-                        {canToggle && (
-                            <button className="iw-lang-btn" onClick={toggleLang}>
-                                {lang === 'en' ? 'HE' : 'EN'}
-                            </button>
-                        )}
                     </div>
                     <div className="iw-body">
                         {question && (
@@ -186,14 +177,23 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                                 {saved ? translate('saved', lang) : isSaving ? translate('saving', lang) : translate('saveReading', lang)}
                             </button>
                         )}
-                        {isTranslating && (
+                        {awaitingHebrew && (
                             <div className="iw-spinner-wrap">
                                 <div className="iw-spinner" />
-                                <span className="iw-spinner-text" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('translatingHebrew', lang)}</span>
+                                <span className="iw-spinner-text" dir="rtl">{translate('translatingHebrew', lang)}</span>
                             </div>
                         )}
-                        {current && !isTranslating && (
-                            <div className="iw-result" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        {translationFailed && (
+                            <button
+                                className="iw-btn"
+                                onClick={() => ensureHebrewTranslation(spreadType)}
+                                dir="rtl"
+                            >
+                                {translate('failedTranslation', lang)}
+                            </button>
+                        )}
+                        {current && (
+                            <div className="iw-result" dir={contentIsHebrew ? 'rtl' : 'ltr'}>
                                 {renderInterpretation(current, cards, positions)}
                             </div>
                         )}

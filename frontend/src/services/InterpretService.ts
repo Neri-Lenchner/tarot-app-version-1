@@ -28,7 +28,7 @@ class InterpretService {
                 position: positions[i],
             })),
         };
-        const response = await axios.post(`${BASE_URL}/api/tarot/interpret`, payload);
+        const response = await axios.post(`${BASE_URL}/api/tarot/interpret`, payload, { timeout: 65000 });
         return response.data.interpretation;
     }
 
@@ -37,7 +37,7 @@ class InterpretService {
             question,
             interpretation,
             language: lang,
-        });
+        }, { timeout: 65000 });
         return response.data.answer;
     }
 
@@ -46,7 +46,7 @@ class InterpretService {
         const response = await axios.post(`${BASE_URL}/api/tarot/translate`, {
             text,
             gender: gender || undefined,
-        });
+        }, { timeout: 65000 });
         return response.data.translation;
     }
 }

@@ -14,7 +14,7 @@
    component don't need to change) ── */
 .interpret-widget.theme-green,
 .interpret-widget.theme-blue {
-    --accent-rgb: 196, 130, 42;
+    --accent-rgb: 196, 30, 30;
     --glow-color: var(--no-glow);
     --bg: var(--bg-2);
     --border: var(--line);

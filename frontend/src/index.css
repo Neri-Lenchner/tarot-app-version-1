@@ -15,17 +15,17 @@
     --line: #3A3226;
     --line-soft: #2A241A;
 
-    /* Single accent — warm amber, between orange and yellow. No secondary accent color anywhere. */
-    --accent: #C4822A;
-    --accent-rgb: 196, 130, 42;
-    --accent-bright: #E3A34A;
-    --accent-bright-rgb: 227, 163, 74;
-    /* Modal glow — a vivid bright yellow, more saturated than the amber
-       accent itself, used only for the floating panels' border/glow. */
+    /* Single accent — vivid saturated red. No secondary accent color anywhere. */
+    --accent: #C41E1E;
+    --accent-rgb: 196, 30, 30;
+    --accent-bright: #F04438;
+    --accent-bright-rgb: 240, 68, 56;
+    /* Modal glow — a vivid bright yellow, more saturated than the accent
+       itself, used only for the floating panels' border/glow. */
     --accent-glow: #FFD447;
     --accent-glow-rgb: 255, 212, 71;
-    --accent-dim: #654017;
-    --accent-wash: rgba(196, 130, 42, 0.12);
+    --accent-dim: #5C0F0F;
+    --accent-wash: rgba(196, 30, 30, 0.12);
     /* Hover feedback only — a true yellow, distinct from the amber accent,
        so hovering an orange button visibly shifts toward gold-leaf yellow. */
     --accent-hover: #F0C230;

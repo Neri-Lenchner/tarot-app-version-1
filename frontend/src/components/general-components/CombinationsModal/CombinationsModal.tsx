@@ -1,7 +1,6 @@
 import { JSX, useState } from 'react';
 import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
-import { langStore, LangActionType, useLang } from '../../../state/lang-state';
-import { ensureHebrewTranslation, SpreadType } from '../../../state/interpret-state';
+import { useLang } from '../../../state/lang-state';
 import './CombinationsModal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
@@ -9,23 +8,14 @@ import {useClickOutsideModals, MODAL_ROOT_CLASS} from "../../../hooks/useClickOu
 
 interface ICombinationsModalProps {
     matches: ICombinationMatch[];
-    spreadType: SpreadType;
     onClose: () => void;
     onConfirm: (combo: ICombinationMatch) => void;
 }
 
-export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
+export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
     const [visible, setVisible] = useState(true);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const lang = useLang();
-
-    const toggleLang = (): void => {
-        langStore.dispatch({ type: LangActionType.Toggle });
-        if (langStore.getState().lang === 'he') {
-            ensureHebrewTranslation(spreadType);
-        }
-    };
-
 
     useClickOutsideModals(() => setVisible(false), visible);
 
@@ -37,11 +27,6 @@ export function CombinationsModal({ matches, spreadType, onClose, onConfirm }: I
                         <span className="combo-modal-title">
                             {lang === 'he' ? '+ שילובי קלפים שזוהו' : '+ Card Combinations Detected'}
                         </span>
-                        <div className="combo-header-actions">
-                            <button className="combo-lang-btn" onClick={toggleLang}>
-                                {lang === 'en' ? 'HE' : 'EN'}
-                            </button>
-                        </div>
                     </div>
                     <>
                         {matches.map((match, i) => (

@@ -41,6 +41,7 @@ const translations = {
     translatingHebrew: { en: "Translating to Hebrew...", he: "מתרגם לעברית..." },
     failedInterpretation: { en: "Failed to get interpretation. Please try again.", he: "פירוש הפריסה נכשל. נא לנסות שוב." },
     failedSave: { en: "Failed to save reading. Please try again.", he: "שמירת הפריסה נכשלה. נא לנסות שוב." },
+    failedTranslation: { en: "Hebrew translation failed. Tap to retry.", he: "תרגום לעברית נכשל. הקש כדי לנסות שוב." },
 
     // ── My Spreads / Spread Details ──
     mySpreadsTitle: { en: "My Spreads", he: "הפריסות שלי" },

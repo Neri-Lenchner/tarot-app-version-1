@@ -1,6 +1,6 @@
 import { JSX, useState, useEffect } from 'react';
 import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTranslation } from '../../../state/interpret-state';
-import { langStore, LangActionType, useLang } from '../../../state/lang-state';
+import { useLang } from '../../../state/lang-state';
 import { translate } from '../../../state/translations';
 import { interpretService } from '../../../services/InterpretService';
 import { useClickOutsideModals, MODAL_ROOT_CLASS } from '../../../hooks/useClickOutsideModals';
@@ -39,13 +39,6 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         return unsubscribe;
     }, []);
 
-    const toggleLang = (): void => {
-        langStore.dispatch({ type: LangActionType.Toggle });
-        if (langStore.getState().lang === 'he') {
-            ensureHebrewTranslation(spreadType);
-        }
-    };
-
     const handleFollowup = async (): Promise<void> => {
         if (!followupQ.trim() || followupLoading) return;
         const spreadData = stored[spreadType];
@@ -65,13 +58,16 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     const spreadData = stored[spreadType];
     const en = spreadData.en ? extractConclusion(spreadData.en) : null;
     const he = spreadData.he ? extractConclusion(spreadData.he) : null;
-    const canToggle = spreadData.en !== null;
-    const isTranslating = lang === 'he' && spreadData.en !== null && spreadData.he === null;
-    const current = lang === 'en' ? en : he;
+    // Fall back to the ready English conclusion while Hebrew is still
+    // translating (or failed) instead of blocking the view on a spinner.
+    const current = lang === 'he' ? (he ?? en) : en;
+    const contentIsHebrew = lang === 'he' && he !== null;
+    const awaitingHebrew = lang === 'he' && spreadData.he === null && !!spreadData.heLoading;
+    const translationFailed = lang === 'he' && spreadData.en !== null && spreadData.he === null && !spreadData.heLoading && !!spreadData.heFailed;
 
     useClickOutsideModals(() => setVisible(false), visible);
 
-    if (!current && !isTranslating) return null;
+    if (!current && !awaitingHebrew && !translationFailed) return null;
 
     return (
         <div className={`conclusion-widget ${MODAL_ROOT_CLASS}`}>
@@ -79,22 +75,24 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
                     <div className="conclusion-header">
                         <span className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
-                        <div className="conclusion-header-actions">
-                            {canToggle && (
-                                <button className="conclusion-lang-btn" onClick={toggleLang}>
-                                    {lang === 'en' ? 'HE' : 'EN'}
-                                </button>
-                            )}
-                        </div>
                     </div>
-                    <div className="conclusion-body" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        {isTranslating ? (
-                            <p className="conclusion-text">{translate('translatingHebrew', lang)}</p>
-                        ) : (
-                            current!.split('\n').map((line, i) => (
-                                <p key={i} className="conclusion-text">{line}</p>
-                            ))
+                    <div className="conclusion-body">
+                        {awaitingHebrew && (
+                            <p className="conclusion-text" dir="rtl">{translate('translatingHebrew', lang)}</p>
                         )}
+                        {translationFailed && (
+                            <p
+                                className="conclusion-text"
+                                dir="rtl"
+                                style={{ cursor: 'pointer' }}
+                                onClick={() => ensureHebrewTranslation(spreadType)}
+                            >
+                                {translate('failedTranslation', lang)}
+                            </p>
+                        )}
+                        {current && current.split('\n').map((line, i) => (
+                            <p key={i} className="conclusion-text" dir={contentIsHebrew ? 'rtl' : 'ltr'}>{line}</p>
+                        ))}
                     </div>
                     <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         <div className="conclusion-followup-row">

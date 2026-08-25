@@ -136,7 +136,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             </div>
             <ThreeCardsSpread isSpread3={isSpread3} cards={selected3Cards} apiCards={apiCards} positions={POSITIONS} onQuestionSelect={handleReadyQuestion} />
             {comboMatches.length > 0 && (
-                <CombinationsModal matches={comboMatches} spreadType="three-cards" onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
+                <CombinationsModal matches={comboMatches} onClose={() => setComboMatches([])} onConfirm={handleConfirmCombination} />
             )}
             {isSpread3 && selected3Cards.length > 0 && (
                 <ConclusionModal spreadType="three-cards" theme="blue" />

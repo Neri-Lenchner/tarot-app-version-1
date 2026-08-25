@@ -4,7 +4,7 @@ import berta from '../../../assets/images/berta-1.png';
 import {NavLink, useNavigate} from "react-router-dom";
 import {authStore, Logout} from "../../../state/auth-state";
 import {IAuthUser} from "../../../arrays-&-models/authUser.interface";
-import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
+import {interpretStore, InterpretActionType, ensureHebrewTranslation} from "../../../state/interpret-state";
 import {langStore, LangActionType, useLang} from "../../../state/lang-state";
 import {translate} from "../../../state/translations";
 
@@ -39,7 +39,13 @@ function Header(): JSX.Element {
             <div className="header-auth">
                 <button
                     className="header-lang-btn"
-                    onClick={() => langStore.dispatch({ type: LangActionType.Toggle })}
+                    onClick={() => {
+                        langStore.dispatch({ type: LangActionType.Toggle });
+                        if (langStore.getState().lang === 'he') {
+                            ensureHebrewTranslation('celtic');
+                            ensureHebrewTranslation('three-cards');
+                        }
+                    }}
                     title="עברית / English"
                 >
                     {lang === 'en' ? 'HE' : 'EN'}
