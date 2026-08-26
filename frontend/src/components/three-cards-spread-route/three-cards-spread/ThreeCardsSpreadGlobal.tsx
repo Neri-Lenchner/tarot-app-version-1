@@ -1,4 +1,4 @@
-import {JSX, useEffect, useState} from 'react';
+import {JSX, useEffect, useRef, useState} from 'react';
 import './ThreeCardsSpreadGlobal.css';
 import {ThreeCardsSpread} from "./three-cards-spread-components/ThreeCardsSpread";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
@@ -30,12 +30,20 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     }, []);
 
     const [question, setQuestion] = useState('');
-    const [submittedQuestion, setSubmittedQuestion] = useState('');
-    const [submittedQuestionHe, setSubmittedQuestionHe] = useState('');
+    const [submittedQuestion, setSubmittedQuestion] = useState<string>(
+        (): string => localStorage.getItem("submittedQuestion3") ?? ''
+    );
+    const [submittedQuestionHe, setSubmittedQuestionHe] = useState<string>(
+        (): string => localStorage.getItem("submittedQuestionHe3") ?? ''
+    );
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
     const [confirmedCombination, setConfirmedCombination] = useState<ICombinationMatch | null>(null);
+    // Bumped on every spread/clear so an out-of-order (or stale, post-clear)
+    // checkCombinations response can't overwrite a newer one — same class of
+    // race the interpretStore's requestId guards against.
+    const comboRequestRef = useRef(0);
 
     const [isSpread3, setIsSpread3] = useState<boolean>((): boolean => {
         const saved: string | null = localStorage.getItem("isSpread3");
@@ -55,7 +63,25 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     useEffect((): void => {
         localStorage.setItem("isSpread3", JSON.stringify(isSpread3));
         localStorage.setItem("selected3Cards", JSON.stringify(selected3Cards));
-    }, [isSpread3, selected3Cards]);
+        localStorage.setItem("submittedQuestion3", submittedQuestion);
+        localStorage.setItem("submittedQuestionHe3", submittedQuestionHe);
+    }, [isSpread3, selected3Cards, submittedQuestion, submittedQuestionHe]);
+
+    // Card combinations (the "left modal") are plain component state with no
+    // persistence, unlike isSpread3/selected3Cards above — so navigating away
+    // and back restores the spread itself but not its combo matches, and
+    // with comboMatches empty the modal has no way to reopen. Re-run the
+    // same lookup once on mount for whatever spread was restored.
+    useEffect(() => {
+        if (!isSpread3 || selected3Cards.length === 0) return;
+        const myComboRequest = ++comboRequestRef.current;
+        combinationsService.checkCombinations(selected3Cards.map(c => c.name), submittedQuestion).then(matches => {
+            if (comboRequestRef.current === myComboRequest) {
+                setComboMatches(filterByProximity(matches, selected3Cards, THREE_CARDS_ADJACENCY));
+            }
+        }).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const spreadThem3: () => void = (): void => {
         if (question.trim()) {
@@ -70,8 +96,11 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setComboMatches([]);
         setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        const myComboRequest = ++comboRequestRef.current;
         combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
-            setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+            if (comboRequestRef.current === myComboRequest) {
+                setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+            }
         }).catch(() => {});
     };
 
@@ -84,6 +113,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setWidgetOpen(false);
         setComboMatches([]);
         setConfirmedCombination(null);
+        comboRequestRef.current++;
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
@@ -103,8 +133,11 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setComboMatches([]);
         setConfirmedCombination(null);
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        const myComboRequest = ++comboRequestRef.current;
         combinationsService.checkCombinations(chosen.map(c => c.name), q.en).then(matches => {
-            setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+            if (comboRequestRef.current === myComboRequest) {
+                setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+            }
         }).catch(() => {});
     };
 

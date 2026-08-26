@@ -2,17 +2,6 @@
     overflow-y: auto;
 }
 
-/* The Celtic cross's .ready-questions-stack (positioned via a percentage +
-   fixed-px hybrid offset in CelticSpread.css) needs real physical width to
-   avoid overflowing its own border. Scoped here (not the shared app-wide
-   <section> in App.css) so only this route pays for it — desktop only,
-   since mobile uses its own stacked-list layout with no such constraint. */
-@media (min-width: 769px) {
-    .celtic-spread-container {
-        min-width: 1800px;
-    }
-}
-
 /* Input lives inside .spread-header-container now */
 .celtic-spread-container .spread-question-input {
     flex: 1;

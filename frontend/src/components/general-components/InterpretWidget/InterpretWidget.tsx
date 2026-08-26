@@ -149,11 +149,20 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     };
 
     useEffect(() => {
-        if (isOpen && cards.length > 0 && !spreadData.en && !isInterpreting) {
+        // Depends on `cards` (not just `isOpen`) so a new spread triggers a
+        // fresh interpretation even while the panel stays open the whole
+        // time — e.g. clicking a different ready question, or submitting a
+        // new typed question, without ever closing/reopening the widget.
+        // Deliberately ignores `isInterpreting`: if a previous call for an
+        // now-superseded spread is still in flight, its requestId guard will
+        // no-op it harmlessly, but it also skips resetting isInterpreting —
+        // gating on it here would leave the spinner stuck forever with no
+        // new call ever starting to eventually clear it.
+        if (isOpen && cards.length > 0 && !spreadData.en) {
             interpret();
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isOpen]);
+    }, [isOpen, cards]);
 
     useEffect(() => {
         if (!confirmedCombination) return;

@@ -7,9 +7,29 @@ export type { ISpreadInterpretation };
 // Step 1
 export type SpreadType = 'celtic' | 'three-cards';
 
+// Unlike selectedCards/isSpread (persisted per spread page), this store had
+// no localStorage backing at all — a hard refresh (not in-app navigation,
+// which never touches it) silently wiped every reading, which is also what
+// left ConclusionModal with nothing to show and no way to reopen.
+function loadPersistedInterpretation(spreadType: SpreadType): Pick<ISpreadInterpretation, 'en' | 'he' | 'followupQ' | 'followupAnswer'> {
+    try {
+        const raw = localStorage.getItem(`interpretation-${spreadType}`);
+        if (!raw) return { en: null, he: null, followupQ: null, followupAnswer: null };
+        const parsed = JSON.parse(raw);
+        return {
+            en: parsed.en ?? null,
+            he: parsed.he ?? null,
+            followupQ: parsed.followupQ ?? null,
+            followupAnswer: parsed.followupAnswer ?? null,
+        };
+    } catch {
+        return { en: null, he: null, followupQ: null, followupAnswer: null };
+    }
+}
+
 export class InterpretState {
-    celtic: ISpreadInterpretation = { en: null, he: null, heLoading: false, requestId: 0 };
-    'three-cards': ISpreadInterpretation = { en: null, he: null, heLoading: false, requestId: 0 };
+    celtic: ISpreadInterpretation = { heLoading: false, requestId: 0, ...loadPersistedInterpretation('celtic') };
+    'three-cards': ISpreadInterpretation = { heLoading: false, requestId: 0, ...loadPersistedInterpretation('three-cards') };
 }
 
 // Step 2
@@ -58,6 +78,17 @@ export function interpretReducer(
 
 // Step 5
 export const interpretStore = createStore(interpretReducer);
+
+// Mirrors en/he/followup into localStorage on every change so a hard
+// refresh doesn't lose a reading that's already been paid for (heLoading/
+// heFailed/requestId are transient/session-only and deliberately excluded).
+interpretStore.subscribe(() => {
+    const state = interpretStore.getState();
+    (['celtic', 'three-cards'] as SpreadType[]).forEach(spreadType => {
+        const { en, he, followupQ, followupAnswer } = state[spreadType];
+        localStorage.setItem(`interpretation-${spreadType}`, JSON.stringify({ en, he, followupQ, followupAnswer }));
+    });
+});
 
 // Fetches the Hebrew translation for a spread's English reading, on demand.
 // Safe to call from multiple components at once — it re-checks the live
