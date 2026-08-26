@@ -169,8 +169,8 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     {translate('thirdPersonToggle', lang)}
                 </button>
                 {submittedQuestion && (
-                    <div className="spread-question-display">
-                        <span className="spread-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('yourQuestion', lang)}</span>
+                    <div className="spread-question-display" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <span className="spread-question-label">{translate('yourQuestion', lang)}</span>
                         <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(displayQuestion) ? 'rtl' : 'ltr'}>{displayQuestion}</span>
                     </div>
                 )}

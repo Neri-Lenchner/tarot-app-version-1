@@ -58,7 +58,7 @@ export function interpretReducer(
 ): InterpretState {
     switch (action.type) {
         case InterpretActionType.BeginInterpret:
-            return { ...state, [action.spreadType]: { ...state[action.spreadType], requestId: (state[action.spreadType].requestId ?? 0) + 1 } };
+            return { ...state, [action.spreadType]: { ...state[action.spreadType], he: null, heLoading: false, heFailed: false, requestId: (state[action.spreadType].requestId ?? 0) + 1 } };
         case InterpretActionType.SetEnglish:
             return { ...state, [action.spreadType]: { ...state[action.spreadType], en: action.payload!.en!, he: null, heLoading: false, heFailed: false, followupQ: null, followupAnswer: null } };
         case InterpretActionType.SetHebrewLoading:
@@ -121,6 +121,13 @@ export function waitForHebrewTranslation(spreadType: SpreadType): Promise<string
     if (state.he !== null) return Promise.resolve(state.he);
     if (state.en === null) return Promise.reject(new Error('No English reading to translate yet'));
 
+    // Pinned so a BeginInterpret/Clear fired by the user while this promise
+    // is still waiting (e.g. confirming a combination mid-save) is detected
+    // as "this reading got superseded" instead of the requestId-agnostic
+    // he===null/heLoading===false state that a fresh SetEnglish briefly
+    // passes through looking exactly like a failed translation.
+    const myRequestId = state.requestId;
+
     if (!state.heLoading) {
         void ensureHebrewTranslation(spreadType);
     }
@@ -128,6 +135,11 @@ export function waitForHebrewTranslation(spreadType: SpreadType): Promise<string
     return new Promise<string>((resolve, reject) => {
         const unsubscribe = interpretStore.subscribe(() => {
             const latest = interpretStore.getState()[spreadType];
+            if (latest.requestId !== myRequestId) {
+                unsubscribe();
+                reject(new Error('Spread changed before translation finished'));
+                return;
+            }
             if (latest.he !== null) {
                 unsubscribe();
                 resolve(latest.he);
