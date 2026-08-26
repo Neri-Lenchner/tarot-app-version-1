@@ -104,6 +104,14 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     const canToggle = spreadData.en !== null;
     const awaitingHebrew = lang === 'he' && spreadData.he === null && !!spreadData.heLoading;
     const translationFailed = lang === 'he' && spreadData.en !== null && spreadData.he === null && !spreadData.heLoading && !!spreadData.heFailed;
+    // A save persists both languages at once (see saveReading), so it isn't
+    // meaningful until Hebrew has actually finished fetching too — not just
+    // English. Unlike awaitingHebrew/translationFailed above, this isn't
+    // gated on lang === 'he': Hebrew fetches in the background as soon as
+    // English lands (see interpret()'s ensureHebrewTranslation call), so a
+    // user who never switched away from English could otherwise save before
+    // it's ready.
+    const heStillPending = canToggle && spreadData.he === null && !spreadData.heFailed;
 
     const saveReading = async (): Promise<void> => {
         setIsSaving(true);
@@ -220,8 +228,17 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                             </div>
                         )}
                         {canToggle && loggedIn && (
-                            <button className="iw-save-btn" onClick={saveReading} disabled={saved || isSaving} dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                {saved ? translate('saved', lang) : isSaving ? translate('saving', lang) : translate('saveReading', lang)}
+                            <button
+                                className="iw-save-btn"
+                                onClick={spreadData.heFailed ? () => ensureHebrewTranslation(spreadType) : saveReading}
+                                disabled={saved || isSaving || heStillPending}
+                                dir={lang === 'he' ? 'rtl' : 'ltr'}
+                            >
+                                {saved ? translate('saved', lang)
+                                    : isSaving ? translate('saving', lang)
+                                    : heStillPending ? translate('translatingHebrew', lang)
+                                    : spreadData.heFailed ? translate('failedTranslation', lang)
+                                    : translate('saveReading', lang)}
                             </button>
                         )}
                         {awaitingHebrew && (
