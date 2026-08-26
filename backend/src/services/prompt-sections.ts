@@ -260,6 +260,24 @@ export function getMajorArcanaSection(cards: ISpreadCard[]): string {
     return `Note: The following card(s) are Major Arcana and carry greater karmic weight than the Minor Arcana in this spread — give them noticeably more depth and emphasis: ${names}.\n\n`;
 }
 
+// ── Open-Ended Reading (Past Card Anchor) ────────────────────────────────────
+// Matches the "Tell me what I need to know" ready question exactly (both
+// languages, since the frontend sends whichever text the querent clicked).
+const OPEN_ENDED_PHRASES = ['tell me what i need to know', 'ספרו לי מה אני צריך לדעת'];
+
+function isOpenEndedQuestion(question?: string): boolean {
+    const q = question?.trim().toLowerCase();
+    if (!q) return true;
+    return OPEN_ENDED_PHRASES.includes(q);
+}
+
+export function getPastAnchorSection(cards: ISpreadCard[], question?: string): string {
+    if (!isOpenEndedQuestion(question)) return '';
+    const pastCard = cards.find(c => c.position.toLowerCase() === 'past');
+    if (!pastCard) return '';
+    return `=== NO SPECIFIC QUESTION — ANCHOR THE READING ON THE PAST CARD ===\nThe querent did not ask a specific question (or asked only to be told what they need to know). In this case, the Past position card — ${pastCard.name} — sets the foundation and direction for the ENTIRE reading. Read it first and let it decide what life area and situation this whole spread is about. Every other card must be interpreted as a continuation of, or response to, what this Past card establishes — the reading should read as one connected story rooted in this card, not as separate, unrelated topics.\n===\n\n`;
+}
+
 // ── Personal Card Notes ──────────────────────────────────────────────────────
 export function getPersonalNotesSection(cards: ISpreadCard[]): string {
     const noteMap = new Map(
