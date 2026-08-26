@@ -116,14 +116,20 @@
 }
 
 .header-login {
+    display: inline-block;
     color: var(--accent-bright);
     text-decoration: none;
     font-size: 0.82rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    text-align: center;
     border: 1px solid var(--line);
     padding: 5px 14px;
+    /* Measured: ~79px in English vs ~86px in Hebrew (Hebrew is the wider one
+       here) — pin to the larger so switching language doesn't resize it. */
+    min-width: 90px;
+    box-sizing: border-box;
     transition: background var(--transition), border-color var(--transition);
 }
 
@@ -147,7 +153,12 @@
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-align: center;
     padding: 5px 12px;
+    /* Measured: ~85px in English vs ~76px in Hebrew — pin to the larger so
+       switching language doesn't resize it. */
+    min-width: 90px;
+    box-sizing: border-box;
     cursor: pointer;
     transition: background var(--transition), border-color var(--transition);
 }
@@ -195,6 +206,7 @@
     .header-login {
         font-size: 0.68rem;
         padding: 4px 8px;
+        min-width: 0;
     }
 
     .header-user {
@@ -204,6 +216,7 @@
     .header-logout {
         font-size: 0.68rem;
         padding: 4px 8px;
+        min-width: 0;
     }
 }
 

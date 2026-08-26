@@ -12,6 +12,7 @@ class ReadingService {
     async save(
         spreadType: string,
         question: string,
+        questionHe: string | null,
         cards: { name: string; position: string }[],
         interpretationEn: string,
         interpretationHe: string,
@@ -20,7 +21,7 @@ class ReadingService {
     ): Promise<IReadingRecord> {
         const response = await axios.post<IReadingRecord>(
             BASE,
-            { spreadType, question, cards, interpretationEn, interpretationHe, followupQuestion, followupAnswer },
+            { spreadType, question, questionHe, cards, interpretationEn, interpretationHe, followupQuestion, followupAnswer },
             { headers: this.authHeader }
         );
         return response.data;

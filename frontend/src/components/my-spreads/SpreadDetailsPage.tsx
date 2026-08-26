@@ -5,7 +5,7 @@ import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { cardsDeck } from "../../arrays-&-models/tarot-deck-array/tarotDeck";
 import { useLang } from "../../state/lang-state";
-import { translate, translatePosition } from "../../state/translations";
+import { translate, translatePosition, POSITION_HE } from "../../state/translations";
 import "./MySpreadsPage.css";
 
 function formatDate(dateStr: string): string {
@@ -15,13 +15,39 @@ function formatDate(dateStr: string): string {
         + d.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 }
 
-function renderInterpretation(text: string): JSX.Element[] {
+// Matches a line to the card it's about, not just any card whose name
+// happens to appear in it — otherwise a paragraph like Celtic's "Potential"
+// (which legitimately mentions the position-1/2 cards' names while talking
+// about them) grabs whichever card comes first in cardsDeck's own order,
+// regardless of which card the line is actually the paragraph for. Same
+// position-anchored + shownCards-dedup approach as InterpretWidget's
+// renderInterpretation.
+function renderInterpretation(text: string, cards: { name: string; position: string }[]): JSX.Element[] {
+    const escapeRe = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const shownCards = new Set<string>();
     return text.split('\n').filter(l => l.trim()).map((line, i) => {
         if (line.trim().startsWith('**')) {
             return <h5 key={i} className="spread-details-interp-title">{line.replace(/\*\*/g, '').trim()}</h5>;
         }
-        const matchedCard = cardsDeck.find(c => line.toLowerCase().includes(c.name.toLowerCase()));
+
+        const openingChunk = line.slice(0, 60);
+        const positionIdx = cards.findIndex(c => {
+            const heName = POSITION_HE[c.position];
+            const enRe = new RegExp(`\\b${escapeRe(c.position)}\\b`, 'i');
+            return enRe.test(openingChunk) || (!!heName && openingChunk.includes(heName));
+        });
+
+        let matchedName: string | null = null;
+        if (positionIdx !== -1 && !shownCards.has(cards[positionIdx].name)) {
+            matchedName = cards[positionIdx].name;
+        } else {
+            const byName = cards.find(c => !shownCards.has(c.name) && new RegExp(`\\b${escapeRe(c.name)}\\b`, 'i').test(line));
+            matchedName = byName ? byName.name : null;
+        }
+
+        const matchedCard = matchedName ? cardsDeck.find(c => c.name.toLowerCase() === matchedName!.toLowerCase()) : undefined;
         if (matchedCard) {
+            shownCards.add(matchedCard.name);
             return (
                 <div key={i} className="iw-card-row">
                     <div className="iw-card-vignette">
@@ -41,7 +67,10 @@ function SpreadDetailsPage(): JSX.Element {
     const lang = useLang();
     const [reading, setReading] = useState<IReadingRecord | null>(null);
     const [loading, setLoading] = useState(true);
-    const [viewLang, setViewLang] = useState<'en' | 'he'>('en');
+    // Starts from the app's current language rather than a hardcoded 'en' —
+    // otherwise every saved reading opened while in Hebrew mode still showed
+    // English first, reading as if the Hebrew translation had never saved.
+    const [viewLang, setViewLang] = useState<'en' | 'he'>(lang);
 
     useEffect((): void => {
         async function getSingleReading(id: number): Promise<void> {
@@ -70,6 +99,9 @@ function SpreadDetailsPage(): JSX.Element {
     const spreadLabel = reading.spread_type === 'celtic' ? translate('navCeltic', lang) : translate('navThreeCards', lang);
     const spreadClass = reading.spread_type === 'celtic' ? 'celtic' : 'three-cards';
     const interpretation = viewLang === 'en' ? reading.interpretation_en : reading.interpretation_he;
+    // A free-typed question was only ever captured in one language — fall
+    // back to whichever exists, same as the live spread page's pattern.
+    const displayQuestion = viewLang === 'he' ? (reading.question_he || reading.question) : reading.question;
 
     return (
         <div className="spread-details-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
@@ -82,7 +114,9 @@ function SpreadDetailsPage(): JSX.Element {
                     <span className="spread-details-date">{formatDate(reading.created_at)}</span>
                     <span className={`my-spread-type ${spreadClass}`}>{spreadLabel}</span>
                 </div>
-                {reading.question && <p className="spread-details-question">"{reading.question}"</p>}
+                {displayQuestion && (
+                    <p className="spread-details-question" dir={/[֐-׿]/.test(displayQuestion) ? 'rtl' : 'ltr'}>"{displayQuestion}"</p>
+                )}
                 <div className="spread-details-cards">
                     {cards.map((c, i) => (
                         <span key={i} className="spread-details-card-pill">{translatePosition(c.position, viewLang)}: {c.name}</span>
@@ -94,7 +128,7 @@ function SpreadDetailsPage(): JSX.Element {
                     </button>
                 </div>
                 <div className="spread-details-interpretation" dir={viewLang === 'he' ? 'rtl' : 'ltr'}>
-                    {renderInterpretation(interpretation)}
+                    {renderInterpretation(interpretation, cards)}
                 </div>
                 {(reading.followup_question || reading.followup_answer) && (
                     <div className="spread-details-interpretation" dir={viewLang === 'he' ? 'rtl' : 'ltr'}>

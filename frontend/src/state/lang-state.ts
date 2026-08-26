@@ -17,7 +17,17 @@ export interface ILangAction {
     lang?: Lang;
 }
 
-function langReducer(state: ILangState = { lang: 'en' }, action: ILangAction): ILangState {
+// No persistence previously — langStore defaulted to 'en' on every fresh
+// mount (including a logout/login, which is a full app remount), silently
+// reverting the whole app to English even for a user who'd been reading in
+// Hebrew. Restoring the last choice here is what makes a re-login actually
+// keep it.
+function loadPersistedLang(): Lang {
+    const raw = localStorage.getItem('lang');
+    return raw === 'he' ? 'he' : 'en';
+}
+
+function langReducer(state: ILangState = { lang: loadPersistedLang() }, action: ILangAction): ILangState {
     switch (action.type) {
         case LangActionType.Toggle:
             return { lang: state.lang === 'en' ? 'he' : 'en' };
@@ -29,6 +39,10 @@ function langReducer(state: ILangState = { lang: 'en' }, action: ILangAction): I
 }
 
 export const langStore = createStore(langReducer);
+
+langStore.subscribe(() => {
+    localStorage.setItem('lang', langStore.getState().lang);
+});
 
 // Subscribes a component to the global language, re-rendering it whenever
 // the header's HE/EN toggle (or any other langStore dispatch) fires.

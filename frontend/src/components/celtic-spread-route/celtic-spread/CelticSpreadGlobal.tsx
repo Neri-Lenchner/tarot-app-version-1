@@ -188,7 +188,8 @@ export function CelticSpreadGlobal(): JSX.Element {
                     cards={selectedCards}
                     positions={POSITIONS}
                     theme="green"
-                    question={displayQuestion}
+                    question={submittedQuestion}
+                    questionHe={submittedQuestionHe || undefined}
                     isThirdPerson={isThirdPerson}
                     confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}

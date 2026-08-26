@@ -12,10 +12,16 @@
     font-size: 1.1rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    text-align: center;
     border: 1px solid var(--line);
     background: var(--bg-3);
     color: var(--accent);
     padding: 11px 20px;
+    /* Hebrew renders narrower than English for both labels here (measured:
+       "Spread Them"/"Clear Spread" ~186-198px vs ~140-151px in Hebrew) — a
+       shared min-width keeps either button's box from shrinking when the
+       language switches, instead of the toolbar visibly resizing. */
+    min-width: 205px;
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
@@ -40,6 +46,7 @@
 .third-person-toggle {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
     font-size: 0.72rem;
     font-weight: 600;
@@ -49,6 +56,9 @@
     background: var(--bg-3);
     color: var(--ink-dim);
     padding: 7px 16px;
+    /* Measured: ~270px in English vs ~182px in Hebrew for this label — pin
+       to the English width so toggling language doesn't resize the button. */
+    min-width: 278px;
     cursor: pointer;
     white-space: nowrap;
     transition:
@@ -86,9 +96,11 @@
     .spread-header-container button {
         font-size: 0.85rem;
         padding: 8px 14px;
+        min-width: 0;
     }
 
     .third-person-toggle {
+        min-width: 0;
         margin: 4px 8px;
     }
 }

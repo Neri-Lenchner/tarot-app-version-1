@@ -16,6 +16,7 @@ interface IInterpretWidgetProps {
     spreadType: 'celtic' | 'three-cards';
     theme: 'green' | 'blue';
     question?: string;
+    questionHe?: string;
     isThirdPerson?: boolean;
     confirmedCombination?: ICombinationMatch;
     isOpen: boolean;
@@ -66,7 +67,7 @@ function renderInterpretation(text: string, cards: ITarotCard[], positions: stri
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, questionHe, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const lang = useLang();
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -90,6 +91,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     }, []);
 
     const spreadData = stored[spreadType];
+    // question/questionHe arrive as the raw pair (so saveReading can persist
+    // both) — this resolves whichever one matches the app's current
+    // language, falling back to the other when only one exists (a
+    // free-typed question was only ever captured in one language).
+    const displayQuestion = lang === 'he' ? (questionHe || question) : question;
     // While Hebrew is still being translated (or failed), fall back to the
     // already-ready English text rather than blocking the view on a spinner —
     // the reading upgrades to Hebrew in place once the translation lands.
@@ -105,7 +111,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
             const he = spreadData.he ?? await waitForHebrewTranslation(spreadType);
             const saveCards = cards.slice(0, positions.length).map((c, i) => ({ name: c.name, position: positions[i] }));
             await readingService.save(
-                spreadType, question ?? '', saveCards,
+                spreadType, question ?? '', questionHe ?? null, saveCards,
                 spreadData.en!, he,
                 spreadData.followupQ ?? null, spreadData.followupAnswer ?? null
             );
@@ -196,10 +202,10 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                         <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('readingInterpretation', lang)}</span>
                     </div>
                     <div className="iw-body">
-                        {question && (
-                            <div className="iw-question-display">
-                                <span className="iw-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('question', lang)}</span>
-                                <p className="iw-question-text" dir={/[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}>{question}</p>
+                        {displayQuestion && (
+                            <div className="iw-question-display" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                                <span className="iw-question-label">{translate('question', lang)}</span>
+                                <p className="iw-question-text" dir={/[\u0590-\u05FF]/.test(displayQuestion) ? 'rtl' : 'ltr'}>{displayQuestion}</p>
                             </div>
                         )}
                         {!canToggle && (

@@ -188,7 +188,8 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     cards={selected3Cards}
                     positions={POSITIONS}
                     theme="blue"
-                    question={displayQuestion}
+                    question={submittedQuestion}
+                    questionHe={submittedQuestionHe || undefined}
                     isThirdPerson={isThirdPerson}
                     confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}
