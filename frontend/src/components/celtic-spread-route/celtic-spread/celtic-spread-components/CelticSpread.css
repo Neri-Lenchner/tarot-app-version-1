@@ -1,12 +1,7 @@
 .spread-container {
     position: relative;
     display: flex;
-    /* Floored at the 1000px reference height (see App.css) so the ten
-       percentage-positioned card-container-N boxes and .ready-questions-stack
-       — all anchored to THIS element's own height — stop rescaling relative
-       to each other once the window gets short, instead of drifting into
-       new overlaps before the mobile breakpoint takes over. */
-    min-height: max(calc(100vh - var(--header-height) - 60px), calc(1000px - var(--header-height) - 60px));
+    min-height: calc(100vh - var(--header-height) - 60px);
     width: 100%;
     margin: 0 auto;
     background:

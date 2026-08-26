@@ -37,6 +37,20 @@
     margin-top: 60px;
 }
 
+/* Same fix as HomePage.css's .home-hero (see its comment for why this is
+   transform, not margin-left): text-align:center only centers within main's
+   own (sidebar-narrowed) box on desktop, landing right of the page's true
+   center. This route is always behind login (sidebar always present when
+   this page renders), so no main.full-width guard is needed the way
+   HomePage's fix has one. */
+@media (min-width: 769px) {
+    .my-spreads-title,
+    .spread-details-title,
+    .my-spreads-empty {
+        transform: translateX(calc(var(--sidebar-width) / -2));
+    }
+}
+
 /* ── List view ── */
 .my-spreads-list {
     display: flex;
