@@ -31,6 +31,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
 
     const [question, setQuestion] = useState('');
     const [submittedQuestion, setSubmittedQuestion] = useState('');
+    const [submittedQuestionHe, setSubmittedQuestionHe] = useState('');
     const [widgetOpen, setWidgetOpen] = useState(false);
     const [comboMatches, setComboMatches] = useState<ICombinationMatch[]>([]);
     const [isThirdPerson, setIsThirdPerson] = useState(false);
@@ -59,6 +60,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     const spreadThem3: () => void = (): void => {
         if (question.trim()) {
             setSubmittedQuestion(question.trim());
+            setSubmittedQuestionHe('');
             setQuestion('');
         }
         const [chosen, bool] = deckService.spreadMajorArcana(3);
@@ -78,6 +80,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setIsSpread3(bool);
         setSelected3Cards([]);
         setSubmittedQuestion('');
+        setSubmittedQuestionHe('');
         setWidgetOpen(false);
         setComboMatches([]);
         setConfirmedCombination(null);
@@ -91,6 +94,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
 
     const handleReadyQuestion = (q: IReadyQuestion): void => {
         setSubmittedQuestion(q.en);
+        setSubmittedQuestionHe(q.he);
         setQuestion('');
         const [chosen, bool] = deckService.spreadMajorArcana(3);
         setSelected3Cards(chosen);
@@ -103,6 +107,8 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
             setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
         }).catch(() => {});
     };
+
+    const displayQuestion: string = lang === 'he' ? (submittedQuestionHe || submittedQuestion) : submittedQuestion;
 
     return (
         <div className="three-cards-global-container">
@@ -130,7 +136,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 {submittedQuestion && (
                     <div className="spread-question-display">
                         <span className="spread-question-label" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('yourQuestion', lang)}</span>
-                        <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(submittedQuestion) ? 'rtl' : 'ltr'}>{submittedQuestion}</span>
+                        <span className="spread-question-text" dir={/[\u0590-\u05FF]/.test(displayQuestion) ? 'rtl' : 'ltr'}>{displayQuestion}</span>
                     </div>
                 )}
             </div>
@@ -147,7 +153,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     cards={selected3Cards}
                     positions={POSITIONS}
                     theme="blue"
-                    question={submittedQuestion}
+                    question={displayQuestion}
                     isThirdPerson={isThirdPerson}
                     confirmedCombination={confirmedCombination ?? undefined}
                     isOpen={widgetOpen}
