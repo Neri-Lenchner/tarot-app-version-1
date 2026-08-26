@@ -75,3 +75,26 @@
     background: rgba(122, 50, 38, 0.18);
     border-color: var(--danger-bright);
 }
+
+@media (max-width: 768px) {
+    .SideBar {
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--line-soft);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .SideBar .links {
+        flex-direction: column;
+        align-items: stretch;
+        height: auto;
+        padding: 10px 16px 16px;
+        gap: 6px;
+    }
+
+    .SideBar a,
+    .sidebar-user,
+    .sidebar-logout {
+        width: 100%;
+    }
+}

@@ -29,6 +29,31 @@ function App(): JSX.Element {
 
     const hideNav = ALWAYS_NO_NAV_ROUTES.includes(location.pathname) || (location.pathname === '/' && !user);
 
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    // Mobile nav auto-closes on route change (so tapping a link doesn't
+    // leave the overlay open on the next page) and locks body scroll while open.
+    useEffect(() => {
+        setMenuOpen(false);
+    }, [location.pathname]);
+
+    useEffect(() => {
+        document.body.classList.toggle('menu-open', menuOpen);
+        return () => document.body.classList.remove('menu-open');
+    }, [menuOpen]);
+
+    useEffect(() => {
+        if (!menuOpen) return;
+        const handleClick = (e: MouseEvent): void => {
+            const target = e.target as HTMLElement;
+            if (!target.closest('.side-bar') && !target.closest('.header-menu-toggle')) {
+                setMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClick);
+        return () => document.removeEventListener('mousedown', handleClick);
+    }, [menuOpen]);
+
     useEffect(() => {
         async function createTarotList(): Promise<void> {
             await deckService.getTarotDetails();
@@ -48,11 +73,11 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
-        <Header />
+        <Header showMenuToggle={!hideNav} menuOpen={menuOpen} onToggleMenu={() => setMenuOpen(o => !o)} />
       </header>
       <section>
           {!hideNav && (
-              <aside className="side-bar">
+              <aside className={`side-bar${menuOpen ? ' side-bar--open' : ''}`}>
                   <SideBar />
               </aside>
           )}

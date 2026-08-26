@@ -32,6 +32,49 @@
     z-index: 10;
 }
 
+.header-menu-toggle {
+    display: none;
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    z-index: 20;
+}
+
+.header-menu-toggle span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background-color: var(--accent);
+    border-radius: 2px;
+    transition: transform 0.25s ease, opacity 0.25s ease, background-color var(--transition);
+}
+
+.header-menu-toggle:hover span {
+    background-color: var(--accent-hover);
+}
+
+.header-menu-toggle--open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+}
+
+.header-menu-toggle--open span:nth-child(2) {
+    opacity: 0;
+}
+
+.header-menu-toggle--open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+}
+
 .header-auth {
     position: absolute;
     right: 20px;
@@ -97,4 +140,64 @@
 .header-logout:hover {
     background: rgba(122, 50, 38, 0.18);
     border-color: var(--danger-bright);
+}
+
+@media (max-width: 768px) {
+    .header-menu-toggle {
+        display: flex;
+    }
+
+    .header-berta {
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 70px;
+    }
+
+    .Header h1 {
+        position: absolute;
+        left: 50px;
+        right: 125px;
+        margin: 0;
+        text-align: center;
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .Header h1[dir="rtl"] {
+        font-size: 18px;
+    }
+
+    .header-auth {
+        right: 8px;
+        gap: 6px;
+    }
+
+    .header-lang-btn,
+    .header-login {
+        font-size: 0.68rem;
+        padding: 4px 8px;
+    }
+
+    .header-user {
+        display: none;
+    }
+
+    .header-logout {
+        font-size: 0.68rem;
+        padding: 4px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-berta {
+        display: none;
+    }
+
+    .Header h1 {
+        max-width: calc(100% - 90px);
+    }
 }

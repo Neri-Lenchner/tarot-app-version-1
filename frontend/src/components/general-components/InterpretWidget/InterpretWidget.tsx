@@ -162,6 +162,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     }, [confirmedCombination]);
 
     useEffect(() => {
+        document.body.classList.toggle('iw-open', isOpen);
+        return () => document.body.classList.remove('iw-open');
+    }, [isOpen]);
+
+    useEffect(() => {
         if (!isOpen) return;
         const handleClick = (e: MouseEvent): void => {
             const target = e.target as HTMLElement;

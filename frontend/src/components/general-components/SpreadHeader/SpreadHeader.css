@@ -72,3 +72,20 @@
     border-color: var(--accent-glow);
     color: var(--accent-glow);
 }
+
+@media (max-width: 768px) {
+    .spread-header-container {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 8px 12px;
+    }
+
+    .spread-header-container button {
+        font-size: 0.85rem;
+        padding: 8px 14px;
+    }
+
+    .third-person-toggle {
+        margin: 4px 8px;
+    }
+}

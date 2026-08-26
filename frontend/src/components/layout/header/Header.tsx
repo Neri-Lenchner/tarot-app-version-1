@@ -8,7 +8,13 @@ import {interpretStore, InterpretActionType, ensureHebrewTranslation} from "../.
 import {langStore, LangActionType, useLang} from "../../../state/lang-state";
 import {translate} from "../../../state/translations";
 
-function Header(): JSX.Element {
+interface IHeaderProps {
+    showMenuToggle: boolean;
+    menuOpen: boolean;
+    onToggleMenu: () => void;
+}
+
+function Header({showMenuToggle, menuOpen, onToggleMenu}: IHeaderProps): JSX.Element {
     const [user, setUser] = useState<IAuthUser | null>(authStore.getState().user);
     const navigate = useNavigate();
     const lang = useLang();
@@ -34,6 +40,17 @@ function Header(): JSX.Element {
 
     return (
         <div className="Header">
+            {showMenuToggle && (
+                <button
+                    className={`header-menu-toggle${menuOpen ? ' header-menu-toggle--open' : ''}`}
+                    onClick={onToggleMenu}
+                    aria-label="Toggle menu"
+                >
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            )}
             <img src={berta} alt="Berta" className="header-berta" />
             <h1 dir={lang === 'he' ? 'rtl' : 'ltr'}>{t('headerTitle')}</h1>
             <div className="header-auth">

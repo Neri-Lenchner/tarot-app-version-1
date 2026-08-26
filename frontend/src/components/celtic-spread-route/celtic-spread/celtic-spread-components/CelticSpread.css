@@ -286,3 +286,60 @@
     font-size: 18px;
     color: var(--text-primary);
 }
+
+/* ── Mobile: the hand-tuned Celtic cross can't shrink to a phone width and
+   stay legible, so below the breakpoint every card-container drops its
+   absolute cross position and stacks as a plain vertical list instead. ── */
+@media (max-width: 768px) {
+    .spread-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+        min-height: auto;
+        overflow-y: visible;
+        padding: 24px 16px 40px;
+        gap: 22px;
+    }
+
+    .card-container-1,
+    .card-container-2,
+    .card-container-3,
+    .card-container-4,
+    .card-container-5,
+    .card-container-6,
+    .card-container-7,
+    .card-container-8,
+    .card-container-9,
+    .card-container-10 {
+        position: static;
+        width: auto;
+        transform: none;
+        transition: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .spread-container h5 {
+        position: static;
+        font-size: 13px;
+    }
+
+    .card {
+        height: 170px;
+    }
+
+    .ready-questions-stack {
+        position: static;
+        width: 100%;
+        max-width: 320px;
+        order: 11;
+        margin-top: 10px;
+    }
+
+    .ready-question,
+    .ready-question-warning {
+        white-space: normal;
+    }
+}

@@ -206,3 +206,34 @@
     font-size: 18px;
     color: var(--text-primary);
 }
+
+@media (max-width: 768px) {
+    .three-cards-spread-container {
+        min-width: 0;
+        height: auto;
+        min-height: 0;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 28px;
+        padding: 24px 16px 40px;
+        overflow-y: auto;
+    }
+
+    .ready-questions-stack {
+        position: static;
+        transform: none;
+        width: 100%;
+        max-width: 320px;
+        order: 2;
+    }
+
+    .ready-question,
+    .ready-question-warning {
+        white-space: normal;
+    }
+
+    .card-container {
+        order: 1;
+    }
+}

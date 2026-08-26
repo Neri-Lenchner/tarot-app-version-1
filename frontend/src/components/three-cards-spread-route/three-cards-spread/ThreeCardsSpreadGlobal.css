@@ -52,3 +52,26 @@
     font-size: 17px;
     font-style: italic;
 }
+
+@media (max-width: 768px) {
+    .three-cards-global-container .spread-question-input {
+        font-size: 16px;
+        padding: 8px 12px;
+        flex-basis: 100%;
+        order: 3;
+    }
+
+    .three-cards-global-container .spread-subheader-row {
+        flex-wrap: wrap;
+        padding: 4px 0;
+    }
+
+    .three-cards-global-container .spread-question-display {
+        padding: 6px 12px;
+        flex-wrap: wrap;
+    }
+
+    .three-cards-global-container .spread-question-text {
+        font-size: 15px;
+    }
+}

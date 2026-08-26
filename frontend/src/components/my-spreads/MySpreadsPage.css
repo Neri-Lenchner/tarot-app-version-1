@@ -234,3 +234,33 @@
     font-size: 1.15rem;
     line-height: 1.75;
 }
+
+@media (max-width: 768px) {
+    .my-spreads-page,
+    .spread-details-page {
+        padding: 18px 14px;
+    }
+
+    .my-spread-item {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 12px 14px;
+    }
+
+    .my-spread-item-right {
+        margin-left: auto;
+    }
+
+    .spread-details-card {
+        padding: 20px 18px;
+    }
+
+    .spread-details-meta {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .spread-details-actions {
+        flex-wrap: wrap;
+    }
+}

@@ -155,3 +155,18 @@
     color: var(--accent-hover);
     box-shadow: 0 0 18px rgba(var(--accent-glow-rgb), 0.8), 0 0 42px rgba(var(--accent-glow-rgb), 0.4);
 }
+
+@media (max-width: 768px) {
+    .conclusion-widget {
+        bottom: 16px;
+        width: calc(100vw - 24px);
+    }
+
+    .conclusion-modal {
+        width: 100%;
+    }
+
+    .conclusion-body {
+        max-height: 35vh;
+    }
+}

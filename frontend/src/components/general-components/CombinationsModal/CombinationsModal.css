@@ -163,3 +163,16 @@
     opacity: 0.45;
     cursor: default;
 }
+
+@media (max-width: 768px) {
+    .combo-modal {
+        left: 12px;
+        width: calc(100vw - 24px);
+        max-height: 60vh;
+    }
+
+    .combo-reopen-btn {
+        left: 12px;
+        bottom: 16px;
+    }
+}

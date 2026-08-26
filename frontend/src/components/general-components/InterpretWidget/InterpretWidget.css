@@ -267,3 +267,28 @@
     font-size: 18px;
     line-height: 1.75;
 }
+
+@media (max-width: 768px) {
+    .interpret-widget {
+        bottom: 16px;
+        right: 12px;
+    }
+
+    body.iw-open {
+        overflow: hidden;
+    }
+
+    .iw-panel {
+        width: calc(100vw - 24px);
+        height: 75vh;
+    }
+
+    .iw-header {
+        font-size: 16px;
+        padding: 12px 14px;
+    }
+
+    .iw-card-img {
+        width: 44px;
+    }
+}

@@ -41,3 +41,19 @@
 .home-hero[dir="rtl"] h2 {
     font-family: var(--font-body-he);
 }
+
+@media (max-width: 768px) {
+    .home-hero {
+        margin-top: 90px;
+        padding: 20px 16px 14px;
+    }
+
+    .home-hero h1 {
+        font-size: 1.3rem;
+        letter-spacing: 0.08em;
+    }
+
+    .home-hero h2 {
+        font-size: 0.9rem;
+    }
+}

@@ -35,3 +35,32 @@ main {
 main.full-width {
     width: 100%;
 }
+
+@media (max-width: 768px) {
+    section {
+        min-width: 0;
+    }
+
+    /* Off-canvas overlay instead of a permanent column — toggled via the
+       header hamburger (see App.tsx / Header.tsx). */
+    .side-bar {
+        display: none;
+        position: fixed;
+        top: var(--header-height);
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: auto;
+        max-height: calc(100vh - var(--header-height));
+        overflow-y: auto;
+        z-index: 500;
+    }
+
+    .side-bar--open {
+        display: block;
+    }
+
+    main {
+        width: 100%;
+    }
+}

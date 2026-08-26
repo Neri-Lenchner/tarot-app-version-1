@@ -10,7 +10,17 @@
     background: var(--bg-2);
     border: 1px solid var(--line);
     padding: 40px 48px;
-    width: 380px;
+    width: min(380px, calc(100vw - 32px));
+}
+
+@media (max-width: 480px) {
+    .auth-page {
+        padding: 16px;
+    }
+
+    .auth-card {
+        padding: 28px 24px;
+    }
 }
 
 .auth-title {
