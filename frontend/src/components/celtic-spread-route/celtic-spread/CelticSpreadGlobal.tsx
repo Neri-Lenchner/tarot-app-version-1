@@ -1,4 +1,5 @@
 import {useState, useEffect, useRef, JSX} from "react";
+import {User} from "lucide-react";
 import {SpreadHeader} from "../../general-components/SpreadHeader/SpreadHeader";
 import {CelticSpread} from "./celtic-spread-components/CelticSpread";
 import {IReadyQuestion} from "../../../arrays-&-models/readyQuestion.interface";
@@ -164,6 +165,7 @@ export function CelticSpreadGlobal(): JSX.Element {
                     type="button"
                     dir={lang === 'he' ? 'rtl' : 'ltr'}
                 >
+                    <User size={14} />
                     {translate('thirdPersonToggle', lang)}
                 </button>
                 {submittedQuestion && (

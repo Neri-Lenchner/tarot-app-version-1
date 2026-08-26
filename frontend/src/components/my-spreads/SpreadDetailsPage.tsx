@@ -1,5 +1,6 @@
 import { JSX, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 import { readingService } from "../../services/ReadingService";
 import { IReadingRecord } from "../../arrays-&-models/readingRecord.interface";
 import { cardsDeck } from "../../arrays-&-models/tarot-deck-array/tarotDeck";
@@ -72,7 +73,10 @@ function SpreadDetailsPage(): JSX.Element {
 
     return (
         <div className="spread-details-page" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-            <button className="spread-details-back" onClick={() => navigate('/my-spreads')}>{translate('backToMySpreads', lang)}</button>
+            <button className="spread-details-back" onClick={() => navigate('/my-spreads')} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                {lang === 'he' ? <ArrowRight size={16} /> : <ArrowLeft size={16} />}
+                {translate('backToMySpreads', lang)}
+            </button>
             <div className="spread-details-card">
                 <div className="spread-details-meta">
                     <span className="spread-details-date">{formatDate(reading.created_at)}</span>

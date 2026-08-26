@@ -1,4 +1,5 @@
 import { JSX, useEffect, useState } from 'react';
+import { Info, X } from 'lucide-react';
 import { interpretService } from '../../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState, ensureHebrewTranslation, waitForHebrewTranslation } from '../../../state/interpret-state';
 import { authStore } from '../../../state/auth-state';
@@ -241,7 +242,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 </div>
             )}
             <button className="iw-toggle-btn" onClick={onToggle}>
-                {isOpen ? '✕' : 'i'}
+                {isOpen ? <X size={20} /> : <Info size={20} />}
             </button>
         </div>
     );

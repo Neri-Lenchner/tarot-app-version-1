@@ -227,18 +227,24 @@
 }
 
 .spread-container .ready-question-warning {
-    width: 100%;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    max-width: 90vw;
     box-sizing: border-box;
-    color: var(--danger-bright);
-    border: 1px solid var(--danger-bright);
+    color: #39FF14;
+    border: none;
+    text-shadow: 0 0 6px rgba(57, 255, 20, 0.8);
     padding: 10px 14px;
-    font-size: 0.82rem;
+    font-size: 2.2rem;
     letter-spacing: 0.04em;
-    background: var(--bg-2);
-    backdrop-filter: blur(4px);
+    background: transparent;
     text-align: center;
     white-space: normal;
     overflow-wrap: break-word;
+    z-index: 500;
 }
 
 /* ── Card modal ─────────────────────────────────── */
@@ -298,6 +304,9 @@
     position: absolute;
     top: 12px;
     right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     color: var(--accent);

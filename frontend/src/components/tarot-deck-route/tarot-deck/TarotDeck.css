@@ -50,6 +50,9 @@
     position: absolute;
     top: 12px;
     right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
     color: var(--accent);

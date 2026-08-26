@@ -8,12 +8,26 @@
 }
 
 .Header h1 {
+    /* Pinned to both edges (not flex-centered against the full width) and
+       given a hard overflow fallback — .header-berta and .header-auth are
+       both position:absolute, so naive centering ignores the real space
+       they take up and can run this title straight into the auth buttons
+       at the narrow end of the desktop range. left/right here are sized to
+       clear both of those clusters at ANY desktop width, by construction,
+       with ellipsis as a last-resort safety net rather than actual overlap. */
+    position: absolute;
+    left: 210px;
+    right: 260px;
     margin: 0;
+    text-align: center;
     font-size: 1.4rem;
     font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
     color: var(--berta-gold);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .Header h1[dir="rtl"] {

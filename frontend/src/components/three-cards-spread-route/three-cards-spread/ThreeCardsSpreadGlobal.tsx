@@ -1,4 +1,5 @@
 import {JSX, useEffect, useRef, useState} from 'react';
+import {User} from "lucide-react";
 import './ThreeCardsSpreadGlobal.css';
 import {ThreeCardsSpread} from "./three-cards-spread-components/ThreeCardsSpread";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
@@ -164,6 +165,7 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                     type="button"
                     dir={lang === 'he' ? 'rtl' : 'ltr'}
                 >
+                    <User size={14} />
                     {translate('thirdPersonToggle', lang)}
                 </button>
                 {submittedQuestion && (

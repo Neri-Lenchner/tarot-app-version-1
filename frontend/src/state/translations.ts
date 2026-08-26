@@ -21,7 +21,7 @@ const translations = {
     // ── Spread header / question bar ──
     spreadThem: { en: "Spread Them", he: "פרוש קלפים" },
     clearSpread: { en: "Clear Spread", he: "נקה פריסה" },
-    thirdPersonToggle: { en: "👤 Reading about someone else", he: "👤 קריאה עבור מישהו אחר" },
+    thirdPersonToggle: { en: "Reading about someone else", he: "קריאה עבור מישהו אחר" },
     questionPlaceholder: { en: "What is your question?", he: "מה שאלתך לקלפים?" },
     yourQuestion: { en: "Your question:", he: "השאלה שלך:" },
 
@@ -52,7 +52,7 @@ const translations = {
     loading: { en: "Loading...", he: "טוען..." },
     noSavedReadings: { en: "No saved readings yet.", he: "עדיין אין פריסות שמורות." },
     delete: { en: "Delete", he: "מחיקה" },
-    backToMySpreads: { en: "← Back to My Spreads", he: "→ חזרה לפריסות שלי" },
+    backToMySpreads: { en: "Back to My Spreads", he: "חזרה לפריסות שלי" },
     followupQuestionTitle: { en: "Follow-up Question", he: "שאלת המשך" },
 
     // ── Auth ──

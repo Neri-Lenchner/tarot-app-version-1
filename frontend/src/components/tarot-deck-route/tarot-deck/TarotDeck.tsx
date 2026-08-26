@@ -4,6 +4,7 @@ import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.in
 import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
 import './TarotDeck.css';
 import {JSX, useEffect, useState} from "react";
+import {X} from "lucide-react";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {useLang} from "../../../state/lang-state";
@@ -38,7 +39,7 @@ export function TarotDeck() {
             {selectedCard !== null && (
                 <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedCard(null)}>
                     <div className="card-modal" onClick={(e) => e.stopPropagation()}>
-                        <button className="card-modal-close" onClick={() => setSelectedCard(null)}>✕</button>
+                        <button className="card-modal-close" onClick={() => setSelectedCard(null)}><X size={18} /></button>
                         <h3 className="card-modal-name">{selectedCard.name}</h3>
                         {selectedApiCard ? (
                             <div dir={lang === 'he' ? 'rtl' : 'ltr'}>

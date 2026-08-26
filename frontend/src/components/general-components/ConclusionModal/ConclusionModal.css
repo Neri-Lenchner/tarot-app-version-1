@@ -141,6 +141,9 @@
 .conclusion-reopen-btn {
     width: 44px;
     height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--bg-2);
     font-size: 16px;
     cursor: pointer;

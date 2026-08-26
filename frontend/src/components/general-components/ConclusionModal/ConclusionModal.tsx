@@ -1,4 +1,5 @@
 import { JSX, useState, useEffect } from 'react';
+import { Info, X } from 'lucide-react';
 import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTranslation } from '../../../state/interpret-state';
 import { useLang } from '../../../state/lang-state';
 import { translate } from '../../../state/translations';
@@ -131,7 +132,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 </div>
             )}
             <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
-                {visible ? '✕' : 'i'}
+                {visible ? <X size={18} /> : <Info size={18} />}
             </button>
         </div>
     );

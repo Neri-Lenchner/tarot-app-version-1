@@ -25,6 +25,9 @@
 .iw-toggle-btn {
     width: 44px;
     height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: var(--bg-2);
     color: var(--accent);
     border: 1px solid var(--accent-glow);

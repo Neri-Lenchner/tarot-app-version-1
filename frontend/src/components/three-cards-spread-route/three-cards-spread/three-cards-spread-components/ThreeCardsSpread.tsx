@@ -1,4 +1,5 @@
 import {JSX, useState, useEffect} from "react";
+import {X} from "lucide-react";
 import './ThreeCardsSpread.css';
 import {interpretStore} from "../../../../state/interpret-state";
 import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
@@ -97,7 +98,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
                 <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedIndex(null)}>
                     <div className="card-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="card-modal-header">
-                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
+                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}><X size={18} /></button>
                             {hasBoth && (
                                 <button className="card-modal-lang-btn" onClick={() => setModalLang(l => l === 'en' ? 'he' : 'en')}>
                                     {modalLang === 'en' ? 'HE' : 'EN'}

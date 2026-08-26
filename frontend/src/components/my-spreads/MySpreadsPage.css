@@ -135,6 +135,18 @@
     background: var(--accent-wash);
 }
 
+.my-spread-type.celtic {
+    border-color: #4A7C59;
+    color: #7FBF8E;
+    background: rgba(74, 124, 89, 0.12);
+}
+
+.my-spread-type.three-cards {
+    border-color: #3A6EA5;
+    color: #7FA8D9;
+    background: rgba(58, 110, 165, 0.12);
+}
+
 /* ── Detail view ── */
 .spread-details-back {
     background: none;

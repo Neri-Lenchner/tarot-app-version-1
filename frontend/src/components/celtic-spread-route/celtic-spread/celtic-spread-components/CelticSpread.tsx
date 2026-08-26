@@ -1,5 +1,6 @@
 import './CelticSpread.css';
 import {useState, useEffect, JSX} from "react";
+import {X} from "lucide-react";
 import {interpretStore} from "../../../../state/interpret-state";
 import {ISpreadInterpretation} from "../../../../arrays-&-models/SpreadInterpretation.model";
 import {Unsubscribe} from "redux";
@@ -100,7 +101,7 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
                 <div className="card-modal-overlay modal-widget-root" onClick={(): void => setSelectedIndex(null)}>
                     <div className="card-modal" onClick={(e): void => e.stopPropagation()}>
                         <div className="card-modal-header">
-                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}>✕</button>
+                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}><X size={18} /></button>
                             {hasBoth && (
                                 <button className="card-modal-lang-btn" onClick={() => setModalLang(language => language === 'en' ? 'he' : 'en')}>
                                     {modalLang === 'en' ? 'HE' : 'EN'}
