@@ -68,12 +68,13 @@
     border: 1px solid var(--line-soft);
     padding: 14px 20px;
     cursor: pointer;
+    box-shadow: 0 0 10px rgba(var(--accent-glow-rgb), 0.4), 0 0 24px rgba(var(--accent-glow-rgb), 0.18);
     transition: border-color var(--transition), background var(--transition);
 }
 
 .my-spread-item:hover {
     background: var(--bg-3);
-    border-color: var(--line);
+    border-color: var(--accent-glow);
 }
 
 .my-spread-item-left {

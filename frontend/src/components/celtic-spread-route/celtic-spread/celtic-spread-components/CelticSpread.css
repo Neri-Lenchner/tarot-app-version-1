@@ -164,12 +164,18 @@
    always wins for Celtic's own elements. ── */
 .spread-container .ready-questions-stack {
     position: absolute;
-    /* calc(65% + 196px), not a plain percentage: derived so this box's right
-       edge sits a constant ~50px left of card-container-5's (right:65%) left
-       edge at ANY container width — same reasoning as the staff column's
-       right: calc(35% - 126px) above. */
-    left: auto;
-    right: calc(65% + 196px);
+    /* left AND right both pinned (no explicit width) — the browser computes
+       width as whatever fits between them. left:8px is a fixed safe inset
+       from .spread-container's own left edge (never overflows toward the
+       sidebar); right: calc(65% + 150px) tracks card-container-5's
+       (right:65%) left edge with a gap, same reasoning as the staff
+       column's right: calc(35% - 126px) below. At the narrowest allowed
+       desktop width (769px, just above the mobile breakpoint) there's only
+       ~75px of real room here, so the box necessarily gets narrow and
+       button text wraps more — but it can never overlap either neighbor,
+       at ANY width from 769px up, by construction. */
+    left: 8px;
+    right: calc(65% + 150px);
     top: 60px;
     /* ThreeCardsSpread.css's bare (unscoped) .ready-questions-stack sets
        transform: translateY(-50%). CSS cascades per-property, not per-rule
@@ -183,7 +189,8 @@
     flex-direction: column;
     gap: 14px;
     z-index: 10;
-    width: 200px;
+    max-width: 260px;
+    box-sizing: border-box;
 }
 
 .spread-container .ready-questions-title {
