@@ -1,6 +1,7 @@
 .App {
     overflow: hidden;
     height: 100vh;
+    min-height: 1000px;
 }
 
 .App-header {
@@ -17,7 +18,13 @@
 section {
     display: flex;
     height: calc(100vh - var(--header-height));
-    min-width: 1400px;
+    min-height: calc(1000px - var(--header-height));
+    /* Was 1400px — not wide enough for the Celtic spread's
+       .ready-questions-stack (positioned via a percentage + fixed-px hybrid
+       offset in CelticSpread.css), which got squeezed and overflowed its
+       own border as this floor's width ran out. Widened so the app-wide
+       width floor actually covers that element too. */
+    min-width: 1800px;
 }
 
 .side-bar {
@@ -37,8 +44,13 @@ main.full-width {
 }
 
 @media (max-width: 768px) {
+    .App {
+        min-height: 0;
+    }
+
     section {
         min-width: 0;
+        min-height: 0;
     }
 
     /* Off-canvas overlay instead of a permanent column — toggled via the
@@ -53,7 +65,24 @@ main.full-width {
         height: auto;
         max-height: calc(100vh - var(--header-height));
         overflow-y: auto;
-        z-index: 500;
+        /* Above body::before's grain texture (z-index:9999) so the mobile
+           nav overlay never sits underneath that blend-mode layer at all. */
+        z-index: 10000;
+        /* The solid color must live on this fixed layer itself, not just
+           the .SideBar child it wraps — otherwise mobile browsers can
+           composite this layer a frame before its child paints, letting
+           the page underneath show through right as the menu opens. */
+        background: var(--bg-2);
+        /* Forces its own GPU compositing layer so that first frame is
+           already opaque instead of being promoted late. */
+        transform: translateZ(0);
+        /* body::before is a full-viewport z-index:9999 grain texture with
+           mix-blend-mode:overlay. Without isolation, that blend mode reaches
+           into this fixed layer's own compositing and can visibly let the
+           page content underneath (e.g. the Celtic spread's h5 labels) show
+           through right as the menu opens. isolate makes this a self-
+           contained stacking context immune to that ancestor's blend mode. */
+        isolation: isolate;
     }
 
     .side-bar--open {

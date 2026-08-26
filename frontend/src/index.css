@@ -105,7 +105,11 @@
     --transition: 0.2s;
 
     /* Layout */
-    --header-height: 7vh;
+    /* Floored so the header (and anything sized off it) stops shrinking
+       once the window gets short, instead of continuously recalculating
+       down to nothing before the mobile breakpoint kicks in. Matches the
+       app's 1000px reference height (see App.css). */
+    --header-height: max(7vh, 70px);
     --sidebar-width: 15%;
 }
 
@@ -119,7 +123,7 @@
 }
 
 html {
-    overflow-y: hidden;
+    overflow-y: auto;
     scroll-behavior: smooth;
     scrollbar-width: none;
 }

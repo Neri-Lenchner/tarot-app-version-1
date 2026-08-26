@@ -52,10 +52,11 @@
 
 .header-menu-toggle span {
     display: block;
-    width: 22px;
-    height: 2px;
-    background-color: var(--accent);
+    width: 24px;
+    height: 3px;
+    background-color: var(--accent-bright);
     border-radius: 2px;
+    box-shadow: 0 0 6px rgba(var(--accent-glow-rgb), 0.7);
     transition: transform 0.25s ease, opacity 0.25s ease, background-color var(--transition);
 }
 
