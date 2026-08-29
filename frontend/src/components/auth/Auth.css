@@ -3,11 +3,11 @@
     align-items: center;
     justify-content: center;
     height: calc(100vh - var(--header-height));
-    background: var(--bg);
+    background: var(--paper);
 }
 
 .auth-card {
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line);
     padding: 40px 48px;
     width: min(380px, calc(100vw - 32px));
@@ -25,7 +25,7 @@
 
 .auth-title {
     text-align: center;
-    color: var(--accent-bright);
+    color: var(--act-bright);
     font-size: 1.5rem;
     font-weight: 400;
     letter-spacing: 0.1em;
@@ -40,7 +40,7 @@
 }
 
 .auth-form label {
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.08em;
@@ -53,9 +53,9 @@
 }
 
 .auth-form input {
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line-soft);
-    color: var(--text-primary);
+    color: var(--ink);
     font-family: var(--font-body);
     font-style: italic;
     font-size: 0.9rem;
@@ -65,11 +65,11 @@
 }
 
 .auth-form input:focus {
-    border-color: var(--accent);
+    border-color: var(--act);
 }
 
 .auth-error {
-    color: var(--danger-bright);
+    color: var(--ash-bright);
     font-size: 0.75rem;
     margin-top: 2px;
 }
@@ -78,9 +78,9 @@
     margin-top: 22px;
     padding: 12px;
     min-height: 44px;
-    background: var(--accent);
-    border: 1px solid var(--accent);
-    color: var(--bg);
+    background: var(--act);
+    border: 1px solid var(--act);
+    color: var(--paper);
     font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 700;
@@ -91,19 +91,19 @@
 }
 
 .auth-btn:hover {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
+    background: var(--gild-bright);
+    border-color: var(--gild-bright);
 }
 
 .auth-link-text {
     text-align: center;
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 0.82rem;
     margin: 18px 0 0;
 }
 
 .auth-link-text a {
-    color: var(--accent-bright);
+    color: var(--act-bright);
     text-decoration: none;
     font-weight: 600;
     transition: color var(--transition);
@@ -122,9 +122,9 @@
 .auth-gender-btn {
     flex: 1;
     padding: 10px;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line-soft);
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-family: var(--font-body);
     font-size: 0.9rem;
     font-weight: 600;
@@ -135,11 +135,11 @@
 
 .auth-gender-btn:hover {
     border-color: var(--line);
-    color: var(--accent-hover);
+    color: var(--gild-bright);
 }
 
 .auth-gender-btn.active {
-    background: var(--accent-wash);
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    background: var(--act-wash);
+    border-color: var(--act);
+    color: var(--act-bright);
 }

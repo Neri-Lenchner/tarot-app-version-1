@@ -10,7 +10,7 @@
     justify-content: center;
     height: var(--header-height);
     width: 100%;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border-bottom: 1px solid var(--line);
 }
 
@@ -59,7 +59,7 @@ main.full-width {
            the .SideBar child it wraps — otherwise mobile browsers can
            composite this layer a frame before its child paints, letting
            the page underneath show through right as the menu opens. */
-        background: var(--bg-2);
+        background: var(--paper-2);
         /* Forces its own GPU compositing layer so that first frame is
            already opaque instead of being promoted late. */
         transform: translateZ(0);

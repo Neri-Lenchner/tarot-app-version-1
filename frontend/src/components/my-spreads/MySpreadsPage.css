@@ -21,7 +21,7 @@
 
 .my-spreads-title,
 .spread-details-title {
-    color: var(--accent-bright);
+    color: var(--act-bright);
     font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 0.2em;
@@ -32,7 +32,7 @@
 
 .my-spreads-empty {
     text-align: center;
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 1.2rem;
     margin-top: 60px;
 }
@@ -64,17 +64,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line-soft);
     padding: 14px 20px;
     cursor: pointer;
-    box-shadow: 0 0 10px rgba(var(--accent-glow-rgb), 0.4), 0 0 24px rgba(var(--accent-glow-rgb), 0.18);
+    box-shadow: 0 0 10px rgba(var(--gild-rgb), 0.4), 0 0 24px rgba(var(--gild-rgb), 0.18);
     transition: border-color var(--transition), background var(--transition);
 }
 
 .my-spread-item:hover {
-    background: var(--bg-3);
-    border-color: var(--accent-glow);
+    background: var(--paper-3);
+    border-color: var(--gild);
 }
 
 .my-spread-item-left {
@@ -84,13 +84,13 @@
 }
 
 .my-spread-date {
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 1rem;
     letter-spacing: 0.04em;
 }
 
 .my-spread-question-preview {
-    color: var(--text-primary);
+    color: var(--ink);
     font-style: italic;
     font-size: 1.1rem;
     opacity: 0.8;
@@ -105,8 +105,8 @@
 
 .my-spread-delete-btn {
     background: none;
-    border: 1px solid var(--danger);
-    color: var(--danger-bright);
+    border: 1px solid var(--ash);
+    color: var(--ash-bright);
     font-size: 1rem;
     width: 30px;
     height: 30px;
@@ -120,7 +120,7 @@
 
 .my-spread-delete-btn:hover {
     background: rgba(122, 50, 38, 0.18);
-    border-color: var(--danger-bright);
+    border-color: var(--ash-bright);
 }
 
 .my-spread-type {
@@ -130,9 +130,9 @@
     text-transform: uppercase;
     padding: 4px 12px;
     white-space: nowrap;
-    border: 1px solid var(--accent);
-    color: var(--accent-bright);
-    background: var(--accent-wash);
+    border: 1px solid var(--act);
+    color: var(--act-bright);
+    background: var(--act-wash);
 }
 
 .my-spread-type.celtic {
@@ -151,7 +151,7 @@
 .spread-details-back {
     background: none;
     border: none;
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-family: var(--font-body);
     font-size: 1.1rem;
     letter-spacing: 0.06em;
@@ -165,13 +165,13 @@
 }
 
 .spread-details-back:hover {
-    color: var(--accent-hover);
+    color: var(--gild-bright);
 }
 
 .spread-details-card {
     max-width: 760px;
     margin: 0 auto;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line);
     padding: 28px 32px;
     display: flex;
@@ -186,13 +186,13 @@
 }
 
 .spread-details-date {
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 1rem;
 }
 
 .spread-details-question {
     margin: 0;
-    color: var(--text-primary);
+    color: var(--ink);
     font-style: italic;
     font-size: 1.2rem;
     border-left: 2px solid var(--line);
@@ -208,8 +208,8 @@
 
 .spread-details-card-pill {
     font-size: 1rem;
-    color: var(--text-muted);
-    background: var(--bg-3);
+    color: var(--ink-dim);
+    background: var(--paper-3);
     border: 1px solid var(--line-soft);
     padding: 4px 12px;
 }
@@ -223,7 +223,7 @@
 .spread-details-lang {
     background: none;
     border: 1px solid var(--line);
-    color: var(--accent);
+    color: var(--act);
     font-family: var(--font-body);
     font-size: 1rem;
     font-weight: 700;
@@ -234,8 +234,8 @@
 }
 
 .spread-details-lang:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
 }
 
 .spread-details-interpretation {
@@ -248,7 +248,7 @@
 
 .spread-details-interp-title {
     margin: 12px 0 4px;
-    color: var(--accent-bright);
+    color: var(--act-bright);
     font-size: 1.1rem;
     font-weight: 700;
     letter-spacing: 0.08em;

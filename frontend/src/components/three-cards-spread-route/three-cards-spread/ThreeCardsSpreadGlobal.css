@@ -6,9 +6,9 @@
 .three-cards-global-container .spread-question-input {
     flex: 1;
     min-width: 0;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border: 1px solid var(--line-soft);
-    color: var(--text-primary);
+    color: var(--ink);
     font-style: italic;
     font-size: 22px;
     padding: 9px 16px;
@@ -17,17 +17,17 @@
 }
 
 .three-cards-global-container .spread-question-input::placeholder {
-    color: var(--text-faint);
+    color: var(--ink-faint);
 }
 
 .three-cards-global-container .spread-question-input:focus {
-    border-color: var(--accent);
+    border-color: var(--act);
 }
 
 .three-cards-global-container .spread-subheader-row {
     display: flex;
     align-items: center;
-    background: var(--bg-2);
+    background: var(--paper-2);
 }
 
 .three-cards-global-container .spread-question-display {
@@ -39,7 +39,7 @@
 }
 
 .three-cards-global-container .spread-question-label {
-    color: var(--accent);
+    color: var(--act);
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;

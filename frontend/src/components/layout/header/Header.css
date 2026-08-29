@@ -24,7 +24,7 @@
     font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--berta-gold);
+    color: var(--gild);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -68,14 +68,14 @@
     display: block;
     width: 24px;
     height: 3px;
-    background-color: var(--accent-bright);
+    background-color: var(--act-bright);
     border-radius: 2px;
-    box-shadow: 0 0 6px rgba(var(--accent-glow-rgb), 0.7);
+    box-shadow: 0 0 6px rgba(var(--gild-rgb), 0.7);
     transition: transform 0.25s ease, opacity 0.25s ease, background-color var(--transition);
 }
 
 .header-menu-toggle:hover span {
-    background-color: var(--accent-hover);
+    background-color: var(--gild-bright);
 }
 
 .header-menu-toggle--open span:nth-child(1) {
@@ -101,7 +101,7 @@
 .header-lang-btn {
     background: none;
     border: 1px solid var(--line);
-    color: var(--accent);
+    color: var(--act);
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.1em;
@@ -111,13 +111,13 @@
 }
 
 .header-lang-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
 }
 
 .header-login {
     display: inline-block;
-    color: var(--accent-bright);
+    color: var(--act-bright);
     text-decoration: none;
     font-size: 0.82rem;
     font-weight: 600;
@@ -134,20 +134,20 @@
 }
 
 .header-login:hover {
-    background: var(--accent-wash);
-    border-color: var(--accent-hover);
+    background: var(--act-wash);
+    border-color: var(--gild-bright);
 }
 
 .header-user {
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 0.8rem;
     letter-spacing: 0.05em;
 }
 
 .header-logout {
     background: none;
-    border: 1px solid var(--danger);
-    color: var(--danger-bright);
+    border: 1px solid var(--ash);
+    color: var(--ash-bright);
     font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 600;
@@ -165,7 +165,7 @@
 
 .header-logout:hover {
     background: rgba(122, 50, 38, 0.18);
-    border-color: var(--danger-bright);
+    border-color: var(--ash-bright);
 }
 
 @media (max-width: 768px) {

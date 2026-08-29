@@ -1,5 +1,5 @@
 .spread-header-container {
-    background: var(--bg-2);
+    background: var(--paper-2);
     border-bottom: 1px solid var(--line-soft);
     display: flex;
     align-items: center;
@@ -14,8 +14,8 @@
     text-transform: uppercase;
     text-align: center;
     border: 1px solid var(--line);
-    background: var(--bg-3);
-    color: var(--accent);
+    background: var(--paper-3);
+    color: var(--act);
     padding: 11px 20px;
     /* Hebrew renders narrower than English for both labels here (measured:
        "Spread Them"/"Clear Spread" ~186-198px vs ~140-151px in Hebrew) — a
@@ -32,14 +32,14 @@
 }
 
 .spread-header-container button:hover {
-    background: var(--accent-wash);
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
+    background: var(--act-wash);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
 }
 
 .spread-header-container button:active {
-    background: var(--accent-wash);
-    border-color: var(--accent-bright);
+    background: var(--act-wash);
+    border-color: var(--act-bright);
     color: var(--ink);
 }
 
@@ -53,7 +53,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     border: 1px solid var(--line);
-    background: var(--bg-3);
+    background: var(--paper-3);
     color: var(--ink-dim);
     padding: 7px 16px;
     /* Measured: ~270px in English vs ~182px in Hebrew for this label — pin
@@ -70,20 +70,20 @@
 }
 
 .third-person-toggle:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
 }
 
 .third-person-toggle:active {
-    border-color: var(--accent-bright);
-    color: var(--accent-bright);
-    background: var(--accent-wash);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
+    background: var(--act-wash);
 }
 
 .third-person-toggle.active {
     background: #000;
-    border-color: var(--accent-glow);
-    color: var(--accent-glow);
+    border-color: var(--gild);
+    color: var(--gild);
 }
 
 @media (max-width: 768px) {

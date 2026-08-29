@@ -12,24 +12,22 @@
 
 .conclusion-modal {
     width: 360px;
-    background: var(--bg-2);
+    background: var(--paper-2);
     overflow: hidden;
-    border: 1px solid var(--accent-glow);
-    box-shadow: 0 0 14px rgba(var(--accent-glow-rgb), 0.45), 0 0 36px rgba(var(--accent-glow-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--gild);
+    box-shadow: 0 0 14px rgba(var(--gild-rgb), 0.45), 0 0 36px rgba(var(--gild-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
 /* ── Theme variables (both themes resolve to the single Arcanum accent) ── */
 .conclusion-modal.theme-green,
 .conclusion-modal.theme-blue {
-    --conclusion-accent: var(--accent);
-    --conclusion-accent-rgb: 240, 43, 43;
-    --conclusion-glow: var(--no-glow);
+    --conclusion-accent: var(--act);
     --conclusion-border: var(--line);
 }
 
 /* ── Header ── */
 .conclusion-header {
-    background: var(--bg-3);
+    background: var(--paper-3);
     padding: 11px 14px;
     display: flex;
     align-items: center;
@@ -44,7 +42,7 @@
     letter-spacing: 2px;
     text-transform: uppercase;
     color: var(--conclusion-accent);
-    text-shadow: 0 0 8px rgba(var(--accent-glow-rgb), 0.55);
+    text-shadow: 0 0 8px rgba(var(--gild-rgb), 0.55);
 }
 
 /* ── Body ── */
@@ -84,7 +82,7 @@
 
 .conclusion-followup-input {
     flex: 1;
-    background: var(--bg-3);
+    background: var(--paper-3);
     border: 1px solid var(--conclusion-border);
     color: var(--ink);
     font-style: italic;
@@ -118,8 +116,8 @@
 }
 
 .conclusion-followup-btn:hover:not(:disabled) {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
 }
 
 .conclusion-followup-btn:disabled {
@@ -133,7 +131,7 @@
     font-size: 17px;
     line-height: 1.65;
     padding: 10px 12px;
-    background: var(--bg-3);
+    background: var(--paper-3);
     border: 1px solid var(--conclusion-border);
 }
 
@@ -144,19 +142,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-2);
+    background: var(--paper-2);
     font-size: 16px;
     cursor: pointer;
-    color: var(--accent);
-    border: 1px solid var(--accent-glow);
-    box-shadow: 0 0 12px rgba(var(--accent-glow-rgb), 0.55), 0 0 28px rgba(var(--accent-glow-rgb), 0.25);
+    color: var(--act);
+    border: 1px solid var(--gild);
+    box-shadow: 0 0 12px rgba(var(--gild-rgb), 0.55), 0 0 28px rgba(var(--gild-rgb), 0.25);
     transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
 }
 
 .conclusion-reopen-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-    box-shadow: 0 0 18px rgba(var(--accent-glow-rgb), 0.8), 0 0 42px rgba(var(--accent-glow-rgb), 0.4);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
+    box-shadow: 0 0 18px rgba(var(--gild-rgb), 0.8), 0 0 42px rgba(var(--gild-rgb), 0.4);
 }
 
 @media (max-width: 768px) {

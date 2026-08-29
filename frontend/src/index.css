@@ -1,93 +1,45 @@
-/* ── Global design tokens — Arcanum (Occult Woodcut) ──── */
+/* ── Global design tokens — Arcanum (Occult Woodcut) v2 ──────────────────
+   See DESIGN2.md. The law: a colour may only carry its own role. Vermilion
+   (--act) acts, gold (--gild) illuminates, ash (--ash) warns — nothing
+   else colours anything. Every tint below derives from its own family's
+   base value, so washes read as that family dissolved into paper, never
+   as a fourth colour. ── */
 :root {
-    /* Backgrounds — antique manuscript, warm and dark */
-    --bg: #0C0A08;
-    --bg-2: #110E0A;
-    --bg-3: #16110C;
-    --bg-surface: rgba(231, 223, 200, 0.03);
+    /* Paper & ink — antique manuscript, warm and dark */
+    --paper: #0C0A08;
+    --paper-2: #110E0A;
+    --paper-3: #16110C;
+    --paper-wash: rgba(231, 223, 200, 0.03);
 
-    /* Text — ink on parchment */
     --ink: #E7DFC8;
     --ink-dim: #9C917A;
     --ink-faint: #6E624C;
 
-    /* Lines / borders */
     --line: #3A3226;
     --line-soft: #2A241A;
 
-    /* Single accent — vivid saturated red. No secondary accent color anywhere. */
-    --accent: #F02B2B;
-    --accent-rgb: 240, 43, 43;
-    --accent-bright: #FF5C4D;
-    --accent-bright-rgb: 255, 92, 77;
-    /* Modal glow — a vivid bright yellow, more saturated than the accent
-       itself, used only for the floating panels' border/glow. */
-    --accent-glow: #FFD447;
-    --accent-glow-rgb: 255, 212, 71;
-    --accent-dim: #5C0F0F;
-    --accent-wash: rgba(196, 30, 30, 0.12);
-    /* Hover feedback only — a true yellow, distinct from the amber accent,
-       so hovering an orange button visibly shifts toward gold-leaf yellow. */
-    --accent-hover: #F0C230;
-    /* Arcanum is flat and inky — no glow. Kept as a token (rather than
-       stripping every box-shadow reference across every component file)
-       so every existing var(--x-glow) usage resolves to nothing. */
-    --no-glow: rgba(0, 0, 0, 0);
+    /* Vermilion — it acts. Every interactive and every active state. */
+    --act: #F02B2B;
+    --act-rgb: 240, 43, 43;
+    --act-bright: #FF5C4D;
+    --act-bright-rgb: 255, 92, 77;
+    --act-deep: #5C0F0F;
+    --act-wash: rgba(240, 43, 43, 0.12);
 
-    /* One deliberate exception to the single-accent rule above: the
-       antique-gold lettering color sampled from the Berta's logo
-       (berta-1.png), used only for the header title. */
-    --berta-gold: #C9A667;
+    /* Gold — it illuminates. Gilding, not action: masthead, floating-panel
+       edges, rules marking a passage as significant. Never a button fill. */
+    --gild: #C9A667;
+    --gild-rgb: 201, 166, 103;
+    --gild-bright: #F0C230;
+    --gild-bright-rgb: 240, 194, 48;
+    --gild-deep: #6B5426;
+    --gild-wash: rgba(201, 166, 103, 0.10);
 
-    /* ── Legacy semantic aliases ──
-       Components were written against --gold / --celtic-accent /
-       --threecards-accent / --deck-accent / --purple etc. Rather than a
-       full rename pass across every CSS file, those names now resolve
-       through the single Arcanum accent — same visual result, same
-       file-per-component architecture. */
-    --bg-dark: var(--bg);
-    --bg-mid: var(--bg-2);
-    --text-primary: var(--ink);
-    --text-muted: var(--ink-dim);
-    --text-faint: var(--ink-faint);
-    --card-desc-color: var(--ink);
-
-    --gold: var(--accent);
-    --gold-rgb: var(--accent-rgb);
-    --gold-glow: var(--no-glow);
-
-    --celtic-accent: var(--accent);
-    --celtic-accent-rgb: var(--accent-rgb);
-    --celtic-glow: var(--no-glow);
-    --celtic-border: var(--line);
-    --celtic-bg-dark: var(--bg);
-    --celtic-bg-mid: var(--bg-2);
-
-    --threecards-accent: var(--accent);
-    --threecards-accent-rgb: var(--accent-rgb);
-    --threecards-glow: var(--no-glow);
-    --threecards-border: var(--line);
-    --threecards-bg-dark: var(--bg);
-    --threecards-bg-mid: var(--bg-2);
-
-    --deck-accent: var(--accent);
-    --deck-accent-rgb: var(--accent-rgb);
-    --deck-glow: var(--no-glow);
-    --deck-border: var(--line);
-    --deck-bg-dark: var(--bg);
-    --deck-bg-mid: var(--bg-2);
-
-    --purple: var(--accent);
-    --purple-dark: var(--accent-dim);
-    --purple-bg: var(--bg);
-    --purple-surface: var(--bg-2);
-    --purple-border: var(--line);
-
-    /* Destructive actions only (logout, delete) — not part of the spec's
-       single-accent system, kept separate and muted so it reads as a
-       different signal without breaking the one-accent rule visually. */
-    --danger: #7A3226;
-    --danger-bright: #9C4534;
+    /* Ash — it warns. Destruction only: delete a reading, log out.
+       Deliberately duller than vermilion — a different kind of act. */
+    --ash: #7A3226;
+    --ash-bright: #9C4534;
+    --ash-wash: rgba(122, 50, 38, 0.14);
 
     /* Typography — all-serif manuscript pairing, no sans-serif anywhere */
     --font-heading: 'IM Fell English SC', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
@@ -99,9 +51,10 @@
     --font-heading-he: 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
     --font-body-he: 'Frank Ruhl Libre', 'Noto Rashi Hebrew', serif;
 
-    /* Shape & motion — sharp edges everywhere, except a small rounding on card images */
+    /* Shape & motion — sharp corners everywhere; 4px rounding is reserved
+       for card faces only (see .card-face / --radius-card usage). */
     --radius: 0;
-    --radius-sm: 4px;
+    --radius-card: 4px;
     --transition: 0.2s;
 
     /* Layout */
@@ -111,6 +64,8 @@
        app's 1000px reference height (see App.css). */
     --header-height: max(7vh, 70px);
     --sidebar-width: 15%;
+    /* Table tier (§4 DESIGN2.md) — sidebar collapses to a glyph rail. */
+    --sidebar-width-table: 52px;
 }
 
 /* ── Global reset ─────────────────────────────────────── */
@@ -140,8 +95,8 @@ body {
     padding: 0;
     font-family: var(--font-body);
     font-size: 22px;
-    background: var(--bg);
-    color: var(--text-primary);
+    background: var(--paper);
+    color: var(--ink);
     position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

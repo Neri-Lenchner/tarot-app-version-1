@@ -11,7 +11,7 @@
     content: '';
     position: absolute;
     inset: 8px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-card);
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
     pointer-events: none;
     transition: opacity 0.25s ease;
@@ -37,8 +37,8 @@
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-sm);
-    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(var(--accent-rgb), 0.4), transparent 60%);
+    border-radius: var(--radius-card);
+    background: radial-gradient(circle at var(--glare-x, 50%) var(--glare-y, 50%), rgba(var(--act-rgb), 0.4), transparent 60%);
     opacity: var(--glare-opacity, 0);
     transition: opacity 0.3s ease;
     pointer-events: none;
@@ -47,15 +47,15 @@
 
 .small-card {
     display: block;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-card);
     width: 80px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7), 0 0 6px var(--deck-glow);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
     filter: contrast(1.08) brightness(0.8) saturate(1.2) sepia(0.1);
     transition: box-shadow 0.25s ease, filter 0.25s ease;
 }
 
 .small-card-tilt:hover .small-card {
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85), 0 0 18px var(--deck-glow);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.85);
     filter: contrast(1.04) brightness(0.95) saturate(1.1);
 }
 
@@ -70,10 +70,10 @@
     position: absolute;
     width: 3px;
     height: 3px;
-    background: var(--accent-glow);
+    background: var(--gild);
     border-radius: 50%;
     opacity: 0;
-    box-shadow: 0 0 4px var(--accent-glow);
+    box-shadow: 0 0 4px var(--gild);
 }
 
 .small-card-tilt:hover .card-particles span {

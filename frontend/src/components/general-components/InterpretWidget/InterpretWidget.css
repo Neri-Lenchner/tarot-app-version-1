@@ -9,16 +9,15 @@
     gap: 12px;
 }
 
-/* ── Theme variables (both themes resolve to the single Arcanum accent —
-   kept as scoped vars so the theme-green/theme-blue class names on the
-   component don't need to change) ── */
+/* ── Theme variables (both themes resolve to the same v2 tokens — kept as
+   scoped vars, named apart from the root --paper/etc. tokens they draw
+   from, so the theme-green/theme-blue class names on the component don't
+   need to change) ── */
 .interpret-widget.theme-green,
 .interpret-widget.theme-blue {
-    --accent-rgb: 240, 43, 43;
-    --glow-color: var(--no-glow);
-    --bg: var(--bg-2);
+    --iw-bg: var(--paper-2);
     --border: var(--line);
-    --header-bg: var(--bg-3);
+    --header-bg: var(--paper-3);
 }
 
 /* ── Toggle button ── */
@@ -28,21 +27,21 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--bg-2);
-    color: var(--accent);
-    border: 1px solid var(--accent-glow);
+    background: var(--paper-2);
+    color: var(--act);
+    border: 1px solid var(--gild);
     font-size: 18px;
     cursor: pointer;
-    box-shadow: 0 0 12px rgba(var(--accent-glow-rgb), 0.55), 0 0 28px rgba(var(--accent-glow-rgb), 0.25);
+    box-shadow: 0 0 12px rgba(var(--gild-rgb), 0.55), 0 0 28px rgba(var(--gild-rgb), 0.25);
     transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
     position: relative;
     z-index: 1001;
 }
 
 .iw-toggle-btn:hover {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-    box-shadow: 0 0 18px rgba(var(--accent-glow-rgb), 0.8), 0 0 42px rgba(var(--accent-glow-rgb), 0.4);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
+    box-shadow: 0 0 18px rgba(var(--gild-rgb), 0.8), 0 0 42px rgba(var(--gild-rgb), 0.4);
 }
 
 /* ── Panel ── */
@@ -51,9 +50,9 @@
     z-index: 1001;
     width: 520px;
     height: 580px;
-    background: var(--bg);
-    border: 1px solid var(--accent-glow);
-    box-shadow: 0 0 14px rgba(var(--accent-glow-rgb), 0.45), 0 0 36px rgba(var(--accent-glow-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
+    background: var(--iw-bg);
+    border: 1px solid var(--gild);
+    box-shadow: 0 0 14px rgba(var(--gild-rgb), 0.45), 0 0 36px rgba(var(--gild-rgb), 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -62,7 +61,7 @@
 /* ── Header ── */
 .iw-header {
     background: var(--header-bg);
-    color: var(--accent);
+    color: var(--act);
     padding: 13px 16px;
     display: flex;
     justify-content: space-between;
@@ -95,7 +94,7 @@
 .iw-question-display {
     border: 1px solid var(--border);
     padding: 8px 12px;
-    background: var(--bg-surface);
+    background: var(--paper-wash);
     flex-shrink: 0;
 }
 
@@ -105,7 +104,7 @@
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--accent);
+    color: var(--act);
     margin-bottom: 4px;
 }
 
@@ -122,9 +121,9 @@
     width: 100%;
     min-height: 44px;
     padding: 10px;
-    background: var(--accent);
-    color: var(--bg);
-    border: 1px solid var(--accent);
+    background: var(--act);
+    color: var(--paper);
+    border: 1px solid var(--act);
     font-size: 18px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -134,14 +133,14 @@
 }
 
 .iw-btn:hover:not(:disabled) {
-    background: var(--accent-hover);
-    border-color: var(--accent-hover);
-    box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.5);
+    background: var(--gild-bright);
+    border-color: var(--gild-bright);
+    box-shadow: 0 0 16px rgba(var(--act-rgb), 0.5);
 }
 
 .iw-btn:disabled {
-    background: var(--accent-dim);
-    border-color: var(--accent-dim);
+    background: var(--act-deep);
+    border-color: var(--act-deep);
     color: var(--ink-faint);
     cursor: not-allowed;
 }
@@ -159,7 +158,7 @@
     width: 44px;
     height: 44px;
     border: 3px solid var(--line-soft);
-    border-top-color: var(--accent);
+    border-top-color: var(--act);
     border-radius: 50%;
     animation: iw-spin 0.9s linear infinite;
 }
@@ -169,7 +168,7 @@
 }
 
 .iw-spinner-text {
-    color: var(--accent);
+    color: var(--act);
     font-size: 17px;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -187,7 +186,7 @@
     width: 100%;
     padding: 8px;
     background: none;
-    color: var(--accent);
+    color: var(--act);
     border: 1px solid var(--line);
     font-size: 17px;
     letter-spacing: 1.5px;
@@ -198,9 +197,9 @@
 }
 
 .iw-save-btn:hover:not(:disabled) {
-    border-color: var(--accent-hover);
-    color: var(--accent-hover);
-    background: var(--accent-wash);
+    border-color: var(--gild-bright);
+    color: var(--gild-bright);
+    background: var(--act-wash);
 }
 
 .iw-save-btn:disabled {
@@ -233,7 +232,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-card);
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.6) 100%);
     pointer-events: none;
 }
@@ -241,7 +240,7 @@
 .iw-card-img {
     width: 52px;
     flex-shrink: 0;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-card);
     border: 1px solid var(--border);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
 }
@@ -255,7 +254,7 @@
 
 .iw-card-title {
     margin: 10px 0 4px;
-    color: var(--accent);
+    color: var(--act);
     font-size: 17px;
     font-weight: 700;
     letter-spacing: 1px;

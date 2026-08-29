@@ -1,6 +1,6 @@
 .SideBar {
     height: 100%;
-    background: var(--bg-2);
+    background: var(--paper-2);
     border-right: 1px solid var(--line-soft);
 }
 
@@ -16,12 +16,12 @@
 
 .SideBar a {
     border: 1px solid var(--line-soft);
-    background: var(--bg-3);
+    background: var(--paper-3);
     width: 180px;
     text-align: center;
     padding: 10px 14px;
     text-decoration: none;
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-weight: 600;
     font-size: 0.85rem;
     letter-spacing: 0.06em;
@@ -34,17 +34,17 @@
 
 .SideBar a:hover {
     border-color: var(--line);
-    color: var(--accent-hover);
+    color: var(--gild-bright);
 }
 
 .SideBar a.active {
-    background: var(--accent-wash);
-    border-color: var(--accent);
-    color: var(--accent-bright);
+    background: var(--act-wash);
+    border-color: var(--act);
+    color: var(--act-bright);
 }
 
 .sidebar-user {
-    color: var(--text-muted);
+    color: var(--ink-dim);
     font-size: 0.78rem;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -56,12 +56,12 @@
 }
 
 .sidebar-logout {
-    border: 1px solid var(--danger);
-    background: var(--bg-2);
+    border: 1px solid var(--ash);
+    background: var(--paper-2);
     width: 180px;
     text-align: center;
     padding: 10px 14px;
-    color: var(--danger-bright);
+    color: var(--ash-bright);
     font-family: var(--font-body);
     font-weight: 600;
     font-size: 0.85rem;
@@ -73,7 +73,7 @@
 
 .sidebar-logout:hover {
     background: rgba(122, 50, 38, 0.18);
-    border-color: var(--danger-bright);
+    border-color: var(--ash-bright);
 }
 
 @media (max-width: 768px) {
