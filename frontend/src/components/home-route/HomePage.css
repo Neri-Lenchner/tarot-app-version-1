@@ -52,10 +52,21 @@
    moves text-align:center's effective center by half the intended amount.
    Scoped to desktop-with-sidebar only: on mobile (main is full-width) or the
    logged-out home route (main.full-width, no sidebar rendered at all)
-   .home-hero is already truly centered. */
-@media (min-width: 769px) {
+   .home-hero is already truly centered. Split at the Table tier because the
+   sidebar itself changes width there (52px glyph rail vs Desk's 15%/min-190px
+   column, see App.css) — using the wrong half-width overcorrects. */
+@media (min-width: 1024px) {
     main:not(.full-width) .home-hero {
-        transform: translateX(calc(var(--sidebar-width) / -2));
+        /* max(), not the bare percentage — .side-bar itself clamps to
+           min-width:190px below ~1267px (App.css), and using the raw
+           percentage here under-compensates in that range. */
+        transform: translateX(calc(max(190px, var(--sidebar-width)) / -2));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    main:not(.full-width) .home-hero {
+        transform: translateX(calc(-1 * var(--sidebar-width-table) / 2));
     }
 }
 

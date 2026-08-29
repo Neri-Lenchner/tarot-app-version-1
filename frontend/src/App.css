@@ -19,13 +19,20 @@ section {
     height: calc(100vh - var(--header-height));
 }
 
+/* flex-shrink:0 + main's flex:1 (not competing calc(100% - ...) widths on
+   both sides) is what keeps these two always summing to exactly 100% —
+   including when min-width overrides .side-bar's percentage below 1024px,
+   which a fixed calc() on main wouldn't know about. */
 .side-bar {
     width: var(--sidebar-width);
+    min-width: 190px;
+    flex-shrink: 0;
     height: 100%;
 }
 
 main {
-    width: calc(100% - var(--sidebar-width));
+    flex: 1;
+    min-width: 0;
     height: 100%;
     display: flex;
     flex-direction: row;
@@ -33,6 +40,16 @@ main {
 
 main.full-width {
     width: 100%;
+}
+
+/* Table tier (768-1023px, §4 DESIGN2.md) — sidebar becomes a 52px glyph
+   rail instead of the Desk tier's proportional 15%/min-190px column;
+   main's flex:1 above picks up the rest automatically. */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .side-bar {
+        width: var(--sidebar-width-table);
+        min-width: 0;
+    }
 }
 
 @media (max-width: 768px) {

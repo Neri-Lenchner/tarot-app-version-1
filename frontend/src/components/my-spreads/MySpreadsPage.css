@@ -43,12 +43,25 @@
    own (sidebar-narrowed) box on desktop, landing right of the page's true
    center. This route is always behind login (sidebar always present when
    this page renders), so no main.full-width guard is needed the way
-   HomePage's fix has one. */
-@media (min-width: 769px) {
+   HomePage's fix has one. Split at the Table tier because the sidebar
+   itself changes width there (52px glyph rail vs Desk's 15%/min-190px
+   column, see App.css) — using the wrong half-width overcorrects. */
+@media (min-width: 1024px) {
     .my-spreads-title,
     .spread-details-title,
     .my-spreads-empty {
-        transform: translateX(calc(var(--sidebar-width) / -2));
+        /* max(), not the bare percentage — .side-bar itself clamps to
+           min-width:190px below ~1267px (App.css), and using the raw
+           percentage here under-compensates in that range. */
+        transform: translateX(calc(max(190px, var(--sidebar-width)) / -2));
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1023px) {
+    .my-spreads-title,
+    .spread-details-title,
+    .my-spreads-empty {
+        transform: translateX(calc(var(--sidebar-width-table) / -2));
     }
 }
 

@@ -15,6 +15,10 @@
 }
 
 .SideBar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     border: 1px solid var(--line-soft);
     background: var(--paper-3);
     width: 180px;
@@ -31,6 +35,10 @@
         background var(--transition),
         border-color var(--transition),
         color var(--transition);
+}
+
+.SideBar a svg {
+    flex-shrink: 0;
 }
 
 .SideBar a:hover {
@@ -80,6 +88,24 @@
 .sidebar-logout:hover {
     background: var(--ash-wash);
     border-color: var(--ash-bright);
+}
+
+/* Table tier (768-1023px, §4 DESIGN2.md) — the sidebar collapses to a
+   52px glyph rail: icons only, labels hidden. .side-bar/main's own width
+   swap to --sidebar-width-table lives in App.css. */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .SideBar .links {
+        padding-top: 24px;
+    }
+
+    .SideBar a {
+        width: 100%;
+        padding: 12px 0;
+    }
+
+    .link-label {
+        display: none;
+    }
 }
 
 @media (max-width: 768px) {
