@@ -64,6 +64,28 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
 
     const cardSection: string | null = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 
+    // One renderer for every position — only the placement class (and,
+    // for the crossing card, its own wrapper) differs by grid slot. Index
+    // is always into cards/positions/apiCards directly (Positive Energy=0
+    // ... Potential=9), regardless of where that index is placed visually.
+    const renderCard = (i: number, placementClass: string): JSX.Element => (
+        <div
+            key={i}
+            className={`card-slot ${placementClass}`}
+            onClick={(): false | void => isSpread && setSelectedIndex(i)}
+            style={isSpread ? {cursor: "pointer"} : {}}
+        >
+            <h5 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[i], lang)}</h5>
+            <div className="card-vignette">
+                <img
+                    className={`card${!isSpread ? ' card-undrawn' : ''}${isSpread && selectedIndex === i ? ' card-chosen' : ''}`}
+                    src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
+                    alt={isSpread ? cards[i]?.alt : "card back"}
+                />
+            </div>
+        </div>
+    );
+
     return (
         <div className="spread-container">
             <div className="ready-questions-stack">
@@ -79,23 +101,22 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
                     </div>
                 )}
             </div>
-            {positions.map((label: string, i): JSX.Element => (
-                <div
-                    key={label}
-                    className={`card-container-${i + 1}`}
-                    onClick={(): false | void => isSpread && setSelectedIndex(i)}
-                    style={isSpread ? {cursor: "pointer"} : {}}
-                >
-                    <h5 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h5>
-                    <div className="card-vignette">
-                        <img
-                            className={`card${!isSpread ? ' card-undrawn' : ''}${isSpread && selectedIndex === i ? ' card-chosen' : ''}`}
-                            src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
-                            alt={isSpread ? cards[i]?.alt : "card back"}
-                        />
-                    </div>
+            <div className="celtic-grid">
+                {renderCard(5, 'cross-above')}
+                {renderCard(4, 'cross-left')}
+                <div className="cross-self-wrap">
+                    {renderCard(1, 'cross-self')}
+                    {renderCard(0, 'cross-crossing')}
                 </div>
-            ))}
+                {renderCard(2, 'cross-right')}
+                {renderCard(3, 'cross-below')}
+                <div className="cross-staff">
+                    {renderCard(6, 'staff-card')}
+                    {renderCard(7, 'staff-card')}
+                    {renderCard(8, 'staff-card')}
+                    {renderCard(9, 'staff-card')}
+                </div>
+            </div>
 
             {selectedIndex !== null && (
                 <div className="card-modal-overlay modal-widget-root" onClick={(): void => setSelectedIndex(null)}>

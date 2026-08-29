@@ -27,7 +27,8 @@
 /* ── Card positioning ───────────────────────────── */
 .card-vignette {
     position: relative;
-    display: inline-block;
+    display: block;
+    width: 100%;
 }
 
 .card-vignette::after {
@@ -40,8 +41,9 @@
 }
 
 .card {
+    width: 100%;
+    aspect-ratio: 2 / 3;
     border-radius: var(--radius-card);
-    height: 130px;
     border: 1px solid var(--line);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color var(--transition), opacity var(--transition);
@@ -63,107 +65,86 @@
     opacity: 0.55;
 }
 
-/* Each container's width is pinned to its English-rendered width (measured
-   live) instead of shrinking-to-fit around the h5 label. Without this, a
-   long English label ("Negative Energy") is wider than the card image and
-   becomes the box's width driver; the much narrower Hebrew label isn't,
-   so the box (anchored via right:X%) visibly narrows and shifts sideways
-   on language switch. Pinning width keeps both languages identical. */
-.card-container-1 {
-    position: absolute;
-    right: 50%;
-    top: 45%;
-    width: 120px;
-    transform: translate(calc(-50% + 20px), -50%);
-    transition: all 0.5s;
+/* ── Celtic cross — a grid, not formulas (§5 DESIGN2.md) ──
+   The grid handles proportion (1fr columns keep the three cross cards
+   equal width; aspect-ratio holds their 2:3 shape); only the tier handles
+   the sidebar/staff arrangement. No hand-derived calc() formulas. */
+.card-slot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
 }
 
-.card-container-2 {
-    position: absolute;
-    right: 50%;
-    top: 40%;
-    width: 128px;
-    transform: translateX(20px);
+.celtic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 0.3fr 0.72fr;
+    grid-template-rows: auto auto auto;
+    align-items: stretch;
+    gap: 18px;
+    /* Clears .ready-questions-stack (left:8px, max-width:260px) with room
+       to spare — a fixed clearance margin, not a formula tied to its exact
+       box, so the two can never collide regardless of viewport width. */
+    margin: 24px 40px 24px 300px;
 }
 
-.card-container-3 {
+.cross-above { grid-column: 2; grid-row: 1; }
+.cross-left  { grid-column: 1; grid-row: 2; }
+.cross-right { grid-column: 3; grid-row: 2; }
+.cross-below { grid-column: 2; grid-row: 3; }
+
+.cross-self-wrap {
+    grid-column: 2;
+    grid-row: 2;
+    position: relative;
+}
+
+/* Crossing card (II) — the only absolute element, positioned against its
+   own parent (.cross-self-wrap), never against the page. */
+.cross-crossing {
     position: absolute;
-    right: 35%;
-    top: 45%;
-    width: 76px;
+    top: 50%;
+    left: 50%;
+    width: 66%;
     transform: translate(-50%, -50%);
+    z-index: 10;
 }
 
-.card-container-4 {
-    position: absolute;
-    right: 50%;
-    top: 82%;
-    width: 76px;
-    transform: translate(-50%, -50%);
+.cross-crossing .card {
+    transform: rotate(90deg);
 }
 
-.card-container-5 {
-    position: absolute;
-    right: 65%;
-    top: 45%;
-    width: 97px;
-    transform: translate(-50%, -50%);
+.cross-crossing .card:hover {
+    transform: rotate(90deg) scale(1.06);
 }
 
-.card-container-6 {
-    position: absolute;
-    right: 50%;
-    top: 80px;
-    width: 85px;
-    transform: translate(-50%, -50%);
+/* Staff — fits the cross's height rather than driving it: no aspect-ratio,
+   each card flexes to fill an equal share of whatever height rows 1-3
+   establish. column-reverse puts the first-rendered card (Inside) at the
+   bottom and the last (Potential) at the top. */
+.cross-staff {
+    grid-column: 5;
+    grid-row: 1 / span 3;
+    display: flex;
+    flex-direction: column-reverse;
+    align-self: stretch;
+    gap: 18px;
 }
 
-.card-container-7 {
-    position: absolute;
-    /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
-       right edge at ANY container width, instead of the gap shrinking toward
-       zero (and eventually overlapping) as the window narrows. */
-    right: calc(35% - 126px);
-    top: 74%;
-    width: 76px;
-    transform: translateX(-50%);
+.staff-card {
+    flex: 1 1 0;
+    min-height: 0;
 }
 
-.card-container-8 {
-    position: absolute;
-    /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
-       right edge at ANY container width, instead of the gap shrinking toward
-       zero (and eventually overlapping) as the window narrows. */
-    right: calc(35% - 126px);
-    top: calc(51% - 10px);
-    width: 76px;
-    transform: translateX(-50%);
+.staff-card .card-vignette {
+    flex: 1 1 0;
+    min-height: 0;
 }
 
-.card-container-9 {
-    position: absolute;
-    /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
-       right edge at ANY container width, instead of the gap shrinking toward
-       zero (and eventually overlapping) as the window narrows. */
-    right: calc(35% - 126px);
-    top: calc(28% - 20px);
-    width: 76px;
-    transform: translateX(-50%);
-}
-
-.card-container-10 {
-    position: absolute;
-    /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
-       right edge at ANY container width, instead of the gap shrinking toward
-       zero (and eventually overlapping) as the window narrows. */
-    right: calc(35% - 126px);
-    top: calc(5% - 25px);
-    width: 78px;
-    transform: translateX(-50%);
+.staff-card .card {
+    aspect-ratio: unset;
+    height: 100%;
+    object-fit: cover;
 }
 
 /* ── Ready questions ──
@@ -363,9 +344,42 @@
     color: var(--ink);
 }
 
-/* ── Mobile: the hand-tuned Celtic cross can't shrink to a phone width and
-   stay legible, so below the breakpoint every card-container drops its
-   absolute cross position and stacks as a plain vertical list instead. ── */
+/* Table tier (769-1023px, §4/§5 DESIGN2.md) — the staff moves under the
+   cross as a 4-across row: two grid-template changes plus reflowing
+   .cross-staff, no other rule needs to know the tier changed. */
+@media (min-width: 769px) and (max-width: 1023px) {
+    .celtic-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: auto auto auto auto;
+    }
+
+    .cross-staff {
+        grid-column: 1 / -1;
+        grid-row: 4;
+        flex-direction: row;
+    }
+
+    /* flex:1 1 0 sizes the MAIN axis — that's height in the Desk tier's
+       column staff, but flipped to width now that the row above switched
+       .cross-staff to flex-direction:row. Without this, the vignette/card
+       still try to fill a height nothing here defines and collapse to
+       near-zero. Cards go back to holding their own 2:3 shape instead,
+       same as the other four cross cards. */
+    .staff-card .card-vignette {
+        flex: none;
+    }
+
+    .staff-card .card {
+        aspect-ratio: 2 / 3;
+        height: auto;
+    }
+}
+
+/* Hand tier (<769px, §4/§5 DESIGN2.md) — the hand-tuned Celtic cross can't
+   shrink to a phone width and stay legible, so the grid gives way to a
+   plain vertical list: .celtic-grid itself becomes the flex column, and
+   .cross-staff's own flex wrapper is removed (display:contents) so its
+   four cards join that same list directly instead of nesting inside it. */
 @media (max-width: 768px) {
     .spread-container {
         display: flex;
@@ -378,23 +392,49 @@
         gap: 22px;
     }
 
-    .card-container-1,
-    .card-container-2,
-    .card-container-3,
-    .card-container-4,
-    .card-container-5,
-    .card-container-6,
-    .card-container-7,
-    .card-container-8,
-    .card-container-9,
-    .card-container-10 {
-        position: static;
-        width: auto;
-        transform: none;
-        transition: none;
+    .celtic-grid {
         display: flex;
         flex-direction: column;
         align-items: center;
+        margin: 0;
+        gap: 22px;
+        width: 100%;
+    }
+
+    .card-slot {
+        width: auto;
+    }
+
+    .cross-self-wrap {
+        position: static;
+    }
+
+    .cross-crossing {
+        position: static;
+        width: auto;
+        transform: none;
+    }
+
+    .cross-crossing .card,
+    .cross-crossing .card:hover {
+        transform: none;
+    }
+
+    .cross-staff {
+        display: contents;
+    }
+
+    .staff-card {
+        flex: none;
+    }
+
+    .staff-card .card-vignette {
+        flex: none;
+    }
+
+    .staff-card .card {
+        aspect-ratio: 2 / 3;
+        height: auto;
     }
 
     .spread-container h5 {
@@ -403,7 +443,9 @@
     }
 
     .card {
+        width: auto;
         height: 170px;
+        aspect-ratio: unset;
     }
 
     .spread-container .ready-questions-stack {
