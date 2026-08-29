@@ -14,8 +14,8 @@ export function SpreadHeader({ spreadThem, clearSpread, children }: ISpreadHeade
     const lang = useLang();
     return (
         <div className="spread-header-container">
-            <button onClick={spreadThem}>{translate('spreadThem', lang)}</button>
-            <button onClick={clearSpread}>{translate('clearSpread', lang)}</button>
+            <button className="spread-btn-primary" onClick={spreadThem}>{translate('spreadThem', lang)}</button>
+            <button className="spread-btn-secondary" onClick={clearSpread}>{translate('clearSpread', lang)}</button>
             {children}
         </div>
     );

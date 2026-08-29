@@ -8,9 +8,10 @@ interface ITarotCardContainerProps {
     onClick?: () => void;
     tiltScale?: number;
     tiltSpeedMs?: number;
+    isSelected?: boolean;
 }
 
-export function TarotCardContainer({ tarotCard, onClick, tiltScale, tiltSpeedMs }: ITarotCardContainerProps): JSX.Element {
+export function TarotCardContainer({ tarotCard, onClick, tiltScale, tiltSpeedMs, isSelected }: ITarotCardContainerProps): JSX.Element {
     const { ref, onMouseMove, onMouseLeave } = useTilt<HTMLDivElement>({ scale: tiltScale, moveTransitionMs: tiltSpeedMs });
 
     return (
@@ -19,7 +20,7 @@ export function TarotCardContainer({ tarotCard, onClick, tiltScale, tiltSpeedMs 
                 <img
                     src={tarotCard.src}
                     alt={tarotCard.alt}
-                    className="small-card"
+                    className={`small-card${isSelected ? ' small-card-chosen' : ''}`}
                     loading="lazy"
                 />
                 <div className="card-particles">

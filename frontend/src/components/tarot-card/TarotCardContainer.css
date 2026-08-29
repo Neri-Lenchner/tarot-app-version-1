@@ -49,9 +49,15 @@
     display: block;
     border-radius: var(--radius-card);
     width: 80px;
+    border: 1px solid var(--line);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
     filter: contrast(1.08) brightness(0.8) saturate(1.2) sepia(0.1);
-    transition: box-shadow 0.25s ease, filter 0.25s ease;
+    transition: box-shadow 0.25s ease, filter 0.25s ease, border-color var(--transition);
+}
+
+/* Chosen/open — this card's detail modal is currently showing (§3, Cards). */
+.small-card-chosen {
+    border-color: var(--gild);
 }
 
 .small-card-tilt:hover .small-card {

@@ -62,14 +62,14 @@
     display: block;
     width: 24px;
     height: 3px;
-    background-color: var(--act-bright);
+    background-color: var(--act);
     border-radius: 2px;
     box-shadow: 0 0 6px rgba(var(--gild-rgb), 0.7);
     transition: transform 0.25s ease, opacity 0.25s ease, background-color var(--transition);
 }
 
 .header-menu-toggle:hover span {
-    background-color: var(--gild-bright);
+    background-color: var(--act-bright);
 }
 
 .header-menu-toggle--open span:nth-child(1) {
@@ -105,8 +105,8 @@
 }
 
 .header-lang-btn:hover {
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .header-login {
@@ -129,7 +129,7 @@
 
 .header-login:hover {
     background: var(--act-wash);
-    border-color: var(--gild-bright);
+    border-color: var(--act-bright);
 }
 
 .header-user {

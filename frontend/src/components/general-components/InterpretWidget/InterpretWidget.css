@@ -39,8 +39,11 @@
 }
 
 .iw-toggle-btn:hover {
+    /* Gold-bordered floating toggle: the border may brighten within its own
+       gild family, but the icon inside is a control, not gilding — it
+       stays vermilion (see DESIGN2.md §3, Floating widgets). */
     border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    color: var(--act-bright);
     box-shadow: 0 0 18px rgba(var(--gild-rgb), 0.8), 0 0 42px rgba(var(--gild-rgb), 0.4);
 }
 
@@ -133,14 +136,14 @@
 }
 
 .iw-btn:hover:not(:disabled) {
-    background: var(--gild-bright);
-    border-color: var(--gild-bright);
+    background: var(--act-bright);
+    border-color: var(--act-bright);
     box-shadow: 0 0 16px rgba(var(--act-rgb), 0.5);
 }
 
 .iw-btn:disabled {
-    background: var(--act-deep);
-    border-color: var(--act-deep);
+    background: transparent;
+    border-color: var(--line-soft);
     color: var(--ink-faint);
     cursor: not-allowed;
 }
@@ -181,24 +184,24 @@
     50% { opacity: 1; }
 }
 
-/* ── Save button ── */
+/* ── Save button — Secondary tier (§3, Buttons) ── */
 .iw-save-btn {
     width: 100%;
     padding: 8px;
     background: none;
-    color: var(--act);
-    border: 1px solid var(--line);
+    color: var(--ink);
+    border: 1px solid var(--act);
     font-size: 17px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
-    transition: border-color var(--transition), background var(--transition);
+    transition: border-color var(--transition), background var(--transition), color var(--transition);
     flex-shrink: 0;
 }
 
 .iw-save-btn:hover:not(:disabled) {
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
     background: var(--act-wash);
 }
 

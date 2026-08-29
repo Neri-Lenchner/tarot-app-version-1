@@ -86,7 +86,7 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
                     <h2 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h2>
                     <div className="card-vignette">
                         <img
-                            className="card"
+                            className={`card${!isSpread3 ? ' card-undrawn' : ''}${isSpread3 && selectedIndex === i ? ' card-chosen' : ''}`}
                             src={isSpread3 ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
                             alt={isSpread3 ? cards[i]?.alt : "card back"}
                         />

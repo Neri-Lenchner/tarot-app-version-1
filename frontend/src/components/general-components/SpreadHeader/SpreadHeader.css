@@ -13,9 +13,7 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-align: center;
-    border: 1px solid var(--line);
-    background: var(--paper-3);
-    color: var(--act);
+    border: 1px solid var(--act);
     padding: 11px 20px;
     /* Hebrew renders narrower than English for both labels here (measured:
        "Spread Them"/"Clear Spread" ~186-198px vs ~140-151px in Hebrew) — a
@@ -31,16 +29,29 @@
         color var(--transition);
 }
 
-.spread-header-container button:hover {
-    background: var(--act-wash);
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+/* Primary — the spread page's one rationed solid action (§3, Buttons). */
+.spread-btn-primary {
+    background: var(--act);
+    color: var(--paper);
 }
 
-.spread-header-container button:active {
+.spread-btn-primary:hover,
+.spread-btn-primary:active {
+    background: var(--act-bright);
+    border-color: var(--act-bright);
+}
+
+/* Secondary — transparent, --act rule, --ink label at rest. */
+.spread-btn-secondary {
+    background: transparent;
+    color: var(--ink);
+}
+
+.spread-btn-secondary:hover,
+.spread-btn-secondary:active {
     background: var(--act-wash);
     border-color: var(--act-bright);
-    color: var(--ink);
+    color: var(--act-bright);
 }
 
 .third-person-toggle {
@@ -70,8 +81,8 @@
 }
 
 .third-person-toggle:hover {
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .third-person-toggle:active {
@@ -80,10 +91,11 @@
     background: var(--act-wash);
 }
 
+/* Toggled on — "currently selected" is always vermilion (§1, Colour). */
 .third-person-toggle.active {
-    background: #000;
-    border-color: var(--gild);
-    color: var(--gild);
+    background: var(--act-wash);
+    border-color: var(--act);
+    color: var(--act-bright);
 }
 
 @media (max-width: 768px) {

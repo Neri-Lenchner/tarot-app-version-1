@@ -35,12 +35,16 @@
 
 .SideBar a:hover {
     border-color: var(--line);
-    color: var(--gild-bright);
+    color: var(--act-bright);
 }
 
+/* Active = 2px --act left rule + --act-wash — the same pair used for every
+   "currently selected" thing in the app (see DESIGN2.md §3, Nav). Only the
+   left edge carries the indicator; the other three sides keep the plain
+   1px --line-soft border from .SideBar a. */
 .SideBar a.active {
     background: var(--act-wash);
-    border-color: var(--act);
+    border-left: 2px solid var(--act);
     color: var(--act-bright);
 }
 

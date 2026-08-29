@@ -46,14 +46,25 @@
 
 .card {
     border-radius: var(--radius-card);
+    border: 1px solid var(--line);
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color var(--transition), opacity var(--transition);
 }
 
 .card:hover {
     transform: scale(1.05);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8);
     z-index: 10;
+}
+
+/* Chosen/open — this card's detail modal is currently showing. */
+.card-chosen {
+    border-color: var(--gild);
+}
+
+/* Not yet drawn — showing the card back before "Spread Them" (§3, Cards). */
+.card-undrawn {
+    opacity: 0.55;
 }
 
 /* ── Ready questions ────────────────────────────── */
@@ -94,8 +105,8 @@
 
 .ready-question:hover {
     background: var(--act-wash);
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .ready-question-warning {
@@ -164,8 +175,8 @@
 }
 
 .card-modal-lang-btn:hover {
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .card-modal-close {

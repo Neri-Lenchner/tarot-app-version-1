@@ -33,10 +33,10 @@ export function CardCarousel(): JSX.Element {
             <div className="carousel-viewport">
                 <div className="carousel-track">
                     {cardsDeck.map(card => (
-                        <TarotCardContainer key={`a-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} />
+                        <TarotCardContainer key={`a-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} isSelected={selectedCard?.id === card.id} />
                     ))}
                     {cardsDeck.map(card => (
-                        <TarotCardContainer key={`b-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} />
+                        <TarotCardContainer key={`b-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} isSelected={selectedCard?.id === card.id} />
                     ))}
                 </div>
             </div>

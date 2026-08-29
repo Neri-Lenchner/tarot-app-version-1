@@ -33,6 +33,7 @@ export function TarotDeck() {
                     key={card.id}
                     tarotCard={card}
                     onClick={() => setSelectedCard(card)}
+                    isSelected={selectedCard?.id === card.id}
                 />
             ))}
 

@@ -166,7 +166,7 @@
 }
 
 .spread-details-back:hover {
-    color: var(--gild-bright);
+    color: var(--ink);
 }
 
 .spread-details-card {
@@ -235,8 +235,8 @@
 }
 
 .spread-details-lang:hover {
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .spread-details-interpretation {

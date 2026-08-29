@@ -134,8 +134,10 @@
 }
 
 .combo-reopen-btn:hover {
+    /* Gold-bordered floating toggle: border brightens within gild, the icon
+       stays vermilion — it's a control, not gilding (§3, Floating widgets). */
     border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    color: var(--act-bright);
     box-shadow: 0 0 18px rgba(var(--gild-rgb), 0.8), 0 0 42px rgba(var(--gild-rgb), 0.4);
 }
 
@@ -161,8 +163,8 @@
 
 .combo-confirm-btn:hover:not(:disabled) {
     background: var(--act-wash);
-    border-color: var(--gild-bright);
-    color: var(--gild-bright);
+    border-color: var(--act-bright);
+    color: var(--act-bright);
 }
 
 .combo-confirm-btn:disabled {

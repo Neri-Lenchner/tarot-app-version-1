@@ -89,7 +89,7 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
                     <h5 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h5>
                     <div className="card-vignette">
                         <img
-                            className="card"
+                            className={`card${!isSpread ? ' card-undrawn' : ''}${isSpread && selectedIndex === i ? ' card-chosen' : ''}`}
                             src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
                             alt={isSpread ? cards[i]?.alt : "card back"}
                         />
