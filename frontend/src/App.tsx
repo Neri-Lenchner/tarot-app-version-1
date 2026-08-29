@@ -62,14 +62,6 @@ function App(): JSX.Element {
         createTarotList();
     }, []);
 
-    // Hebrew text renders visually smaller than Latin at the same rem size,
-    // so bump the root font-size while Hebrew is active — every rem-sized
-    // rule in the app scales up together instead of hand-editing each one.
-    useEffect(() => {
-        document.documentElement.setAttribute('data-lang', lang);
-    }, [lang]);
-
-
   return (
     <div className="App">
       <header className="App-header">

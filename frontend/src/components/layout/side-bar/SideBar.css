@@ -23,7 +23,8 @@
     text-decoration: none;
     color: var(--ink-dim);
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: var(--text-label);
+    line-height: var(--text-label-line);
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition:
@@ -45,7 +46,8 @@
 
 .sidebar-user {
     color: var(--ink-dim);
-    font-size: 0.78rem;
+    font-size: var(--text-label);
+    line-height: var(--text-label-line);
     font-weight: 600;
     letter-spacing: 0.06em;
     text-align: center;
@@ -72,7 +74,7 @@
 }
 
 .sidebar-logout:hover {
-    background: rgba(122, 50, 38, 0.18);
+    background: var(--ash-wash);
     border-color: var(--ash-bright);
 }
 

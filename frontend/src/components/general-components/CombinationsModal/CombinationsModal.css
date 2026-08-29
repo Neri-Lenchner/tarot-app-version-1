@@ -85,7 +85,7 @@
 }
 
 .combo-card-name {
-    font-size: 17px;
+    font-size: var(--text-body);
     color: var(--ink);
     text-align: center;
     max-width: 66px;
@@ -95,9 +95,9 @@
 
 /* ── Meaning & badge ── */
 .combo-meaning {
-    font-size: 17px;
+    font-size: var(--text-body);
     color: var(--ink);
-    line-height: 1.55;
+    line-height: var(--text-body-line);
     margin-bottom: 10px;
 }
 

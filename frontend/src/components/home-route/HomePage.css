@@ -19,7 +19,8 @@
 
 .home-hero h1 {
     margin: 0 0 8px;
-    font-size: 1.8rem;
+    font-size: var(--text-page-title);
+    line-height: var(--text-page-title-line);
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--act-bright);

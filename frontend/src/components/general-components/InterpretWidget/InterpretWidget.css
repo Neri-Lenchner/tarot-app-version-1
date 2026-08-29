@@ -110,10 +110,10 @@
 
 .iw-question-text {
     margin: 0;
-    font-size: 17px;
+    font-size: var(--text-body);
     color: var(--ink);
     font-style: italic;
-    line-height: 1.5;
+    line-height: var(--text-body-line);
 }
 
 /* ── Interpret button ── */
@@ -266,8 +266,8 @@
 .iw-card-text {
     margin: 0 0 6px;
     color: var(--ink);
-    font-size: 18px;
-    line-height: 1.75;
+    font-size: var(--text-body);
+    line-height: var(--text-body-line);
 }
 
 @media (max-width: 768px) {

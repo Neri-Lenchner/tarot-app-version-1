@@ -40,7 +40,8 @@
 
 .celtic-spread-container .spread-question-label {
     color: var(--act);
-    font-size: 10px;
+    font-size: var(--text-label);
+    line-height: var(--text-label-line);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -49,7 +50,8 @@
 
 .celtic-spread-container .spread-question-text {
     color: var(--ink);
-    font-size: 17px;
+    font-size: var(--text-body);
+    line-height: var(--text-body-line);
     font-style: italic;
 }
 

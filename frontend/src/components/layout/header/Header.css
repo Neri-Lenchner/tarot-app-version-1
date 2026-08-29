@@ -30,12 +30,6 @@
     text-overflow: ellipsis;
 }
 
-.Header h1[dir="rtl"] {
-    /* Fixed px (not rem) — deliberately exempt from the html[data-lang="he"]
-       root font-size bump that scales the rest of the app's Hebrew text. */
-    font-size: 35.2px;
-}
-
 .header-berta {
     position: absolute;
     left: 30px;
@@ -164,7 +158,7 @@
 }
 
 .header-logout:hover {
-    background: rgba(122, 50, 38, 0.18);
+    background: var(--ash-wash);
     border-color: var(--ash-bright);
 }
 

@@ -22,7 +22,8 @@
 .my-spreads-title,
 .spread-details-title {
     color: var(--act-bright);
-    font-size: 1.8rem;
+    font-size: var(--text-page-title);
+    line-height: var(--text-page-title-line);
     font-weight: 400;
     letter-spacing: 0.2em;
     text-transform: uppercase;
@@ -119,7 +120,7 @@
 }
 
 .my-spread-delete-btn:hover {
-    background: rgba(122, 50, 38, 0.18);
+    background: var(--ash-wash);
     border-color: var(--ash-bright);
 }
 

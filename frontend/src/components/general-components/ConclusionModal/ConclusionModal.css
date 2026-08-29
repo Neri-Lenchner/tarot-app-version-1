@@ -60,8 +60,8 @@
 .conclusion-text {
     margin: 0 0 8px;
     color: var(--ink);
-    font-size: 19px;
-    line-height: 1.7;
+    font-size: var(--text-body);
+    line-height: var(--text-body-line);
 }
 
 .conclusion-text:last-child {
@@ -86,7 +86,7 @@
     border: 1px solid var(--conclusion-border);
     color: var(--ink);
     font-style: italic;
-    font-size: 15px;
+    font-size: var(--text-secondary);
     padding: 7px 10px;
     outline: none;
     transition: border-color var(--transition);
@@ -128,8 +128,8 @@
 .conclusion-followup-answer {
     margin-top: 10px;
     color: var(--ink);
-    font-size: 17px;
-    line-height: 1.65;
+    font-size: var(--text-body);
+    line-height: var(--text-body-line);
     padding: 10px 12px;
     background: var(--paper-3);
     border: 1px solid var(--conclusion-border);

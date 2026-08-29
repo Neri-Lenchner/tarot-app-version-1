@@ -93,19 +93,20 @@
 .card-modal-name {
     margin: 0 0 20px;
     color: var(--act-bright);
-    font-size: 28px;
+    font-size: var(--text-section-head);
+    line-height: var(--text-section-head-line);
 }
 
 .card-modal-meaning {
     margin: 0 0 16px;
-    line-height: 1.7;
-    font-size: 19px;
+    line-height: var(--text-body-line);
+    font-size: var(--text-body);
     color: var(--ink);
 }
 
 .card-modal-desc {
     margin: 0;
-    line-height: 1.7;
-    font-size: 18px;
+    line-height: var(--text-body-line);
+    font-size: var(--text-body);
     color: var(--ink);
 }
