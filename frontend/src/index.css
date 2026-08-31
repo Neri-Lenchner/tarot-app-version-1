@@ -85,45 +85,14 @@
     box-sizing: border-box;
 }
 
-/* Hidden only where a scrollbar would be visual noise — the ambient
-   carousel and the small floating panels. Long-form scrollers keep theirs. */
-.carousel-viewport::-webkit-scrollbar,
-.conclusion-body::-webkit-scrollbar,
-.iw-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
     display: none;
-}
-
-.carousel-viewport,
-.conclusion-body,
-.iw-body {
-    scrollbar-width: none;
 }
 
 html {
     overflow-y: auto;
     scroll-behavior: smooth;
-    scrollbar-width: thin;
-    scrollbar-color: var(--line) transparent;
-}
-
-*::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-}
-
-*::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-*::-webkit-scrollbar-thumb {
-    background: var(--line);
-    border: 2px solid transparent;
-    background-clip: content-box;
-}
-
-*::-webkit-scrollbar-thumb:hover {
-    background: var(--ink-faint);
-    background-clip: content-box;
+    scrollbar-width: none;
 }
 
 /* Hebrew reads visually smaller than Latin at an identical rem size, so

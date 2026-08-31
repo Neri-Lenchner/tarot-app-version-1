@@ -252,6 +252,7 @@
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
+    scrollbar-width: none;
     color: var(--text-primary);
     position: relative;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
