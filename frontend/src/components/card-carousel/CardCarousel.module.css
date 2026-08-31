@@ -1,4 +1,4 @@
-.carousel-viewport {
+.viewport {
     width: 100%;
     flex: 1;
     min-height: 0;
@@ -14,7 +14,7 @@
     mask-image: linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%);
 }
 
-.carousel-track {
+.track {
     display: flex;
     width: max-content;
     /* 78 cards * ~96px each = ~7488px for one full set — the animation
@@ -24,11 +24,16 @@
     animation: carousel-scroll 110s linear infinite;
 }
 
-.carousel-track:hover {
+.track:hover {
     animation-play-state: paused;
 }
 
-.carousel-track .TarotCard {
+/* :global — .TarotCard belongs to TarotCardContainer.css, a separate,
+   still-plain (non-module) shared component used here and on the deck
+   page. Without :global, CSS Modules would hash this occurrence of
+   .TarotCard too, and it would stop matching the real, unhashed class
+   TarotCardContainer actually renders. */
+.track :global(.TarotCard) {
     flex-shrink: 0;
 }
 

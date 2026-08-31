@@ -1,4 +1,4 @@
-.tarot-deck-container {
+.container {
     background: var(--page-bg);
     overflow-y: auto;
     width: 100%;
@@ -9,8 +9,4 @@
     flex-wrap: wrap;
     scroll-behavior: smooth;
     scrollbar-width: none;
-}
-
-.space {
-    height: 20px;
 }

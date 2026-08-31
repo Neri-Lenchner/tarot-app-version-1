@@ -3,7 +3,7 @@ import {TarotCardContainer} from "../../tarot-card/TarotCardContainer";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
 import {CardModal, cardModalText} from "../../general-components/CardModal/CardModal";
-import './TarotDeck.css';
+import styles from './TarotDeck.module.css';
 import {JSX, useEffect, useState} from "react";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
@@ -27,7 +27,7 @@ export function TarotDeck() {
         : null;
 
     return (
-        <div className="tarot-deck-container">
+        <div className={styles.container}>
             {cardsDeck.map((card: ITarotCard): JSX.Element => (
                 <TarotCardContainer
                     key={card.id}

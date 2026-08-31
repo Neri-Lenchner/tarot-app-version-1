@@ -8,7 +8,7 @@ import { deckService } from '../../services/DeckService';
 import { deckStore } from '../../state/deck-state';
 import { useLang } from '../../state/lang-state';
 import { translate } from '../../state/translations';
-import './CardCarousel.css';
+import styles from './CardCarousel.module.css';
 
 // Track holds the full deck twice back-to-back so the CSS loop (0% to -50%)
 // resets on a point that looks pixel-identical to the start — see notes/carausel.txt.
@@ -30,8 +30,8 @@ export function CardCarousel(): JSX.Element {
 
     return (
         <>
-            <div className="carousel-viewport">
-                <div className="carousel-track">
+            <div className={styles.viewport}>
+                <div className={styles.track}>
                     {cardsDeck.map(card => (
                         <TarotCardContainer key={`a-${card.id}`} tarotCard={card} onClick={() => setSelectedCard(card)} tiltScale={1.35} tiltSpeedMs={280} />
                     ))}
@@ -42,8 +42,8 @@ export function CardCarousel(): JSX.Element {
             </div>
 
             {selectedCard !== null && (
-                // Deliberately a sibling of .carousel-viewport, not a child of
-                // it — that element's mask-image forces the whole subtree
+                // Deliberately a sibling of .viewport, not a child of it —
+                // that element's mask-image forces the whole subtree
                 // (including position:fixed descendants) into one composited,
                 // clipped layer, which would trap this overlay near the
                 // carousel's own bounds instead of covering the full viewport.
