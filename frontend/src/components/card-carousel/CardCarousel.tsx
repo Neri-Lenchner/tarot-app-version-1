@@ -1,9 +1,9 @@
 import { JSX, useEffect, useState } from 'react';
-import { X } from 'lucide-react';
 import { cardsDeck } from '../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { ITarotCard } from '../../arrays-&-models/tarot-deck-array/tarotCard.interface';
 import { TarotCardData } from '../../arrays-&-models/TarotCardData.model';
 import { TarotCardContainer } from '../tarot-card/TarotCardContainer';
+import { CardModal, cardModalText } from '../general-components/CardModal/CardModal';
 import { deckService } from '../../services/DeckService';
 import { deckStore } from '../../state/deck-state';
 import { useLang } from '../../state/lang-state';
@@ -47,20 +47,16 @@ export function CardCarousel(): JSX.Element {
                 // (including position:fixed descendants) into one composited,
                 // clipped layer, which would trap this overlay near the
                 // carousel's own bounds instead of covering the full viewport.
-                <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedCard(null)}>
-                    <div className="card-modal" onClick={(e) => e.stopPropagation()}>
-                        <button className="card-modal-close" onClick={() => setSelectedCard(null)}><X size={18} /></button>
-                        <h3 className="card-modal-name">{selectedCard.name}</h3>
-                        {selectedApiCard ? (
-                            <div dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                                <p className="card-modal-meaning"><strong>{translate('meaning', lang)}</strong> {lang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
-                                <p className="card-modal-desc">{lang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
-                            </div>
-                        ) : (
-                            <p className="card-modal-meaning">{translate('noDetails', lang)}</p>
-                        )}
-                    </div>
-                </div>
+                <CardModal name={selectedCard.name} onClose={() => setSelectedCard(null)}>
+                    {selectedApiCard ? (
+                        <div dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            <p className={cardModalText.meaning}><strong>{translate('meaning', lang)}</strong> {lang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
+                            <p className={cardModalText.desc}>{lang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
+                        </div>
+                    ) : (
+                        <p className={cardModalText.meaning}>{translate('noDetails', lang)}</p>
+                    )}
+                </CardModal>
             )}
         </>
     );
