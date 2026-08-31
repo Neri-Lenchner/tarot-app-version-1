@@ -1,6 +1,6 @@
 import {JSX, useState, useEffect} from "react";
 import {X} from "lucide-react";
-import './ThreeCardsSpread.css';
+import styles from './ThreeCardsSpread.module.css';
 import {interpretStore} from "../../../../state/interpret-state";
 import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {TarotCardData} from "../../../../arrays-&-models/TarotCardData.model";
@@ -62,16 +62,16 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
     const cardSection = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 
     return (
-        <div className="three-cards-spread-container">
-            <div className="ready-questions-stack">
-                <h3 className="ready-questions-title" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('maybeAsk', lang)}</h3>
+        <div className={styles.container}>
+            <div className={styles.readyQuestionsStack}>
+                <h3 className={styles.readyQuestionsTitle} dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('maybeAsk', lang)}</h3>
                 {READY_QUESTIONS.map(q => (
-                    <div key={q.en} className="ready-question" onClick={() => handleReadyQuestionClick(q)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    <div key={q.en} className={styles.readyQuestion} onClick={() => handleReadyQuestionClick(q)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         {lang === 'he' ? q.he : q.en}
                     </div>
                 ))}
                 {clearWarning && (
-                    <div className="ready-question-warning" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         {translate('clearSpreadWarning', lang)}
                     </div>
                 )}
@@ -79,14 +79,14 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
             {positions.map((label, i) => (
                 <div
                     key={label}
-                    className="card-container"
+                    className={styles.cardContainer}
                     onClick={() => isSpread3 && setSelectedIndex(i)}
                     style={isSpread3 ? {cursor: "pointer"} : {}}
                 >
                     <h2 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h2>
-                    <div className="card-vignette">
+                    <div className={styles.cardVignette}>
                         <img
-                            className="card"
+                            className={styles.card}
                             src={isSpread3 ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
                             alt={isSpread3 ? cards[i]?.alt : "card back"}
                         />
@@ -95,28 +95,28 @@ export function ThreeCardsSpread({ isSpread3, cards, apiCards, positions, onQues
             ))}
 
             {selectedIndex !== null && (
-                <div className="card-modal-overlay modal-widget-root" onClick={() => setSelectedIndex(null)}>
-                    <div className="card-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="card-modal-header">
-                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}><X size={18} /></button>
+                <div className={`${styles.overlay} modal-widget-root`} onClick={() => setSelectedIndex(null)}>
+                    <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles.header}>
+                            <button className={styles.close} onClick={() => setSelectedIndex(null)}><X size={18} /></button>
                             {hasBoth && (
-                                <button className="card-modal-lang-btn" onClick={() => setModalLang(l => l === 'en' ? 'he' : 'en')}>
+                                <button className={styles.langBtn} onClick={() => setModalLang(l => l === 'en' ? 'he' : 'en')}>
                                     {modalLang === 'en' ? 'HE' : 'EN'}
                                 </button>
                             )}
                         </div>
-                        <h3 className="card-modal-name">{selectedCard?.name}</h3>
-                        <p className="card-modal-position" dir={modalLang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[selectedIndex], modalLang)}</p>
+                        <h3 className={styles.name}>{selectedCard?.name}</h3>
+                        <p className={styles.position} dir={modalLang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[selectedIndex], modalLang)}</p>
                         <div dir={modalLang === 'he' ? 'rtl' : 'ltr'}>
                             {cardSection ? (
-                                <p className="card-modal-desc">{cardSection}</p>
+                                <p className={styles.desc}>{cardSection}</p>
                             ) : selectedApiCard ? (
                                 <>
-                                    <p className="card-modal-meaning"><strong>{translate('meaning', modalLang)}</strong> {modalLang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
-                                    <p className="card-modal-desc">{modalLang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
+                                    <p className={styles.meaning}><strong>{translate('meaning', modalLang)}</strong> {modalLang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
+                                    <p className={styles.desc}>{modalLang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
                                 </>
                             ) : (
-                                <p className="card-modal-meaning">{translate('noDetails', modalLang)}</p>
+                                <p className={styles.meaning}>{translate('noDetails', modalLang)}</p>
                             )}
                         </div>
                     </div>

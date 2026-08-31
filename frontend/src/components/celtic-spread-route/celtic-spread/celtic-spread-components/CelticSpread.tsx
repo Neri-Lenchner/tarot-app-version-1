@@ -1,4 +1,4 @@
-import './CelticSpread.css';
+import styles from './CelticSpread.module.css';
 import {useState, useEffect, JSX} from "react";
 import {X} from "lucide-react";
 import {interpretStore} from "../../../../state/interpret-state";
@@ -10,6 +10,16 @@ import {useLang} from "../../../../state/lang-state";
 import {translate, translatePosition} from "../../../../state/translations";
 import {IReadyQuestion} from "../../../../arrays-&-models/readyQuestion.interface";
 import {READY_QUESTIONS} from "../../../../arrays-&-models/readyQuestions";
+
+// Indexed lookup instead of bracket access on `styles` (e.g.
+// styles[`cardContainer${i + 1}`]) so a typo'd/renamed class is a
+// compile-time error, not a silently-missing style at runtime.
+const CARD_CONTAINER_CLASSES = [
+    styles.cardContainer1, styles.cardContainer2, styles.cardContainer3,
+    styles.cardContainer4, styles.cardContainer5, styles.cardContainer6,
+    styles.cardContainer7, styles.cardContainer8, styles.cardContainer9,
+    styles.cardContainer10,
+];
 
 function extractCardSection(text: string, cardName: string): string | null {
     const escaped: string = cardName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -65,16 +75,16 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
     const cardSection: string | null = selectedCard && interpretation ? extractCardSection(interpretation, selectedCard.name) : null;
 
     return (
-        <div className="spread-container">
-            <div className="ready-questions-stack">
-                <h2 className="ready-questions-title" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('maybeAsk', lang)}</h2>
+        <div className={styles.container}>
+            <div className={styles.readyQuestionsStack}>
+                <h2 className={styles.readyQuestionsTitle} dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('maybeAsk', lang)}</h2>
                 {READY_QUESTIONS.map(q => (
-                    <div key={q.en} className="ready-question" onClick={() => handleReadyQuestionClick(q)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    <div key={q.en} className={styles.readyQuestion} onClick={() => handleReadyQuestionClick(q)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         {lang === 'he' ? q.he : q.en}
                     </div>
                 ))}
                 {clearWarning && (
-                    <div className="ready-question-warning" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         {translate('clearSpreadWarning', lang)}
                     </div>
                 )}
@@ -82,14 +92,14 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
             {positions.map((label: string, i): JSX.Element => (
                 <div
                     key={label}
-                    className={`card-container-${i + 1}`}
+                    className={CARD_CONTAINER_CLASSES[i]}
                     onClick={(): false | void => isSpread && setSelectedIndex(i)}
                     style={isSpread ? {cursor: "pointer"} : {}}
                 >
                     <h5 dir={lang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(label, lang)}</h5>
-                    <div className="card-vignette">
+                    <div className={styles.cardVignette}>
                         <img
-                            className="card"
+                            className={styles.card}
                             src={isSpread ? (cards[i]?.src || "/Tarot-deck-images/cards-back.jpg") : "/Tarot-deck-images/cards-back.jpg"}
                             alt={isSpread ? cards[i]?.alt : "card back"}
                         />
@@ -98,28 +108,28 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
             ))}
 
             {selectedIndex !== null && (
-                <div className="card-modal-overlay modal-widget-root" onClick={(): void => setSelectedIndex(null)}>
-                    <div className="card-modal" onClick={(e): void => e.stopPropagation()}>
-                        <div className="card-modal-header">
-                            <button className="card-modal-close" onClick={() => setSelectedIndex(null)}><X size={18} /></button>
+                <div className={`${styles.overlay} modal-widget-root`} onClick={(): void => setSelectedIndex(null)}>
+                    <div className={styles.modal} onClick={(e): void => e.stopPropagation()}>
+                        <div className={styles.header}>
+                            <button className={styles.close} onClick={() => setSelectedIndex(null)}><X size={18} /></button>
                             {hasBoth && (
-                                <button className="card-modal-lang-btn" onClick={() => setModalLang(language => language === 'en' ? 'he' : 'en')}>
+                                <button className={styles.langBtn} onClick={() => setModalLang(language => language === 'en' ? 'he' : 'en')}>
                                     {modalLang === 'en' ? 'HE' : 'EN'}
                                 </button>
                             )}
                         </div>
-                        <h3 className="card-modal-name">{selectedCard?.name}</h3>
-                        <p className="card-modal-position" dir={modalLang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[selectedIndex], modalLang)}</p>
+                        <h3 className={styles.name}>{selectedCard?.name}</h3>
+                        <p className={styles.position} dir={modalLang === 'he' ? 'rtl' : 'ltr'}>{translatePosition(positions[selectedIndex], modalLang)}</p>
                         <div dir={modalLang === 'he' ? 'rtl' : 'ltr'}>
                             {cardSection ? (
-                                <p className="card-modal-desc">{cardSection}</p>
+                                <p className={styles.desc}>{cardSection}</p>
                             ) : selectedApiCard ? (
                                 <>
-                                    <p className="card-modal-meaning"><strong>{translate('meaning', modalLang)}</strong> {modalLang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
-                                    <p className="card-modal-desc">{modalLang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
+                                    <p className={styles.meaning}><strong>{translate('meaning', modalLang)}</strong> {modalLang === 'he' ? (selectedApiCard.meaning_up_he ?? selectedApiCard.meaning_up) : selectedApiCard.meaning_up}</p>
+                                    <p className={styles.desc}>{modalLang === 'he' ? (selectedApiCard.desc_he ?? selectedApiCard.desc) : selectedApiCard.desc}</p>
                                 </>
                             ) : (
-                                <p className="card-modal-meaning">{translate('noDetails', modalLang)}</p>
+                                <p className={styles.meaning}>{translate('noDetails', modalLang)}</p>
                             )}
                         </div>
                     </div>

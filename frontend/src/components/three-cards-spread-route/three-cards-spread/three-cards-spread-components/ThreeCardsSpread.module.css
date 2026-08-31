@@ -1,4 +1,4 @@
-.three-cards-spread-container {
+.container {
     position: relative;
     /* Fill available space without pushing past the viewport */
     height: calc(100dvh - var(--header-height) - 60px);
@@ -10,7 +10,7 @@
     background: var(--page-bg);
 }
 
-.three-cards-spread-container h2 {
+.container h2 {
     font-family: var(--font-heading);
     text-align: center;
     color: var(--accent);
@@ -20,7 +20,7 @@
     margin-bottom: 16px;
 }
 
-.card-container {
+.cardContainer {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -28,12 +28,12 @@
 }
 
 /* Card image */
-.card-vignette {
+.cardVignette {
     position: relative;
     display: inline-block;
 }
 
-.card-vignette::after {
+.cardVignette::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -55,7 +55,7 @@
 }
 
 /* ── Ready questions ────────────────────────────── */
-.ready-questions-stack {
+.readyQuestionsStack {
     position: absolute;
     left: 32px;
     top: 55%;
@@ -66,7 +66,7 @@
     z-index: 10;
 }
 
-.ready-questions-title {
+.readyQuestionsTitle {
     color: var(--accent-bright);
     font-size: 1.3rem;
     font-weight: 400;
@@ -75,7 +75,7 @@
     margin: 0;
 }
 
-.ready-question {
+.readyQuestion {
     color: var(--ink);
     border: 1px solid var(--line);
     padding: 12px 22px;
@@ -89,13 +89,13 @@
     white-space: nowrap;
 }
 
-.ready-question:hover {
+.readyQuestion:hover {
     background: var(--accent-wash);
     border-color: var(--accent-hover);
     color: var(--accent-hover);
 }
 
-.ready-question-warning {
+.readyQuestionWarning {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -113,7 +113,7 @@
 }
 
 /* ── Card modal ─────────────────────────────────── */
-.card-modal-overlay {
+.overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
@@ -123,7 +123,7 @@
     z-index: 1000;
 }
 
-.card-modal {
+.modal {
     background: var(--bg-2);
     border: 1px solid var(--line);
     padding: 32px;
@@ -136,14 +136,14 @@
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
-.card-modal-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
 }
 
-.card-modal-lang-btn {
+.langBtn {
     background: none;
     border: 1px solid var(--line);
     color: var(--accent);
@@ -155,12 +155,12 @@
     transition: border-color var(--transition), color var(--transition);
 }
 
-.card-modal-lang-btn:hover {
+.langBtn:hover {
     border-color: var(--accent-hover);
     color: var(--accent-hover);
 }
 
-.card-modal-close {
+.close {
     position: absolute;
     top: 12px;
     right: 16px;
@@ -176,17 +176,17 @@
     transition: opacity var(--transition);
 }
 
-.card-modal-close:hover {
+.close:hover {
     opacity: 1;
 }
 
-.card-modal-name {
+.name {
     margin: 0 0 4px;
     color: var(--accent-bright);
     font-size: 28px;
 }
 
-.card-modal-position {
+.position {
     margin: 0 0 20px;
     color: var(--text-muted);
     font-size: 18px;
@@ -194,14 +194,14 @@
     letter-spacing: 2px;
 }
 
-.card-modal-meaning {
+.meaning {
     margin: 0 0 16px;
     line-height: 1.7;
     font-size: 19px;
     color: var(--card-desc-color);
 }
 
-.card-modal-desc {
+.desc {
     margin: 0;
     line-height: 1.7;
     font-size: 18px;
@@ -209,7 +209,7 @@
 }
 
 @media (max-width: 768px) {
-    .three-cards-spread-container {
+    .container {
         min-width: 0;
         height: auto;
         min-height: 0;
@@ -221,7 +221,7 @@
         overflow-y: auto;
     }
 
-    .ready-questions-stack {
+    .readyQuestionsStack {
         position: static;
         transform: none;
         width: 100%;
@@ -229,12 +229,12 @@
         order: 2;
     }
 
-    .ready-question,
-    .ready-question-warning {
+    .readyQuestion,
+    .readyQuestionWarning {
         white-space: normal;
     }
 
-    .card-container {
+    .cardContainer {
         order: 1;
     }
 }

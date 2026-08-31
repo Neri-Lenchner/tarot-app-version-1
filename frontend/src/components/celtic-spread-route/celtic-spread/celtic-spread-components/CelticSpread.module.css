@@ -1,4 +1,4 @@
-.spread-container {
+.container {
     position: relative;
     display: flex;
     min-height: calc(100dvh - var(--header-height) - 60px);
@@ -7,13 +7,12 @@
     background: var(--page-bg);
 }
 
-
-.spread-container h5 {
+.container h5 {
     color: var(--accent);
     text-align: center;
     margin: 0;
     /* px, not rem — the html[data-lang="he"] root-scaling would otherwise
-       grow this label in Hebrew, changing .card-container-N's height and
+       grow this label in Hebrew, changing .cardContainerN's height and
        shifting the -50%/-50% centered cards on language switch. */
     font-size: 11.2px;
     letter-spacing: 0.08em;
@@ -22,12 +21,12 @@
 }
 
 /* ── Card positioning ───────────────────────────── */
-.card-vignette {
+.cardVignette {
     position: relative;
     display: inline-block;
 }
 
-.card-vignette::after {
+.cardVignette::after {
     content: '';
     position: absolute;
     inset: 0;
@@ -55,7 +54,7 @@
    becomes the box's width driver; the much narrower Hebrew label isn't,
    so the box (anchored via right:X%) visibly narrows and shifts sideways
    on language switch. Pinning width keeps both languages identical. */
-.card-container-1 {
+.cardContainer1 {
     position: absolute;
     right: 50%;
     top: 45%;
@@ -64,7 +63,7 @@
     transition: all 0.5s;
 }
 
-.card-container-2 {
+.cardContainer2 {
     position: absolute;
     right: 50%;
     top: 40%;
@@ -72,7 +71,7 @@
     transform: translateX(20px);
 }
 
-.card-container-3 {
+.cardContainer3 {
     position: absolute;
     right: 35%;
     top: 45%;
@@ -80,7 +79,7 @@
     transform: translate(-50%, -50%);
 }
 
-.card-container-4 {
+.cardContainer4 {
     position: absolute;
     right: 50%;
     top: 82%;
@@ -88,7 +87,7 @@
     transform: translate(-50%, -50%);
 }
 
-.card-container-5 {
+.cardContainer5 {
     position: absolute;
     right: 65%;
     top: 45%;
@@ -96,7 +95,7 @@
     transform: translate(-50%, -50%);
 }
 
-.card-container-6 {
+.cardContainer6 {
     position: absolute;
     right: 50%;
     top: 80px;
@@ -104,10 +103,10 @@
     transform: translate(-50%, -50%);
 }
 
-.card-container-7 {
+.cardContainer7 {
     position: absolute;
     /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
+       left edge sits a constant ~50px right of cardContainer3's (right:35%)
        right edge at ANY container width, instead of the gap shrinking toward
        zero (and eventually overlapping) as the window narrows. */
     right: calc(35% - 126px);
@@ -116,10 +115,10 @@
     transform: translateX(-50%);
 }
 
-.card-container-8 {
+.cardContainer8 {
     position: absolute;
     /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
+       left edge sits a constant ~50px right of cardContainer3's (right:35%)
        right edge at ANY container width, instead of the gap shrinking toward
        zero (and eventually overlapping) as the window narrows. */
     right: calc(35% - 126px);
@@ -128,10 +127,10 @@
     transform: translateX(-50%);
 }
 
-.card-container-9 {
+.cardContainer9 {
     position: absolute;
     /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
+       left edge sits a constant ~50px right of cardContainer3's (right:35%)
        right edge at ANY container width, instead of the gap shrinking toward
        zero (and eventually overlapping) as the window narrows. */
     right: calc(35% - 126px);
@@ -140,10 +139,10 @@
     transform: translateX(-50%);
 }
 
-.card-container-10 {
+.cardContainer10 {
     position: absolute;
     /* calc(35% - 126px), not a plain percentage: derived so this column's
-       left edge sits a constant ~50px right of card-container-3's (right:35%)
+       left edge sits a constant ~50px right of cardContainer3's (right:35%)
        right edge at ANY container width, instead of the gap shrinking toward
        zero (and eventually overlapping) as the window narrows. */
     right: calc(35% - 126px);
@@ -153,21 +152,18 @@
 }
 
 /* ── Ready questions ──
-   Scoped under .spread-container (not bare .ready-question etc.) — Three
-   Cards Spread has its own same-named classes with different padding/width
-   in a separate CSS file, and since Vite bundles all component CSS into one
-   unscoped global stylesheet, whichever file's rule lands later in the
-   bundle otherwise wins for BOTH pages regardless of which route is
-   actually rendering. The extra specificity here guarantees Celtic's rule
-   always wins for Celtic's own elements. ── */
-.spread-container .ready-questions-stack {
+   No longer needs a .spread-container-style specificity boost to out-rank
+   Three Cards Spread's same-named classes — each file's classes are now
+   independently hashed by CSS Modules, so a collision like that simply
+   can't happen anymore. ── */
+.readyQuestionsStack {
     position: absolute;
     /* left AND right both pinned (no explicit width) — the browser computes
        width as whatever fits between them. left:8px is a fixed safe inset
-       from .spread-container's own left edge (never overflows toward the
-       sidebar); right: calc(65% + 150px) tracks card-container-5's
+       from .container's own left edge (never overflows toward the
+       sidebar); right: calc(65% + 150px) tracks cardContainer5's
        (right:65%) left edge with a gap, same reasoning as the staff
-       column's right: calc(35% - 126px) below. At the narrowest allowed
+       column's right: calc(35% - 126px) above. At the narrowest allowed
        desktop width (769px, just above the mobile breakpoint) there's only
        ~75px of real room here, so the box necessarily gets narrow and
        button text wraps more — but it can never overlap either neighbor,
@@ -175,14 +171,6 @@
     left: 8px;
     right: calc(65% + 150px);
     top: 60px;
-    /* ThreeCardsSpread.css's bare (unscoped) .ready-questions-stack sets
-       transform: translateY(-50%). CSS cascades per-property, not per-rule
-       — since THIS rule never declared transform at all, that unrelated
-       file's transform was leaking in and applying anyway (matching the
-       same class name on this page's element too), shifting the whole
-       stack up by half its own height into the header row above. Explicit
-       none blocks it regardless of the other file's specificity/order. */
-    transform: none;
     display: flex;
     flex-direction: column;
     gap: 14px;
@@ -191,7 +179,7 @@
     box-sizing: border-box;
 }
 
-.spread-container .ready-questions-title {
+.readyQuestionsTitle {
     color: var(--accent-bright);
     font-size: 1.3rem;
     font-weight: 400;
@@ -201,7 +189,7 @@
     overflow-wrap: break-word;
 }
 
-.spread-container .ready-question {
+.readyQuestion {
     width: 100%;
     box-sizing: border-box;
     color: var(--ink);
@@ -218,13 +206,13 @@
     overflow-wrap: break-word;
 }
 
-.spread-container .ready-question:hover {
+.readyQuestion:hover {
     background: var(--accent-wash);
     border-color: var(--accent-hover);
     color: var(--accent-hover);
 }
 
-.spread-container .ready-question-warning {
+.readyQuestionWarning {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -246,7 +234,7 @@
 }
 
 /* ── Card modal ─────────────────────────────────── */
-.card-modal-overlay {
+.overlay {
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.75);
@@ -256,7 +244,7 @@
     z-index: 1000;
 }
 
-.card-modal {
+.modal {
     background: var(--bg-2);
     border: 1px solid var(--line);
     padding: 32px;
@@ -269,14 +257,14 @@
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
 }
 
-.card-modal-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
 }
 
-.card-modal-lang-btn {
+.langBtn {
     background: none;
     border: 1px solid var(--line);
     color: var(--accent);
@@ -288,12 +276,12 @@
     transition: border-color var(--transition), color var(--transition);
 }
 
-.card-modal-lang-btn:hover {
+.langBtn:hover {
     border-color: var(--accent-hover);
     color: var(--accent-hover);
 }
 
-.card-modal-close {
+.close {
     position: absolute;
     top: 12px;
     right: 16px;
@@ -309,17 +297,17 @@
     transition: opacity var(--transition);
 }
 
-.card-modal-close:hover {
+.close:hover {
     opacity: 1;
 }
 
-.card-modal-name {
+.name {
     margin: 0 0 4px;
     color: var(--accent-bright);
     font-size: 28px;
 }
 
-.card-modal-position {
+.position {
     margin: 0 0 20px;
     color: var(--text-muted);
     font-size: 18px;
@@ -327,14 +315,14 @@
     letter-spacing: 2px;
 }
 
-.card-modal-meaning {
+.meaning {
     margin: 0 0 16px;
     line-height: 1.7;
     font-size: 19px;
     color: var(--card-desc-color);
 }
 
-.card-modal-desc {
+.desc {
     margin: 0;
     line-height: 1.7;
     font-size: 18px;
@@ -345,7 +333,7 @@
    stay legible, so below the breakpoint every card-container drops its
    absolute cross position and stacks as a plain vertical list instead. ── */
 @media (max-width: 768px) {
-    .spread-container {
+    .container {
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -356,16 +344,16 @@
         gap: 22px;
     }
 
-    .card-container-1,
-    .card-container-2,
-    .card-container-3,
-    .card-container-4,
-    .card-container-5,
-    .card-container-6,
-    .card-container-7,
-    .card-container-8,
-    .card-container-9,
-    .card-container-10 {
+    .cardContainer1,
+    .cardContainer2,
+    .cardContainer3,
+    .cardContainer4,
+    .cardContainer5,
+    .cardContainer6,
+    .cardContainer7,
+    .cardContainer8,
+    .cardContainer9,
+    .cardContainer10 {
         position: static;
         width: auto;
         transform: none;
@@ -375,7 +363,7 @@
         align-items: center;
     }
 
-    .spread-container h5 {
+    .container h5 {
         position: static;
         font-size: 13px;
     }
@@ -384,7 +372,7 @@
         height: 170px;
     }
 
-    .spread-container .ready-questions-stack {
+    .readyQuestionsStack {
         position: static;
         width: 100%;
         max-width: 320px;
@@ -392,8 +380,8 @@
         margin-top: 10px;
     }
 
-    .spread-container .ready-question,
-    .spread-container .ready-question-warning {
+    .readyQuestion,
+    .readyQuestionWarning {
         white-space: normal;
     }
 }
