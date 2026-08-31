@@ -1,6 +1,6 @@
 .App {
     overflow: hidden;
-    height: 100vh;
+    height: 100dvh;
 }
 
 .App-header {
@@ -16,7 +16,7 @@
 
 section {
     display: flex;
-    height: calc(100vh - var(--header-height));
+    height: calc(100dvh - var(--header-height));
 }
 
 .side-bar {
@@ -50,7 +50,7 @@ main.full-width {
         right: 0;
         width: 100%;
         height: auto;
-        max-height: calc(100vh - var(--header-height));
+        max-height: calc(100dvh - var(--header-height));
         overflow-y: auto;
         /* Above body::before's grain texture (z-index:9999) so the mobile
            nav overlay never sits underneath that blend-mode layer at all. */

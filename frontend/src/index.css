@@ -6,6 +6,15 @@
     --bg-3: #16110C;
     --bg-surface: rgba(231, 223, 200, 0.03);
 
+    /* The shared "mystic" page background — HomePage, MySpreads,
+       SpreadDetails, TarotDeck, Celtic and ThreeCards all use this. */
+    --page-bg:
+        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
+        url('/mystic-image-3.png') center/cover no-repeat;
+
+    /* Danger hover wash — was hardcoded as rgba(122, 50, 38, 0.18) in 3 places */
+    --danger-wash: rgba(122, 50, 38, 0.18);
+
     /* Text — ink on parchment */
     --ink: #E7DFC8;
     --ink-dim: #9C917A;
@@ -29,59 +38,17 @@
     /* Hover feedback only — a true yellow, distinct from the amber accent,
        so hovering an orange button visibly shifts toward gold-leaf yellow. */
     --accent-hover: #F0C230;
-    /* Arcanum is flat and inky — no glow. Kept as a token (rather than
-       stripping every box-shadow reference across every component file)
-       so every existing var(--x-glow) usage resolves to nothing. */
-    --no-glow: rgba(0, 0, 0, 0);
 
     /* One deliberate exception to the single-accent rule above: the
        antique-gold lettering color sampled from the Berta's logo
        (berta-1.png), used only for the header title. */
     --berta-gold: #C9A667;
 
-    /* ── Legacy semantic aliases ──
-       Components were written against --gold / --celtic-accent /
-       --threecards-accent / --deck-accent / --purple etc. Rather than a
-       full rename pass across every CSS file, those names now resolve
-       through the single Arcanum accent — same visual result, same
-       file-per-component architecture. */
-    --bg-dark: var(--bg);
-    --bg-mid: var(--bg-2);
+    /* Semantic aliases used across 30+ places. */
     --text-primary: var(--ink);
     --text-muted: var(--ink-dim);
     --text-faint: var(--ink-faint);
     --card-desc-color: var(--ink);
-
-    --gold: var(--accent);
-    --gold-rgb: var(--accent-rgb);
-    --gold-glow: var(--no-glow);
-
-    --celtic-accent: var(--accent);
-    --celtic-accent-rgb: var(--accent-rgb);
-    --celtic-glow: var(--no-glow);
-    --celtic-border: var(--line);
-    --celtic-bg-dark: var(--bg);
-    --celtic-bg-mid: var(--bg-2);
-
-    --threecards-accent: var(--accent);
-    --threecards-accent-rgb: var(--accent-rgb);
-    --threecards-glow: var(--no-glow);
-    --threecards-border: var(--line);
-    --threecards-bg-dark: var(--bg);
-    --threecards-bg-mid: var(--bg-2);
-
-    --deck-accent: var(--accent);
-    --deck-accent-rgb: var(--accent-rgb);
-    --deck-glow: var(--no-glow);
-    --deck-border: var(--line);
-    --deck-bg-dark: var(--bg);
-    --deck-bg-mid: var(--bg-2);
-
-    --purple: var(--accent);
-    --purple-dark: var(--accent-dim);
-    --purple-bg: var(--bg);
-    --purple-surface: var(--bg-2);
-    --purple-border: var(--line);
 
     /* Destructive actions only (logout, delete) — not part of the spec's
        single-accent system, kept separate and muted so it reads as a
@@ -118,14 +85,45 @@
     box-sizing: border-box;
 }
 
-*::-webkit-scrollbar {
+/* Hidden only where a scrollbar would be visual noise — the ambient
+   carousel and the small floating panels. Long-form scrollers keep theirs. */
+.carousel-viewport::-webkit-scrollbar,
+.conclusion-body::-webkit-scrollbar,
+.iw-body::-webkit-scrollbar {
     display: none;
+}
+
+.carousel-viewport,
+.conclusion-body,
+.iw-body {
+    scrollbar-width: none;
 }
 
 html {
     overflow-y: auto;
     scroll-behavior: smooth;
-    scrollbar-width: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--ink-faint);
+    background-clip: content-box;
 }
 
 /* Hebrew reads visually smaller than Latin at an identical rem size, so

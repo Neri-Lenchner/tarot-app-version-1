@@ -15,7 +15,6 @@
 .interpret-widget.theme-green,
 .interpret-widget.theme-blue {
     --accent-rgb: 240, 43, 43;
-    --glow-color: var(--no-glow);
     --bg: var(--bg-2);
     --border: var(--line);
     --header-bg: var(--bg-3);

@@ -72,7 +72,7 @@
 }
 
 .sidebar-logout:hover {
-    background: rgba(122, 50, 38, 0.18);
+    background: var(--danger-wash);
     border-color: var(--danger-bright);
 }
 

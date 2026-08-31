@@ -11,12 +11,7 @@
     width: 340px;
     max-height: calc(85vh - 20px);
     overflow-y: auto;
-    scrollbar-width: none;
     color: var(--text-primary);
-}
-
-.combo-modal::-webkit-scrollbar {
-    display: none;
 }
 
 .combo-modal-header {

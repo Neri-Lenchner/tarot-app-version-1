@@ -1,15 +1,13 @@
 .three-cards-spread-container {
     position: relative;
     /* Fill available space without pushing past the viewport */
-    height: calc(100vh - var(--header-height) - 60px);
+    height: calc(100dvh - var(--header-height) - 60px);
     min-height: 460px;
     width: 100%;
     min-width: 700px;
     display: flex;
     justify-content: space-around;
-    background:
-        radial-gradient(ellipse at center, rgba(12, 10, 8, 0.35) 0%, rgba(12, 10, 8, 0.97) 75%),
-        url('/mystic-image-3.png') center/cover no-repeat;
+    background: var(--page-bg);
 }
 
 .three-cards-spread-container h2 {
@@ -133,14 +131,9 @@
     width: 90%;
     max-height: 80vh;
     overflow-y: auto;
-    scrollbar-width: none;
     color: var(--text-primary);
     position: relative;
     box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
-}
-
-.card-modal::-webkit-scrollbar {
-    display: none;
 }
 
 .card-modal-header {
