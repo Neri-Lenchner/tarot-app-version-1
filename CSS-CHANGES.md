@@ -11,7 +11,7 @@ find-and-replace only (no new files) — start there.
 - [Step 1 — delete the dead token layer](#step-1) · ~30 lines, 0 risk
 - [Step 2 — `100vh` → `100dvh`](#step-2) · 6 edits
 - [Step 3 — extract the repeated page background](#step-3) · 5 files
-- [Step 4 — fix the grain-overlay z-index stack](#step-4) · removes 3 hacks
+- ~~Step 4 — grain-overlay z-index~~ · **withdrawn, was wrong — [see why](#step-4)**
 - [Step 5 — give scrollbars back](#step-5) · 2 edits
 - [Step 6 — CSS Modules](#step-6) · the big one, new files
 - [Step 7 — shared CardModal](#step-7) · removes ~150 lines
@@ -182,45 +182,51 @@ In `MySpreadsPage.css` this also lets you merge the two stacked
 ---
 
 <a id="step-4"></a>
-## Step 4 — fix the grain-overlay z-index stack
+## ~~Step 4 — grain-overlay z-index~~ — WITHDRAWN
 
-`body::before` (the paper grain) sits at `z-index: 9999` with
-`mix-blend-mode: overlay`. Because it's above everything, the mobile nav had to
-fight it — that's where `z-index: 10000`, `isolation: isolate` and
-`transform: translateZ(0)` in `App.css` came from.
+**Do not do this. My original suggestion here was wrong.** Kept on the page with
+the reasoning so it doesn't get proposed again.
 
-At `opacity: 0.06` the grain gains nothing from being above the UI.
+### What I suggested
 
-**4a.** `src/index.css` — in `body::before`, change:
+Drop `body::before` (the paper grain) from `z-index: 9999` to `z-index: 0`, on
+the grounds that at `opacity: 0.06` it gains nothing from being above the UI —
+and then delete the `z-index: 10000` / `isolation: isolate` /
+`transform: translateZ(0)` stack it forced onto the mobile `.side-bar`.
 
-```css
-    z-index: 9999;
-```
+### Why it's wrong
 
-to:
+`mix-blend-mode` blends an element with its **backdrop** — only the content
+painted *before* it in stacking order. At `z-index: 9999` the grain paints last,
+so it blends with everything: cards, images, modals, text. Moved to `z-index: 0`
+it would paint early, blend with the bare background color, and then every piece
+of real content would paint cleanly on top of it with **zero texture**.
 
-```css
-    /* Below the UI, not above it. At 0.06 opacity there's no visible
-       difference, and it stops the blend mode reaching into fixed
-       layers above it (see App.css .side-bar). */
-    z-index: 0;
-```
+So the grain would survive only on empty background. That's not a subtle
+regression — it silently removes the paper-grain effect from all actual content,
+app-wide. The high `z-index` isn't incidental; it's load-bearing.
 
-**4b.** `src/App.css` — in the mobile `.side-bar` rule, delete these three
-declarations and their comments:
+### And the "hacks" aren't hacks
 
-```css
-    z-index: 10000;          /* → change to z-index: 10 */
-    transform: translateZ(0);  /* delete */
-    isolation: isolate;        /* delete */
-```
+`isolation: isolate` on the mobile `.side-bar` is the *correct* tool for the
+bug it fixes (Celtic spread `h5` labels bleeding through the nav overlay): it
+makes the sidebar its own stacking context, so an ancestor's `mix-blend-mode`
+can't reach into it. That's exactly what the property is for. Same for the high
+`z-index` and the compositing promotion.
 
-Keep `background: var(--bg-2);` — an opaque background on the overlay is
-correct regardless.
+**Leave `index.css`'s `body::before` and `App.css`'s mobile `.side-bar` exactly
+as they are.** The existing comments there already explain the reasoning
+correctly — they were right and I misread them.
 
-**Verify:** open the mobile nav over the Celtic spread. The h5 position labels
-should not bleed through. If they do, put `z-index: 10000` back on `.side-bar`
-(but you should still be able to drop `isolation` and `translateZ`).
+### If the layering ever does need to change
+
+The real constraint is: *the grain must paint after content (to blend with it),
+but the nav must paint after the grain (to not be blended).* Those can't both be
+satisfied by reordering alone — which is precisely why `isolation: isolate`
+exists. Any future change here has to keep an isolation boundary around anything
+that should sit above the grain unblended. Verify by screenshotting a
+card-heavy route before and after and diffing: if the cards lose their texture,
+the change is wrong.
 
 ---
 
@@ -758,8 +764,9 @@ transform disappears. Don't refactor before deciding.
 
 ## Suggested sessions
 
-**Session 1 (~1 hour, zero risk):** steps 1, 2, 3, 4, 5. All find-and-replace,
-no new files, nothing should look different except the scrollbars.
+**Session 1 (~1 hour, zero risk):** steps 1, 2, 3, 5 — **skip step 4, it's
+withdrawn.** All find-and-replace, no new files, nothing should look different
+except the scrollbars.
 
 **Session 2 (half a day):** step 6 on ThreeCards, then step 7, then step 6 on
 Celtic — in that order, so the modal is already extracted when you convert the
