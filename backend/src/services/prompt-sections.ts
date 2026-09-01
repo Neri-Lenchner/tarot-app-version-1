@@ -93,12 +93,18 @@ export function isThirdPersonQuestion(question: string): boolean {
 
 // ── Court Cards ──────────────────────────────────────────────────────────────
 const CELTIC_SELF_POSITIONS = new Set(['positive energy', 'negative energy', 'inside', 'outside']);
+// Past/Present/Near Future/Far Future — the two pairs combined into single
+// events by EVENT-BASED READING MODE (see getEventBasedSection). A court
+// card landing in one of these positions is forced to be a real person in
+// that event, overriding the normal Knight-ambiguity and same-gender-could-
+// be-the-querent rulings below.
+const EVENT_PAIR_POSITIONS = new Set(['past', 'present', 'near future', 'far future']);
 
 // Romantic question detection
 const ROMANTIC_KEYWORDS = ['love', 'relationship', 'partner', 'romance', 'romantic', 'marriage', 'marry', 'boyfriend', 'girlfriend', 'husband', 'wife', 'dating', 'soulmate', 'together', 'couple', 'breakup', 'divorce', 'אהבה', 'זוגיות', 'נישואים', 'חבר', 'חברה', 'בן זוג', 'בת זוג', 'יחסים', 'פרידה'];
 const CELTIC_ROMANTIC_POSITIONS = new Set(['past', 'present', 'near future', 'far future']);
 // Major Arcana cards carrying a female figure/energy
-const MA_FEMALE_FIGURES = new Set(['the high priestess', 'the empress', 'justice', 'strength', 'the star', 'the world']);
+const MA_FEMALE_FIGURES = new Set(['the high priestess', 'the empress', 'justice', 'strength', 'the star', 'the world', 'temperance']);
 // Major Arcana cards carrying a male figure/energy
 const MA_MALE_FIGURES = new Set(['the magician', 'the emperor', 'the hierophant', 'the chariot', 'the hermit', 'the hanged man', 'death', 'the devil']);
 
@@ -107,7 +113,7 @@ function isRomanticQuestion(question: string): boolean {
     return ROMANTIC_KEYWORDS.some(kw => q.includes(kw));
 }
 
-export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string): string {
+export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string, isEventBased?: boolean): string {
     const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
     if (courtCards.length === 0) return '';
 
@@ -153,12 +159,15 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
 
         // Positions 3-6 in Celtic (Past/Present/Near Future/Far Future) or any position in Three Cards
         const KNIGHT_AMBIGUOUS_POSITIONS = new Set(['past', 'present', 'near future', 'far future', 'future']);
+        const forcePerson = !!isEventBased && spreadType === 'celtic' && EVENT_PAIR_POSITIONS.has(pos.toLowerCase());
 
         if (isKnight) {
             const thoughtDomain = KNIGHT_SUIT_THOUGHTS[cardBaseName] ?? 'a specific area of life';
             const isAmbiguousPos = KNIGHT_AMBIGUOUS_POSITIONS.has(pos.toLowerCase());
 
-            if (isAmbiguousPos) {
+            if (forcePerson) {
+                ruling = `RULING — KNIGHT AS PERSON (EVENT-BASED MODE): This reading is in event-based mode, where position "${pos}" is part of a combined event, not abstract thoughts. This Knight represents a REAL, SPECIFIC PERSON involved in that event — not thoughts. Describe them as a driven, fast-moving individual who embodies the energy of ${card.name}: who they are, how they move, and how they take part in this event alongside the querent.`;
+            } else if (isAmbiguousPos) {
                 ruling = `RULING — KNIGHT IN STORY POSITION (PERSON OR THOUGHTS — YOU DECIDE): In this position a Knight can represent EITHER a real, specific person in the querent's life OR active thoughts of ${thoughtDomain} — but not both. Read the full spread and the question, then commit to one interpretation. If it is a person: describe them as a driven, fast-moving individual who embodies the energy of ${card.name} — who they are, how they move, and how they affect the querent's situation. If it is thoughts: tell the querent explicitly that there are strong, consuming thoughts of ${thoughtDomain} at work — "you are thinking intensely about...", "very powerful thoughts of... are moving through this". State your choice clearly and do not leave it vague.`;
             } else {
                 ruling = `RULING — KNIGHT (THOUGHTS ONLY): This card does NOT represent a specific person in this position. Knights are the bridge between the world of thought and the world of matter — they signal active, powerful thoughts in motion. There are strong, consuming thoughts of ${thoughtDomain} at work here. Tell the querent explicitly — "there are strong thoughts of...", "you are thinking intensely about...", "very powerful thoughts of... are shaping this" — that this mental energy is real, active, and influencing the situation. The suit defines the subject: Cups = emotions/love/relationships, Wands = passion/goals/inspiration, Swords = conflict/decisions/tension, Pentacles = work/money/practical matters. Do NOT describe this card as a specific person.`;
@@ -172,6 +181,8 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
             }
         } else if (!gender) {
             ruling = `${fig === 'female' ? 'Female' : 'Male'} figure. Interpret as a real, specific ${fig} person in the querent's life — never an abstract quality.`;
+        } else if (isSameGender && forcePerson) {
+            ruling = `RULING — SAME GENDER, EVENT-BASED MODE: ${fig} figure, querent is ${gender}. In this event-based reading, position "${pos}" is part of a combined event the querent will experience alongside other people — this card is NOT the querent. It is a specific ${sameWord} the querent will interact with in this event. Name and describe this person clearly — who they are, their energy, and how they take part in this event.`;
         } else if (isSameGender) {
             if (isInRomanticPos) {
                 if (loversException) {
@@ -190,6 +201,32 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
     }
 
     return `=== COURT CARDS — MANDATORY PER-CARD RULINGS ===\nKings, Queens, and Pages represent real, specific people. Knights in story positions (Past/Present/Near Future/Far Future) can be either a person OR active thoughts — AI decides. Knights in all other positions represent thoughts only, never a person. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n\nRANK GUIDE: King = mature authority figure. Queen = mature figure of emotional/intellectual strength. Knight = active thoughts bridging mind and matter; may also be a person in story positions. Page = young/inexperienced — a messenger or newcomer.\nSUIT GUIDE: Wands = passionate, fiery, creative. Cups = emotional, empathic, intuitive. Swords = sharp, intellectual, communicative. Pentacles = practical, grounded, financially reliable.\n===\n\n`;
+}
+
+// ── Major Arcana Figure Cards (event-based mode) ────────────────────────────
+// Major Arcana cards that depict a specific male or female figure (The
+// Emperor, The Empress, Temperance, etc. — see MA_FEMALE_FIGURES /
+// MA_MALE_FIGURES above). In EVENT-BASED READING MODE, one of these landing
+// in the Past/Present/Near Future/Far Future positions ALWAYS represents the
+// querent themselves embodying that archetype — the opposite of a court card
+// in the same position, which represents someone else. This section only
+// ever produces output when isEventBased is true.
+export function getMajorArcanaFigureSection(cards: ISpreadCard[], spreadType?: string, isEventBased?: boolean): string {
+    if (!isEventBased || spreadType !== 'celtic') return '';
+
+    const figureCards = cards.filter(c => {
+        const name = c.name.replace(/ Rx$/i, '').toLowerCase();
+        return EVENT_PAIR_POSITIONS.has(c.position.toLowerCase()) && (MA_FEMALE_FIGURES.has(name) || MA_MALE_FIGURES.has(name));
+    });
+    if (figureCards.length === 0) return '';
+
+    const lines = figureCards.map(card => {
+        const name = card.name.replace(/ Rx$/i, '').toLowerCase();
+        const fig = MA_FEMALE_FIGURES.has(name) ? 'female' : 'male';
+        return `• ${card.name} — position: ${card.position}\n  RULING — MAJOR ARCANA FIGURE AS QUERENT (EVENT-BASED MODE): This card depicts a ${fig} figure, but it ALWAYS represents the QUERENT THEMSELVES in this event — never an external person — regardless of the querent's own gender. Position "${card.position}" is part of a combined event in this reading: interpret this card as the querent embodying the archetype and energy of ${card.name} within that event — how THEY are acting, feeling, or showing up — not someone else they encounter.`;
+    });
+
+    return `=== MAJOR ARCANA FIGURE CARDS — EVENT-BASED QUERENT RULINGS ===\nIn event-based mode, a Major Arcana card depicting a specific male or female figure (e.g. The Emperor, The Empress, Temperance) landing in the Past, Present, Near Future, or Far Future position ALWAYS represents the querent themselves embodying that archetype — never an external person taking part in the event. This is the OPPOSITE of the court-card rulings above, which do name external people. Apply each ruling exactly as written.\n\n${lines.join('\n\n')}\n===\n\n`;
 }
 
 // ── Suit Dominance ───────────────────────────────────────────────────────────

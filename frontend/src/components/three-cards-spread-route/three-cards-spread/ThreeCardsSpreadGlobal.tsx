@@ -171,15 +171,17 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
                 </p>
             )}
             <div className="spread-subheader-row">
-                <button
-                    className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
-                    onClick={() => setIsThirdPerson(p => !p)}
-                    type="button"
-                    dir={lang === 'he' ? 'rtl' : 'ltr'}
-                >
-                    <User size={14} />
-                    {translate('thirdPersonToggle', lang)}
-                </button>
+                <div className="spread-toggle-group">
+                    <button
+                        className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}
+                        onClick={() => setIsThirdPerson(p => !p)}
+                        type="button"
+                        dir={lang === 'he' ? 'rtl' : 'ltr'}
+                    >
+                        <User size={14} />
+                        {translate('thirdPersonToggle', lang)}
+                    </button>
+                </div>
                 {submittedQuestion && (
                     <div className="spread-question-display" dir={lang === 'he' ? 'rtl' : 'ltr'}>
                         <span className="spread-question-label">{translate('yourQuestion', lang)}</span>

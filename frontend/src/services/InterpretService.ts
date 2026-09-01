@@ -13,7 +13,8 @@ class InterpretService {
         lang: "en" | "he",
         question?: string,
         isThirdPerson?: boolean,
-        confirmedCombination?: ICombinationMatch
+        confirmedCombination?: ICombinationMatch,
+        isEventBased?: boolean
     ): Promise<string> {
         const gender = authStore.getState().user?.gender;
         const payload = {
@@ -21,6 +22,7 @@ class InterpretService {
             language: lang,
             question: question || undefined,
             isThirdPerson: isThirdPerson || undefined,
+            isEventBased: isEventBased || undefined,
             confirmedCombination: confirmedCombination || undefined,
             gender: gender || undefined,
             cards: cards.slice(0, positions.length).map((card, i) => ({

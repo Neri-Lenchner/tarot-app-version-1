@@ -10,6 +10,7 @@ import {
     isHealthQuestion,
     findHealthIndicators,
     getCourtCardsSection,
+    getMajorArcanaFigureSection,
     getSuitDominanceSection,
     isAllMajorArcana,
     isCategoryRelevant,
@@ -19,7 +20,8 @@ import {
 } from "./prompt-sections";
 
 class TarotService {
-    private buildInterpretationMessages(spreadType: string, cards: ISpreadCard[], language: "en" | "he", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): { system: string; user: string } {
+    private buildInterpretationMessages(spreadType: string, cards: ISpreadCard[], language: "en" | "he", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female", isEventBased?: boolean): { system: string; user: string } {
+        const eventBasedActive = !!isEventBased && spreadType === "celtic";
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
 
         const cardList = cards
@@ -48,7 +50,16 @@ class TarotService {
             : "";
 
         const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
-        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType, question);
+        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType, question, eventBasedActive);
+        const majorArcanaFigureSection = getMajorArcanaFigureSection(cards, spreadType, eventBasedActive);
+
+        const eventBasedSection = eventBasedActive
+            ? `=== EVENT-BASED READING MODE ===\nKeep the normal structure — Past, Present, Near Future, and Far Future each still get their own individual paragraph, exactly as described below. Do not remove or merge those paragraphs.\n\nIn addition, two extra paragraphs are added AFTER all the individual position paragraphs are written — see the EVENT-STORY PARAGRAPHS instruction later in this prompt for their exact content, placement, and formatting.\n\nCRITICAL — COURT/ROYALTY CARDS: wherever a Page, Knight, Queen, or King of any suit appears in the Past, Present, Near Future, or Far Future positions — including inside the two event-story paragraphs — it represents an ACTUAL PERSON the querent will interact with or encounter in that event, not an abstract energy or trait. Describe that person concretely: their likely role or relationship to the querent, their personality or manner, and how the querent will engage with them. (See the mandatory per-card court rulings below for the exact wording to use per card.)\n===\n\n`
+            : "";
+
+        const eventStoriesInstruction = eventBasedActive
+            ? `Immediately after the **Conclusion** marker (before the short conclusion text described below), add exactly two more paragraphs, in this order. For each one, do NOT just narrate the first card then the second card back to back — first identify the specific energy, theme, or dynamic that EMERGES from combining these two particular cards together, as if they formed a single unified symbol (the same way two adjacent cards form a known "combination" elsewhere in tarot tradition), and then tell the event as a story built around that combined energy:\n\n1. One paragraph treating the Past and Present cards TOGETHER as ONE SPECIFIC EVENT in the querent's timeline. Name the combined energy this pairing creates, then tell a short, concrete story of that one event (what happened, what is happening now) built around it. Do not just restate what the individual Past and Present paragraphs already said — this is a distinct synthesis of the two, not a recap.\n\n2. One paragraph treating the Near Future and Far Future cards TOGETHER as ANOTHER SPECIFIC EVENT about to unfold. Name the combined energy this pairing creates, then tell a short, concrete story of that one upcoming event built around it. Do not just restate what the individual Near Future and Far Future paragraphs already said — this is a distinct synthesis of the two, not a recap.\n\nFormatting rule for both of these two paragraphs: do NOT give them a card-name heading or any bold title line before them (no "**Card Name**" line) — write each as plain flowing prose only, with no heading. Then, after these two paragraphs, write the short conclusion text as normal.\n\n`
+            : "";
 
         const confirmedComboSection = confirmedCombination
             ? `=== USER-CONFIRMED LIFE CONTEXT ===\nThe user was shown a detected combination and confirmed it is directly relevant to their current life situation:\n${confirmedCombination.cards.join(' + ')} → ${language === 'he' ? confirmedCombination.meaning_he : confirmedCombination.meaning}\nThis is the most important context in this entire reading. Treat this confirmed combination as the central truth of the spread. Reference it explicitly throughout your interpretation — especially in the opening and the conclusion — and show how each card connects back to this theme.\n===\n\n`
@@ -98,7 +109,7 @@ class TarotService {
                 ? `- Past → what already happened that started or shaped this situation for them?\n- Present → what are they experiencing or facing right now?\n- Future → what is coming for them?`
                 : `- Past → what already happened that started or shaped this situation?\n- Present → what are you experiencing or facing right now?\n- Future → what is coming for you?`;
 
-        const userMessage = `${questionLine}${pastAnchorSection}${confirmedComboSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtCardsSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${attentionSectionInstruction}${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n[${conclusionInstruction}]`;
+        const userMessage = `${questionLine}${pastAnchorSection}${confirmedComboSection}${eventBasedSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtCardsSection}${majorArcanaFigureSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${attentionSectionInstruction}${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n${eventStoriesInstruction}[${conclusionInstruction}]`;
 
         const system = `${language === "he" ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. Every sentence, every structural phrase, every opening line must be in Hebrew. Do NOT write any sentence in English. The ONLY exception: keep card names in English (e.g. 'The Fool', 'Nine of Wands'). If an instruction gives you an example sentence in English, translate that sentence into Hebrew — do not copy it literally.\n\n" : ""}You are a wise and insightful tarot reader who speaks in vivid, concrete terms about real life events. Never describe what a card "symbolizes" or "represents" in abstract terms. Instead describe what is actually happening or has happened or will happen in the person's life — real situations, relationships, decisions, turning points. Always anchor each card to a clear time frame: past events that shaped the situation, what is happening right now, what is coming soon, and what lies further ahead. Be explicit: "This happened in your past...", "Right now you are facing...", "In the near future...", "Further down the road...". Ground everything in human experience: heartbreak, career shifts, family tensions, personal growth, financial pressure, new beginnings, loss. Be direct, warm, and personal — speak as if you know their story.${gender === "male" ? " The querent is male. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'אתה' (you, masculine) and NEVER 'הוא' (he). All Hebrew verbs, adjectives, and participles addressing the querent must be in masculine grammatical form (לשון זכר). Example: say 'אתה עומד בפני' NOT 'הוא עומד בפני'." : gender === "female" ? " The querent is female. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'את' (you, feminine) and NEVER 'היא' (she). All Hebrew verbs, adjectives, and participles addressing the querent must be in feminine grammatical form (לשון נקבה). Example: say 'את עומדת בפני' NOT 'היא עומדת בפני'." : ""} Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`;
 
@@ -127,8 +138,8 @@ class TarotService {
         return response.data.choices[0].message.content as string;
     }
 
-    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female"): Promise<string> {
-        const { system, user } = this.buildInterpretationMessages(spreadType, cards, language, question, isThirdPerson, confirmedCombination, gender);
+    public async interpretSpread(spreadType: string, cards: ISpreadCard[], language: "en" | "he" = "en", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female", isEventBased?: boolean): Promise<string> {
+        const { system, user } = this.buildInterpretationMessages(spreadType, cards, language, question, isThirdPerson, confirmedCombination, gender, isEventBased);
         return this.callChat(system, user);
     }
 

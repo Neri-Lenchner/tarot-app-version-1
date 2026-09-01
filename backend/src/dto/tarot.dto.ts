@@ -8,6 +8,7 @@ export interface IInterpretRequest {
     language?: "en" | "he";
     question?: string;
     isThirdPerson?: boolean;
+    isEventBased?: boolean;
     confirmedCombination?: ICombinationMatch;
     cards: ISpreadCard[];
     gender?: "male" | "female";

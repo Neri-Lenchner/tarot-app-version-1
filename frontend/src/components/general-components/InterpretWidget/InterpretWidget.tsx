@@ -18,6 +18,7 @@ interface IInterpretWidgetProps {
     question?: string;
     questionHe?: string;
     isThirdPerson?: boolean;
+    isEventBased?: boolean;
     confirmedCombination?: ICombinationMatch;
     isOpen: boolean;
     onToggle: () => void;
@@ -28,6 +29,11 @@ function renderInterpretation(text: string, cards: ITarotCard[], positions: stri
     const CONCLUSION_RE = /^\*\*\s*(conclusion|מסקנה|סיכום|לסיכום)\s*:?\*\*$/i;
     const conclusionIdx = lines.findIndex(l => CONCLUSION_RE.test(l.trim()));
     const displayLines = conclusionIdx !== -1 ? lines.slice(0, conclusionIdx) : lines;
+    // A card's image is shown only the first time its name appears in the
+    // whole reading — later mentions (e.g. an event-story paragraph or the
+    // "Things You Should Pay Attention To" section referencing an
+    // already-shown card) render as plain text instead of repeating the image.
+    const shownCards = new Set<string>();
     return displayLines.map((line, i) => {
         if (line.trim().startsWith('**')) {
             return <h5 key={i} className="iw-card-title">{line.replace(/\*\*/g, '').trim()}</h5>;
@@ -45,9 +51,11 @@ function renderInterpretation(text: string, cards: ITarotCard[], positions: stri
             return enRe.test(openingChunk) || (!!heName && openingChunk.includes(heName));
         });
 
-        const matchedCards = positionIdx !== -1
+        const rawMatchedCards = positionIdx !== -1
             ? [cards[positionIdx]].filter((c): c is ITarotCard => !!c)
             : cards.filter(c => new RegExp(`\\b${c.name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`, 'i').test(line));
+        const matchedCards = rawMatchedCards.filter(c => !shownCards.has(c.name));
+        matchedCards.forEach(c => shownCards.add(c.name));
 
         if (matchedCards.length > 0) {
             return (
@@ -67,7 +75,7 @@ function renderInterpretation(text: string, cards: ITarotCard[], positions: stri
     });
 }
 
-export function InterpretWidget({ cards, positions, spreadType, theme, question, questionHe, isThirdPerson, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
+export function InterpretWidget({ cards, positions, spreadType, theme, question, questionHe, isThirdPerson, isEventBased, confirmedCombination, isOpen, onToggle }: IInterpretWidgetProps): JSX.Element {
     const [isInterpreting, setIsInterpreting] = useState(false);
     const lang = useLang();
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
@@ -136,7 +144,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         interpretStore.dispatch({ type: InterpretActionType.BeginInterpret, spreadType });
         const myRequestId = interpretStore.getState()[spreadType].requestId;
         try {
-            const en = await interpretService.interpretSpread(spreadType, cards, positions, "en", question?.trim() || undefined, isThirdPerson, confirmedCombination);
+            const en = await interpretService.interpretSpread(spreadType, cards, positions, "en", question?.trim() || undefined, isThirdPerson, confirmedCombination, isEventBased);
             // Only commit if nothing superseded this request (another
             // interpret call, or the spread being cleared) while it was in
             // flight — e.g. the user navigating away without triggering a
