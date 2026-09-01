@@ -126,6 +126,32 @@ body::before {
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
+/* ── Keyboard focus ───────────────────────────────────
+   :focus-visible only — mouse and touch users never see these.
+   Gold is used because it carries no other meaning in this palette
+   (red = accent/hover, muted brick = danger). */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+    outline: 2px solid var(--accent-glow);
+    outline-offset: 2px;
+}
+
+/* Elements with their own border get a ring instead, so the outline
+   doesn't sit awkwardly outside a 1px box. */
+.header-lang-btn:focus-visible,
+.header-login:focus-visible,
+.header-logout:focus-visible,
+.auth-form input:focus-visible,
+.spread-question-input:focus-visible {
+    outline: none;
+    border-color: var(--accent-glow);
+    box-shadow: 0 0 0 2px rgba(var(--accent-glow-rgb), 0.28);
+}
+
 /* ── Gothic heading font ─────────────────────────────── */
 h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);

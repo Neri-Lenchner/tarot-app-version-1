@@ -118,6 +118,11 @@ export function CelticSpreadGlobal(): JSX.Element {
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
     };
 
+    const handleDraw: () => void = (): void => {
+        if (isSpread) clearSpread();
+        spreadThem();
+    };
+
     const handleConfirmCombination = (combo: ICombinationMatch): void => {
         setConfirmedCombination(combo);
         setWidgetOpen(true);
@@ -146,18 +151,25 @@ export function CelticSpreadGlobal(): JSX.Element {
 
     return (
         <div className="celtic-spread-container">
-            <SpreadHeader spreadThem={spreadThem} clearSpread={clearSpread}>
+            <SpreadHeader spreadThem={handleDraw} clearSpread={clearSpread}>
                 <input
                     className="spread-question-input"
                     type="text"
                     placeholder={translate('questionPlaceholder', lang)}
                     value={question}
                     dir={lang === 'he' || /[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
-                    onChange={e => setQuestion(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && spreadThem()}
-                    onFocus={() => { if (isSpread) clearSpread(); }}
+                    onChange={e => {
+                        setQuestion(e.target.value);
+                        if (isSpread) clearSpread();
+                    }}
+                    onKeyDown={e => e.key === 'Enter' && handleDraw()}
                 />
             </SpreadHeader>
+            {isSpread && (
+                <p className="spread-redraw-warning" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    {translate('redrawWarning', lang)}
+                </p>
+            )}
             <div className="spread-subheader-row">
                 <button
                     className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}

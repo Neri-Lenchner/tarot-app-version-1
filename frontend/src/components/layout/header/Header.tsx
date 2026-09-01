@@ -52,7 +52,10 @@ function Header({showMenuToggle, menuOpen, onToggleMenu}: IHeaderProps): JSX.Ele
                 </button>
             )}
             <img src={berta} alt="Berta" className="header-berta" />
-            <h1 dir={lang === 'he' ? 'rtl' : 'ltr'}>{t('headerTitle')}</h1>
+            <h1 dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                <span className="header-title-full">{t('headerTitle')}</span>
+                <span className="header-title-short">{t('headerTitleShort')}</span>
+            </h1>
             <div className="header-auth">
                 <button
                     className="header-lang-btn"

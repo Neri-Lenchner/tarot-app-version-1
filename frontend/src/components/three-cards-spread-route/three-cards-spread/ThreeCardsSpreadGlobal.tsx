@@ -118,6 +118,11 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
     };
 
+    const handleDraw: () => void = (): void => {
+        if (isSpread3) clearSpread3();
+        spreadThem3();
+    };
+
     const handleConfirmCombination = (combo: ICombinationMatch): void => {
         setConfirmedCombination(combo);
         setWidgetOpen(true);
@@ -146,18 +151,25 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
 
     return (
         <div className="three-cards-global-container">
-            <SpreadHeader spreadThem={spreadThem3} clearSpread={clearSpread3}>
+            <SpreadHeader spreadThem={handleDraw} clearSpread={clearSpread3}>
                 <input
                     className="spread-question-input"
                     type="text"
                     placeholder={translate('questionPlaceholder', lang)}
                     value={question}
                     dir={lang === 'he' || /[\u0590-\u05FF]/.test(question) ? 'rtl' : 'ltr'}
-                    onChange={e => setQuestion(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && spreadThem3()}
-                    onFocus={() => { if (isSpread3) clearSpread3(); }}
+                    onChange={e => {
+                        setQuestion(e.target.value);
+                        if (isSpread3) clearSpread3();
+                    }}
+                    onKeyDown={e => e.key === 'Enter' && handleDraw()}
                 />
             </SpreadHeader>
+            {isSpread3 && (
+                <p className="spread-redraw-warning" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                    {translate('redrawWarning', lang)}
+                </p>
+            )}
             <div className="spread-subheader-row">
                 <button
                     className={`third-person-toggle${isThirdPerson ? ' active' : ''}`}

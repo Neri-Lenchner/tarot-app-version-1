@@ -36,6 +36,10 @@
     font-size: 35.2px;
 }
 
+.header-title-short {
+    display: none;
+}
+
 .header-berta {
     position: absolute;
     left: 30px;
@@ -186,15 +190,26 @@
         right: 125px;
         margin: 0;
         text-align: center;
-        font-size: 0.65rem;
-        letter-spacing: 0.08em;
+        /* Was 0.65rem (~14px) with ellipsis — the full title cannot be set at a
+           readable size in this strip, so the short brand mark is used instead
+           (see Header.tsx headerTitleShort). No ellipsis needed at this length. */
+        font-size: 21px;
+        letter-spacing: 0.14em;
         white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        overflow: visible;
+        text-overflow: clip;
     }
 
     .Header h1[dir="rtl"] {
-        font-size: 18px;
+        font-size: 21px;
+    }
+
+    .header-title-full {
+        display: none;
+    }
+
+    .header-title-short {
+        display: inline;
     }
 
     .header-auth {

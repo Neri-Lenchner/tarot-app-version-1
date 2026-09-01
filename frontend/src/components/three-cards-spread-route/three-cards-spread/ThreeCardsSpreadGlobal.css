@@ -24,6 +24,14 @@
     border-color: var(--accent);
 }
 
+.three-cards-global-container .spread-redraw-warning {
+    margin: 4px 0 0;
+    padding: 0 16px;
+    color: var(--text-faint);
+    font-style: italic;
+    font-size: 13px;
+}
+
 .three-cards-global-container .spread-subheader-row {
     display: flex;
     align-items: center;
@@ -53,7 +61,11 @@
     font-style: italic;
 }
 
-@media (max-width: 768px) {
+/* Matches the spread-body breakpoint in ThreeCardsSpread.module.css (1000px,
+   not the 768px nav/chrome breakpoint) so the question header switches in
+   step with the card layout. Deliberately different from the 768px used
+   elsewhere. */
+@media (max-width: 1000px) {
     .three-cards-global-container .spread-question-input {
         font-size: 16px;
         padding: 8px 12px;

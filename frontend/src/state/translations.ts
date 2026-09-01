@@ -5,6 +5,7 @@ import { Lang } from './lang-state';
 const translations = {
     // ── Header / nav ──
     headerTitle: { en: "Berta's Tarot Cards Spreads", he: "קלפי הטארוט של ברטה" },
+    headerTitleShort: { en: "Berta", he: "ברטה" },
 
     // ── Home hero ──
     homeWelcome: { en: "Welcome to Berta's Tarot Experience", he: "ברוכים הבאים לחוויית הטארוט של ברטה" },
@@ -28,6 +29,7 @@ const translations = {
     // ── Ready questions / warnings ──
     maybeAsk: { en: "Maybe you want to ask:", he: "אולי תרצה לשאול:" },
     clearSpreadWarning: { en: "Please clear the current spread first", he: "נא לנקות את הפריסה הנוכחית קודם" },
+    redrawWarning: { en: "Drawing again will replace the spread below.", he: "פריסה מחדש תחליף את הפריסה שלמטה." },
 
     // ── Card detail modal ──
     meaning: { en: "Meaning:", he: "משמעות:" },

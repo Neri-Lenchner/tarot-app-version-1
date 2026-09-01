@@ -220,12 +220,13 @@
     width: auto;
     max-width: 90vw;
     box-sizing: border-box;
-    color: #39FF14;
+    color: var(--accent-glow);
     border: none;
-    text-shadow: 0 0 6px rgba(57, 255, 20, 0.8);
+    text-shadow: 0 0 10px rgba(var(--accent-glow-rgb), 0.45);
     padding: 10px 14px;
+    font-family: var(--font-heading);
     font-size: 2.2rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
     background: transparent;
     text-align: center;
     white-space: normal;
@@ -235,8 +236,12 @@
 
 /* ── Mobile: the hand-tuned Celtic cross can't shrink to a phone width and
    stay legible, so below the breakpoint every card-container drops its
-   absolute cross position and stacks as a plain vertical list instead. ── */
-@media (max-width: 768px) {
+   absolute cross position and stacks as a plain vertical list instead.
+   The ten-card cross plus the ready-questions column plus the sidebar do not
+   fit below ~1000px — the stacked layout takes over there rather than at the
+   phone breakpoint. This is deliberately different from the 768px nav/chrome
+   breakpoint used elsewhere (Header, SideBar, etc.) — don't "fix" that. ── */
+@media (max-width: 1000px) {
     .container {
         display: flex;
         flex-direction: column;
