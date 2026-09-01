@@ -20,6 +20,14 @@ import {
 } from "./prompt-sections";
 
 class TarotService {
+    // Event-based mode (eventBasedActive below), the court/Major-Arcana person
+    // rulings that feed it, and the question-address-first conclusion opener
+    // were added 2026-09-01 and verified against a real OpenAI response the
+    // same day (The Empress in Past, Queen of Cups in Present, "will I find
+    // love next month?"): event-story paragraphs landed after **Conclusion**
+    // with no card-name heading, the court card read as a real person, the
+    // Major Arcana card read as the querent, and the conclusion opened by
+    // answering the question's timeframe/domain before the event stories.
     private buildInterpretationMessages(spreadType: string, cards: ISpreadCard[], language: "en" | "he", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female", isEventBased?: boolean): { system: string; user: string } {
         const eventBasedActive = !!isEventBased && spreadType === "celtic";
         const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
