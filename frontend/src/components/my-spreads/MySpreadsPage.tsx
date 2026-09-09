@@ -41,8 +41,8 @@ function MySpreadsPage(): JSX.Element {
             {!loading && readings.length === 0 && <p className="my-spreads-empty">{translate('noSavedReadings', lang)}</p>}
             <div className="my-spreads-list">
                 {readings.map(r => {
-                    const spreadLabel = r.spread_type === 'celtic' ? translate('navCeltic', lang) : translate('navThreeCards', lang);
-                    const spreadClass = r.spread_type === 'celtic' ? 'celtic' : 'three-cards';
+                    const spreadLabel = r.spread_type === 'celtic' ? translate('navCeltic', lang) : r.spread_type === 'master-spread' ? translate('navMasterSpread', lang) : translate('navThreeCards', lang);
+                    const spreadClass = r.spread_type === 'celtic' ? 'celtic' : r.spread_type === 'master-spread' ? 'master-spread' : 'three-cards';
                     return (
                         <div key={r.id} className="my-spread-item" onClick={() => navigate(`/my-spreads/${r.id}`)}>
                             <div className="my-spread-item-left">

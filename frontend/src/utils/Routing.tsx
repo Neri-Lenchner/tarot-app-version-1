@@ -8,6 +8,7 @@ import {CelticSpreadRoute} from "../components/celtic-spread-route/CelticSpreadR
 import {
     ThreeCardsSpreadRoute
 } from "../components/three-cards-spread-route/ThreeCardsSpreadRoute";
+import {MasterSpreadRoute} from "../components/master-spread-route/MasterSpreadRoute";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import MySpreadsPage from "../components/my-spreads/MySpreadsPage";
@@ -21,6 +22,7 @@ function Routing(): JSX.Element {
                 <Route path="/tarot-deck" element={<PrivateRoute child={<TarotDeckRoute />} />}/>
                 <Route path="/celtic-spread-global" element={<PrivateRoute child={<CelticSpreadRoute />} />}/>
                 <Route path="/three-cards-spread" element={<PrivateRoute child={<ThreeCardsSpreadRoute />} />}/>
+                <Route path="/master-spread" element={<PrivateRoute child={<MasterSpreadRoute />} />}/>
                 <Route path="/register" element={<Register />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>

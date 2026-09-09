@@ -86,3 +86,17 @@
         font-size: 15px;
     }
 }
+
+
+/* ── ARCANUM MOTION — question bar fades/rises in after the toolbar.
+   Deliberately NOT touching the Celtic cross layout itself (see DESIGN.md
+   §6/§7 — its absolute positioning is hand-tuned and fragile). ── */
+.celtic-spread-container .spread-subheader-row {
+    animation: fade-rise-in 380ms ease-out 80ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .celtic-spread-container .spread-subheader-row {
+        animation: none;
+    }
+}

@@ -143,3 +143,15 @@
     border-color: var(--accent);
     color: var(--accent-bright);
 }
+
+
+/* ── ARCANUM MOTION — login/register card fades/rises in ── */
+.auth-card {
+    animation: fade-rise-in 380ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .auth-card {
+        animation: none;
+    }
+}

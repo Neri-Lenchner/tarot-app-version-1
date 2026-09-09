@@ -15,6 +15,7 @@ const translations = {
     login: { en: "Login", he: "התחברות" },
     navCeltic: { en: "Celtic Spread", he: "פריסה קלטית" },
     navThreeCards: { en: "Old Gipsy Spread", he: "פריסת הצוענייה" },
+    navMasterSpread: { en: "Master Spread", he: "פריסת המאסטר" },
     navHome: { en: "Home Page", he: "עמוד הבית" },
     navTarotDeck: { en: "Tarot Deck", he: "חפיסת הטארוט" },
     navMySpreads: { en: "My Spreads", he: "הפריסות שלי" },
@@ -30,6 +31,7 @@ const translations = {
     maybeAsk: { en: "Maybe you want to ask:", he: "אולי תרצה לשאול:" },
     clearSpreadWarning: { en: "Please clear the current spread first", he: "נא לנקות את הפריסה הנוכחית קודם" },
     redrawWarning: { en: "Drawing again will replace the spread below.", he: "פריסה מחדש תחליף את הפריסה שלמטה." },
+    chooseCardsInstruction: { en: "Click cards from the deck below to place them, one by one, into the spread.", he: "לחצו על קלפים מהחפיסה למטה כדי להניח אותם, אחד אחרי השני, בפריסה." },
 
     // ── Card detail modal ──
     meaning: { en: "Meaning:", he: "משמעות:" },
@@ -102,6 +104,15 @@ export const POSITION_HE: Record<string, string> = {
     'Outside': 'עולם חיצוני',
     'Fears': 'פחדים',
     'Potential': 'פוטנציאל',
+    'Past - Beginning': 'עבר - התחלה',
+    'Past - Middle': 'עבר - אמצע',
+    'Past - End': 'עבר - סוף',
+    'Present - Beginning': 'הווה - התחלה',
+    'Present - Center': 'הווה - מרכז',
+    'Present - End': 'הווה - סוף',
+    'Future - Beginning': 'עתיד - התחלה',
+    'Future - Middle': 'עתיד - אמצע',
+    'Future - End': 'עתיד - סוף',
 };
 
 export function translatePosition(position: string, lang: Lang): string {

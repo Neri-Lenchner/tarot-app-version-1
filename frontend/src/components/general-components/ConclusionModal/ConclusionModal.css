@@ -20,7 +20,8 @@
 
 /* ── Theme variables (both themes resolve to the single Arcanum accent) ── */
 .conclusion-modal.theme-green,
-.conclusion-modal.theme-blue {
+.conclusion-modal.theme-blue,
+.conclusion-modal.theme-gold {
     --conclusion-accent: var(--accent);
     --conclusion-accent-rgb: 240, 43, 43;
     --conclusion-border: var(--line);

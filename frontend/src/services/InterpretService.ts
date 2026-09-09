@@ -7,7 +7,7 @@ const BASE_URL = "http://localhost:4000";
 
 class InterpretService {
     async interpretSpread(
-        spreadType: "celtic" | "three-cards",
+        spreadType: "celtic" | "three-cards" | "master-spread",
         cards: ITarotCard[],
         positions: string[],
         lang: "en" | "he",

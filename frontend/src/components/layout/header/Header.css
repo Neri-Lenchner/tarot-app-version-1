@@ -20,7 +20,7 @@
     right: 260px;
     margin: 0;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1.65rem;
     font-weight: 400;
     letter-spacing: 0.3em;
     text-transform: uppercase;
@@ -33,7 +33,7 @@
 .Header h1[dir="rtl"] {
     /* Fixed px (not rem) — deliberately exempt from the html[data-lang="he"]
        root font-size bump that scales the rest of the app's Hebrew text. */
-    font-size: 35.2px;
+    font-size: 41.4px;
 }
 
 .header-title-short {
@@ -242,5 +242,22 @@
 
     .Header h1 {
         max-width: calc(100% - 90px);
+    }
+}
+
+
+/* ── ARCANUM MOTION — header fades/rises in on mount ── */
+.Header {
+    animation: fade-rise-in 380ms ease-out both;
+}
+
+.header-berta {
+    animation: fade-rise-in 420ms ease-out 60ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .Header,
+    .header-berta {
+        animation: none;
     }
 }

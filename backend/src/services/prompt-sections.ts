@@ -14,6 +14,9 @@ import {
     CELTIC_ADJACENCY,
     THREE_CARDS_POSITION_INDEX,
     THREE_CARDS_ADJACENCY,
+    MASTER_POSITION_INDEX,
+    MASTER_ADJACENCY,
+    MASTER_GRID_NEIGHBORS,
 } from "../utils/prompt-constants";
 
 // ── Card Combinations ───────────────────────────────────────────────────────
@@ -49,8 +52,8 @@ function isConnectedInSpread(comboCards: string[], cards: ISpreadCard[], positio
 
 export function findMatchingCombinations(cards: ISpreadCard[], spreadType: string): string[] {
     const nameSet = new Set(cards.map(c => c.name.toLowerCase()));
-    const positionIndex = spreadType === "celtic" ? CELTIC_POSITION_INDEX : THREE_CARDS_POSITION_INDEX;
-    const adjacency = spreadType === "celtic" ? CELTIC_ADJACENCY : THREE_CARDS_ADJACENCY;
+    const positionIndex = spreadType === "celtic" ? CELTIC_POSITION_INDEX : spreadType === "master-spread" ? MASTER_POSITION_INDEX : THREE_CARDS_POSITION_INDEX;
+    const adjacency = spreadType === "celtic" ? CELTIC_ADJACENCY : spreadType === "master-spread" ? MASTER_ADJACENCY : THREE_CARDS_ADJACENCY;
     const matches: string[] = [];
     for (const category of tarotCombinations) {
         for (const combo of category.combinations) {
@@ -113,8 +116,104 @@ function isRomanticQuestion(question: string): boolean {
     return ROMANTIC_KEYWORDS.some(kw => q.includes(kw));
 }
 
-export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string, isEventBased?: boolean): string {
-    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()));
+// ── Court Card Meetings (Master Spread grid-adjacency only) ────────────────
+// Two royalty cards physically "one after the other" (same row) or "on top
+// of / below" (same column) in the 3x3 story grid represent an ACTUAL
+// MEETING between two people in the querent's life — not two independent
+// per-card rulings. Cards involved in a meeting are excluded from
+// getCourtCardsSection's normal per-card loop below (see excludePositions).
+const COURT_RANKS = new Set(['king', 'queen', 'knight', 'page']);
+const YOUNG_RANKS = new Set(['knight', 'page']);
+
+// Age/hierarchy language ("older", "younger", "boss and employee") is
+// deliberately NOT used for every pairing — only where an actual age or
+// status gap exists between the two ranks. King+Queen are peers (just "a
+// man and a woman"); King/Queen+Knight/Page is where the gap matters.
+function describeCourtMeeting(rankA: string, cardA: ISpreadCard, rankB: string, cardB: ISpreadCard): string {
+    if (rankA === 'queen' && rankB === 'queen') {
+        return `Two Queens meeting — this is NOT a generic "two women" ruling. Two Queens together specifically signal GOSSIP: talk, rumor, or social chatter reaching the querent through these two figures.`;
+    }
+
+    const isKingQueen = (rankA === 'king' && rankB === 'queen') || (rankA === 'queen' && rankB === 'king');
+    if (isKingQueen) {
+        return `A meeting between a man and a woman, as peers — no age gap here, do NOT describe either figure as older/younger or mature.`;
+    }
+
+    const queenCard = rankA === 'queen' ? cardA : rankB === 'queen' ? cardB : null;
+    const queenPartnerCard = queenCard === cardA ? cardB : cardA;
+    if (queenCard && YOUNG_RANKS.has(queenCard === cardA ? rankB : rankA)) {
+        return `A meeting between an older woman (${queenCard.name}) and a young man (${queenPartnerCard.name}) — the age gap between them matters here.`;
+    }
+
+    const kingCard = rankA === 'king' ? cardA : rankB === 'king' ? cardB : null;
+    const kingPartnerCard = kingCard === cardA ? cardB : cardA;
+    if (kingCard && YOUNG_RANKS.has(kingCard === cardA ? rankB : rankA)) {
+        return `A meeting between an older man (${kingCard.name}) and a younger man (${kingPartnerCard.name}). This could be an employer/employee relationship (a boss and a worker) OR simply an age-gap relationship between an older man and a younger man — read the surrounding context of the spread and the question to decide which framing fits, or blend both.`;
+    }
+
+    // Remaining same-tier pairs with no special meaning given (King+King,
+    // Knight+Knight, Page+Page, Knight+Page) — both ranks are male in this
+    // app's convention (only Queen is a female rank), no age gap either way.
+    return `A meeting between two men (${cardA.name} and ${cardB.name}) — no age gap or hierarchy implied, just two men.`;
+}
+
+function computeCourtMeetings(cards: ISpreadCard[], spreadType?: string): { lines: string[]; involvedPositions: Set<string> } {
+    const involvedPositions = new Set<string>();
+    const lines: string[] = [];
+    if (spreadType !== 'master-spread') return { lines, involvedPositions };
+
+    const byIndex = new Map<number, ISpreadCard>();
+    for (const card of cards) {
+        const idx = MASTER_POSITION_INDEX[card.position.toLowerCase()];
+        if (idx !== undefined) byIndex.set(idx, card);
+    }
+
+    const seenPairs = new Set<string>();
+    for (const [idxStr, neighbors] of Object.entries(MASTER_GRID_NEIGHBORS)) {
+        const idx = Number(idxStr);
+        const card = byIndex.get(idx);
+        if (!card) continue;
+        const rankA = card.name.replace(/ Rx$/i, '').toLowerCase().split(' of ')[0];
+        if (!COURT_RANKS.has(rankA)) continue;
+
+        for (const neighborIdx of neighbors) {
+            if (neighborIdx <= idx) continue; // visit each edge once
+            const neighborCard = byIndex.get(neighborIdx);
+            if (!neighborCard) continue;
+            const rankB = neighborCard.name.replace(/ Rx$/i, '').toLowerCase().split(' of ')[0];
+            if (!COURT_RANKS.has(rankB)) continue;
+
+            const pairKey = `${idx}-${neighborIdx}`;
+            if (seenPairs.has(pairKey)) continue;
+            seenPairs.add(pairKey);
+
+            involvedPositions.add(card.position.toLowerCase());
+            involvedPositions.add(neighborCard.position.toLowerCase());
+
+            const isSameRow = Math.floor(idx / 3) === Math.floor(neighborIdx / 3);
+            const arrangement = isSameRow ? 'directly next to each other in the same row' : 'directly stacked, one above the other';
+
+            const castLine = describeCourtMeeting(rankA, card, rankB, neighborCard);
+
+            lines.push(`• ${card.name} (${card.position}) and ${neighborCard.name} (${neighborCard.position}) are ${arrangement}.\n  RULING — MEETING OF TWO PEOPLE: ${castLine} Interpret the NATURE of this meeting — what it is about, what happens between them — as the collision of what these two specific cards mean: blend ${card.name}'s meaning with ${neighborCard.name}'s meaning into one concrete interaction, not two separate readings side by side.`);
+        }
+    }
+
+    return { lines, involvedPositions };
+}
+
+export function getCourtMeetingsSection(cards: ISpreadCard[], spreadType?: string): string {
+    const { lines } = computeCourtMeetings(cards, spreadType);
+    if (lines.length === 0) return '';
+    return `=== COURT CARD MEETINGS — MANDATORY ===\nTwo royalty (King/Queen/Knight/Page) cards landing directly next to each other in the story grid — in the same row, or stacked in the same column — represent an ACTUAL MEETING between two people in the querent's life, not two independent card readings. Weave each meeting naturally into its row's story, applying the ruling exactly as written.\n\n${lines.join('\n\n')}\n===\n\n`;
+}
+
+export function getCourtMeetingPositions(cards: ISpreadCard[], spreadType?: string): Set<string> {
+    return computeCourtMeetings(cards, spreadType).involvedPositions;
+}
+
+export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "female", spreadType?: string, question?: string, isEventBased?: boolean, excludePositions?: Set<string>): string {
+    const courtCards = cards.filter(c => COURT_CARDS.has(c.name.replace(/ Rx$/i, '').toLowerCase()) && !excludePositions?.has(c.position.toLowerCase()));
     if (courtCards.length === 0) return '';
 
     const isFemaleFigure = (c: ISpreadCard) => c.name.replace(/ Rx$/i, '').toLowerCase().startsWith('queen');
@@ -157,13 +256,16 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
 
         let ruling: string;
 
-        // Positions 3-6 in Celtic (Past/Present/Near Future/Far Future) or any position in Three Cards
+        // Positions 3-6 in Celtic (Past/Present/Near Future/Far Future), any
+        // position in Three Cards, or any Past/Present/Future row position in
+        // Master Spread (e.g. "Past - Beginning") via the prefix check below.
         const KNIGHT_AMBIGUOUS_POSITIONS = new Set(['past', 'present', 'near future', 'far future', 'future']);
+        const isMasterStoryPos = /^(past|present|future)(\s*-|$)/.test(pos.toLowerCase());
         const forcePerson = !!isEventBased && spreadType === 'celtic' && EVENT_PAIR_POSITIONS.has(pos.toLowerCase());
 
         if (isKnight) {
             const thoughtDomain = KNIGHT_SUIT_THOUGHTS[cardBaseName] ?? 'a specific area of life';
-            const isAmbiguousPos = KNIGHT_AMBIGUOUS_POSITIONS.has(pos.toLowerCase());
+            const isAmbiguousPos = KNIGHT_AMBIGUOUS_POSITIONS.has(pos.toLowerCase()) || isMasterStoryPos;
 
             if (forcePerson) {
                 ruling = `RULING — KNIGHT AS PERSON (EVENT-BASED MODE): This reading is in event-based mode, where position "${pos}" is part of a combined event, not abstract thoughts. This Knight represents a REAL, SPECIFIC PERSON involved in that event — not thoughts. Describe them as a driven, fast-moving individual who embodies the energy of ${card.name}: who they are, how they move, and how they take part in this event alongside the querent.`;

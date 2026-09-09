@@ -1,33 +1,91 @@
 .container {
     position: relative;
-    /* Fill available space without pushing past the viewport */
-    height: calc(100dvh - var(--header-height) - 60px);
-    min-height: 460px;
-    width: 100%;
-    min-width: 700px;
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    align-items: center;
+    min-height: calc(100dvh - var(--header-height) - 60px);
+    width: 100%;
     background: var(--page-bg);
 }
 
-.container h2 {
-    font-family: var(--font-heading);
-    text-align: center;
-    color: var(--accent);
-    font-size: 1rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
+.gridArea {
+    position: relative;
+    width: fit-content;
+    margin: 40px auto 10px;
+    padding: 40px 150px 10px 10px;
+    box-sizing: border-box;
 }
 
-.cardContainer {
+.grid {
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+    gap: 26px;
 }
 
-/* Card image */
+.row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.rowLabel {
+    width: 56px;
+    flex-shrink: 0;
+    color: var(--accent);
+    text-align: center;
+    margin: 0;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.rowCards {
+    display: grid;
+    grid-template-columns: repeat(3, 120px);
+    gap: 36px;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.potentialCell h5 {
+    color: var(--accent);
+    text-align: center;
+    margin: 0;
+    font-size: 11.2px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.cardSlot {
+    width: 120px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emptySlot {
+    width: 96px;
+    height: 130px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background: var(--bg-2);
+}
+
+.emptySlotIcon {
+    width: 28px;
+    height: 28px;
+    color: var(--accent);
+    opacity: 0.5;
+}
+
 .cardVignette {
     position: relative;
     display: inline-block;
@@ -43,16 +101,26 @@
 }
 
 .card {
+    width: 100px;
     border-radius: var(--radius-sm);
-    height: 130px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-    transform: scale(1.05);
+    transform: scale(1.06);
     box-shadow: 0 6px 24px rgba(0, 0, 0, 0.8);
-    z-index: 10;
+    z-index: 100;
+}
+
+.potentialCell {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
 }
 
 /* ── Ready questions ────────────────────────────── */
@@ -65,6 +133,7 @@
     flex-direction: column;
     gap: 14px;
     z-index: 10;
+    max-width: 260px;
 }
 
 .readyQuestionsTitle {
@@ -74,6 +143,7 @@
     letter-spacing: 0.06em;
     text-align: center;
     margin: 0;
+    overflow-wrap: break-word;
 }
 
 .readyQuestion {
@@ -87,7 +157,8 @@
     backdrop-filter: blur(4px);
     text-align: center;
     transition: background var(--transition), border-color var(--transition), color var(--transition);
-    white-space: nowrap;
+    white-space: normal;
+    overflow-wrap: break-word;
 }
 
 .readyQuestion:hover {
@@ -110,29 +181,62 @@
     letter-spacing: 0.06em;
     background: transparent;
     text-align: center;
-    white-space: nowrap;
+    white-space: normal;
     z-index: 500;
 }
 
-/* min-width: 700px on .container forces horizontal scroll on portrait
-   tablets below this — raised to match Celtic's spread-body breakpoint
-   (1000px, not the 768px nav/chrome breakpoint). Deliberately different
-   from the 768px used elsewhere — don't "fix" that. */
 @media (max-width: 1000px) {
     .container {
-        min-width: 0;
-        height: auto;
-        min-height: 0;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 28px;
         padding: 24px 16px 40px;
-        overflow-y: auto;
+        gap: 22px;
+    }
+
+    .gridArea {
+        padding: 20px 10px 10px;
+        margin: 20px auto 10px;
+    }
+
+    .grid {
+        gap: 16px;
+    }
+
+    .row {
+        gap: 8px;
+    }
+
+    .rowLabel {
+        width: 36px;
+        font-size: 10px;
+    }
+
+    .rowCards {
+        grid-template-columns: repeat(3, 88px);
+        gap: 14px;
+    }
+
+    .cardSlot {
+        width: 88px;
+        height: 110px;
+    }
+
+    .emptySlot {
+        width: 74px;
+        height: 100px;
+    }
+
+    .emptySlotIcon {
+        width: 22px;
+        height: 22px;
     }
 
     .card {
-        height: 170px;
+        width: 78px;
+    }
+
+    .potentialCell {
+        position: static;
+        margin: 20px auto 0;
+        width: fit-content;
     }
 
     .readyQuestionsStack {
@@ -141,31 +245,11 @@
         width: 100%;
         max-width: 320px;
         order: 2;
+        margin-top: 10px;
     }
 
     .readyQuestion,
     .readyQuestionWarning {
         white-space: normal;
-    }
-
-    .cardContainer {
-        order: 1;
-    }
-}
-
-
-@keyframes card-rise-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ── ARCANUM MOTION — the three cards rise in, staggered ── */
-.container > .cardContainer:nth-child(2) { animation: card-rise-in 380ms ease-out 0ms both; }
-.container > .cardContainer:nth-child(3) { animation: card-rise-in 380ms ease-out 100ms both; }
-.container > .cardContainer:nth-child(4) { animation: card-rise-in 380ms ease-out 200ms both; }
-
-@media (prefers-reduced-motion: reduce) {
-    .cardContainer {
-        animation: none;
     }
 }

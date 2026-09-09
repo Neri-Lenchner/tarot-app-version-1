@@ -13,8 +13,8 @@ import './InterpretWidget.css';
 interface IInterpretWidgetProps {
     cards: ITarotCard[];
     positions: string[];
-    spreadType: 'celtic' | 'three-cards';
-    theme: 'green' | 'blue';
+    spreadType: 'celtic' | 'three-cards' | 'master-spread';
+    theme: 'green' | 'blue' | 'gold';
     question?: string;
     questionHe?: string;
     isThirdPerson?: boolean;

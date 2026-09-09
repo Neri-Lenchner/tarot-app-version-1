@@ -96,8 +96,8 @@ function SpreadDetailsPage(): JSX.Element {
 
     const cards: { name: string; position: string }[] =
         typeof reading.cards === 'string' ? JSON.parse(reading.cards) : reading.cards;
-    const spreadLabel = reading.spread_type === 'celtic' ? translate('navCeltic', lang) : translate('navThreeCards', lang);
-    const spreadClass = reading.spread_type === 'celtic' ? 'celtic' : 'three-cards';
+    const spreadLabel = reading.spread_type === 'celtic' ? translate('navCeltic', lang) : reading.spread_type === 'master-spread' ? translate('navMasterSpread', lang) : translate('navThreeCards', lang);
+    const spreadClass = reading.spread_type === 'celtic' ? 'celtic' : reading.spread_type === 'master-spread' ? 'master-spread' : 'three-cards';
     const interpretation = viewLang === 'en' ? reading.interpretation_en : reading.interpretation_he;
     // A free-typed question was only ever captured in one language — fall
     // back to whichever exists, same as the live spread page's pattern.

@@ -32,8 +32,12 @@ function Header({showMenuToggle, menuOpen, onToggleMenu}: IHeaderProps): JSX.Ele
         localStorage.removeItem("selectedCards");
         localStorage.removeItem("isSpread3");
         localStorage.removeItem("selected3Cards");
+        localStorage.removeItem("isSpreadMaster");
+        localStorage.removeItem("masterFanCards");
+        localStorage.removeItem("masterChosenCards");
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'master-spread' });
         authStore.dispatch(Logout());
         navigate("/");
     }

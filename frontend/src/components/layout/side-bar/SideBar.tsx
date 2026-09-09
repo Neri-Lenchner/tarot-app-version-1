@@ -23,6 +23,7 @@ function SideBar(): JSX.Element {
                 <NavLink to="/">{translate('navHome', lang)}</NavLink>
                 <NavLink to="/celtic-spread-global">{translate('navCeltic', lang)}</NavLink>
                 <NavLink to="/three-cards-spread">{translate('navThreeCards', lang)}</NavLink>
+                <NavLink to="/master-spread">{translate('navMasterSpread', lang)}</NavLink>
                 <NavLink to="/tarot-deck">{translate('navTarotDeck', lang)}</NavLink>
                 {user && <NavLink to="/my-spreads">{translate('navMySpreads', lang)}</NavLink>}
             </div>

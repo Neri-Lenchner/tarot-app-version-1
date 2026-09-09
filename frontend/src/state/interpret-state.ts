@@ -5,7 +5,7 @@ import { interpretService } from '../services/InterpretService';
 export type { ISpreadInterpretation };
 
 // Step 1
-export type SpreadType = 'celtic' | 'three-cards';
+export type SpreadType = 'celtic' | 'three-cards' | 'master-spread';
 
 // Unlike selectedCards/isSpread (persisted per spread page), this store had
 // no localStorage backing at all — a hard refresh (not in-app navigation,
@@ -30,6 +30,7 @@ function loadPersistedInterpretation(spreadType: SpreadType): Pick<ISpreadInterp
 export class InterpretState {
     celtic: ISpreadInterpretation = { heLoading: false, requestId: 0, ...loadPersistedInterpretation('celtic') };
     'three-cards': ISpreadInterpretation = { heLoading: false, requestId: 0, ...loadPersistedInterpretation('three-cards') };
+    'master-spread': ISpreadInterpretation = { heLoading: false, requestId: 0, ...loadPersistedInterpretation('master-spread') };
 }
 
 // Step 2
@@ -84,7 +85,7 @@ export const interpretStore = createStore(interpretReducer);
 // heFailed/requestId are transient/session-only and deliberately excluded).
 interpretStore.subscribe(() => {
     const state = interpretStore.getState();
-    (['celtic', 'three-cards'] as SpreadType[]).forEach(spreadType => {
+    (['celtic', 'three-cards', 'master-spread'] as SpreadType[]).forEach(spreadType => {
         const { en, he, followupQ, followupAnswer } = state[spreadType];
         localStorage.setItem(`interpretation-${spreadType}`, JSON.stringify({ en, he, followupQ, followupAnswer }));
     });

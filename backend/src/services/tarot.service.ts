@@ -4,12 +4,14 @@ import { ISpreadCard } from "../dto/tarot.dto";
 import { tarotCombinations } from "../data/combinations";
 import { riderWaiteCards } from "../data/riderWaite";
 import { healthCombinations } from "../data/health-combinations";
-import { CELTIC_POSITION_GUIDE } from "../utils/prompt-constants";
+import { CELTIC_POSITION_GUIDE, MASTER_POSITION_GUIDE } from "../utils/prompt-constants";
 import {
     findMatchingCombinations,
     isHealthQuestion,
     findHealthIndicators,
     getCourtCardsSection,
+    getCourtMeetingsSection,
+    getCourtMeetingPositions,
     getMajorArcanaFigureSection,
     getSuitDominanceSection,
     isAllMajorArcana,
@@ -30,7 +32,7 @@ class TarotService {
     // answering the question's timeframe/domain before the event stories.
     private buildInterpretationMessages(spreadType: string, cards: ISpreadCard[], language: "en" | "he", question?: string, isThirdPerson?: boolean, confirmedCombination?: import("../dto/tarot.dto").ICombinationMatch, gender?: "male" | "female", isEventBased?: boolean): { system: string; user: string } {
         const eventBasedActive = !!isEventBased && spreadType === "celtic";
-        const spreadName = spreadType === "celtic" ? "Celtic Cross" : "Old Gipsy";
+        const spreadName = spreadType === "celtic" ? "Celtic Cross" : spreadType === "master-spread" ? "Master Spread" : "Old Gipsy";
 
         const cardList = cards
             .map((card, i) => {
@@ -57,8 +59,10 @@ class TarotService {
             ? `=== HEALTH QUESTION DETECTED — READ THIS FIRST ===\nThe querent is asking about health. The cards in this spread indicate the following health conditions:\n\n${healthMatches.join("\n")}\n\nThese health indicators carry the HIGHEST priority. Lead your entire interpretation with the health dimension. Be specific, compassionate, and direct about what the cards are showing regarding the querent's physical or mental wellbeing.\n===\n\n`
             : "";
 
-        const majorArcanaSection = spreadType === "celtic" ? getMajorArcanaSection(cards) : "";
-        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType, question, eventBasedActive);
+        const majorArcanaSection = (spreadType === "celtic" || spreadType === "master-spread") ? getMajorArcanaSection(cards) : "";
+        const courtMeetingsSection = getCourtMeetingsSection(cards, spreadType);
+        const courtMeetingPositions = getCourtMeetingPositions(cards, spreadType);
+        const courtCardsSection = getCourtCardsSection(cards, gender, spreadType, question, eventBasedActive, courtMeetingPositions);
         const majorArcanaFigureSection = getMajorArcanaFigureSection(cards, spreadType, eventBasedActive);
 
         const eventBasedSection = eventBasedActive
@@ -81,7 +85,7 @@ class TarotService {
         const suitDominanceSection = getSuitDominanceSection(cards);
         const personalNotesSection = getPersonalNotesSection(cards);
         const pastAnchorSection = getPastAnchorSection(cards, question);
-        const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : "";
+        const positionGuide = spreadType === "celtic" ? `\n\n${CELTIC_POSITION_GUIDE}` : spreadType === "master-spread" ? `\n\n${MASTER_POSITION_GUIDE}` : "";
 
         const positionInstruction = language === "he"
             ? "Translate each position name into Hebrew (e.g. Past→עבר, Present→הווה, Future→עתיד, Positive Energy→אנרגיה חיובית, Negative Energy→אנרגיה שלילית, Near Future→עתיד קרוב, Far Future→עתיד רחוק, Inside→עולם פנימי, Outside→עולם חיצוני, Fears→פחדים, Potential→פוטנציאל). Do NOT write 'Position 1', 'Position 2', etc. When writing 'In the X position' use the word 'מיקום' (NOT 'מצב') — e.g. 'במיקום האנרגיה החיובית'. IMPORTANT: Always write card names in English (do NOT translate them) — e.g. 'יש לך את הקלף The Fool'."
@@ -113,6 +117,12 @@ class TarotService {
               "\n\nPOSITION 10 (Potential) IS THE DESTINATION OF POSITIONS 1 AND 2: Both the positive energy (position 1) and the negative energy (position 2) are active forces driving toward the outcome shown in position 10. When interpreting position 10, explicitly reference both energies and show how each one is pushing toward this potential. Then encourage the querent to consciously amplify the positive energy — because that is the lever that determines whether the best or worst version of this potential is realised."
             : "";
 
+        // Master Spread reads as ONE story per row (not one paragraph per
+        // card): cards 1-3 (Past), 4-6 (Present), and 7-9 (Future) are each
+        // synthesized into a single continuous paragraph, plus a fourth
+        // paragraph for card 10 (Potential) alone — four paragraphs total.
+        const masterBodyInstruction = `${formatOpening} Then write exactly FOUR paragraphs, in this order — do not write more or fewer, and do not give any of them a bold heading or card-name title line:\n\n- PAST: Read cards 1-3 (the Past row — Beginning, Middle, End) together as ONE continuous story, not three separate mini-descriptions stitched together. Trace how this past chapter begins, develops, and resolves, naming each of the three cards naturally within the flowing story as you reach it.\n- PRESENT: Read cards 4-6 (the Present row) together the same way, as one continuous story of the present moment. Card 5 (the center card) is THE MOST IMPORTANT CARD IN THE ENTIRE SPREAD — the whole reading revolves around it. It must state plainly and concretely where the querent stands RIGHT NOW, at this exact point in their life — their current situation, named directly, not a vague feeling. Card 4 is how this present chapter opened into that situation, and card 6 is where it is now moving from it — but card 5 itself is the anchor of the whole paragraph (and of the whole reading) and must read as the centerpiece, not as one of three equal beats.\n- FUTURE: Read cards 7-9 (the Future row) together the same way, as one continuous story of what is coming — how it begins, develops, and resolves.\n- POTENTIAL: One paragraph on card 10 alone. Open by stating clearly what the potential IS — name it directly in one sentence (e.g. "The potential here is [X]"). Then show both the best and worst this three-part story (Past → Present → Future) can ultimately produce, and close with direct encouragement toward the best version of that potential.\n\nEach of these four paragraphs must open by making clear which chapter it is (Past / Present / Future / Potential) — using that word naturally in the response language (translate it into Hebrew when responding in Hebrew: Past→עבר, Present→הווה, Future→עתיד, Potential→פוטנציאל) as part of the opening sentence's prose, NOT as a bold heading or standalone label line. Each paragraph must be a single unbroken block of prose with no internal line breaks.\n\n`;
+
         const positionDescriptions = spreadType === "celtic"
             ? isThirdPerson
                 ? `- Positive Energy → what energy or force is actively operating in their life right now, carrying or propelling their situation? Describe the energy itself as a living force — NOT their feelings about it.\n- Negative Energy → what energy or force is opposing, obstructing, or creating friction in their life right now? Describe the energy itself as a living force — NOT their feelings about it.\n- Past → what already happened that started or shaped this situation for them?\n- Present → what are they experiencing or facing right now?\n- Near Future → what is concretely coming for them in the short term?\n- Far Future → where is this heading long-term for them?\n- Inside → what is their private, unspoken emotional truth?\n- Outside → how do they appear to others; how do they present themselves to the world?\n- Fears → what do they dread, and how is that fear showing up?\n- Potential → open by stating clearly what the potential IS — name it directly in one sentence (e.g. "The potential here is [X]"). Then expand: show both the best and worst this situation can produce. Connect it to the two energy positions — both the positive force (position 1) and the negative force (position 2) are pushing toward this outcome. Close with a direct encouragement to lean into the positive energy, because that is what unlocks the best version of this potential.`
@@ -121,7 +131,11 @@ class TarotService {
                 ? `- Past → what already happened that started or shaped this situation for them?\n- Present → what are they experiencing or facing right now?\n- Future → what is coming for them?`
                 : `- Past → what already happened that started or shaped this situation?\n- Present → what are you experiencing or facing right now?\n- Future → what is coming for you?`;
 
-        const userMessage = `${questionLine}${pastAnchorSection}${confirmedComboSection}${eventBasedSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtCardsSection}${majorArcanaFigureSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n${attentionSectionInstruction}${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n${questionAddressInstruction}${eventStoriesInstruction}[${conclusionInstruction}]`;
+        const bodyInstruction = spreadType === "master-spread"
+            ? masterBodyInstruction
+            : `${formatOpening} For each card, one paragraph. Open with a sentence (in the response language) saying: in the [position name] position, the card is [card name]. Then write 2–3 sentences interpreting the card through the angle of its position — the position name defines the narrative frame and the specific question the paragraph must answer:\n${positionDescriptions}\nEach paragraph must feel like it is answering the specific question its position poses — not a generic card description with a label attached.\n\n${positionInstruction}${energyNote}\n\n`;
+
+        const userMessage = `${questionLine}${pastAnchorSection}${confirmedComboSection}${eventBasedSection}${thirdPersonSection}${healthSection}${majorArcanaSection}${suitDominanceSection}${courtMeetingsSection}${courtCardsSection}${majorArcanaFigureSection}${combinationsSection}${personalNotesSection}I have drawn a ${spreadName} tarot spread. Here are the cards:\n\n${cardList}${positionGuide}\n\nWrite the interpretation as a flowing personal narrative in exactly this structure:\n\n${bodyInstruction}${attentionSectionInstruction}${conclusionStep} End with the EXACT marker below on its own line (do not translate or change it, even when writing in Hebrew), followed by the conclusion text:\n**Conclusion**\n${questionAddressInstruction}${eventStoriesInstruction}[${conclusionInstruction}]`;
 
         const system = `${language === "he" ? "CRITICAL — LANGUAGE RULE: You MUST write your ENTIRE response in Hebrew. Every sentence, every structural phrase, every opening line must be in Hebrew. Do NOT write any sentence in English. The ONLY exception: keep card names in English (e.g. 'The Fool', 'Nine of Wands'). If an instruction gives you an example sentence in English, translate that sentence into Hebrew — do not copy it literally.\n\n" : ""}You are a wise and insightful tarot reader who speaks in vivid, concrete terms about real life events. Never describe what a card "symbolizes" or "represents" in abstract terms. Instead describe what is actually happening or has happened or will happen in the person's life — real situations, relationships, decisions, turning points. Always anchor each card to a clear time frame: past events that shaped the situation, what is happening right now, what is coming soon, and what lies further ahead. Be explicit: "This happened in your past...", "Right now you are facing...", "In the near future...", "Further down the road...". Ground everything in human experience: heartbreak, career shifts, family tensions, personal growth, financial pressure, new beginnings, loss. Be direct, warm, and personal — speak as if you know their story.${gender === "male" ? " The querent is male. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'אתה' (you, masculine) and NEVER 'הוא' (he). All Hebrew verbs, adjectives, and participles addressing the querent must be in masculine grammatical form (לשון זכר). Example: say 'אתה עומד בפני' NOT 'הוא עומד בפני'." : gender === "female" ? " The querent is female. Always speak to them directly in second person — in English say 'you', 'your'; in Hebrew say 'את' (you, feminine) and NEVER 'היא' (she). All Hebrew verbs, adjectives, and participles addressing the querent must be in feminine grammatical form (לשון נקבה). Example: say 'את עומדת בפני' NOT 'היא עומדת בפני'." : ""} Respond entirely in ${language === "he" ? "Hebrew" : "English"}.`;
 

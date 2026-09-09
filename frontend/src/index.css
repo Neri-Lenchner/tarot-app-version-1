@@ -1,3 +1,16 @@
+/* ── Makabi — self-hosted webfont, primary heading face in both languages ──
+   GPL v2 licensed, see frontend/public/fonts/makabi/LICENSE. No Latin
+   lowercase glyphs (mixed-case text renders as caps-like forms) — IM Fell
+   English SC is kept as fallback for both languages. */
+@font-face {
+    font-family: 'Makabi';
+    src: url('/fonts/makabi/makabiyg-webfont.woff') format('woff'),
+         url('/fonts/makabi/makabiyg-webfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* ── Global design tokens — Arcanum (Occult Woodcut) ──── */
 :root {
     /* Backgrounds — antique manuscript, warm and dark */
@@ -56,14 +69,14 @@
     --danger: #7A3226;
     --danger-bright: #9C4534;
 
-    /* Typography — all-serif manuscript pairing, no sans-serif anywhere */
-    --font-heading: 'IM Fell English SC', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
+    /* Typography — all-serif manuscript pairing, no sans-serif anywhere.
+       Makabi (self-hosted, GPL v2, see frontend/public/fonts/makabi/LICENSE)
+       is the primary heading face in both languages; IM Fell English SC
+       stays as fallback (was the primary English heading face before). */
+    --font-heading: 'Makabi', 'IM Fell English SC', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
     --font-body: 'EB Garamond', Georgia, 'Times New Roman', serif;
 
-    /* Hebrew — Noto Rashi Hebrew is the semi-cursive script historically used
-       for Kabbalistic/Talmudic commentary; paired with a literary serif body
-       face, it reads as "mysterious old manuscript" rather than generic UI Hebrew. */
-    --font-heading-he: 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
+    --font-heading-he: 'Makabi', 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
     --font-body-he: 'Frank Ruhl Libre', 'Noto Rashi Hebrew', serif;
 
     /* Shape & motion — sharp edges everywhere, except a small rounding on card images */
@@ -179,4 +192,34 @@ h4[dir="rtl"],
 h5[dir="rtl"],
 h6[dir="rtl"] {
     font-family: var(--font-heading-he);
+}
+
+
+/* ── ARCANUM MOTION — lightweight fade/rise entrance animations ──────
+   Opacity + transform only (GPU-composited, no layout thrash).
+   Applied per-component in each component's own CSS file below;
+   the keyframes live here once, globally. */
+@keyframes fade-down-in {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-rise-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-left-in {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes overlay-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes modal-fade-scale-in {
+    from { opacity: 0; transform: translateY(6px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
 }

@@ -101,3 +101,11 @@ Things a design review might reasonably push back on:
 - **The single-accent rule** (one red, used for everything interactive) is a strong, consistent choice, but means there's no visual differentiation between e.g. "primary action" and "secondary action" beyond fill vs. outline — worth a second opinion on whether that's enough hierarchy.
 - **Two exceptions already exist** to the single-accent rule (the berta-gold header title, the muted danger palette) — worth asking whether a design system that already has two hand-picked exceptions actually wants a slightly larger, deliberate secondary palette instead of ad-hoc one-offs.
 - **Sharp corners everywhere except card images** is a confident aesthetic choice (fits the "woodcut" concept) but is unusual for a modern web app and worth a fresh set of eyes on whether it reads as "intentional and antique" or "unfinished."
+
+## 8. Motion
+
+A light entrance treatment layered on top of the existing static design — elements fade and rise into place on mount rather than snapping in. Two shared keyframes live in `index.css` (`fade-rise-in`, `fade-left-in`), plus a fade+scale pair for modals (`overlay-fade-in`, `modal-fade-scale-in`). Everything is opacity/transform only — no layout properties — kept short (180–420ms, `ease-out`), and every rule has a `prefers-reduced-motion: reduce` fallback that disables it.
+
+Applied to: the header and logo (fade in once, on the app's first load — they're persistent chrome and don't remount between pages); each page's own heading/toolbar/content, which re-plays every time that route mounts; the tarot cards themselves, wherever `TarotCardContainer` is used (home carousel, deck browser); and the card-detail modal, which now fades and scales in instead of appearing instantly.
+
+**Exception — the Celtic cross.** Its 10 card positions (§6) already use `transform` for centering, so animating `transform` there would fight that positioning. Those cards fade in with opacity only, no rise — a deliberate, narrower treatment than everywhere else, for the same fragility reasons already noted in §7.

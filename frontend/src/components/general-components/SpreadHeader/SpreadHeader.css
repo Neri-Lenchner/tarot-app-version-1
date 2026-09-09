@@ -111,3 +111,15 @@
         margin: 4px 8px;
     }
 }
+
+
+/* ── ARCANUM MOTION — shared spread toolbar (Celtic + Three Cards) fades/rises in ── */
+.spread-header-container {
+    animation: fade-rise-in 380ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spread-header-container {
+        animation: none;
+    }
+}

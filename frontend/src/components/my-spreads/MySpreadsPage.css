@@ -136,6 +136,12 @@
     background: rgba(58, 110, 165, 0.12);
 }
 
+.my-spread-type.master-spread {
+    border-color: #B8963A;
+    color: #E0BE6E;
+    background: rgba(184, 150, 58, 0.12);
+}
+
 /* ── Detail view ── */
 .spread-details-back {
     background: none;
@@ -278,5 +284,19 @@
 
     .spread-details-actions {
         flex-wrap: wrap;
+    }
+}
+
+
+/* ── ARCANUM MOTION — page title fades/rises in (My Spreads + Spread Details share this file) ── */
+.my-spreads-title,
+.spread-details-title {
+    animation: fade-rise-in 420ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .my-spreads-title,
+    .spread-details-title {
+        animation: none;
     }
 }

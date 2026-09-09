@@ -1,9 +1,18 @@
-.three-cards-global-container {
+.master-spread-global-container {
     overflow-y: auto;
 }
 
+.master-spread-instructions {
+    margin: 10px 0 0;
+    padding: 0 16px;
+    color: var(--text-faint);
+    font-style: italic;
+    font-size: 13px;
+    text-align: center;
+}
+
 /* Input lives inside .spread-header-container now */
-.three-cards-global-container .spread-question-input {
+.master-spread-global-container .spread-question-input {
     flex: 1;
     min-width: 0;
     background: var(--bg-2);
@@ -16,15 +25,15 @@
     transition: border-color var(--transition);
 }
 
-.three-cards-global-container .spread-question-input::placeholder {
+.master-spread-global-container .spread-question-input::placeholder {
     color: var(--text-faint);
 }
 
-.three-cards-global-container .spread-question-input:focus {
+.master-spread-global-container .spread-question-input:focus {
     border-color: var(--accent);
 }
 
-.three-cards-global-container .spread-redraw-warning {
+.master-spread-global-container .spread-redraw-warning {
     margin: 4px 0 0;
     padding: 0 16px;
     color: var(--text-faint);
@@ -32,13 +41,13 @@
     font-size: 13px;
 }
 
-.three-cards-global-container .spread-subheader-row {
+.master-spread-global-container .spread-subheader-row {
     display: flex;
     align-items: center;
     background: var(--bg-2);
 }
 
-.three-cards-global-container .spread-question-display {
+.master-spread-global-container .spread-question-display {
     display: flex;
     align-items: center;
     gap: 10px;
@@ -46,7 +55,7 @@
     flex: 1;
 }
 
-.three-cards-global-container .spread-question-label {
+.master-spread-global-container .spread-question-label {
     color: var(--accent);
     font-size: 10px;
     font-weight: 700;
@@ -55,47 +64,45 @@
     white-space: nowrap;
 }
 
-.three-cards-global-container .spread-question-text {
+.master-spread-global-container .spread-question-text {
     color: var(--ink);
     font-size: 17px;
     font-style: italic;
 }
 
-/* Matches the spread-body breakpoint in ThreeCardsSpread.module.css (1000px,
-   not the 768px nav/chrome breakpoint) so the question header switches in
-   step with the card layout. Deliberately different from the 768px used
-   elsewhere. */
+/* Matches the 1000px breakpoint in MasterSpread.module.css so the question
+   header switches in step with the grid/fan layout. Deliberately different
+   from the 768px nav/chrome breakpoint used elsewhere. */
 @media (max-width: 1000px) {
-    .three-cards-global-container .spread-question-input {
+    .master-spread-global-container .spread-question-input {
         font-size: 16px;
         padding: 8px 12px;
         flex-basis: 100%;
         order: 3;
     }
 
-    .three-cards-global-container .spread-subheader-row {
+    .master-spread-global-container .spread-subheader-row {
         flex-wrap: wrap;
         padding: 4px 0;
     }
 
-    .three-cards-global-container .spread-question-display {
+    .master-spread-global-container .spread-question-display {
         padding: 6px 12px;
         flex-wrap: wrap;
     }
 
-    .three-cards-global-container .spread-question-text {
+    .master-spread-global-container .spread-question-text {
         font-size: 15px;
     }
 }
 
-
 /* ── ARCANUM MOTION — question bar fades/rises in after the toolbar ── */
-.three-cards-global-container .spread-subheader-row {
+.master-spread-global-container .spread-subheader-row {
     animation: fade-rise-in 380ms ease-out 80ms both;
 }
 
 @media (prefers-reduced-motion: reduce) {
-    .three-cards-global-container .spread-subheader-row {
+    .master-spread-global-container .spread-subheader-row {
         animation: none;
     }
 }

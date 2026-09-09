@@ -98,3 +98,21 @@
         width: 100%;
     }
 }
+
+
+/* ── ARCANUM MOTION — nav links fade in left-to-rest, staggered ── */
+.SideBar a {
+    animation: fade-left-in 340ms ease-out both;
+}
+
+.SideBar .links > a:nth-child(1) { animation-delay: 120ms; }
+.SideBar .links > a:nth-child(2) { animation-delay: 170ms; }
+.SideBar .links > a:nth-child(3) { animation-delay: 220ms; }
+.SideBar .links > a:nth-child(4) { animation-delay: 270ms; }
+.SideBar .links > a:nth-child(5) { animation-delay: 320ms; }
+
+@media (prefers-reduced-motion: reduce) {
+    .SideBar a {
+        animation: none;
+    }
+}

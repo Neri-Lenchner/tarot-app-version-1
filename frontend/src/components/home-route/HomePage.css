@@ -71,3 +71,20 @@
         font-size: 0.9rem;
     }
 }
+
+
+/* ── ARCANUM MOTION — hero title/subtitle rise in on mount ── */
+.home-hero h1 {
+    animation: fade-rise-in 420ms ease-out 260ms both;
+}
+
+.home-hero h2 {
+    animation: fade-rise-in 420ms ease-out 360ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .home-hero h1,
+    .home-hero h2 {
+        animation: none;
+    }
+}

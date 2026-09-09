@@ -92,3 +92,15 @@
 .card-particles span:nth-child(4) { --px: -0.5; --py: 1;    top: 78%; right: 40%; animation-delay: 0.75s; }
 .card-particles span:nth-child(5) { --px: 1;    --py: 0.5;  top: 35%; left: 65%; animation-delay: 1s; }
 .card-particles span:nth-child(6) { --px: -1;   --py: 0.5;  top: 68%; right: 65%; animation-delay: 1.25s; }
+
+
+/* ── ARCANUM MOTION — every tarot card fades/rises in on mount (carousel + deck browser) ── */
+.TarotCard {
+    animation: fade-rise-in 360ms ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .TarotCard {
+        animation: none;
+    }
+}

@@ -13,7 +13,8 @@
    kept as scoped vars so the theme-green/theme-blue class names on the
    component don't need to change) ── */
 .interpret-widget.theme-green,
-.interpret-widget.theme-blue {
+.interpret-widget.theme-blue,
+.interpret-widget.theme-gold {
     --accent-rgb: 240, 43, 43;
     --bg: var(--bg-2);
     --border: var(--line);

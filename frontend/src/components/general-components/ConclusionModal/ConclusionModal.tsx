@@ -7,8 +7,8 @@ import { interpretService } from '../../../services/InterpretService';
 import './ConclusionModal.css';
 
 interface IConclusionModalProps {
-    spreadType: 'celtic' | 'three-cards';
-    theme: 'green' | 'blue';
+    spreadType: 'celtic' | 'three-cards' | 'master-spread';
+    theme: 'green' | 'blue' | 'gold';
 }
 
 function extractConclusion(text: string): string {

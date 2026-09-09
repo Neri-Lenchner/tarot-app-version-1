@@ -74,6 +74,21 @@ export const THREE_CARDS_POSITION_INDEX: Record<string, number> = {
     "future": 2,
 };
 
+// Matches the frontend's Master Spread POSITIONS array (MasterSpreadGlobal.tsx)
+// exactly — row-major over the 3x3 story grid, then Potential last.
+export const MASTER_POSITION_INDEX: Record<string, number> = {
+    "past - beginning": 0,
+    "past - middle": 1,
+    "past - end": 2,
+    "present - beginning": 3,
+    "present - center": 4,
+    "present - end": 5,
+    "future - beginning": 6,
+    "future - middle": 7,
+    "future - end": 8,
+    "potential": 9,
+};
+
 export type Adjacency = Record<number, number[]>;
 
 // Mirrors frontend/src/services/CombinationsService.ts — keep in sync.
@@ -97,6 +112,40 @@ export const THREE_CARDS_ADJACENCY: Adjacency = {
     2: [1],
 };
 
+// Master Spread: 3x3 story grid (0-8, row-major) plus Potential (9), which
+// connects only to Future-End (8) — mirroring how Celtic's Potential links
+// to Far Future. Mirrors frontend/src/services/CombinationsService.ts
+// MASTER_ADJACENCY — keep in sync.
+export const MASTER_ADJACENCY: Adjacency = {
+    0: [1, 3, 4],
+    1: [0, 2, 3, 4, 5],
+    2: [1, 4, 5],
+    3: [0, 1, 4, 6, 7],
+    4: [0, 1, 2, 3, 5, 6, 7, 8],
+    5: [1, 2, 4, 7, 8],
+    6: [3, 4, 7],
+    7: [3, 4, 5, 6, 8],
+    8: [4, 5, 7, 9],
+    9: [8],
+};
+
+// Strict 4-directional (no diagonals) neighbors in the Master Spread's 3x3
+// story grid — used to detect two court cards physically "one after the
+// other" (same row) or "on top of / below" (same column), as opposed to
+// MASTER_ADJACENCY above, which is a broader thematic/combinations graph.
+// Deliberately excludes Potential (9) — it sits outside the grid.
+export const MASTER_GRID_NEIGHBORS: Adjacency = {
+    0: [1, 3],
+    1: [0, 2, 4],
+    2: [1, 5],
+    3: [0, 4, 6],
+    4: [1, 3, 5, 7],
+    5: [2, 4, 8],
+    6: [3, 7],
+    7: [4, 6, 8],
+    8: [5, 7],
+};
+
 export const CELTIC_POSITION_GUIDE = `
 Position guide for the Celtic Cross spread:
 1. Positive Energy — The support, people, or forces actively helping the querent in this situation.
@@ -109,4 +158,18 @@ Position guide for the Celtic Cross spread:
 8. Outside — How the querent presents themselves externally; their public face. Note any contradiction with position 7.
 9. Fears — The querent's deepest anxieties about this situation.
 10. Potential — The ultimate outcome or highest potential of the situation.
+`.trim();
+
+export const MASTER_POSITION_GUIDE = `
+Position guide for the Master Spread: three rows of three cards — Past, Present, and Future — each row read left to right as ONE continuous story (a beginning, a middle, and an end/result), followed by a tenth Potential card.
+1. Past - Beginning — How this situation's story in the past starts.
+2. Past - Middle — How that past story develops and turns.
+3. Past - End — How that past story resolves, and what it hands off to the present.
+4. Present - Beginning — How the present chapter of this story opens right now.
+5. Present - Center — THE MOST IMPORTANT CARD IN THE SPREAD. This is the exact center the entire reading revolves around — it connects to and is coloured by every other card in the spread except Potential. It must state plainly and concretely where the querent stands RIGHT NOW — their current situation in life at this exact point — not a vague feeling or a fragment of a longer present-row story. Every other card orbits this one.
+6. Present - End — How the present chapter is resolving or where it stands as it closes.
+7. Future - Beginning — How the coming chapter of this story starts.
+8. Future - Middle — How that future story develops and turns.
+9. Future - End — How that future story resolves — the final beat of the whole Past→Present→Future arc.
+10. Potential — The ultimate outcome or highest potential the whole three-part story is building toward.
 `.trim();
