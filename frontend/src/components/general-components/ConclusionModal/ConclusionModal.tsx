@@ -22,7 +22,13 @@ function extractConclusion(text: string): string {
 export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): JSX.Element | null {
     const [stored, setStored] = useState<InterpretState>(interpretStore.getState());
     const lang = useLang();
-    const [visible, setVisible] = useState(true);
+    // Starts closed: this component remounts fresh on every navigation to a
+    // spread page (each spread route is a distinct top-level component), but
+    // interpretStore itself is a global, session-persisted store — so a
+    // spread visited earlier already has data waiting. Defaulting to visible
+    // would pop this modal open immediately on arrival/navigation instead of
+    // requiring an explicit click on the reopen button.
+    const [visible, setVisible] = useState(false);
     const [followupQ, setFollowupQ] = useState('');
     const [followupAnswer, setFollowupAnswer] = useState<string | null>(null);
     const [followupLoading, setFollowupLoading] = useState(false);

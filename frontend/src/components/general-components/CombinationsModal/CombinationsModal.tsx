@@ -13,7 +13,13 @@ interface ICombinationsModalProps {
 }
 
 export function CombinationsModal({ matches, onClose, onConfirm }: ICombinationsModalProps): JSX.Element {
-    const [visible, setVisible] = useState<boolean>(true);
+    // Starts closed for the same reason as ConclusionModal's `visible`: this
+    // mounts fresh on every navigation to a spread page, and the parent's
+    // mount-time "restore combos for the already-persisted spread" check
+    // (see e.g. CelticSpreadGlobal's useEffect) can populate `matches` right
+    // after arrival — defaulting to visible would pop this open on its own
+    // instead of waiting for the reopen button.
+    const [visible, setVisible] = useState<boolean>(false);
     const [confirmedIndices, setConfirmedIndices] = useState<Set<number>>(new Set());
     const lang = useLang();
 
