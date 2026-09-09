@@ -15,8 +15,10 @@
     position: relative;
     flex: 0 0 auto;
     width: 90px;
-    height: 140px;
-    margin-left: -81px;
+    /* cards-back.jpg is 150x259 (ratio ~0.579) — matching that ratio at this
+       width avoids object-fit: cover cropping the top/bottom of the artwork. */
+    height: 156px;
+    margin-left: -72px;
     cursor: pointer;
     transition: transform 0.2s ease;
 }

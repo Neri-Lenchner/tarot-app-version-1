@@ -98,6 +98,10 @@ export function MasterSpread({ isSpread, allChosen, positions, chosenCards, fanC
                 )}
             </div>
 
+            {isSpread && !allChosen && (
+                <FannedDeck cards={fanCards} onChoose={onChoose} />
+            )}
+
             <div className={styles.gridArea}>
                 <div className={styles.grid}>
                     {[0, 1, 2].map((rowIdx: number): JSX.Element => (
@@ -152,10 +156,6 @@ export function MasterSpread({ isSpread, allChosen, positions, chosenCards, fanC
                     </div>
                 </div>
             </div>
-
-            {isSpread && !allChosen && (
-                <FannedDeck cards={fanCards} onChoose={onChoose} />
-            )}
 
             {selectedIndex !== null && (
                 <CardModal
