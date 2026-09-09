@@ -1,7 +1,7 @@
 import {JSX, useEffect, useState} from 'react';
 import {Sparkles} from 'lucide-react';
 import styles from './MasterSpread.module.css';
-import {FannedDeck} from "./FannedDeck";
+import {FannedDeck} from "../../../general-components/FannedDeck/FannedDeck";
 import {interpretStore} from "../../../../state/interpret-state";
 import {ISpreadInterpretation} from "../../../../arrays-&-models/SpreadInterpretation.model";
 import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";

@@ -1,6 +1,6 @@
 import {JSX} from 'react';
 import styles from './FannedDeck.module.css';
-import {ITarotCard} from "../../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
+import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 
 interface Props {
     cards: ITarotCard[];

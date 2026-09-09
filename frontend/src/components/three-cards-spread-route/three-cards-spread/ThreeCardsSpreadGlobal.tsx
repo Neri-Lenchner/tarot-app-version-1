@@ -9,6 +9,7 @@ import {SpreadHeader} from "../../general-components/SpreadHeader/SpreadHeader";
 import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";
+import {CutDeckModal} from "../../general-components/CutDeckModal/CutDeckModal";
 import {deckService} from "../../../services/DeckService";
 import {deckStore} from "../../../state/deck-state";
 import {interpretStore, InterpretActionType} from "../../../state/interpret-state";
@@ -52,6 +53,11 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         try { return saved === "true"; } catch { return false; }
     });
 
+    // Non-null while the "cut the deck" modal is open — holds the already-
+    // shuffled major-arcana pool the user is cutting from. Not persisted: a
+    // refresh mid-cut just drops back to the pre-spread state.
+    const [cutPool, setCutPool] = useState<ITarotCard[] | null>(null);
+
     const [selected3Cards, setSelected3Cards] = useState<ITarotCard[]>((): ITarotCard[] => {
         const saved: string | null = localStorage.getItem("selected3Cards");
         if (saved === null) return [];
@@ -84,25 +90,33 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleCutConfirmed = (chosen: ITarotCard[]): void => {
+        setSelected3Cards(chosen);
+        setIsSpread3(true);
+        setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
+        setCutPool(null);
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
+        const myComboRequest = ++comboRequestRef.current;
+        combinationsService.checkCombinations(chosen.map(c => c.name), submittedQuestion).then(matches => {
+            if (comboRequestRef.current === myComboRequest) {
+                setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
+            }
+        }).catch(() => {});
+    };
+
+    const handleCancelCut = (): void => {
+        setCutPool(null);
+    };
+
     const spreadThem3: () => void = (): void => {
         if (question.trim()) {
             setSubmittedQuestion(question.trim());
             setSubmittedQuestionHe('');
             setQuestion('');
         }
-        const [chosen, bool] = deckService.spreadMajorArcana(3);
-        setSelected3Cards(chosen);
-        setIsSpread3(bool);
-        setWidgetOpen(true);
-        setComboMatches([]);
-        setConfirmedCombination(null);
-        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
-        const myComboRequest = ++comboRequestRef.current;
-        combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
-            if (comboRequestRef.current === myComboRequest) {
-                setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
-            }
-        }).catch(() => {});
+        setCutPool(deckService.spreadMajorArcanaShuffle());
     };
 
     const clearSpread3: () => void = (): void => {
@@ -132,25 +146,16 @@ export function ThreeCardsSpreadGlobal(): JSX.Element {
         setSubmittedQuestion(q.en);
         setSubmittedQuestionHe(q.he);
         setQuestion('');
-        const [chosen, bool] = deckService.spreadMajorArcana(3);
-        setSelected3Cards(chosen);
-        setIsSpread3(bool);
-        setWidgetOpen(true);
-        setComboMatches([]);
-        setConfirmedCombination(null);
-        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'three-cards' });
-        const myComboRequest = ++comboRequestRef.current;
-        combinationsService.checkCombinations(chosen.map(c => c.name), q.en).then(matches => {
-            if (comboRequestRef.current === myComboRequest) {
-                setComboMatches(filterByProximity(matches, chosen, THREE_CARDS_ADJACENCY));
-            }
-        }).catch(() => {});
+        setCutPool(deckService.spreadMajorArcanaShuffle());
     };
 
     const displayQuestion: string = lang === 'he' ? (submittedQuestionHe || submittedQuestion) : submittedQuestion;
 
     return (
         <div className="three-cards-global-container">
+            {cutPool && (
+                <CutDeckModal cards={cutPool} needed={3} onCut={(rest) => handleCutConfirmed(rest.slice(0, 3))} onCancel={handleCancelCut} />
+            )}
             <SpreadHeader spreadThem={handleDraw} clearSpread={clearSpread3}>
                 <input
                     className="spread-question-input"

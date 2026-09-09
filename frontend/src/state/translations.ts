@@ -32,6 +32,9 @@ const translations = {
     clearSpreadWarning: { en: "Please clear the current spread first", he: "נא לנקות את הפריסה הנוכחית קודם" },
     redrawWarning: { en: "Drawing again will replace the spread below.", he: "פריסה מחדש תחליף את הפריסה שלמטה." },
     chooseCardsInstruction: { en: "Click cards from the deck below to place them, one by one, into the spread.", he: "לחצו על קלפים מהחפיסה למטה כדי להניח אותם, אחד אחרי השני, בפריסה." },
+    cutDeckTitle: { en: "Cut the Deck", he: "חתכו את החפיסה" },
+    cutDeckInstructions: { en: "Click a card to cut the deck at that point.", he: "לחצו על קלף כדי לחתוך את החפיסה באותה נקודה." },
+    cutDeckWarning: { en: "Not enough cards remain after this one — pick a card closer to the start.", he: "אין מספיק קלפים אחרי קלף זה — בחרו קלף קרוב יותר להתחלה." },
 
     // ── Card detail modal ──
     meaning: { en: "Meaning:", he: "משמעות:" },

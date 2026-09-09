@@ -25,20 +25,14 @@ class DeckService {
         return shuffledDeck;
     };
 
-    spreadThem(count: number = 10): [ITarotCard[], boolean] {
-        const shuffled: ITarotCard[] = this.spreadThemShuffle();
-        const chosen: ITarotCard[] = shuffled.slice(0, count);
-        return [chosen, true];
-    };
-
-    spreadMajorArcana(count: number = 3): [ITarotCard[], boolean] {
+    spreadMajorArcanaShuffle(): ITarotCard[] {
         const majorArcana: ITarotCard[] = cardsDeck.slice(0, 22);
         const shuffled: ITarotCard[] = [...majorArcana];
         for (let i = shuffled.length - 1; i >= 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [shuffled[j], shuffled[i]] = [shuffled[i], shuffled[j]];
         }
-        return [shuffled.slice(0, count), true];
+        return shuffled;
     };
 
     clearSpread(bool: string, arr: string): boolean{

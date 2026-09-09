@@ -6,6 +6,7 @@ import {IReadyQuestion} from "../../../arrays-&-models/readyQuestion.interface";
 import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";
+import {CutDeckModal} from "../../general-components/CutDeckModal/CutDeckModal";
 import './CelticSpreadGlobal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
@@ -55,6 +56,11 @@ export function CelticSpreadGlobal(): JSX.Element {
         try { return saved === "true"; } catch { return false; }
     });
 
+    // Non-null while the "cut the deck" modal is open — holds the already-
+    // shuffled 78-card pool the user is cutting from. Not persisted: a
+    // refresh mid-cut just drops back to the pre-spread state.
+    const [cutPool, setCutPool] = useState<ITarotCard[] | null>(null);
+
     const [selectedCards, setSelectedCards] = useState<ITarotCard[]>((): ITarotCard[] => {
         const saved: string | null = localStorage.getItem("selectedCards");
         if (saved === null) return [];
@@ -84,25 +90,33 @@ export function CelticSpreadGlobal(): JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
+    const handleCutConfirmed = (chosen: ITarotCard[]): void => {
+        setSelectedCards(chosen);
+        setIsSpread(true);
+        setWidgetOpen(true);
+        setComboMatches([]);
+        setConfirmedCombination(null);
+        setCutPool(null);
+        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
+        const myComboRequest = ++comboRequestRef.current;
+        combinationsService.checkCombinations(chosen.map(c => c.name), submittedQuestion).then(matches => {
+            if (comboRequestRef.current === myComboRequest) {
+                setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
+            }
+        }).catch(() => {});
+    };
+
+    const handleCancelCut = (): void => {
+        setCutPool(null);
+    };
+
     const spreadThem: () => void = (): void => {
         if (question.trim()) {
             setSubmittedQuestion(question.trim());
             setSubmittedQuestionHe('');
             setQuestion('');
         }
-        const [chosen, bool] = deckService.spreadThem();
-        setSelectedCards(chosen);
-        setIsSpread(bool);
-        setWidgetOpen(true);
-        setComboMatches([]);
-        setConfirmedCombination(null);
-        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
-        const myComboRequest = ++comboRequestRef.current;
-        combinationsService.checkCombinations(chosen.map(c => c.name), question.trim() || submittedQuestion).then(matches => {
-            if (comboRequestRef.current === myComboRequest) {
-                setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
-            }
-        }).catch(() => {});
+        setCutPool(deckService.spreadThemShuffle());
     };
 
     const clearSpread: () => void = (): void => {
@@ -132,25 +146,16 @@ export function CelticSpreadGlobal(): JSX.Element {
         setSubmittedQuestion(q.en);
         setSubmittedQuestionHe(q.he);
         setQuestion('');
-        const [chosen, bool] = deckService.spreadThem();
-        setSelectedCards(chosen);
-        setIsSpread(bool);
-        setWidgetOpen(true);
-        setComboMatches([]);
-        setConfirmedCombination(null);
-        interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'celtic' });
-        const myComboRequest = ++comboRequestRef.current;
-        combinationsService.checkCombinations(chosen.map(c => c.name), q.en).then(matches => {
-            if (comboRequestRef.current === myComboRequest) {
-                setComboMatches(filterByProximity(matches, chosen, CELTIC_ADJACENCY));
-            }
-        }).catch(() => {});
+        setCutPool(deckService.spreadThemShuffle());
     };
 
     const displayQuestion: string = lang === 'he' ? (submittedQuestionHe || submittedQuestion) : submittedQuestion;
 
     return (
         <div className="celtic-spread-container">
+            {cutPool && (
+                <CutDeckModal cards={cutPool} needed={10} onCut={(rest) => handleCutConfirmed(rest.slice(0, 10))} onCancel={handleCancelCut} />
+            )}
             <SpreadHeader spreadThem={handleDraw} clearSpread={clearSpread}>
                 <input
                     className="spread-question-input"

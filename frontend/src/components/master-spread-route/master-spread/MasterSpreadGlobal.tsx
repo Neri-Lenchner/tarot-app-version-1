@@ -5,6 +5,7 @@ import {MasterSpread} from "./master-spread-components/MasterSpread";
 import {InterpretWidget} from "../../general-components/InterpretWidget/InterpretWidget";
 import {CombinationsModal} from "../../general-components/CombinationsModal/CombinationsModal";
 import {ConclusionModal} from "../../general-components/ConclusionModal/ConclusionModal";
+import {CutDeckModal} from "../../general-components/CutDeckModal/CutDeckModal";
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {TarotCardData} from "../../../arrays-&-models/TarotCardData.model";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
@@ -64,6 +65,11 @@ export function MasterSpreadGlobal(): JSX.Element {
         return localStorage.getItem("isSpreadMaster") === "true";
     });
 
+    // Non-null while the "cut the deck" modal is open — holds the already-
+    // shuffled 78-card pool the user is cutting from. Not persisted: a
+    // refresh mid-cut just drops back to the pre-spread state.
+    const [cutPool, setCutPool] = useState<ITarotCard[] | null>(null);
+
     const [fanCards, setFanCards] = useState<ITarotCard[]>((): ITarotCard[] => {
         const saved: string | null = localStorage.getItem("masterFanCards");
         if (saved === null) return [];
@@ -108,7 +114,11 @@ export function MasterSpreadGlobal(): JSX.Element {
     }, []);
 
     const beginReading = (): void => {
-        setFanCards(deckService.spreadThemShuffle());
+        setCutPool(deckService.spreadThemShuffle());
+    };
+
+    const handleCutConfirmed = (cutCards: ITarotCard[]): void => {
+        setFanCards(cutCards);
         setChosenCards(emptyChosen());
         setIsSpread(true);
         setWidgetOpen(false);
@@ -116,6 +126,11 @@ export function MasterSpreadGlobal(): JSX.Element {
         setConfirmedCombination(null);
         comboRequestRef.current++;
         interpretStore.dispatch({ type: InterpretActionType.Clear, spreadType: 'master-spread' });
+        setCutPool(null);
+    };
+
+    const handleCancelCut = (): void => {
+        setCutPool(null);
     };
 
     const clearSpread = (): void => {
@@ -181,6 +196,9 @@ export function MasterSpreadGlobal(): JSX.Element {
 
     return (
         <div className="master-spread-global-container">
+            {cutPool && (
+                <CutDeckModal cards={cutPool} needed={TOTAL_CARDS} onCut={handleCutConfirmed} onCancel={handleCancelCut} />
+            )}
             <SpreadHeader spreadThem={handleDraw} clearSpread={clearSpread}>
                 <input
                     className="spread-question-input"
