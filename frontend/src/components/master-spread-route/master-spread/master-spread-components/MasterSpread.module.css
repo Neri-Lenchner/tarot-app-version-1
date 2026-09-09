@@ -19,7 +19,7 @@
 .grid {
     display: flex;
     flex-direction: column;
-    gap: 26px;
+    gap: 34px;
 }
 
 .row {
@@ -61,8 +61,12 @@
 }
 
 .cardSlot {
+    /* Card images are natively ~107x179 (aspect ratio ~0.6) — at .card's
+       100px width that's ~167px tall. This slot must be at least that tall
+       or the image overflows the slot vertically (with no overflow:hidden)
+       and bleeds into the next row. */
     width: 120px;
-    height: 140px;
+    height: 172px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -197,7 +201,7 @@
     }
 
     .grid {
-        gap: 16px;
+        gap: 22px;
     }
 
     .row {
@@ -215,8 +219,10 @@
     }
 
     .cardSlot {
+        /* Same overflow fix as the desktop rule above, scaled to .card's
+           78px mobile width (~130.5px tall at the native ~0.6 ratio). */
         width: 88px;
-        height: 110px;
+        height: 136px;
     }
 
     .emptySlot {

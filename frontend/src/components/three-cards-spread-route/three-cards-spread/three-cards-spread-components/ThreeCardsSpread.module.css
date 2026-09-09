@@ -57,10 +57,14 @@
 
 /* ── Ready questions ────────────────────────────── */
 .readyQuestionsStack {
+    /* Fixed top offset, not a 55%-of-container vertical center — the Past
+       card sits at a fixed ~165px (label + margin + 130px card image) from
+       the container's top, and .container's height can shrink to its
+       460px min-height on a short window, at which point 55% lands high
+       enough to overlap the card's bottom edge. 190px always clears it. */
     position: absolute;
     left: 32px;
-    top: 55%;
-    transform: translateY(-50%);
+    top: 190px;
     display: flex;
     flex-direction: column;
     gap: 14px;

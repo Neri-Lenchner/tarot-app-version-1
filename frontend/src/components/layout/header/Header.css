@@ -32,8 +32,12 @@
 
 .Header h1[dir="rtl"] {
     /* Fixed px (not rem) — deliberately exempt from the html[data-lang="he"]
-       root font-size bump that scales the rest of the app's Hebrew text. */
-    font-size: 41.4px;
+       root font-size bump that scales the rest of the app's Hebrew text.
+       Smaller number than the English rem-equivalent (36.3px) on purpose —
+       Makabi's Hebrew glyphs render visually taller/heavier than its Latin
+       caps at the same font-size, so a smaller value is needed to look
+       the same size next to the English title. */
+    font-size: 34px;
 }
 
 .header-title-short {
