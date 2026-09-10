@@ -29,6 +29,28 @@ export const COURT_CARDS = new Set([
     'page of wands', 'page of cups', 'page of swords', 'page of pentacles',
 ]);
 
+// Which way each court card's figure faces in this app's actual deck
+// artwork (Pamela Colman Smith / Rider-Waite), read directly off the card
+// images in frontend/public/Tarot-deck-images — used ONLY for the Master
+// Spread same-row facing rule (see computeCourtMeetings in
+// prompt-sections.ts). Cards omitted here (Queen of Wands, Page of Wands,
+// Page of Cups, Page of Swords, King of Pentacles) are drawn mostly frontal
+// or looking back over a shoulder — no clear left/right lean — so the
+// facing rule deliberately does not fire for pairs involving them.
+export const COURT_CARD_FACING: Record<string, 'left' | 'right'> = {
+    'king of wands': 'left',
+    'king of cups': 'right',
+    'king of swords': 'left',
+    'queen of cups': 'left',
+    'queen of swords': 'left',
+    'queen of pentacles': 'right',
+    'knight of wands': 'right',
+    'knight of cups': 'right',
+    'knight of swords': 'left',
+    'knight of pentacles': 'right',
+    'page of pentacles': 'right',
+};
+
 export const MAJOR_ARCANA = new Set([
     'the fool', 'the magician', 'the high priestess', 'the empress', 'the emperor',
     'the hierophant', 'the lovers', 'the chariot', 'strength', 'the hermit',

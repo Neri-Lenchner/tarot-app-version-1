@@ -7,6 +7,7 @@ import {
     THIRD_PERSON_PRONOUNS,
     THIRD_PERSON_RELATIONSHIPS,
     COURT_CARDS,
+    COURT_CARD_FACING,
     MAJOR_ARCANA,
     CATEGORY_KEYWORDS,
     Adjacency,
@@ -195,8 +196,51 @@ function computeCourtMeetings(cards: ISpreadCard[], spreadType?: string): { line
 
             const castLine = describeCourtMeeting(rankA, card, rankB, neighborCard);
 
-            lines.push(`• ${card.name} (${card.position}) and ${neighborCard.name} (${neighborCard.position}) are ${arrangement}.\n  RULING — MEETING OF TWO PEOPLE: ${castLine} Interpret the NATURE of this meeting — what it is about, what happens between them — as the collision of what these two specific cards mean: blend ${card.name}'s meaning with ${neighborCard.name}'s meaning into one concrete interaction, not two separate readings side by side.`);
+            // Facing rule (row-adjacent pairs only — "left"/"right" only means
+            // something when read along a row). idx < neighborIdx and both are
+            // in the same row here, so `card` is the left-hand figure of the
+            // pair and `neighborCard` the right-hand one. Cards with no clear
+            // left/right lean in the artwork (see COURT_CARD_FACING) leave
+            // this unresolved on purpose — no discourse/disagreement claim.
+            let facingLine = '';
+            if (isSameRow) {
+                const leftFacing = COURT_CARD_FACING[card.name.replace(/ Rx$/i, '').toLowerCase()];
+                const rightFacing = COURT_CARD_FACING[neighborCard.name.replace(/ Rx$/i, '').toLowerCase()];
+                if (leftFacing === 'right' && rightFacing === 'left') {
+                    facingLine = ` Additionally, the two figures are drawn facing each other — they are in DIRECT DISCOURSE, actively talking, engaging, or exchanging with one another. Describe this as an active conversation or exchange between them.`;
+                } else if (leftFacing === 'left' && rightFacing === 'right') {
+                    facingLine = ` Additionally, the two figures are drawn facing away from each other (back to back) — they DISAGREE about something. Describe tension, a falling out, or a difference of opinion between them, even if the relationship described above is otherwise positive.`;
+                }
+            }
+
+            lines.push(`• ${card.name} (${card.position}) and ${neighborCard.name} (${neighborCard.position}) are ${arrangement}.\n  RULING — MEETING OF TWO PEOPLE: ${castLine} Interpret the NATURE of this meeting — what it is about, what happens between them — as the collision of what these two specific cards mean: blend ${card.name}'s meaning with ${neighborCard.name}'s meaning into one concrete interaction, not two separate readings side by side.${facingLine}`);
         }
+    }
+
+    // Same-row "gap" pairs — two court cards at Beginning+End of the same
+    // row (not directly adjacent; the row's Middle card sits between them).
+    // Only fires when the Middle card is NOT itself a court card — if it
+    // were, it's a third person, not a topic between the other two.
+    for (let row = 0; row < 3; row++) {
+        const idxA = row * 3;
+        const idxMid = row * 3 + 1;
+        const idxEnd = row * 3 + 2;
+        const cardA = byIndex.get(idxA);
+        const cardMid = byIndex.get(idxMid);
+        const cardEnd = byIndex.get(idxEnd);
+        if (!cardA || !cardMid || !cardEnd) continue;
+
+        const rankA = cardA.name.replace(/ Rx$/i, '').toLowerCase().split(' of ')[0];
+        const rankEnd = cardEnd.name.replace(/ Rx$/i, '').toLowerCase().split(' of ')[0];
+        const midIsCourt = COURT_CARDS.has(cardMid.name.replace(/ Rx$/i, '').toLowerCase());
+        if (!COURT_RANKS.has(rankA) || !COURT_RANKS.has(rankEnd) || midIsCourt) continue;
+
+        involvedPositions.add(cardA.position.toLowerCase());
+        involvedPositions.add(cardEnd.position.toLowerCase());
+
+        const castLine = describeCourtMeeting(rankA, cardA, rankEnd, cardEnd);
+
+        lines.push(`• ${cardA.name} (${cardA.position}) and ${cardEnd.name} (${cardEnd.position}) are in the same row but NOT directly next to each other — ${cardMid.name} (${cardMid.position}) sits between them.\n  RULING — TWO PEOPLE WITH SOMETHING BETWEEN THEM: ${castLine} Because they are not adjacent, do NOT describe them as face to face, in direct conversation, or in disagreement. Instead, ${cardMid.name} represents what stands BETWEEN these two people — the subject, issue, or energy connecting or dividing them. Weave ${cardMid.name}'s meaning into the row's story as that connecting subject, alongside what ${cardA.name} and ${cardEnd.name} mean for each of these two people respectively.`);
     }
 
     return { lines, involvedPositions };
@@ -205,7 +249,7 @@ function computeCourtMeetings(cards: ISpreadCard[], spreadType?: string): { line
 export function getCourtMeetingsSection(cards: ISpreadCard[], spreadType?: string): string {
     const { lines } = computeCourtMeetings(cards, spreadType);
     if (lines.length === 0) return '';
-    return `=== COURT CARD MEETINGS — MANDATORY ===\nTwo royalty (King/Queen/Knight/Page) cards landing directly next to each other in the story grid — in the same row, or stacked in the same column — represent an ACTUAL MEETING between two people in the querent's life, not two independent card readings. Weave each meeting naturally into its row's story, applying the ruling exactly as written.\n\n${lines.join('\n\n')}\n===\n\n`;
+    return `=== COURT CARD MEETINGS — MANDATORY ===\nTwo royalty (King/Queen/Knight/Page) cards landing directly next to each other in the story grid — in the same row, or stacked in the same column — represent an ACTUAL MEETING between two people in the querent's life, not two independent card readings. For a same-row pair, if the artwork gives both figures a clear facing direction, that also signals whether the two are in active discourse or in disagreement (see each ruling below). Two royalty cards at the Beginning and End of the same row (not adjacent) are a different case: the row's Middle card is what stands between those two people, not a meeting itself. Weave each ruling naturally into its row's story, applying it exactly as written.\n\n${lines.join('\n\n')}\n===\n\n`;
 }
 
 export function getCourtMeetingPositions(cards: ISpreadCard[], spreadType?: string): Set<string> {
