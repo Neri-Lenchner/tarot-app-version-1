@@ -1,0 +1,75 @@
+.spread-info-page {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: var(--page-bg);
+}
+
+.spread-info-card {
+    max-width: 760px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: start;
+    padding: 40px;
+    border: 1px solid var(--line);
+    background: var(--bg-surface);
+    animation: fade-rise-in 380ms ease-out both;
+}
+
+.spread-info-card h1 {
+    align-self: center;
+    margin: 0;
+    font-size: 1.9rem;
+    letter-spacing: 0.08em;
+    color: var(--berta-gold);
+    text-align: center;
+}
+
+.spread-info-card p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+.spread-info-cta {
+    display: inline-block;
+    color: var(--accent-bright);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border: 1px solid var(--line);
+    padding: 10px 22px;
+    transition: background var(--transition), border-color var(--transition);
+}
+
+.spread-info-cta:hover {
+    background: var(--accent-wash);
+    border-color: var(--accent-hover);
+}
+
+.spread-info-back {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color var(--transition);
+}
+
+.spread-info-back:hover {
+    color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .spread-info-card {
+        animation: none;
+    }
+}

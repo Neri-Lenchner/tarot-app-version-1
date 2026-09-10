@@ -14,6 +14,8 @@ import Login from "../components/auth/Login";
 import MySpreadsPage from "../components/my-spreads/MySpreadsPage";
 import SpreadDetailsPage from "../components/my-spreads/SpreadDetailsPage";
 import PrivateRoute from "./PrivateRoute";
+import SpreadInfoPage from "../components/spread-info-route/SpreadInfoPage";
+import Footer from "../components/layout/footer/Footer";
 
 function Routing(): JSX.Element {
     return (
@@ -23,6 +25,7 @@ function Routing(): JSX.Element {
                 <Route path="/celtic-spread-global" element={<PrivateRoute child={<CelticSpreadRoute />} />}/>
                 <Route path="/three-cards-spread" element={<PrivateRoute child={<ThreeCardsSpreadRoute />} />}/>
                 <Route path="/master-spread" element={<PrivateRoute child={<MasterSpreadRoute />} />}/>
+                <Route path="/spread-info/:spreadKey" element={<SpreadInfoPage />}/>
                 <Route path="/register" element={<Register />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>
@@ -30,6 +33,7 @@ function Routing(): JSX.Element {
                 <Route path="*" element={<HomePage />}/>
                 <Route path="/" element={<HomePage />}/>
             </Routes>
+            <Footer />
         </div>
     );
 }
