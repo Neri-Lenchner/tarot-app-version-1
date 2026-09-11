@@ -1,13 +1,16 @@
+/* Wraps ONLY the panel now (the toggle button lives outside this box —
+   see .conclusion-reopen-btn below). Positioned at the exact spot the
+   panel always occupied when the button used to sit directly beneath it
+   in the same flex column: button height (44px) + the 12px gap it used
+   to have from the button, on top of the button's own 28px offset from
+   the viewport edge. This keeps the window "in place" regardless of
+   where the toggle button itself moves to per theme. */
 .conclusion-widget {
     position: fixed;
-    bottom: 28px;
+    bottom: 84px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 1000;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
 }
 
 .conclusion-modal {
@@ -137,8 +140,18 @@
     border: 1px solid var(--conclusion-border);
 }
 
-/* ── Toggle button ── */
+/* ── Toggle button ──
+   Independent fixed element (not nested inside .conclusion-widget's
+   transformed box) so it can be repositioned per theme without dragging
+   the panel along with it, and so it never inherits .conclusion-widget
+   as a transform-based containing block. Default (green/blue) position
+   reproduces where it always sat: bottom-center, 28px from the edge. */
 .conclusion-reopen-btn {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
     width: 44px;
     height: 44px;
     display: flex;
@@ -159,10 +172,36 @@
     box-shadow: 0 0 18px rgba(var(--accent-glow-rgb), 0.8), 0 0 42px rgba(var(--accent-glow-rgb), 0.4);
 }
 
+/* ── Gold theme (Master Spread only) — sits next to the InterpretWidget's
+   own toggle button instead of bottom-center, with a fixed 50px gap
+   between the two. Right offset = InterpretWidget's right (28px) + its
+   width (44px) + the 50px gap. The conclusion PANEL is unaffected — it
+   stays centered via .conclusion-widget above, regardless of theme.
+   Vertically: this button occupies bottom 28px to 72px from the viewport
+   edge; the InterpretWidget panel (when open) starts at 84px — a clear
+   12px gap, so the button is never covered by it. */
+.conclusion-reopen-btn.theme-gold {
+    left: auto;
+    right: 122px;
+    transform: none;
+}
+
 @media (max-width: 768px) {
     .conclusion-widget {
-        bottom: 16px;
+        bottom: 72px;
         width: calc(100vw - 24px);
+    }
+
+    .conclusion-reopen-btn {
+        bottom: 16px;
+    }
+
+    /* Same gap, recalculated against InterpretWidget's mobile position
+       (right: 12px). Mobile vertical check: button occupies 16px-60px
+       from the edge; the InterpretWidget panel starts at 72px — still a
+       clear 12px gap. */
+    .conclusion-reopen-btn.theme-gold {
+        right: 106px;
     }
 
     .conclusion-modal {

@@ -75,7 +75,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         if (!visible) return;
         const handleClick = (e: MouseEvent): void => {
             const target = e.target as HTMLElement;
-            if (!target.closest('.modal-widget-root') && !target.closest('.header-lang-btn')) {
+            if (!target.closest('.modal-widget-root') && !target.closest('.conclusion-reopen-btn') && !target.closest('.header-lang-btn')) {
                 setVisible(false);
             }
         };
@@ -86,60 +86,62 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
     if (!current && !awaitingHebrew && !translationFailed) return null;
 
     return (
-        <div className="conclusion-widget modal-widget-root">
-            {visible && (
-                <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
-                    <div className="conclusion-header">
-                        <span className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
-                    </div>
-                    <div className="conclusion-body">
-                        {awaitingHebrew && (
-                            <p className="conclusion-text" dir="rtl">{translate('translatingHebrew', lang)}</p>
-                        )}
-                        {translationFailed && (
-                            <p
-                                className="conclusion-text"
-                                dir="rtl"
-                                style={{ cursor: 'pointer' }}
-                                onClick={() => ensureHebrewTranslation(spreadType)}
-                            >
-                                {translate('failedTranslation', lang)}
-                            </p>
-                        )}
-                        {current && current.split('\n').map((line, i) => (
-                            <p key={i} className="conclusion-text" dir={contentIsHebrew ? 'rtl' : 'ltr'}>{line}</p>
-                        ))}
-                    </div>
-                    <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        <div className="conclusion-followup-row">
-                            <input
-                                className="conclusion-followup-input"
-                                type="text"
-                                placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
-                                value={followupQ}
-                                onChange={e => setFollowupQ(e.target.value)}
-                                onKeyDown={e => e.key === 'Enter' && handleFollowup()}
-                                disabled={followupLoading}
-                            />
-                            <button
-                                className="conclusion-followup-btn"
-                                onClick={handleFollowup}
-                                disabled={!followupQ.trim() || followupLoading}
-                            >
-                                {followupLoading ? '...' : 'i'}
-                            </button>
+        <>
+            <div className="conclusion-widget modal-widget-root">
+                {visible && (
+                    <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
+                        <div className="conclusion-header">
+                            <span className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
                         </div>
-                        {followupAnswer && (
-                            <div className="conclusion-followup-answer">
-                                {followupAnswer}
+                        <div className="conclusion-body">
+                            {awaitingHebrew && (
+                                <p className="conclusion-text" dir="rtl">{translate('translatingHebrew', lang)}</p>
+                            )}
+                            {translationFailed && (
+                                <p
+                                    className="conclusion-text"
+                                    dir="rtl"
+                                    style={{ cursor: 'pointer' }}
+                                    onClick={() => ensureHebrewTranslation(spreadType)}
+                                >
+                                    {translate('failedTranslation', lang)}
+                                </p>
+                            )}
+                            {current && current.split('\n').map((line, i) => (
+                                <p key={i} className="conclusion-text" dir={contentIsHebrew ? 'rtl' : 'ltr'}>{line}</p>
+                            ))}
+                        </div>
+                        <div className="conclusion-followup" dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            <div className="conclusion-followup-row">
+                                <input
+                                    className="conclusion-followup-input"
+                                    type="text"
+                                    placeholder={lang === 'he' ? 'שאל שאלה נוספת על הפריסה...' : 'Ask a follow-up question about this spread...'}
+                                    value={followupQ}
+                                    onChange={e => setFollowupQ(e.target.value)}
+                                    onKeyDown={e => e.key === 'Enter' && handleFollowup()}
+                                    disabled={followupLoading}
+                                />
+                                <button
+                                    className="conclusion-followup-btn"
+                                    onClick={handleFollowup}
+                                    disabled={!followupQ.trim() || followupLoading}
+                                >
+                                    {followupLoading ? '...' : 'i'}
+                                </button>
                             </div>
-                        )}
+                            {followupAnswer && (
+                                <div className="conclusion-followup-answer">
+                                    {followupAnswer}
+                                </div>
+                            )}
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
             <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
                 {visible ? <X size={18} /> : <Info size={18} />}
             </button>
-        </div>
+        </>
     );
 }
