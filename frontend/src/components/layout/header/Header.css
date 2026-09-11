@@ -176,6 +176,28 @@
     border-color: var(--danger-bright);
 }
 
+/* Tablet tier — bridges the gap between the full desktop header and the
+   768px mobile redesign below. Without this, .header-berta and .Header h1's
+   left/right insets stay at their full desktop values all the way down to
+   769px, and the title starts getting cut off by ellipsis far earlier than
+   necessary (verified: still truncated at 1025px, and down to a couple of
+   words by ~800px) purely because the logo's fixed footprint eats into its
+   available space. 1100px is where the full-size header naturally stops
+   truncating the title (verified), so the tier below starts exactly there —
+   no gap where the old truncation bug still shows up. */
+@media (max-width: 1100px) {
+    .header-berta {
+        height: 110px;
+        top: 40px;
+    }
+
+    .Header h1 {
+        left: 150px;
+        right: 210px;
+        font-size: 1.4rem;
+    }
+}
+
 @media (max-width: 768px) {
     .header-menu-toggle {
         display: flex;
