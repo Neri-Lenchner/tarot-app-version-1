@@ -1,3 +1,9 @@
+/* pointer-events: none on the container + auto on its direct children —
+   this container's own box (padding/gap included) is otherwise a solid
+   click target even where it's visually empty, so once the panel is open
+   its ~520x636 bounding box silently swallows clicks meant for anything
+   else drawn underneath it (e.g. the Master Spread's gold conclusion
+   reopen button, positioned in that same region). */
 .interpret-widget {
     position: fixed;
     bottom: 28px;
@@ -7,6 +13,11 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 12px;
+    pointer-events: none;
+}
+
+.interpret-widget > * {
+    pointer-events: auto;
 }
 
 /* ── Theme variables (both themes resolve to the single Arcanum accent —
