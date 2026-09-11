@@ -9,6 +9,13 @@
     font-weight: normal;
     font-style: normal;
     font-display: swap;
+    /* Final kaf (ך, U+05DA) is broken in this font — it renders as a bare
+       dot with no letter shape at all (verified directly against the font
+       file). Every other glyph, including the other four Hebrew final
+       letters, renders correctly. Excluding just that one codepoint here
+       makes the browser skip this face for it and fall through to Noto
+       Rashi Hebrew instead, without touching anything else. */
+    unicode-range: U+0000-05D9, U+05DB-10FFFF;
 }
 
 /* ── Global design tokens — Arcanum (Occult Woodcut) ──── */
