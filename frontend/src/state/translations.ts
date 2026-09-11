@@ -87,6 +87,7 @@ const translations = {
     // ── Footer ──
     footerExplore: { en: "Explore the Spreads", he: "הכירו את הפריסות" },
     footerRights: { en: "All rights reserved.", he: "כל הזכויות שמורות." },
+    footerNotice: { en: "Important Notice", he: "הודעה חשובה" },
 
     // ── Spread info pages ──
     goToSpread: { en: "Go to this spread", he: "עברו לפריסה זו" },

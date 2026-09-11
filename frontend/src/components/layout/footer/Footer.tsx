@@ -3,6 +3,7 @@ import './Footer.css';
 import {NavLink} from "react-router-dom";
 import {useLang} from "../../../state/lang-state";
 import {translate} from "../../../state/translations";
+import {noticeStore} from "../../../state/notice-state";
 
 const SPREAD_LINKS: { key: string; navLabelKey: Parameters<typeof translate>[0] }[] = [
     {key: 'tarot-deck', navLabelKey: 'navTarotDeck'},
@@ -27,6 +28,9 @@ function Footer(): JSX.Element {
                     ))}
                 </nav>
             </div>
+            <button className="footer-notice-link" onClick={() => noticeStore.show()}>
+                {translate('footerNotice', lang)}
+            </button>
             <div className="footer-rights">
                 {translate('headerTitleShort', lang)} · © {new Date().getFullYear()} · {translate('footerRights', lang)}
             </div>

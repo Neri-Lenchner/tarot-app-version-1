@@ -43,6 +43,23 @@
     color: var(--accent-bright);
 }
 
+.footer-notice-link {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text-muted);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-size: 0.8rem;
+    letter-spacing: 0.03em;
+    cursor: pointer;
+    transition: color var(--transition);
+}
+
+.footer-notice-link:hover {
+    color: var(--accent-bright);
+}
+
 .footer-rights {
     font-size: 0.75rem;
     letter-spacing: 0.04em;

@@ -8,6 +8,8 @@ import {deckService} from "./services/DeckService";
 import {useLang} from "./state/lang-state";
 import {authStore} from "./state/auth-state";
 import {IAuthUser} from "./arrays-&-models/authUser.interface";
+import {NoticeModal} from "./components/general-components/NoticeModal/NoticeModal";
+import {showNoticeOnFirstVisit} from "./state/notice-state";
 
 // Login/Register always hide the sidebar (pure auth forms). Home only hides
 // it while logged out — the "gated landing page" behavior shouldn't persist
@@ -69,6 +71,9 @@ function App(): JSX.Element {
         document.documentElement.setAttribute('data-lang', lang);
     }, [lang]);
 
+    useEffect(() => {
+        showNoticeOnFirstVisit();
+    }, []);
 
   return (
     <div className="App">
@@ -85,6 +90,7 @@ function App(): JSX.Element {
               <Routing />
           </main>
       </section>
+      <NoticeModal />
     </div>
   );
 }
