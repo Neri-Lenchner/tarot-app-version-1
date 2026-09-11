@@ -86,8 +86,11 @@
     --font-heading-he: 'Makabi', 'Noto Rashi Hebrew', 'Frank Ruhl Libre', serif;
     --font-body-he: 'Frank Ruhl Libre', 'Noto Rashi Hebrew', serif;
 
-    /* Shape & motion — sharp edges everywhere, except a small rounding on card images */
-    --radius: 0;
+    /* Shape & motion — a little rounding everywhere (--radius), applied
+       globally below via the `*` reset; card images keep their own
+       slightly smaller --radius-sm. Elements that explicitly set their own
+       border-radius (circular buttons at 50%, etc.) are unaffected. */
+    --radius: 6px;
     --radius-sm: 4px;
     --transition: 0.2s;
 
@@ -103,6 +106,7 @@
 /* ── Global reset ─────────────────────────────────────── */
 * {
     box-sizing: border-box;
+    border-radius: var(--radius);
 }
 
 *::-webkit-scrollbar {
