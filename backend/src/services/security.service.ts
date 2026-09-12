@@ -28,7 +28,7 @@ class SecurityService {
 
     public extractUser(token: string): User | null {
         try {
-            const container = jwt.decode(token) as { user: User };
+            const container = jwt.verify(token, appConfig.jwtSecret) as { user: User };
             return container.user;
         } catch {
             return null;

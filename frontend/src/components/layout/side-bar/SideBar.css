@@ -11,13 +11,16 @@
     align-items: center;
     justify-content: start;
     height: 100%;
-    padding-top: 174px;
+    padding: 174px 10px 16px;
+    box-sizing: border-box;
 }
 
 .SideBar a {
     border: 1px solid var(--line-soft);
     background: var(--bg-3);
-    width: 180px;
+    width: 100%;
+    max-width: 180px;
+    box-sizing: border-box;
     text-align: center;
     padding: 10px 14px;
     text-decoration: none;
@@ -52,13 +55,17 @@
     padding: 8px 14px;
     border-top: 1px solid var(--line-soft);
     margin-top: 8px;
-    width: 180px;
+    width: 100%;
+    max-width: 180px;
+    box-sizing: border-box;
 }
 
 .sidebar-logout {
     border: 1px solid var(--danger);
     background: var(--bg-2);
-    width: 180px;
+    width: 100%;
+    max-width: 180px;
+    box-sizing: border-box;
     text-align: center;
     padding: 10px 14px;
     color: var(--danger-bright);
@@ -76,7 +83,10 @@
     border-color: var(--danger-bright);
 }
 
-@media (max-width: 768px) {
+/* Matches the hamburger/mobile tier in Header.css and App.css — see the
+   comment there for why this moved up from 768px (nav buttons wrapping
+   onto a second line as the sidebar's 15vw width shrinks). */
+@media (max-width: 1300px) {
     .SideBar {
         height: auto;
         border-right: none;
@@ -96,6 +106,7 @@
     .sidebar-user,
     .sidebar-logout {
         width: 100%;
+        max-width: none;
     }
 }
 

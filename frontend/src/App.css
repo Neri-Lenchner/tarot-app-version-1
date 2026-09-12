@@ -35,7 +35,10 @@ main.full-width {
     width: 100%;
 }
 
-@media (max-width: 768px) {
+/* Matches the hamburger/mobile tier in Header.css and SideBar.css — see
+   the comment there for why this moved up from 768px (sidebar nav buttons
+   wrapping onto a second line as the sidebar's 15vw width shrinks). */
+@media (max-width: 1300px) {
     section {
         min-width: 0;
     }

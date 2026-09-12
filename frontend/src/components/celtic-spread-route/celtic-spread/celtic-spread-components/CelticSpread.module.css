@@ -1,7 +1,14 @@
 .container {
     position: relative;
     display: flex;
-    min-height: calc(100dvh - var(--header-height) - 60px);
+    /* Floored at 650px (measured: the staff column's Fears/Potential cards
+       start visually overlapping once this container drops below ~618px —
+       650px keeps a safety margin for font-metric variance) — below that,
+       the container stops shrinking with the viewport and the page scrolls
+       instead (the wrapping .celtic-spread-container already has
+       overflow-y: auto), rather than letting the ten-card cross's
+       percentage-based positions collide as the window gets short. */
+    min-height: max(calc(100dvh - var(--header-height) - 60px), 650px);
     width: 100%;
     margin: 0 auto;
     background: var(--page-bg);

@@ -176,43 +176,39 @@
     border-color: var(--danger-bright);
 }
 
-/* Tablet tier — bridges the gap between the full desktop header and the
-   768px mobile redesign below. Without this, .header-berta and .Header h1's
-   left/right insets stay at their full desktop values all the way down to
-   769px, and the title starts getting cut off by ellipsis far earlier than
-   necessary (verified: still truncated at 1025px, and down to a couple of
-   words by ~800px) purely because the logo's fixed footprint eats into its
-   available space. 1100px is where the full-size header naturally stops
-   truncating the title (verified), so the tier below starts exactly there —
-   no gap where the old truncation bug still shows up. */
-@media (max-width: 1100px) {
-    .header-berta {
-        height: 110px;
-        top: 40px;
-    }
-
-    .Header h1 {
-        left: 150px;
-        right: 210px;
-        font-size: 1.4rem;
-    }
-}
-
-@media (max-width: 768px) {
+/* Mobile/hamburger tier — the sidebar's nav buttons (fixed max-width:180px,
+   shrinking with --sidebar-width: 15vw as the viewport narrows, SideBar.css)
+   start wrapping onto a second line well before the old 768px cutover: at
+   ~990px in Hebrew, and as early as ~1255px in English ("Old Gipsy Spread"
+   is the widest label). Rather than keep shrinking the sidebar/header
+   fluidly through a middle zone and risk that wrapping, this tier — and the
+   matching ones in SideBar.css and App.css — now starts at 1300px, above
+   both measured thresholds, so the desktop sidebar layout is retired in
+   favour of the hamburger overlay before any button could wrap. The logo
+   moves from the sidebar's corner to sit directly beside the hamburger
+   icon instead of shrinking in place. */
+@media (max-width: 1300px) {
     .header-menu-toggle {
         display: flex;
     }
 
+    /* top is a fixed calc(), not transform:translateY(-50%) — .header-berta
+       has an entrance animation (fade-rise-in, see bottom of this file)
+       with fill-mode:both, which permanently pins transform to its last
+       keyframe (translateY(0)) and silently overrides any transform set
+       here. 50% - 28px (half of the 56px logo) centers it vertically
+       within .Header using top alone; the extra -38px nudges it up 10px
+       from a prior -48px adjustment (net 10px down from that, 20px up
+       from center overall). */
     .header-berta {
-        left: 8px;
-        top: 50%;
-        transform: translateY(-50%);
-        height: 70px;
+        left: 56px;
+        top: calc(50% - 28px);
+        height: 56px;
     }
 
     .Header h1 {
         position: absolute;
-        left: 50px;
+        left: 130px;
         right: 125px;
         margin: 0;
         text-align: center;
