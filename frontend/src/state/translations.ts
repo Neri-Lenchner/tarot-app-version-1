@@ -54,6 +54,13 @@ const translations = {
     failedSave: { en: "Failed to save reading. Please try again.", he: "שמירת הפריסה נכשלה. נא לנסות שוב." },
     failedTranslation: { en: "Hebrew translation failed. Tap to retry.", he: "תרגום לעברית נכשל. הקש כדי לנסות שוב." },
 
+    // ── Popup widget tooltips (title attributes) ──
+    close: { en: "Close", he: "סגור" },
+    openConclusion: { en: "Open Conclusion", he: "פתח מסקנה" },
+    openCombinations: { en: "Open Card Combinations", he: "פתח שילובי קלפים" },
+    askFollowup: { en: "Ask follow-up question", he: "שאל שאלת המשך" },
+    confirmCombination: { en: "Apply this combination to the reading", he: "החל שילוב זה על הפריסה" },
+
     // ── My Spreads / Spread Details ──
     mySpreadsTitle: { en: "My Spreads", he: "הפריסות שלי" },
     loading: { en: "Loading...", he: "טוען..." },

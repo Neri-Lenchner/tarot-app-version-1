@@ -2,6 +2,7 @@ import { JSX, useEffect, useState } from 'react';
 import { Check, Info, X } from 'lucide-react';
 import { cardsDeck } from '../../../arrays-&-models/tarot-deck-array/tarotDeck';
 import { useLang } from '../../../state/lang-state';
+import { translate } from '../../../state/translations';
 import './CombinationsModal.css';
 import {ITarotCard} from "../../../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import {ICombinationMatch} from "../../../arrays-&-models/combinationMatch.interface";
@@ -88,6 +89,7 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                                             setConfirmedIndices(prev => new Set(prev).add(i));
                                             onConfirm(match);
                                         }}
+                                        title={translate('confirmCombination', lang)}
                                     >
                                         <Check size={14} />
                                         {confirmedIndices.has(i)
@@ -100,7 +102,11 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                         </>
                 </div>
             )}
-            <button className="combo-reopen-btn" onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
+            <button
+                className="combo-reopen-btn"
+                onClick={e => { e.stopPropagation(); setVisible(v => !v); }}
+                title={visible ? translate('close', lang) : translate('openCombinations', lang)}
+            >
                 {visible ? <X size={18} /> : <Info size={18} />}
             </button>
         </div>

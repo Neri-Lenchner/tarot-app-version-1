@@ -225,7 +225,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                             </div>
                         )}
                         {!canToggle && (
-                            <button className="iw-btn" onClick={interpret} disabled={isInterpreting} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            <button className="iw-btn" onClick={interpret} disabled={isInterpreting} title={translate('interpretReading', lang)} dir={lang === 'he' ? 'rtl' : 'ltr'}>
                                 {isInterpreting ? translate('readingCards', lang) : translate('interpretReading', lang)}
                             </button>
                         )}
@@ -240,6 +240,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                                 className="iw-save-btn"
                                 onClick={spreadData.heFailed ? () => ensureHebrewTranslation(spreadType) : saveReading}
                                 disabled={saved || isSaving || heStillPending}
+                                title={translate('saveReading', lang)}
                                 dir={lang === 'he' ? 'rtl' : 'ltr'}
                             >
                                 {saved ? translate('saved', lang)
@@ -259,6 +260,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                             <button
                                 className="iw-btn"
                                 onClick={() => ensureHebrewTranslation(spreadType)}
+                                title={translate('failedTranslation', lang)}
                                 dir="rtl"
                             >
                                 {translate('failedTranslation', lang)}
@@ -272,7 +274,7 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                     </div>
                 </div>
             )}
-            <button className="iw-toggle-btn" onClick={onToggle}>
+            <button className="iw-toggle-btn" onClick={onToggle} title={isOpen ? translate('close', lang) : translate('readingInterpretation', lang)}>
                 {isOpen ? <X size={20} /> : <Info size={20} />}
             </button>
         </div>

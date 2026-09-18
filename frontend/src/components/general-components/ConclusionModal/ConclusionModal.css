@@ -186,6 +186,15 @@
     transform: none;
 }
 
+/* ── Green theme (Celtic) — same idea as the gold variant above, but with
+   a 20px gap instead of 50px. Right offset = InterpretWidget's right
+   (28px) + its width (44px) + the 20px gap. */
+.conclusion-reopen-btn.theme-green {
+    left: auto;
+    right: 92px;
+    transform: none;
+}
+
 @media (max-width: 768px) {
     .conclusion-widget {
         bottom: 72px;
@@ -202,6 +211,12 @@
        clear 12px gap. */
     .conclusion-reopen-btn.theme-gold {
         right: 106px;
+    }
+
+    /* Same 20px gap, recalculated against InterpretWidget's mobile
+       position (right: 12px). */
+    .conclusion-reopen-btn.theme-green {
+        right: 76px;
     }
 
     .conclusion-modal {

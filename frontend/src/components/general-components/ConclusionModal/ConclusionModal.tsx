@@ -126,6 +126,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                                     className="conclusion-followup-btn"
                                     onClick={handleFollowup}
                                     disabled={!followupQ.trim() || followupLoading}
+                                    title={translate('askFollowup', lang)}
                                 >
                                     {followupLoading ? '...' : 'i'}
                                 </button>
@@ -139,7 +140,11 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                     </div>
                 )}
             </div>
-            <button className={`conclusion-reopen-btn theme-${theme}`} onClick={e => { e.stopPropagation(); setVisible(v => !v); }}>
+            <button
+                className={`conclusion-reopen-btn theme-${theme}`}
+                onClick={e => { e.stopPropagation(); setVisible(v => !v); }}
+                title={visible ? translate('close', lang) : translate('openConclusion', lang)}
+            >
                 {visible ? <X size={18} /> : <Info size={18} />}
             </button>
         </>
