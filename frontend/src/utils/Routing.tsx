@@ -16,6 +16,9 @@ import SpreadDetailsPage from "../components/my-spreads/SpreadDetailsPage";
 import PrivateRoute from "./PrivateRoute";
 import SpreadInfoPage from "../components/spread-info-route/SpreadInfoPage";
 import Footer from "../components/layout/footer/Footer";
+import AboutPage from "../components/legal-route/AboutPage";
+import TermsPage from "../components/legal-route/TermsPage";
+import PrivacyPage from "../components/legal-route/PrivacyPage";
 
 function Routing(): JSX.Element {
     return (
@@ -26,6 +29,9 @@ function Routing(): JSX.Element {
                 <Route path="/three-cards-spread" element={<PrivateRoute child={<ThreeCardsSpreadRoute />} />}/>
                 <Route path="/master-spread" element={<PrivateRoute child={<MasterSpreadRoute />} />}/>
                 <Route path="/spread-info/:spreadKey" element={<SpreadInfoPage />}/>
+                <Route path="/about" element={<AboutPage />}/>
+                <Route path="/terms" element={<TermsPage />}/>
+                <Route path="/privacy" element={<PrivacyPage />}/>
                 <Route path="/register" element={<Register />}/>
                 <Route path="/login" element={<Login />}/>
                 <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>

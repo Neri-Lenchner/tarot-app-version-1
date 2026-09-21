@@ -186,8 +186,9 @@
 /* Mobile/hamburger tier — the sidebar's nav buttons (fixed max-width:180px,
    shrinking with --sidebar-width: 15vw as the viewport narrows, SideBar.css)
    start wrapping onto a second line well before the old 768px cutover: at
-   ~990px in Hebrew, and as early as ~1255px in English ("Old Gipsy Spread"
-   is the widest label). Rather than keep shrinking the sidebar/header
+   ~990px in Hebrew, and as early as ~1255px in English ("Old Gipsy's Spread"
+   is the widest label — re-verified fitting on one line at the 1300px
+   cutover after the label's wording changed). Rather than keep shrinking the sidebar/header
    fluidly through a middle zone and risk that wrapping, this tier — and the
    matching ones in SideBar.css and App.css — now starts at 1300px, above
    both measured thresholds, so the desktop sidebar layout is retired in

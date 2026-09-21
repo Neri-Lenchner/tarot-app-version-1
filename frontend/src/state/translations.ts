@@ -14,7 +14,7 @@ const translations = {
     logout: { en: "Logout", he: "התנתקות" },
     login: { en: "Login", he: "התחברות" },
     navCeltic: { en: "Celtic Spread", he: "פריסה קלטית" },
-    navThreeCards: { en: "Old Gipsy Spread", he: "פריסת הצוענייה" },
+    navThreeCards: { en: "Old Gipsy's Spread", he: "פריסת הצועניה הזקנה" },
     navMasterSpread: { en: "Master Spread", he: "פריסת המאסטר" },
     navHome: { en: "Home Page", he: "עמוד הבית" },
     navTarotDeck: { en: "Tarot Deck", he: "חפיסת הטארוט" },
@@ -95,10 +95,13 @@ const translations = {
     footerExplore: { en: "Explore the Spreads", he: "הכירו את הפריסות" },
     footerRights: { en: "All rights reserved.", he: "כל הזכויות שמורות." },
     footerNotice: { en: "Important Notice", he: "הודעה חשובה" },
+    footerAbout: { en: "About Us", he: "אודותינו" },
+    footerTerms: { en: "Terms of Service", he: "תנאי שימוש" },
+    footerPrivacy: { en: "Privacy Policy", he: "מדיניות פרטיות" },
 
     // ── Spread info pages ──
     goToSpread: { en: "Go to this spread", he: "עברו לפריסה זו" },
-    backToHome: { en: "← Back to Home", he: "→ חזרה לעמוד הבית" },
+    backToHome: { en: "Back to Home", he: "חזרה לעמוד הבית" },
     descTarotDeck: {
         en: "Browse the complete 78-card tarot deck at your own pace. Every card shows its traditional Rider-Waite meaning, so this is the place to study a card's symbolism outside of a live reading.",
         he: "עיינו בחפיסת הטארוט המלאה בת 78 הקלפים בקצב שלכם. כל קלף מציג את משמעותו המסורתית לפי ריידר-וייט, ולכן זהו המקום ללמוד את הסמליות של קלף מחוץ לפריסה חיה."

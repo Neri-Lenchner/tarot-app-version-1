@@ -28,9 +28,20 @@ function Footer(): JSX.Element {
                     ))}
                 </nav>
             </div>
-            <button className="footer-notice-link" onClick={() => noticeStore.show()}>
-                {translate('footerNotice', lang)}
-            </button>
+            <div className="footer-legal">
+                <button className="footer-notice-link" onClick={() => noticeStore.show()}>
+                    {translate('footerNotice', lang)}
+                </button>
+                <NavLink to="/about" className="footer-legal-link">
+                    {translate('footerAbout', lang)}
+                </NavLink>
+                <NavLink to="/terms" className="footer-legal-link">
+                    {translate('footerTerms', lang)}
+                </NavLink>
+                <NavLink to="/privacy" className="footer-legal-link">
+                    {translate('footerPrivacy', lang)}
+                </NavLink>
+            </div>
             <div className="footer-rights">
                 {translate('headerTitleShort', lang)} · © {new Date().getFullYear()} · {translate('footerRights', lang)}
             </div>

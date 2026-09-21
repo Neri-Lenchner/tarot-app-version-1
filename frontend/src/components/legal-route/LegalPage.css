@@ -1,0 +1,116 @@
+.legal-page {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px 60px;
+    background: var(--page-bg);
+}
+
+.legal-card {
+    max-width: 760px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 40px;
+    border: 1px solid var(--line);
+    background: var(--bg-surface);
+    animation: fade-rise-in 380ms ease-out both;
+}
+
+.legal-card h1 {
+    align-self: center;
+    margin: 0;
+    font-size: 2.2rem;
+    letter-spacing: 0.08em;
+    color: var(--berta-gold);
+    text-align: center;
+}
+
+.legal-body {
+    width: 100%;
+    text-align: start;
+}
+
+.legal-body p {
+    margin: 0 0 14px;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+}
+
+.legal-body p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-body h2 {
+    margin: 26px 0 10px;
+    font-size: 1.55rem;
+    color: var(--accent-bright);
+}
+
+.legal-body h2:first-child {
+    margin-top: 0;
+}
+
+.legal-body ul {
+    margin: 0 0 14px;
+    padding-inline-start: 22px;
+}
+
+.legal-body li {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.legal-body strong {
+    color: var(--berta-gold);
+    font-weight: 700;
+}
+
+.legal-updated {
+    align-self: center;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+}
+
+.legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    transition: color var(--transition);
+}
+
+.legal-back-arrow {
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.legal-back:hover {
+    color: var(--text-primary);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .legal-card {
+        animation: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .legal-card {
+        padding: 26px 20px;
+    }
+
+    .legal-card h1 {
+        font-size: 1.5rem;
+    }
+}

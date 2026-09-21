@@ -57,11 +57,19 @@
 }
 
 .spread-info-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     color: var(--text-muted);
     text-decoration: none;
     font-size: 0.85rem;
     letter-spacing: 0.04em;
     transition: color var(--transition);
+}
+
+.spread-info-back-arrow {
+    font-size: 1.5rem;
+    line-height: 1;
 }
 
 .spread-info-back:hover {

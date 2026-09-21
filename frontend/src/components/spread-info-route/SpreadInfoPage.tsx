@@ -40,6 +40,7 @@ function SpreadInfoPage(): JSX.Element {
                     {translate('goToSpread', lang)}
                 </NavLink>
                 <NavLink to="/" className="spread-info-back">
+                    <span className="spread-info-back-arrow" aria-hidden="true">{lang === 'he' ? '↬' : '↫'}</span>
                     {translate('backToHome', lang)}
                 </NavLink>
             </div>

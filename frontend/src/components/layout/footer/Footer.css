@@ -43,7 +43,16 @@
     color: var(--accent-bright);
 }
 
-.footer-notice-link {
+.footer-legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 6px 18px;
+}
+
+.footer-notice-link,
+.footer-legal-link {
     background: none;
     border: none;
     padding: 0;
@@ -56,7 +65,8 @@
     transition: color var(--transition);
 }
 
-.footer-notice-link:hover {
+.footer-notice-link:hover,
+.footer-legal-link:hover {
     color: var(--accent-bright);
 }
 
