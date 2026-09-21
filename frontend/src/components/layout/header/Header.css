@@ -38,6 +38,13 @@
        caps at the same font-size, so a smaller value is needed to look
        the same size next to the English title. */
     font-size: 34px;
+    /* Makabi ships a single (normal) weight file — lowering font-weight
+       has no visual effect at all (browsers only synthesize *bolder*
+       weights, never a thinner one). This "un-bolds" it instead by
+       painting a background-colored hairline stroke that eats into each
+       glyph's fill, matching .App-header's own background so it reads as
+       thinner strokes rather than an outline. */
+    -webkit-text-stroke: 1.1px var(--bg-2);
 }
 
 .header-title-short {
