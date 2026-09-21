@@ -219,6 +219,15 @@
         right: 76px;
     }
 
+    /* Blue theme (Three Cards) — mobile-only: same 20px-gap treatment as
+       theme-green above, so it sits next to InterpretWidget's toggle
+       button instead of bottom-center on small screens. */
+    .conclusion-reopen-btn.theme-blue {
+        left: auto;
+        right: 76px;
+        transform: none;
+    }
+
     .conclusion-modal {
         width: 100%;
     }

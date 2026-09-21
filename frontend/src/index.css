@@ -129,6 +129,13 @@ html[data-lang="he"] {
 body {
     margin: 0;
     padding: 0;
+    /* Below this, layouts stop reflowing sensibly (the mobile breakpoints
+       throughout the app are tuned down to roughly this width) — instead
+       of squishing further, the document itself gets wider than the
+       viewport and scrolls horizontally, same pattern already used for
+       individual spread containers (e.g. ThreeCardsSpread's .container
+       min-width: 700px). */
+    min-width: 320px;
     font-family: var(--font-body);
     font-size: 22px;
     background: var(--bg);

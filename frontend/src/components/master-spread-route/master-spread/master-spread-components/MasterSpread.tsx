@@ -92,8 +92,10 @@ export function MasterSpread({ isSpread, allChosen, positions, chosenCards, fanC
                     </div>
                 ))}
                 {clearWarning && (
-                    <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'}>
-                        {translate('clearSpreadWarning', lang)}
+                    <div className={styles.readyQuestionWarningOverlay}>
+                        <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                            {translate('clearSpreadWarning', lang)}
+                        </div>
                     </div>
                 )}
             </div>
