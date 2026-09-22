@@ -1,0 +1,66 @@
+services:
+  db:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      # Local-only, not a real credential — never used outside this compose
+      # network. Production (Railway) uses its own separate MySQL instance
+      # and credentials, set as real environment variables there.
+      MYSQL_ROOT_PASSWORD: tarotpass
+      MYSQL_DATABASE: tarot_app
+    ports:
+      # Mapped to 3307, not 3306 — avoids clashing with a MySQL already
+      # installed on the host. Only needed if you want to connect a GUI
+      # client directly; the backend reaches this over the compose network
+      # regardless.
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      # Only runs on a fresh (empty) volume — mysql's image auto-executes
+      # everything in /docker-entrypoint-initdb.d/ once, on first boot.
+      - ./backend/tarot_db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptarotpass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    # Real secrets (OPENAI_API_KEY, JWT_SECRET) come from your local
+    # backend/.env, same file `npm run dev` already uses — never committed.
+    env_file:
+      - ./backend/.env
+    environment:
+      # Overrides .env's DB_* (which points at your host-installed MySQL)
+      # to instead reach this compose stack's own `db` service.
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: tarotpass
+      DB_NAME: tarot_app
+      PORT: 4000
+    ports:
+      - "4000:4000"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        # Baked into the JS bundle at build time — localhost:4000 because
+        # this is what the *browser* on your host machine can reach
+        # (the backend's published port), not the internal container name.
+        VITE_API_URL: http://localhost:4000
+    restart: unless-stopped
+    environment:
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
