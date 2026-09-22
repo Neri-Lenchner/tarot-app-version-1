@@ -34,7 +34,7 @@
     color: var(--accent);
     text-align: center;
     margin: 0;
-    font-size: 13px;
+    font-size: 0.8125rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -55,7 +55,7 @@
     color: var(--accent);
     text-align: center;
     margin: 0;
-    font-size: 11.2px;
+    font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
@@ -221,7 +221,7 @@
 
     .rowLabel {
         width: auto;
-        font-size: 10px;
+        font-size: 0.625rem;
     }
 
     .rowCards {

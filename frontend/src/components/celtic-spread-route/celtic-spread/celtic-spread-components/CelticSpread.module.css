@@ -21,7 +21,7 @@
     /* px, not rem — the html[data-lang="he"] root-scaling would otherwise
        grow this label in Hebrew, changing .cardContainerN's height and
        shifting the -50%/-50% centered cards on language switch. */
-    font-size: 11.2px;
+    font-size: 0.7rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     z-index: 1000;
@@ -288,7 +288,7 @@
 
     .container h5 {
         position: static;
-        font-size: 13px;
+        font-size: 0.8125rem;
     }
 
     .card {

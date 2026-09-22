@@ -36,7 +36,7 @@
 .title {
     margin: 0;
     color: var(--accent-bright);
-    font-size: 24px;
+    font-size: 1.5rem;
 }
 
 .close {
@@ -58,7 +58,7 @@
 .instructions {
     margin: 0 0 8px;
     color: var(--text-muted);
-    font-size: 15px;
+    font-size: 0.9375rem;
     line-height: 1.5;
 }
 
@@ -66,7 +66,7 @@
     margin: 0 0 8px;
     color: var(--accent-glow);
     text-shadow: 0 0 10px rgba(var(--accent-glow-rgb), 0.4);
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-style: italic;
 }
 

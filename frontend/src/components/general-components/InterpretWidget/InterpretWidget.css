@@ -42,7 +42,7 @@
     background: var(--bg-2);
     color: var(--accent);
     border: 1px solid var(--accent-glow);
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
     box-shadow: 0 0 12px rgba(var(--accent-glow-rgb), 0.55), 0 0 28px rgba(var(--accent-glow-rgb), 0.25);
     transition: border-color var(--transition), color var(--transition), box-shadow var(--transition);
@@ -80,7 +80,7 @@
     align-items: center;
     font-weight: 400;
     font-family: var(--font-heading);
-    font-size: 20px;
+    font-size: 1.25rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     border-bottom: 1px solid var(--border);
@@ -112,7 +112,7 @@
 
 .iw-question-label {
     display: block;
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
@@ -122,7 +122,7 @@
 
 .iw-question-text {
     margin: 0;
-    font-size: 17px;
+    font-size: 1.0625rem;
     color: var(--ink);
     font-style: italic;
     line-height: 1.5;
@@ -136,7 +136,7 @@
     background: var(--accent);
     color: var(--bg);
     border: 1px solid var(--accent);
-    font-size: 18px;
+    font-size: 1.125rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
@@ -181,7 +181,7 @@
 
 .iw-spinner-text {
     color: var(--accent);
-    font-size: 17px;
+    font-size: 1.0625rem;
     letter-spacing: 2px;
     text-transform: uppercase;
     opacity: 0.75;
@@ -200,7 +200,7 @@
     background: none;
     color: var(--accent);
     border: 1px solid var(--line);
-    font-size: 17px;
+    font-size: 1.0625rem;
     letter-spacing: 1.5px;
     text-transform: uppercase;
     cursor: pointer;
@@ -267,7 +267,7 @@
 .iw-card-title {
     margin: 10px 0 4px;
     color: var(--accent);
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-weight: 700;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -278,7 +278,7 @@
 .iw-card-text {
     margin: 0 0 6px;
     color: var(--ink);
-    font-size: 18px;
+    font-size: 1.125rem;
     line-height: 1.75;
 }
 
@@ -298,7 +298,7 @@
     }
 
     .iw-header {
-        font-size: 16px;
+        font-size: 1rem;
         padding: 12px 14px;
     }
 
@@ -308,15 +308,15 @@
 
     .iw-question-label,
     .iw-card-title {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .iw-question-text {
-        font-size: 19px;
+        font-size: 1.1875rem;
     }
 
     .iw-card-text {
-        font-size: 21px;
+        font-size: 1.3125rem;
         line-height: 1.8;
     }
 }

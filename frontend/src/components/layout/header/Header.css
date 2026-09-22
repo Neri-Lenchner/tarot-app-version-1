@@ -37,7 +37,7 @@
        Makabi's Hebrew glyphs render visually taller/heavier than its Latin
        caps at the same font-size, so a smaller value is needed to look
        the same size next to the English title. */
-    font-size: 34px;
+    font-size: 2.125rem;
     /* Makabi ships a single (normal) weight file — lowering font-weight
        has no visual effect at all (browsers only synthesize *bolder*
        weights, never a thinner one). This "un-bolds" it instead by
@@ -223,7 +223,7 @@
         /* Was 0.65rem (~14px) with ellipsis — the full title cannot be set at a
            readable size in this strip, so the short brand mark is used instead
            (see Header.tsx headerTitleShort). No ellipsis needed at this length. */
-        font-size: 21px;
+        font-size: 1.3125rem;
         letter-spacing: 0.14em;
         white-space: nowrap;
         overflow: visible;
@@ -231,7 +231,7 @@
     }
 
     .Header h1[dir="rtl"] {
-        font-size: 21px;
+        font-size: 1.3125rem;
     }
 
     .header-title-full {

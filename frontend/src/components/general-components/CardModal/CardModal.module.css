@@ -37,7 +37,7 @@
     background: none;
     border: 1px solid var(--line);
     color: var(--accent);
-    font-size: 15px;
+    font-size: 0.9375rem;
     font-weight: 700;
     letter-spacing: 1px;
     padding: 3px 8px;
@@ -60,7 +60,7 @@
     background: none;
     border: none;
     color: var(--accent);
-    font-size: 18px;
+    font-size: 1.125rem;
     cursor: pointer;
     opacity: 0.7;
     transition: opacity var(--transition);
@@ -73,13 +73,13 @@
 .name {
     margin: 0 0 4px;
     color: var(--accent-bright);
-    font-size: 28px;
+    font-size: 1.75rem;
 }
 
 .position {
     margin: 0 0 20px;
     color: var(--text-muted);
-    font-size: 18px;
+    font-size: 1.125rem;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -87,14 +87,14 @@
 .meaning {
     margin: 0 0 16px;
     line-height: 1.7;
-    font-size: 19px;
+    font-size: 1.1875rem;
     color: var(--card-desc-color);
 }
 
 .desc {
     margin: 0;
     line-height: 1.7;
-    font-size: 18px;
+    font-size: 1.125rem;
     color: var(--text-primary);
 }
 

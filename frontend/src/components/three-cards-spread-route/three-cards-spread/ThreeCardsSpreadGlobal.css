@@ -10,7 +10,7 @@
     border: 1px solid var(--line-soft);
     color: var(--text-primary);
     font-style: italic;
-    font-size: 22px;
+    font-size: 1.375rem;
     padding: 9px 16px;
     outline: none;
     transition: border-color var(--transition);
@@ -29,7 +29,7 @@
     padding: 0 16px;
     color: var(--text-faint);
     font-style: italic;
-    font-size: 13px;
+    font-size: 0.8125rem;
 }
 
 .three-cards-global-container .spread-subheader-row {
@@ -48,7 +48,7 @@
 
 .three-cards-global-container .spread-question-label {
     color: var(--accent);
-    font-size: 10px;
+    font-size: 0.625rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -57,7 +57,7 @@
 
 .three-cards-global-container .spread-question-text {
     color: var(--ink);
-    font-size: 17px;
+    font-size: 1.0625rem;
     font-style: italic;
 }
 
@@ -67,7 +67,7 @@
    elsewhere. */
 @media (max-width: 1000px) {
     .three-cards-global-container .spread-question-input {
-        font-size: 16px;
+        font-size: 1rem;
         padding: 8px 12px;
         flex-basis: 100%;
         order: 3;
@@ -84,7 +84,7 @@
     }
 
     .three-cards-global-container .spread-question-text {
-        font-size: 15px;
+        font-size: 0.9375rem;
     }
 }
 
