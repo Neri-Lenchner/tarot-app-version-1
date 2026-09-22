@@ -33,9 +33,9 @@
     color: var(--ink-dim);
 }
 
-/* Regular Hebrew body font here, not the special mystic heading face used
-   for the header title. */
-.home-hero[dir="rtl"] h1,
+/* h1 keeps the default mystic heading face (--font-heading-he, set globally
+   for h1[dir="rtl"]) — same font as the header title. Only h2 drops to the
+   regular Hebrew body font. */
 .home-hero[dir="rtl"] h2 {
     font-family: var(--font-body-he);
 }
