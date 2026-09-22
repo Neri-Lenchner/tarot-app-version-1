@@ -215,9 +215,9 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
     return (
         <div className={`interpret-widget theme-${theme} modal-widget-root`}>
             {isOpen && (
-                <div className="iw-panel">
+                <div className="iw-panel" role="dialog" aria-modal="true" aria-labelledby="iw-heading">
                     <div className="iw-header">
-                        <span dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('readingInterpretation', lang)}</span>
+                        <span id="iw-heading" dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('readingInterpretation', lang)}</span>
                     </div>
                     <div className="iw-body">
                         {displayQuestion && (
@@ -276,7 +276,13 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                     </div>
                 </div>
             )}
-            <button className="iw-toggle-btn" onClick={onToggle} title={isOpen ? translate('close', lang) : translate('readingInterpretation', lang)}>
+            <button
+                className="iw-toggle-btn"
+                onClick={onToggle}
+                title={isOpen ? translate('close', lang) : translate('readingInterpretation', lang)}
+                aria-label={isOpen ? translate('close', lang) : translate('readingInterpretation', lang)}
+                aria-expanded={isOpen}
+            >
                 {isOpen ? <X size={20} /> : <Info size={20} />}
             </button>
         </div>

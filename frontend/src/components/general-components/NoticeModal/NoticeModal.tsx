@@ -119,9 +119,9 @@ export function NoticeModal(): JSX.Element | null {
 
     return (
         <div className={styles.overlay} onClick={() => noticeStore.hide()}>
-            <div className={styles.modal} onClick={e => e.stopPropagation()} dir={dir}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()} dir={dir} role="dialog" aria-modal="true" aria-labelledby="notice-heading">
                 <div className={styles.header}>
-                    <h2 className={styles.title}>{lang === 'he' ? 'הודעה חשובה' : 'Important Notice'}</h2>
+                    <h2 id="notice-heading" className={styles.title}>{lang === 'he' ? 'הודעה חשובה' : 'Important Notice'}</h2>
                     <button className={styles.close} onClick={() => noticeStore.hide()} aria-label="Close">
                         <X size={20} />
                     </button>

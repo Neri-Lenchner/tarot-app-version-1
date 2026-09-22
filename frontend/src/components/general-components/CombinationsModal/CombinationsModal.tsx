@@ -39,9 +39,9 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
     return (
         <div className="combo-widget modal-widget-root">
             {visible && (
-                <div className="combo-modal">
+                <div className="combo-modal" role="dialog" aria-modal="true" aria-labelledby="combo-heading">
                     <div className="combo-modal-header">
-                        <span className="combo-modal-title">
+                        <span id="combo-heading" className="combo-modal-title">
                             {lang === 'he' ? '+ שילובי קלפים שזוהו' : '+ Card Combinations Detected'}
                         </span>
                     </div>
@@ -106,6 +106,8 @@ export function CombinationsModal({ matches, onClose, onConfirm }: ICombinations
                 className="combo-reopen-btn"
                 onClick={e => { e.stopPropagation(); setVisible(v => !v); }}
                 title={visible ? translate('close', lang) : translate('openCombinations', lang)}
+                aria-label={visible ? translate('close', lang) : translate('openCombinations', lang)}
+                aria-expanded={visible}
             >
                 {visible ? <X size={18} /> : <Info size={18} />}
             </button>

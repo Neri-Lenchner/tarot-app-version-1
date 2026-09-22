@@ -31,7 +31,7 @@ export function CardModal({
         // CombinationsModal's own outside-click handlers), so it must NOT
         // be hashed by the CSS module.
         <div className={`${styles.overlay} modal-widget-root`} onClick={onClose}>
-            <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modal} onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby={name ? "card-modal-heading" : undefined}>
                 <div className={styles.header}>
                     <button className={styles.close} onClick={onClose} aria-label="Close">
                         <X size={18} />
@@ -42,7 +42,7 @@ export function CardModal({
                         </button>
                     )}
                 </div>
-                {name && <h3 className={styles.name}>{name}</h3>}
+                {name && <h3 id="card-modal-heading" className={styles.name}>{name}</h3>}
                 {position && (
                     <p className={styles.position} dir={dir}>
                         {position}

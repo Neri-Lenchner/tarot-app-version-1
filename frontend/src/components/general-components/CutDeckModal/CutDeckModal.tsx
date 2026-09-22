@@ -42,9 +42,9 @@ export function CutDeckModal({ cards, needed, onCut, onCancel }: Props): JSX.Ele
 
     return (
         <div className={styles.overlay} onClick={onCancel}>
-            <div className={styles.modal} onClick={e => e.stopPropagation()}>
+            <div className={styles.modal} onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="cut-deck-heading">
                 <div className={styles.header}>
-                    <h3 className={styles.title} dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('cutDeckTitle', lang)}</h3>
+                    <h3 id="cut-deck-heading" className={styles.title} dir={lang === 'he' ? 'rtl' : 'ltr'}>{translate('cutDeckTitle', lang)}</h3>
                     <button className={styles.close} onClick={onCancel} aria-label="Close">
                         <X size={18} />
                     </button>

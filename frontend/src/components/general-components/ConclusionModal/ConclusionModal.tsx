@@ -93,9 +93,9 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
         <>
             <div className="conclusion-widget modal-widget-root">
                 {visible && (
-                    <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()}>
+                    <div className={`conclusion-modal theme-${theme}`} onClick={e => e.stopPropagation()} role="dialog" aria-modal="true" aria-labelledby="conclusion-heading">
                         <div className="conclusion-header">
-                            <span className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
+                            <span id="conclusion-heading" className="conclusion-title">{lang === 'he' ? '+ מסקנה' : '+ Conclusion'}</span>
                         </div>
                         <div className="conclusion-body">
                             {awaitingHebrew && (
@@ -131,6 +131,7 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                                     onClick={handleFollowup}
                                     disabled={!followupQ.trim() || followupLoading}
                                     title={translate('askFollowup', lang)}
+                                    aria-label={translate('askFollowup', lang)}
                                 >
                                     {followupLoading ? '...' : 'i'}
                                 </button>
@@ -148,6 +149,8 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
                 className={`conclusion-reopen-btn theme-${theme}`}
                 onClick={e => { e.stopPropagation(); setVisible(v => !v); }}
                 title={visible ? translate('close', lang) : translate('openConclusion', lang)}
+                aria-label={visible ? translate('close', lang) : translate('openConclusion', lang)}
+                aria-expanded={visible}
             >
                 {visible ? <X size={18} /> : <Info size={18} />}
             </button>

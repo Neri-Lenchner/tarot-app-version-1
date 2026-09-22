@@ -85,7 +85,7 @@ export function CelticSpread({ isSpread, cards, apiCards, positions, onQuestionS
                 ))}
                 {clearWarning && (
                     <div className={styles.readyQuestionWarningOverlay}>
-                        <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'}>
+                        <div className={styles.readyQuestionWarning} dir={lang === 'he' ? 'rtl' : 'ltr'} role="alert">
                             {translate('clearSpreadWarning', lang)}
                         </div>
                     </div>

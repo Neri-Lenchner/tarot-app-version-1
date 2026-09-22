@@ -55,6 +55,7 @@ function MySpreadsPage(): JSX.Element {
                                     className="my-spread-delete-btn"
                                     onClick={e => handleDelete(e, r.id)}
                                     title={translate('delete', lang)}
+                                    aria-label={translate('delete', lang)}
                                 ><Trash2 size={14} /></button>
                             </div>
                         </div>
