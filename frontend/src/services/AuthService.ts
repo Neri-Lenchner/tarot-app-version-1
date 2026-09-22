@@ -1,8 +1,9 @@
 import axios from "axios";
 import { authStore, Login } from "../state/auth-state";
 import { noticeStore } from "../state/notice-state";
+import { API_BASE_URL } from "../config";
 
-const BASE = "http://localhost:4000/api/auth";
+const BASE = `${API_BASE_URL}/api/auth`;
 
 class AuthService {
     async register(firstName: string, lastName: string, email: string, password: string, gender: 'male' | 'female'): Promise<void> {

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ITarotCard } from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import { ICombinationMatch } from "../arrays-&-models/combinationMatch.interface";
+import { API_BASE_URL } from "../config";
 
 type Adjacency = Record<number, number[]>;
 
@@ -72,7 +73,7 @@ export function filterByProximity(matches: ICombinationMatch[], spreadCards: ITa
     return matches.filter(match => isConnectedInSpread(match.cards, spreadCards, adjacency));
 }
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = API_BASE_URL;
 
 class CombinationsService {
     async checkCombinations(cardNames: string[], question?: string): Promise<ICombinationMatch[]> {

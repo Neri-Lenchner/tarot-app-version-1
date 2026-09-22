@@ -2,8 +2,9 @@ import axios from "axios";
 import { authStore } from "../state/auth-state";
 import { ITarotCard } from "../arrays-&-models/tarot-deck-array/tarotCard.interface";
 import { ICombinationMatch } from "../arrays-&-models/combinationMatch.interface";
+import { API_BASE_URL } from "../config";
 
-const BASE_URL = "http://localhost:4000";
+const BASE_URL = API_BASE_URL;
 
 class InterpretService {
     private get authHeader() {

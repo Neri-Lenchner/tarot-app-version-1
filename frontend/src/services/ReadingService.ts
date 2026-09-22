@@ -1,8 +1,9 @@
 import axios from "axios";
 import { authStore } from "../state/auth-state";
 import { IReadingRecord } from "../arrays-&-models/readingRecord.interface";
+import { API_BASE_URL } from "../config";
 
-const BASE = "http://localhost:4000/api/readings";
+const BASE = `${API_BASE_URL}/api/readings`;
 
 class ReadingService {
     private get authHeader() {
