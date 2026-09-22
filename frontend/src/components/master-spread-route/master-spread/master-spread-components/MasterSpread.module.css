@@ -214,16 +214,21 @@
     }
 
     .row {
-        gap: 8px;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
     }
 
     .rowLabel {
-        width: 36px;
+        width: auto;
         font-size: 10px;
     }
 
     .rowCards {
-        grid-template-columns: repeat(3, 88px);
+        /* One card per line, like Celtic/Three Cards' mobile layout —
+           was still a 3-wide grid here, just shrunk. */
+        grid-template-columns: 1fr;
+        justify-items: center;
         gap: 14px;
     }
 
