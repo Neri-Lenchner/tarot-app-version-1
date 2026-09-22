@@ -235,4 +235,13 @@
     .conclusion-body {
         max-height: 35vh;
     }
+
+    .conclusion-text {
+        font-size: 22px;
+        line-height: 1.75;
+    }
+
+    .conclusion-followup-answer {
+        font-size: 19px;
+    }
 }

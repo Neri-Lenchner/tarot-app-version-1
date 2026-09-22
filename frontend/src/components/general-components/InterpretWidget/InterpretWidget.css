@@ -305,4 +305,18 @@
     .iw-card-img {
         width: 44px;
     }
+
+    .iw-question-label,
+    .iw-card-title {
+        font-size: 19px;
+    }
+
+    .iw-question-text {
+        font-size: 19px;
+    }
+
+    .iw-card-text {
+        font-size: 21px;
+        line-height: 1.8;
+    }
 }
