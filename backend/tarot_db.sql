@@ -8,6 +8,8 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(256) NOT NULL,
     gender VARCHAR(10) NULL,
+    daily_question_count INT NOT NULL DEFAULT 0,
+    daily_question_date DATE NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

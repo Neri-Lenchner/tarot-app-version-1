@@ -1,15 +1,18 @@
 import express, { Request, Response, NextFunction } from "express";
 import { tarotService } from "../services/tarot.service";
 import { IInterpretRequest } from "../dto/tarot.dto";
-import { ValidationError } from "../models/client-error";
+import { ValidationError, AuthorizationError } from "../models/client-error";
+import { tokenMiddleware } from "../middleware/token.middleware";
+import { securityService } from "../services/security.service";
+import { quotaService } from "../services/quota.service";
 
 class TarotController {
     public readonly router = express.Router();
 
     constructor() {
-        this.router.post("/api/tarot/interpret", this.interpret);
+        this.router.post("/api/tarot/interpret", tokenMiddleware.validateToken, this.interpret);
         this.router.post("/api/tarot/check-combinations", this.checkCombinations);
-        this.router.post("/api/tarot/followup", this.followup);
+        this.router.post("/api/tarot/followup", tokenMiddleware.validateToken, this.followup);
         this.router.post("/api/tarot/translate", this.translate);
     }
 
@@ -41,10 +44,14 @@ class TarotController {
 
     public async followup(request: Request, response: Response, next: NextFunction): Promise<void> {
         try {
+            const token = request.headers.authorization!.substring(7);
+            const user = securityService.extractUser(token);
+            if (!user?.id) throw new AuthorizationError("Unauthorized");
             const { question, interpretation, language }: { question: string; interpretation: string; language?: "en" | "he" } = request.body;
             if (!question?.trim() || !interpretation?.trim()) {
                 throw new ValidationError("question and interpretation are required");
             }
+            await quotaService.assertQuestionAllowed(user.id);
             const answer = await tarotService.followupQuestion(question, interpretation, language);
             response.json({ answer });
         } catch (error) {
@@ -54,10 +61,14 @@ class TarotController {
 
     public async interpret(request: Request, response: Response, next: NextFunction): Promise<void> {
         try {
+            const token = request.headers.authorization!.substring(7);
+            const user = securityService.extractUser(token);
+            if (!user?.id) throw new AuthorizationError("Unauthorized");
             const { spreadType, cards, language, question, isThirdPerson, isEventBased, confirmedCombination, gender }: IInterpretRequest = request.body;
             if (!spreadType || !cards || cards.length === 0) {
                 throw new ValidationError("spreadType and cards are required");
             }
+            await quotaService.assertQuestionAllowed(user.id);
             const interpretation: string = await tarotService.interpretSpread(spreadType, cards, language, question, isThirdPerson, confirmedCombination, gender, isEventBased);
             response.json({ interpretation });
         } catch (error) {

@@ -1,4 +1,5 @@
 import { JSX, useState, useEffect } from 'react';
+import axios from 'axios';
 import { Info, X } from 'lucide-react';
 import { interpretStore, InterpretState, InterpretActionType, ensureHebrewTranslation } from '../../../state/interpret-state';
 import { useLang } from '../../../state/lang-state';
@@ -56,6 +57,9 @@ export function ConclusionModal({ spreadType, theme }: IConclusionModalProps): J
             const answer = await interpretService.followupQuestion(followupQ.trim(), interpretation, lang);
             setFollowupAnswer(answer);
             interpretStore.dispatch({ type: InterpretActionType.SetFollowup, spreadType, followup: { question: followupQ.trim(), answer } });
+        } catch (error) {
+            const isQuotaExceeded = axios.isAxiosError(error) && error.response?.status === 429;
+            alert(isQuotaExceeded ? translate('dailyQuestionLimitReached', lang) : translate('failedInterpretation', lang));
         } finally {
             setFollowupLoading(false);
         }

@@ -17,3 +17,7 @@ export class NotFoundError extends ClientError {
 export class AuthorizationError extends ClientError {
     public constructor(message: string) { super(401, message); }
 }
+
+export class RateLimitError extends ClientError {
+    public constructor(message: string) { super(429, message); }
+}

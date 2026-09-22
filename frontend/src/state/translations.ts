@@ -53,6 +53,7 @@ const translations = {
     failedInterpretation: { en: "Failed to get interpretation. Please try again.", he: "פירוש הפריסה נכשל. נא לנסות שוב." },
     failedSave: { en: "Failed to save reading. Please try again.", he: "שמירת הפריסה נכשלה. נא לנסות שוב." },
     failedTranslation: { en: "Hebrew translation failed. Tap to retry.", he: "תרגום לעברית נכשל. הקש כדי לנסות שוב." },
+    dailyQuestionLimitReached: { en: "You've reached today's question limit. Please try again tomorrow.", he: "הגעתם למגבלת השאלות היומית. נסו שוב מחר." },
 
     // ── Popup widget tooltips (title attributes) ──
     close: { en: "Close", he: "סגור" },

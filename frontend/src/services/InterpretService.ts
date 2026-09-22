@@ -6,6 +6,10 @@ import { ICombinationMatch } from "../arrays-&-models/combinationMatch.interface
 const BASE_URL = "http://localhost:4000";
 
 class InterpretService {
+    private get authHeader() {
+        return { Authorization: `Bearer ${authStore.getState().token}` };
+    }
+
     async interpretSpread(
         spreadType: "celtic" | "three-cards" | "master-spread",
         cards: ITarotCard[],
@@ -30,7 +34,7 @@ class InterpretService {
                 position: positions[i],
             })),
         };
-        const response = await axios.post(`${BASE_URL}/api/tarot/interpret`, payload, { timeout: 65000 });
+        const response = await axios.post(`${BASE_URL}/api/tarot/interpret`, payload, { timeout: 65000, headers: this.authHeader });
         return response.data.interpretation;
     }
 
@@ -39,7 +43,7 @@ class InterpretService {
             question,
             interpretation,
             language: lang,
-        }, { timeout: 65000 });
+        }, { timeout: 65000, headers: this.authHeader });
         return response.data.answer;
     }
 

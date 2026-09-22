@@ -1,4 +1,5 @@
 import { JSX, useEffect, useState } from 'react';
+import axios from 'axios';
 import { Info, X } from 'lucide-react';
 import { interpretService } from '../../../services/InterpretService';
 import { interpretStore, InterpretActionType, InterpretState, ensureHebrewTranslation, waitForHebrewTranslation } from '../../../state/interpret-state';
@@ -153,12 +154,13 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
                 interpretStore.dispatch({ type: InterpretActionType.SetEnglish, spreadType, payload: { en } });
                 ensureHebrewTranslation(spreadType);
             }
-        } catch {
+        } catch (error) {
             if (interpretStore.getState()[spreadType].requestId === myRequestId) {
+                const isQuotaExceeded = axios.isAxiosError(error) && error.response?.status === 429;
                 interpretStore.dispatch({
                     type: InterpretActionType.SetEnglish,
                     spreadType,
-                    payload: { en: translate('failedInterpretation', 'en') },
+                    payload: { en: isQuotaExceeded ? translate('dailyQuestionLimitReached', lang) : translate('failedInterpretation', 'en') },
                 });
             }
         } finally {

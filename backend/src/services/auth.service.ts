@@ -5,11 +5,13 @@ import { User } from "../models/user.model";
 import { Credentials } from "../models/credentials.model";
 import { ValidationError, AuthorizationError } from "../models/client-error";
 import { securityService } from "./security.service";
+import { quotaService } from "./quota.service";
 
 class AuthService {
 
     public async register(user: User): Promise<string> {
         user.validate();
+        await quotaService.assertRegistrationAllowed();
         const exists = await this.emailExists(user.email);
         if (exists) throw new ValidationError("Email already taken");
         user.password = await securityService.hash(user.password);
