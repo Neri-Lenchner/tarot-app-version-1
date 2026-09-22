@@ -4,9 +4,9 @@
   "description": "Tarot App - Backend API",
   "main": "src/app.ts",
   "scripts": {
-    "start": "nodemon --watch src --ext ts --exec \"tsc && node dist/app.js\"",
+    "dev": "nodemon --watch src --ext ts --exec \"tsc && node dist/app.js\"",
     "build": "tsc",
-    "start:prod": "node dist/app.js"
+    "start": "node dist/app.js"
   },
   "type": "commonjs",
   "devDependencies": {
