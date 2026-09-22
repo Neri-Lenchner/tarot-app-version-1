@@ -3,6 +3,7 @@ import { tarotService } from "../services/tarot.service";
 import { IInterpretRequest } from "../dto/tarot.dto";
 import { ValidationError, AuthorizationError } from "../models/client-error";
 import { tokenMiddleware } from "../middleware/token.middleware";
+import { maintenanceMiddleware } from "../middleware/maintenance.middleware";
 import { securityService } from "../services/security.service";
 import { quotaService } from "../services/quota.service";
 
@@ -10,10 +11,10 @@ class TarotController {
     public readonly router = express.Router();
 
     constructor() {
-        this.router.post("/api/tarot/interpret", tokenMiddleware.validateToken, this.interpret);
-        this.router.post("/api/tarot/check-combinations", this.checkCombinations);
-        this.router.post("/api/tarot/followup", tokenMiddleware.validateToken, this.followup);
-        this.router.post("/api/tarot/translate", this.translate);
+        this.router.post("/api/tarot/interpret", maintenanceMiddleware.blockIfDown, tokenMiddleware.validateToken, this.interpret);
+        this.router.post("/api/tarot/check-combinations", maintenanceMiddleware.blockIfDown, this.checkCombinations);
+        this.router.post("/api/tarot/followup", maintenanceMiddleware.blockIfDown, tokenMiddleware.validateToken, this.followup);
+        this.router.post("/api/tarot/translate", maintenanceMiddleware.blockIfDown, this.translate);
     }
 
     public async translate(request: Request, response: Response, next: NextFunction): Promise<void> {

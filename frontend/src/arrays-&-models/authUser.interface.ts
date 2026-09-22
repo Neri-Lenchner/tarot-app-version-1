@@ -4,4 +4,5 @@ export interface IAuthUser {
     lastName: string;
     email: string;
     gender?: 'male' | 'female';
+    isAdmin?: boolean;
 }

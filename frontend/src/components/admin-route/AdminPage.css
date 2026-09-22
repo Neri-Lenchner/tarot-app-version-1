@@ -1,0 +1,127 @@
+.admin-page {
+    height: 100%;
+    overflow-y: auto;
+    padding: 28px 32px;
+    scrollbar-width: none;
+    background: var(--page-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.admin-title {
+    color: var(--accent-bright);
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+    text-align: center;
+}
+
+@media (min-width: 769px) {
+    .admin-title,
+    .admin-card {
+        transform: translateX(calc(var(--sidebar-width) / -2));
+    }
+}
+
+.admin-card {
+    width: 100%;
+    max-width: 520px;
+    margin: 0 auto;
+    background: var(--bg-2);
+    padding: 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+/* ── Danger zone framing — red border/glow instead of the app's usual
+   gold accent, so this card reads as "handle with care" at a glance. */
+.admin-danger-zone {
+    border: 1px solid var(--danger);
+    box-shadow: 0 0 14px rgba(156, 69, 52, 0.45), 0 0 36px rgba(156, 69, 52, 0.2), 0 8px 40px rgba(0, 0, 0, 0.6);
+}
+
+.admin-danger-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--danger-bright);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.admin-card-heading {
+    margin: 0;
+    color: var(--accent);
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-status-text {
+    margin: 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.admin-status-ok {
+    color: var(--text-primary);
+}
+
+.admin-status-danger {
+    color: var(--danger-bright);
+}
+
+.admin-toggle-btn {
+    align-self: flex-start;
+    padding: 10px 22px;
+    font-size: 1.05rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.admin-toggle-btn--stop {
+    background: none;
+    border: 1px solid var(--danger);
+    color: var(--danger-bright);
+}
+
+.admin-toggle-btn--stop:hover:not(:disabled) {
+    background: var(--danger-wash);
+    border-color: var(--danger-bright);
+}
+
+.admin-toggle-btn--resume {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: var(--bg);
+}
+
+.admin-toggle-btn--resume:hover:not(:disabled) {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+}
+
+.admin-toggle-btn:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+@media (max-width: 768px) {
+    .admin-page {
+        padding: 18px 14px;
+    }
+
+    .admin-card {
+        padding: 18px 16px;
+    }
+}

@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(256) NOT NULL,
     gender VARCHAR(10) NULL,
+    isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
     daily_question_count INT NOT NULL DEFAULT 0,
     daily_question_date DATE NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -26,3 +27,11 @@ CREATE TABLE IF NOT EXISTS readings (
     followup_answer TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Single-row settings table (id is always 1) — see maintenance.service.ts.
+CREATE TABLE IF NOT EXISTS app_settings (
+    id INT PRIMARY KEY DEFAULT 1,
+    maintenanceMode BOOLEAN NOT NULL DEFAULT FALSE
+);
+
+INSERT IGNORE INTO app_settings (id, maintenanceMode) VALUES (1, FALSE);

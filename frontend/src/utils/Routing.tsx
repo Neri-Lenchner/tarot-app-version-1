@@ -14,6 +14,8 @@ import Login from "../components/auth/Login";
 import MySpreadsPage from "../components/my-spreads/MySpreadsPage";
 import SpreadDetailsPage from "../components/my-spreads/SpreadDetailsPage";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import AdminPage from "../components/admin-route/AdminPage";
 import SpreadInfoPage from "../components/spread-info-route/SpreadInfoPage";
 import Footer from "../components/layout/footer/Footer";
 import AboutPage from "../components/legal-route/AboutPage";
@@ -36,6 +38,7 @@ function Routing(): JSX.Element {
                 <Route path="/login" element={<Login />}/>
                 <Route path="/my-spreads" element={<PrivateRoute child={<MySpreadsPage />} />}/>
                 <Route path="/my-spreads/:id" element={<PrivateRoute child={<SpreadDetailsPage />} />}/>
+                <Route path="/admin" element={<AdminRoute child={<AdminPage />} />}/>
                 <Route path="*" element={<HomePage />}/>
                 <Route path="/" element={<HomePage />}/>
             </Routes>

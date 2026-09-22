@@ -6,6 +6,9 @@ class AppConfig {
     public readonly dbPassword: string = process.env.DB_PASSWORD!;
     public readonly dbName: string = process.env.DB_NAME!;
     public readonly jwtSecret: string = process.env.JWT_SECRET!;
+    // Empty by default (no admin) unless explicitly set — see
+    // AuthService.isAdminEmail for how this grants admin access.
+    public readonly adminEmail: string = process.env.ADMIN_EMAIL || "";
 }
 
 export const appConfig = new AppConfig();

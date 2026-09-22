@@ -19,6 +19,7 @@ const translations = {
     navHome: { en: "Home Page", he: "עמוד הבית" },
     navTarotDeck: { en: "Tarot Deck", he: "חפיסת הטארוט" },
     navMySpreads: { en: "My Spreads", he: "הפריסות שלי" },
+    navAdmin: { en: "Admin", he: "ניהול" },
 
     // ── Spread header / question bar ──
     spreadThem: { en: "Spread Them", he: "פרוש קלפים" },
@@ -54,6 +55,7 @@ const translations = {
     failedSave: { en: "Failed to save reading. Please try again.", he: "שמירת הפריסה נכשלה. נא לנסות שוב." },
     failedTranslation: { en: "Hebrew translation failed. Tap to retry.", he: "תרגום לעברית נכשל. הקש כדי לנסות שוב." },
     dailyQuestionLimitReached: { en: "You've reached today's question limit. Please try again tomorrow.", he: "הגעתם למגבלת השאלות היומית. נסו שוב מחר." },
+    appUnderMaintenance: { en: "Berta's Tarot is temporarily paused for maintenance. Please try again shortly.", he: "קלפי הטארוט של ברטה מושהים זמנית לתחזוקה. נא לנסות שוב בקרוב." },
 
     // ── Popup widget tooltips (title attributes) ──
     close: { en: "Close", he: "סגור" },
@@ -99,6 +101,16 @@ const translations = {
     footerAbout: { en: "About Us", he: "אודותינו" },
     footerTerms: { en: "Terms of Service", he: "תנאי שימוש" },
     footerPrivacy: { en: "Privacy Policy", he: "מדיניות פרטיות" },
+
+    // ── Admin ──
+    adminTitle: { en: "Admin", he: "ניהול" },
+    adminDangerZone: { en: "Danger Zone", he: "אזור סכנה" },
+    adminMaintenanceHeading: { en: "Site Status", he: "מצב האתר" },
+    adminMaintenanceActive: { en: "Maintenance mode is ON — readings are blocked for everyone.", he: "מצב תחזוקה פעיל — קריאות חסומות לכולם." },
+    adminMaintenanceInactive: { en: "Site is running normally.", he: "האתר פועל כרגיל." },
+    adminEnableMaintenance: { en: "Stop the App", he: "עצור את האתר" },
+    adminDisableMaintenance: { en: "Resume the App", he: "המשך את האתר" },
+    adminMaintenanceConfirm: { en: "This blocks all readings (interpret, translate, follow-up, combinations) for every visitor until you turn it off. Continue?", he: "פעולה זו תחסום את כל הקריאות (פירוש, תרגום, שאלת המשך, שילובים) עבור כל המבקרים עד שתבטלו אותה. להמשיך?" },
 
     // ── Spread info pages ──
     goToSpread: { en: "Go to this spread", he: "עברו לפריסה זו" },

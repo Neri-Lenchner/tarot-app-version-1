@@ -26,6 +26,7 @@ function SideBar(): JSX.Element {
                 <NavLink to="/master-spread">{translate('navMasterSpread', lang)}</NavLink>
                 <NavLink to="/tarot-deck">{translate('navTarotDeck', lang)}</NavLink>
                 {user && <NavLink to="/my-spreads">{translate('navMySpreads', lang)}</NavLink>}
+                {user?.isAdmin && <NavLink to="/admin">{translate('navAdmin', lang)}</NavLink>}
             </div>
         </div>
     );

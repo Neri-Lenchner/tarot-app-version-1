@@ -157,10 +157,11 @@ export function InterpretWidget({ cards, positions, spreadType, theme, question,
         } catch (error) {
             if (interpretStore.getState()[spreadType].requestId === myRequestId) {
                 const isQuotaExceeded = axios.isAxiosError(error) && error.response?.status === 429;
+                const isMaintenance = axios.isAxiosError(error) && error.response?.status === 503;
                 interpretStore.dispatch({
                     type: InterpretActionType.SetEnglish,
                     spreadType,
-                    payload: { en: isQuotaExceeded ? translate('dailyQuestionLimitReached', lang) : translate('failedInterpretation', 'en') },
+                    payload: { en: isQuotaExceeded ? translate('dailyQuestionLimitReached', lang) : isMaintenance ? translate('appUnderMaintenance', lang) : translate('failedInterpretation', 'en') },
                 });
             }
         } finally {

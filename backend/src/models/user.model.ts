@@ -8,6 +8,10 @@ export class User {
     public email: string;
     public password: string;
     public gender?: 'male' | 'female';
+    // Always server-computed (see AuthService.isAdminEmail) — deliberately
+    // NOT copied from the constructor's input object, so a client can never
+    // self-promote by sending isAdmin in a register/login request body.
+    public isAdmin: boolean = false;
 
     constructor(user: User) {
         this.id = user.id;

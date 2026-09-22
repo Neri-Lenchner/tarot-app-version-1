@@ -21,3 +21,7 @@ export class AuthorizationError extends ClientError {
 export class RateLimitError extends ClientError {
     public constructor(message: string) { super(429, message); }
 }
+
+export class ServiceUnavailableError extends ClientError {
+    public constructor(message: string) { super(503, message); }
+}
