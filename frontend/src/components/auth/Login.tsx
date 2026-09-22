@@ -66,6 +66,11 @@ function Login(): JSX.Element {
                         {translate('register', lang)}
                     </NavLink>
                 </p>
+                <p className="auth-link-text">
+                    <NavLink to="/">
+                        {translate('backToHome', lang)}
+                    </NavLink>
+                </p>
             </div>
         </div>
     );
