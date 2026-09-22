@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS readings (
     user_id INT NOT NULL DEFAULT 0,
     spread_type VARCHAR(20) NOT NULL,
     question TEXT,
+    question_he TEXT,
     cards JSON NOT NULL,
     interpretation_en TEXT,
     interpretation_he TEXT,
