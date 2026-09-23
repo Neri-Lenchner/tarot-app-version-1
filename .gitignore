@@ -13,10 +13,12 @@ yarn-error.log*
 notes/
 teach-notes.txt
 
-# Internal working/scratch docs and AI-prompt internals — excluded so a
-# public demo repo doesn't expose the exact prompts sent to OpenAI or
-# leftover AI-assistant task-tracking notes.
+# Internal working/scratch docs — excluded so a public demo repo doesn't
+# expose leftover AI-assistant task-tracking notes.
 APROVED-CHANGES.md
 CSS-CHANGES.md
+
+# The exact verbatim prompt text sent to OpenAI — kept private (unlike
+# AI-INTERPRETATION.md, which explains the method without handing over the
+# full copy-pasteable ruleset).
 PROMPT-EXAMPLE.md
-AI-INTERPRETATION.md
