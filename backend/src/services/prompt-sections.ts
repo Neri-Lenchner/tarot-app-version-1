@@ -327,8 +327,6 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
             }
         } else if (!gender) {
             ruling = `${fig === 'female' ? 'Female' : 'Male'} figure. Interpret as a real, specific ${fig} person in the querent's life — never an abstract quality.`;
-        } else if (isSameGender && forcePerson) {
-            ruling = `RULING — SAME GENDER, EVENT-BASED MODE: ${fig} figure, querent is ${gender}. In this event-based reading, position "${pos}" is part of a combined event the querent will experience alongside other people — this card is NOT the querent. It is a specific ${sameWord} the querent will interact with in this event. Name and describe this person clearly — who they are, their energy, and how they take part in this event.`;
         } else if (isSameGender) {
             if (isInRomanticPos) {
                 if (loversException) {
@@ -336,6 +334,8 @@ export function getCourtCardsSection(cards: ISpreadCard[], gender?: "male" | "fe
                 } else {
                     ruling = `RULING — SAME GENDER, ROMANTIC POSITION: ${fig} figure, querent is ${gender}. In a romantic question, a same-gender court card in this position IS NOT the querent's romantic partner or lover. It is either the querent themselves or another ${sameWord} in their life (friend, sibling, colleague) — but NOT a love interest. (Exception would apply only if The Lovers card AND a ${oppWord === 'woman' ? 'female' : 'male'} Major Arcana such as ${maExampleList} both appeared — they do not.)`;
                 }
+            } else if (forcePerson) {
+                ruling = `RULING — SAME GENDER, EVENT-BASED MODE (YOU OR SOMEONE ELSE — YOU DECIDE): ${fig} figure, querent is ${gender}. In this event-based reading, position "${pos}" is part of a combined event. This card could represent the querent's OWN role or actions within that event, OR a specific ${sameWord} who takes part in the event alongside them. YOU MUST DECIDE which one by reading the full spread and the flow of the story. Commit to one answer and state it explicitly: either describe the querent themselves living through this event, or name and describe the other ${sameWord} taking part in it. Do not leave it vague.`;
             } else {
                 ruling = `RULING — SAME GENDER: ${fig} figure, querent is ${gender}. This card could be the querent themselves OR a specific ${sameWord} in their life. YOU MUST DECIDE which one by reading the full spread. Commit to one answer and state it explicitly: either "this card is you" or "this card represents [specific person]." Do not leave it vague.`;
             }
